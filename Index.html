@@ -26,253 +26,250 @@ window._fbReady=true;window.dispatchEvent(new Event('fbReady'));
 html,body{height:100%;}
 body{font-family:var(--fh);background:var(--bg);color:var(--tx);overflow-x:hidden;}
 body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 50% at 20% -10%,rgba(0,240,255,0.06),transparent),radial-gradient(ellipse 60% 40% at 80% 110%,rgba(176,110,255,0.06),transparent);pointer-events:none;z-index:0;}
-
-/* SCREENS */
 .sc{display:none;position:relative;z-index:1;min-height:100dvh;flex-direction:column;align-items:center;justify-content:center;padding:20px;}
 .sc.on{display:flex;}
 .sc.game-sc{padding:0;align-items:stretch;justify-content:flex-start;}
-
-/* LOGO */
 .logo{font-size:clamp(3rem,11vw,5.5rem);font-weight:800;letter-spacing:-4px;line-height:1;background:linear-gradient(135deg,#00f0ff 0%,#b06eff 45%,#ff3d6b 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-.logo em{-webkit-text-fill-color:var(–c3);font-style:normal;}
-.sub{font-family:var(–fm);font-size:0.7rem;color:var(–mt);letter-spacing:4px;text-transform:uppercase;margin-top:8px;text-align:center;}
-
-/* LANDING CARDS */
-.land-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%;max-width:680px;margin-top:8px;}
-.lcard{background:var(–s2);border:1px solid var(–b1);border-radius:18px;padding:24px 16px;cursor:pointer;transition:all 0.25s;text-align:center;position:relative;overflow:hidden;}
-.lcard::after{content:’’;position:absolute;inset:0;opacity:0;transition:opacity 0.3s;border-radius:18px;}
-.lcard:hover{transform:translateY(-5px);}
-.lcard.c1:hover{border-color:var(–c1);box-shadow:0 12px 40px rgba(0,240,255,0.15);}
+.logo em{-webkit-text-fill-color:var(--c3);font-style:normal;}
+.sub{font-family:var(--fm);font-size:0.7rem;color:var(--mt);letter-spacing:4px;text-transform:uppercase;margin-top:8px;text-align:center;}
+.land-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;width:100%;max-width:520px;margin-top:8px;}
+.land-grid .full{grid-column:1/-1;}
+.lcard{background:var(--s2);border:1px solid var(--b1);border-radius:18px;padding:22px 16px;cursor:pointer;transition:all 0.25s;text-align:center;position:relative;overflow:hidden;}
+.lcard::after{content:'';position:absolute;inset:0;opacity:0;transition:opacity 0.3s;border-radius:18px;}
+.lcard:hover{transform:translateY(-4px);}
+.lcard.c1:hover{border-color:var(--c1);box-shadow:0 12px 40px rgba(0,240,255,0.15);}
 .lcard.c1::after{background:radial-gradient(circle at 50% 0%,rgba(0,240,255,0.08),transparent 70%);}
-.lcard.c3:hover{border-color:var(–c3);box-shadow:0 12px 40px rgba(170,255,0,0.12);}
+.lcard.c3:hover{border-color:var(--c3);box-shadow:0 12px 40px rgba(170,255,0,0.12);}
 .lcard.c3::after{background:radial-gradient(circle at 50% 0%,rgba(170,255,0,0.08),transparent 70%);}
-.lcard.c2:hover{border-color:var(–c2);box-shadow:0 12px 40px rgba(255,61,107,0.1);}
-.lcard.c2::after{background:radial-gradient(circle at 50% 0%,rgba(255,61,107,0.08),transparent 70%);}
+.lcard.c4:hover{border-color:var(--c4);box-shadow:0 12px 40px rgba(255,170,0,0.12);}
+.lcard.c4::after{background:radial-gradient(circle at 50% 0%,rgba(255,170,0,0.08),transparent 70%);}
 .lcard:hover::after{opacity:1;}
-.lcard .ico{font-size:2.2rem;margin-bottom:10px;}
-.lcard h3{font-size:0.9rem;font-weight:700;margin-bottom:5px;}
-.lcard p{font-family:var(–fm);font-size:0.62rem;color:var(–mt);line-height:1.5;}
-
-/* FORM */
+.lcard .ico{font-size:2rem;margin-bottom:8px;}
+.lcard h3{font-size:0.88rem;font-weight:700;margin-bottom:4px;}
+.lcard p{font-family:var(--fm);font-size:0.6rem;color:var(--mt);line-height:1.5;}
 .fw{max-width:460px;width:100%;display:flex;flex-direction:column;gap:18px;}
 .stl{font-size:1.35rem;font-weight:800;letter-spacing:-1px;text-align:center;}
-.stl span{color:var(–c1);}
-.stl.g span{color:var(–c3);}
+.stl span{color:var(--c1);}
+.stl.g span{color:var(--c3);}
+.stl.o span{color:var(--c4);}
 .fg{display:flex;flex-direction:column;gap:7px;width:100%;}
-.fg label{font-family:var(–fm);font-size:0.66rem;color:var(–mt);letter-spacing:2px;text-transform:uppercase;}
-input[type=text],select,textarea{background:var(–s2);border:1px solid var(–b1);border-radius:10px;color:var(–tx);font-family:var(–fh);font-size:0.88rem;padding:11px 14px;width:100%;outline:none;transition:border-color 0.2s,box-shadow 0.2s;}
-input:focus,select:focus,textarea:focus{border-color:var(–c1);box-shadow:0 0 0 3px rgba(0,240,255,0.08);}
-textarea{resize:vertical;min-height:68px;}
-select option{background:var(–s2);}
-
-/* BUTTONS */
-.btn{border:none;border-radius:10px;font-family:var(–fh);font-size:0.9rem;font-weight:700;padding:12px;cursor:pointer;width:100%;transition:all 0.2s;letter-spacing:0.3px;}
-.btn-c{background:var(–c1);color:var(–bg);}
+.fg label{font-family:var(--fm);font-size:0.66rem;color:var(--mt);letter-spacing:2px;text-transform:uppercase;}
+input[type=text],select{background:var(--s2);border:1px solid var(--b1);border-radius:10px;color:var(--tx);font-family:var(--fh);font-size:0.88rem;padding:11px 14px;width:100%;outline:none;transition:border-color 0.2s,box-shadow 0.2s;}
+input:focus,select:focus{border-color:var(--c1);box-shadow:0 0 0 3px rgba(0,240,255,0.08);}
+select option{background:var(--s2);}
+.btn{border:none;border-radius:10px;font-family:var(--fh);font-size:0.9rem;font-weight:700;padding:12px;cursor:pointer;width:100%;transition:all 0.2s;}
+.btn-c{background:var(--c1);color:var(--bg);}
 .btn-c:hover{filter:brightness(1.1);box-shadow:0 0 24px rgba(0,240,255,0.35);transform:translateY(-2px);}
 .btn-c:disabled{opacity:0.35;cursor:not-allowed;transform:none;box-shadow:none;}
-.btn-g{background:var(–c3);color:var(–bg);}
+.btn-g{background:var(--c3);color:var(--bg);}
 .btn-g:hover{filter:brightness(1.1);box-shadow:0 0 24px rgba(170,255,0,0.35);transform:translateY(-2px);}
 .btn-g:disabled{opacity:0.35;cursor:not-allowed;transform:none;box-shadow:none;}
-.btn-o{background:transparent;color:var(–mt);border:1px solid var(–b1);}
-.btn-o:hover{color:var(–tx);border-color:var(–mt);}
-.btn-r{background:var(–c2);color:#fff;}
-.btn-r:hover{filter:brightness(1.1);box-shadow:0 0 24px rgba(255,61,107,0.3);transform:translateY(-2px);}
+.btn-o{background:transparent;color:var(--mt);border:1px solid var(--b1);}
+.btn-o:hover{color:var(--tx);border-color:var(--mt);}
+.btn-y{background:var(--c4);color:var(--bg);}
+.btn-y:hover{filter:brightness(1.1);box-shadow:0 0 24px rgba(255,170,0,0.35);transform:translateY(-2px);}
+.btn-y:disabled{opacity:0.35;cursor:not-allowed;transform:none;box-shadow:none;}
 .row2{display:flex;gap:10px;width:100%;}
 .row2>.btn{flex:1;}
-
-/* CAT CHIPS */
 .cgrid{display:flex;flex-wrap:wrap;gap:7px;width:100%;}
-.chip{background:var(–s2);border:1px solid var(–b1);border-radius:50px;padding:6px 13px;font-size:0.72rem;cursor:pointer;transition:all 0.2s;font-family:var(–fm);user-select:none;}
-.chip:hover{border-color:var(–mt);}
-.chip.sc1{background:rgba(0,240,255,0.1);border-color:var(–c1);color:var(–c1);}
-.chip.sc3{background:rgba(170,255,0,0.1);border-color:var(–c3);color:var(–c3);}
-.cinfo{font-family:var(–fm);font-size:0.7rem;text-align:center;padding:8px 12px;border-radius:8px;margin-top:4px;}
-.cinfo.ok{color:var(–c3);background:rgba(170,255,0,0.06);border:1px solid rgba(170,255,0,0.2);}
-.cinfo.bad{color:var(–c2);background:rgba(255,61,107,0.06);border:1px solid rgba(255,61,107,0.2);}
-
-/* QCOUNT */
+.chip{background:var(--s2);border:1px solid var(--b1);border-radius:50px;padding:6px 13px;font-size:0.72rem;cursor:pointer;transition:all 0.2s;font-family:var(--fm);user-select:none;}
+.chip:hover{border-color:var(--mt);}
+.chip.sc1{background:rgba(0,240,255,0.1);border-color:var(--c1);color:var(--c1);}
+.chip.sc3{background:rgba(170,255,0,0.1);border-color:var(--c3);color:var(--c3);}
+.chip.sc4{background:rgba(255,170,0,0.1);border-color:var(--c4);color:var(--c4);}
+.cinfo{font-family:var(--fm);font-size:0.7rem;text-align:center;padding:8px 12px;border-radius:8px;margin-top:4px;}
+.cinfo.ok{color:var(--c3);background:rgba(170,255,0,0.06);border:1px solid rgba(170,255,0,0.2);}
+.cinfo.bad{color:var(--c2);background:rgba(255,61,107,0.06);border:1px solid rgba(255,61,107,0.2);}
 .qrow{display:flex;gap:8px;width:100%;}
-.qb{flex:1;background:var(–s2);border:1px solid var(–b1);border-radius:10px;padding:10px;text-align:center;cursor:pointer;font-size:0.85rem;transition:all 0.2s;}
-.qb.on{background:rgba(0,240,255,0.1);border-color:var(–c1);color:var(–c1);font-weight:700;}
-
-/* LOBBY */
-.rbox{background:var(–s2);border:1px solid var(–c1);border-radius:14px;padding:20px;text-align:center;width:100%;}
-.rcode{font-family:var(–fm);font-size:2.6rem;font-weight:500;color:var(–c1);letter-spacing:12px;}
-.pslot{background:var(–s2);border:1px solid var(–b1);border-radius:10px;padding:12px 16px;display:flex;align-items:center;gap:10px;font-size:0.88rem;}
-.pslot .dot{width:10px;height:10px;border-radius:50%;background:var(–mt);flex-shrink:0;}
-.pslot.on .dot{background:var(–c3);box-shadow:0 0 8px var(–c3);}
-.pslot .role{font-family:var(–fm);font-size:0.62rem;color:var(–mt);margin-left:auto;}
-
+.qb{flex:1;background:var(--s2);border:1px solid var(--b1);border-radius:10px;padding:10px;text-align:center;cursor:pointer;font-size:0.85rem;transition:all 0.2s;}
+.qb.on{background:rgba(0,240,255,0.1);border-color:var(--c1);color:var(--c1);font-weight:700;}
+.rbox{background:var(--s2);border:1px solid var(--c1);border-radius:14px;padding:20px;text-align:center;width:100%;}
+.rcode{font-family:var(--fm);font-size:2.6rem;font-weight:500;color:var(--c1);letter-spacing:12px;}
+.pslot{background:var(--s2);border:1px solid var(--b1);border-radius:10px;padding:12px 16px;display:flex;align-items:center;gap:10px;font-size:0.88rem;}
+.pslot .dot{width:10px;height:10px;border-radius:50%;background:var(--mt);flex-shrink:0;}
+.pslot.on .dot{background:var(--c3);box-shadow:0 0 8px var(--c3);}
+.pslot .role{font-family:var(--fm);font-size:0.62rem;color:var(--mt);margin-left:auto;}
 /* ONLINE GAME */
-.ghdr{display:flex;align-items:center;justify-content:space-between;padding:11px 16px;background:var(–s1);border-bottom:1px solid var(–b1);position:sticky;top:0;z-index:10;}
+.ghdr{display:flex;align-items:center;justify-content:space-between;padding:11px 16px;background:var(--s1);border-bottom:1px solid var(--b1);position:sticky;top:0;z-index:10;}
 .sbd{display:flex;gap:12px;align-items:center;}
 .stt{display:flex;flex-direction:column;align-items:center;gap:1px;}
-.stt .tn{font-family:var(–fm);font-size:0.56rem;color:var(–mt);text-transform:uppercase;letter-spacing:1px;}
+.stt .tn{font-family:var(--fm);font-size:0.56rem;color:var(--mt);text-transform:uppercase;letter-spacing:1px;}
 .stt .ts{font-size:1.3rem;font-weight:800;line-height:1;}
-.stt.p1 .ts{color:var(–c1);}
-.stt.p2 .ts{color:var(–c2);}
-.vsbg{font-family:var(–fm);font-size:0.62rem;color:var(–mt);padding:3px 7px;border:1px solid var(–b1);border-radius:5px;}
-.qinfo{font-family:var(–fm);font-size:0.66rem;color:var(–mt);}
-
-/* TIMER RING */
+.stt.p1 .ts{color:var(--c1);}
+.stt.p2 .ts{color:var(--c2);}
+.vsbg{font-family:var(--fm);font-size:0.62rem;color:var(--mt);padding:3px 7px;border:1px solid var(--b1);border-radius:5px;}
+.qinf{font-family:var(--fm);font-size:0.66rem;color:var(--mt);}
 .tring-wrap{display:flex;justify-content:center;padding:14px 0 0;}
 .tring{position:relative;width:68px;height:68px;}
 .tring svg{transform:rotate(-90deg);}
-.tring .tbg{fill:none;stroke:var(–b1);stroke-width:5;}
-.tring .tpg{fill:none;stroke:var(–c1);stroke-width:5;stroke-linecap:round;stroke-dasharray:195;transition:stroke-dashoffset 1s linear,stroke 0.4s;}
-.tring .tpg.warn{stroke:var(–c4);}
-.tring .tpg.dng{stroke:var(–c2);}
-.tnum{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(–fm);font-size:1.05rem;font-weight:500;}
-
-/* QUESTION AREA */
+.tring .tbg{fill:none;stroke:var(--b1);stroke-width:5;}
+.tring .tpg{fill:none;stroke:var(--c1);stroke-width:5;stroke-linecap:round;stroke-dasharray:195;transition:stroke-dashoffset 1s linear,stroke 0.4s;}
+.tring .tpg.warn{stroke:var(--c4);}
+.tring .tpg.dng{stroke:var(--c2);}
+.tnum{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--fm);font-size:1.05rem;font-weight:500;}
 .qarea{flex:1;padding:16px;display:flex;flex-direction:column;gap:12px;}
 .qmeta{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
-.qcat{background:rgba(0,240,255,0.1);border:1px solid rgba(0,240,255,0.25);color:var(–c1);font-family:var(–fm);font-size:0.6rem;padding:3px 10px;border-radius:50px;letter-spacing:1px;text-transform:uppercase;}
-.qnum{font-family:var(–fm);font-size:0.63rem;color:var(–mt);}
-.qtxt{font-size:clamp(1rem,2.8vw,1.2rem);font-weight:700;line-height:1.55;background:var(–s2);border:1px solid var(–b1);border-radius:12px;padding:16px;}
-
-/* MCQ OPTIONS */
+.qcat{background:rgba(0,240,255,0.1);border:1px solid rgba(0,240,255,0.25);color:var(--c1);font-family:var(--fm);font-size:0.6rem;padding:3px 10px;border-radius:50px;letter-spacing:1px;text-transform:uppercase;}
+.qnum{font-family:var(--fm);font-size:0.63rem;color:var(--mt);}
+.qtxt{font-size:clamp(1rem,2.8vw,1.2rem);font-weight:700;line-height:1.55;background:var(--s2);border:1px solid var(--b1);border-radius:12px;padding:16px;}
 .mcqg{display:flex;flex-direction:column;gap:9px;}
-.mopt{background:var(–s2);border:1.5px solid var(–b1);border-radius:11px;padding:12px 15px;text-align:left;cursor:pointer;font-family:var(–fh);font-size:0.86rem;color:var(–tx);transition:all 0.2s;display:flex;align-items:center;gap:10px;width:100%;}
-.mopt:hover:not(:disabled){border-color:var(–c1);background:rgba(0,240,255,0.05);}
+.mopt{background:var(--s2);border:1.5px solid var(--b1);border-radius:11px;padding:12px 15px;text-align:left;cursor:pointer;font-family:var(--fh);font-size:0.86rem;color:var(--tx);transition:all 0.2s;display:flex;align-items:center;gap:10px;width:100%;}
+.mopt:hover:not(:disabled){border-color:var(--c1);background:rgba(0,240,255,0.05);}
 .mopt:disabled{cursor:default;}
-.mopt .ol{width:26px;height:26px;border-radius:50%;background:var(–s1);border:1.5px solid var(–b1);display:flex;align-items:center;justify-content:center;font-family:var(–fm);font-size:0.66rem;flex-shrink:0;transition:all 0.2s;}
-.mopt.picked{border-color:var(–c1);background:rgba(0,240,255,0.07);}
-.mopt.picked .ol{background:var(–c1);border-color:var(–c1);color:var(–bg);}
-.mopt.ok{border-color:var(–c3)!important;background:rgba(170,255,0,0.07)!important;}
-.mopt.ok .ol{background:var(–c3)!important;border-color:var(–c3)!important;color:var(–bg)!important;}
-.mopt.bad{border-color:var(–c2)!important;background:rgba(255,61,107,0.05)!important;}
-.mopt.bad .ol{background:var(–c2)!important;border-color:var(–c2)!important;color:#fff!important;}
-
-/* PULSE */
-.pulse{display:flex;align-items:center;gap:8px;font-family:var(–fm);font-size:0.72rem;color:var(–mt);justify-content:center;padding:10px;}
-.pulse .d{width:7px;height:7px;border-radius:50%;background:var(–c1);animation:pp 1.3s ease-in-out infinite;}
+.mopt .ol{width:26px;height:26px;border-radius:50%;background:var(--s1);border:1.5px solid var(--b1);display:flex;align-items:center;justify-content:center;font-family:var(--fm);font-size:0.66rem;flex-shrink:0;transition:all 0.2s;}
+.mopt.picked{border-color:var(--c1);background:rgba(0,240,255,0.07);}
+.mopt.picked .ol{background:var(--c1);border-color:var(--c1);color:var(--bg);}
+.mopt.ok{border-color:var(--c3)!important;background:rgba(170,255,0,0.07)!important;}
+.mopt.ok .ol{background:var(--c3)!important;border-color:var(--c3)!important;color:var(--bg)!important;}
+.mopt.bad{border-color:var(--c2)!important;background:rgba(255,61,107,0.05)!important;}
+.mopt.bad .ol{background:var(--c2)!important;border-color:var(--c2)!important;color:#fff!important;}
+.pulse{display:flex;align-items:center;gap:8px;font-family:var(--fm);font-size:0.72rem;color:var(--mt);justify-content:center;padding:10px;}
+.pulse .d{width:7px;height:7px;border-radius:50%;background:var(--c1);animation:pp 1.3s ease-in-out infinite;}
 .pulse .d:nth-child(2){animation-delay:0.2s;}
 .pulse .d:nth-child(3){animation-delay:0.4s;}
 @keyframes pp{0%,100%{opacity:0.2;transform:scale(0.7);}50%{opacity:1;transform:scale(1.3);}}
-
-/* RESULT OVERLAY (online) */
 .rovl{position:fixed;inset:0;z-index:200;background:rgba(7,9,13,0.94);backdrop-filter:blur(16px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:22px;opacity:0;pointer-events:none;transition:opacity 0.3s;}
 .rovl.on{opacity:1;pointer-events:all;}
-.rcard{background:var(–s2);border-radius:20px;padding:24px;width:100%;max-width:370px;text-align:center;display:flex;flex-direction:column;gap:12px;border:1px solid var(–b1);}
+.rcard{background:var(--s2);border-radius:20px;padding:24px;width:100%;max-width:370px;text-align:center;display:flex;flex-direction:column;gap:12px;border:1px solid var(--b1);}
 .remj{font-size:2.8rem;}
 .rvrd{font-size:1.25rem;font-weight:800;}
-.rvrd.ok{color:var(–c3);}
-.rvrd.bad{color:var(–c2);}
-.rans{font-family:var(–fm);font-size:0.76rem;color:var(–mt);background:var(–s1);border-radius:9px;padding:10px;text-align:left;line-height:1.6;}
-.rans strong{color:var(–tx);display:block;margin-bottom:3px;}
+.rvrd.ok{color:var(--c3);}
+.rvrd.bad{color:var(--c2);}
+.rans{font-family:var(--fm);font-size:0.76rem;color:var(--mt);background:var(--s1);border-radius:9px;padding:10px;text-align:left;line-height:1.6;}
+.rans strong{color:var(--tx);display:block;margin-bottom:3px;}
 .srow{display:flex;gap:10px;}
 .sbox{flex:1;text-align:center;}
-.sbox .sl{font-family:var(–fm);font-size:0.58rem;color:var(–mt);margin-bottom:3px;}
+.sbox .sl{font-family:var(--fm);font-size:0.58rem;color:var(--mt);margin-bottom:3px;}
 .sbox .sv{font-size:1.25rem;font-weight:800;}
-.sbox.me .sv{color:var(–c1);}
-.sbox.op .sv{color:var(–c2);}
-.nxt{font-family:var(–fm);font-size:0.72rem;color:var(–mt);}
-
-/* FINAL SCREEN */
-.fpod{width:100%;background:var(–s2);border:1px solid var(–b1);border-radius:18px;padding:24px;text-align:center;}
-.wlbl{font-family:var(–fm);font-size:0.62rem;color:var(–mt);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;}
-.wnam{font-size:1.7rem;font-weight:800;color:var(–c3);margin-bottom:3px;}
-.wsc{font-family:var(–fm);font-size:0.82rem;color:var(–mt);}
+.sbox.me .sv{color:var(--c1);}
+.sbox.op .sv{color:var(--c2);}
+.nxt{font-family:var(--fm);font-size:0.72rem;color:var(--mt);}
+.fpod{width:100%;background:var(--s2);border:1px solid var(--b1);border-radius:18px;padding:24px;text-align:center;}
+.wlbl{font-family:var(--fm);font-size:0.62rem;color:var(--mt);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;}
+.wnam{font-size:1.7rem;font-weight:800;color:var(--c3);margin-bottom:3px;}
+.wsc{font-family:var(--fm);font-size:0.82rem;color:var(--mt);}
 .scols{width:100%;display:flex;gap:10px;}
-.scol{flex:1;background:var(–s2);border:1px solid var(–b1);border-radius:12px;padding:16px;text-align:center;}
-.scol .cn{font-family:var(–fm);font-size:0.6rem;color:var(–mt);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;}
+.scol{flex:1;background:var(--s2);border:1px solid var(--b1);border-radius:12px;padding:16px;text-align:center;}
+.scol .cn{font-family:var(--fm);font-size:0.6rem;color:var(--mt);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;}
 .scol .cs{font-size:1.9rem;font-weight:800;}
-.scol.p1 .cs{color:var(–c1);}
-.scol.p2 .cs{color:var(–c2);}
-
-/* ══ LOCAL MODE ══ */
+.scol.p1 .cs{color:var(--c1);}
+.scol.p2 .cs{color:var(--c2);}
+/* LOCAL */
 .lgame{display:flex;flex-direction:column;min-height:100dvh;}
-.lhdr{display:flex;background:var(–s1);border-bottom:1px solid var(–b1);}
+.lhdr{display:flex;background:var(--s1);border-bottom:1px solid var(--b1);}
 .lteam{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:12px;gap:2px;border-bottom:3px solid transparent;}
-.lteam.t1{border-bottom-color:var(–c1);}
-.lteam.t2{border-bottom-color:var(–c2);}
-.lteam .ltn{font-family:var(–fm);font-size:0.56rem;color:var(–mt);text-transform:uppercase;letter-spacing:1px;}
+.lteam.t1{border-bottom-color:var(--c1);}
+.lteam.t2{border-bottom-color:var(--c2);}
+.lteam .ltn{font-family:var(--fm);font-size:0.56rem;color:var(--mt);text-transform:uppercase;letter-spacing:1px;}
 .lteam .lts{font-size:1.35rem;font-weight:800;}
-.lteam.t1 .lts{color:var(–c1);}
-.lteam.t2 .lts{color:var(–c2);}
+.lteam.t1 .lts{color:var(--c1);}
+.lteam.t2 .lts{color:var(--c2);}
 .lhdr-mid{display:flex;align-items:center;padding:0 10px;}
-.lhdr-mid span{font-family:var(–fm);font-size:0.6rem;color:var(–mt);}
+.lhdr-mid span{font-family:var(--fm);font-size:0.6rem;color:var(--mt);}
 .board-wrap{flex:1;overflow-y:auto;padding:14px;}
-.board-title{font-family:var(–fm);font-size:0.64rem;color:var(–mt);letter-spacing:3px;text-transform:uppercase;text-align:center;margin-bottom:14px;}
+.board-title{font-family:var(--fm);font-size:0.64rem;color:var(--mt);letter-spacing:3px;text-transform:uppercase;text-align:center;margin-bottom:14px;}
 .cat-sec{margin-bottom:20px;}
 .cat-hd{font-size:0.82rem;font-weight:700;margin-bottom:9px;display:flex;align-items:center;gap:7px;}
 .tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
-.tile{background:var(–s2);border:1.5px solid var(–b1);border-radius:10px;padding:10px 5px;text-align:center;cursor:pointer;transition:all 0.2s;font-family:var(–fm);font-size:0.74rem;font-weight:500;min-height:58px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;}
-.tile:hover:not(.used){border-color:var(–c3);background:rgba(170,255,0,0.05);}
-.tile.used{cursor:default;opacity:0.6;}
-.tile.u1{background:rgba(0,240,255,0.1);border-color:var(–c1);color:var(–c1);}
-.tile.u2{background:rgba(255,61,107,0.1);border-color:var(–c2);color:var(–c2);}
-.tile.un{background:rgba(90,100,117,0.08);border-color:var(–b1);color:var(–mt);}
-.tile .tpts{font-size:0.6rem;color:var(–mt);}
-
-/* LOCAL MODAL */
+.tile{background:var(--s2);border:1.5px solid var(--b1);border-radius:10px;padding:10px 5px;text-align:center;cursor:pointer;transition:all 0.2s;font-family:var(--fm);font-size:0.74rem;font-weight:500;min-height:58px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;}
+.tile:hover:not(.used){border-color:var(--c3);background:rgba(170,255,0,0.05);}
+.tile.used{cursor:default;}
+.tile.u1{background:rgba(0,240,255,0.1);border-color:var(--c1);color:var(--c1);opacity:0.65;}
+.tile.u2{background:rgba(255,61,107,0.1);border-color:var(--c2);color:var(--c2);opacity:0.65;}
+.tile.un{background:rgba(90,100,117,0.08);border-color:var(--b1);color:var(--mt);opacity:0.65;}
+.tile .tpts{font-size:0.6rem;color:var(--mt);}
 .lmodal{position:fixed;inset:0;z-index:300;background:rgba(7,9,13,0.97);backdrop-filter:blur(18px);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px;opacity:0;pointer-events:none;transition:opacity 0.3s;}
 .lmodal.on{opacity:1;pointer-events:all;}
-.lmcard{background:var(–s2);border-radius:20px;padding:22px;width:100%;max-width:500px;display:flex;flex-direction:column;gap:14px;max-height:92dvh;overflow-y:auto;border:1px solid var(–b1);}
+.lmcard{background:var(--s2);border-radius:20px;padding:22px;width:100%;max-width:500px;display:flex;flex-direction:column;gap:14px;max-height:92dvh;overflow-y:auto;border:1px solid var(--b1);}
 .lm-hd{display:flex;align-items:center;justify-content:space-between;}
-.lm-cat{font-family:var(–fm);font-size:0.63rem;color:var(–c3);letter-spacing:1px;text-transform:uppercase;}
-.lm-pts{font-family:var(–fm);font-size:0.78rem;color:var(–c3);font-weight:700;}
-
-/* LOCAL TIMER (counts UP) */
+.lm-cat{font-family:var(--fm);font-size:0.63rem;color:var(--c3);letter-spacing:1px;text-transform:uppercase;}
+.lm-pts{font-family:var(--fm);font-size:0.78rem;color:var(--c3);font-weight:700;}
 .ltbar-wrap{display:flex;flex-direction:column;align-items:center;gap:5px;}
-.ltnum{font-family:var(–fm);font-size:0.95rem;font-weight:700;color:var(–c3);}
-.ltbg{width:100%;height:6px;background:var(–b1);border-radius:3px;overflow:hidden;}
-.ltfg{height:100%;background:var(–c3);border-radius:3px;width:0%;transition:width 1s linear;}
-.ltfg.mid{background:var(–c4);}
-.ltfg.full{background:var(–c2);}
-
-.lqtxt{font-size:clamp(0.95rem,2.5vw,1.1rem);font-weight:700;line-height:1.55;background:var(–s1);border-radius:10px;padding:14px;}
+.ltnum{font-family:var(--fm);font-size:0.95rem;font-weight:700;color:var(--c3);}
+.ltbg{width:100%;height:6px;background:var(--b1);border-radius:3px;overflow:hidden;}
+.ltfg{height:100%;background:var(--c3);border-radius:3px;width:0%;transition:width 1s linear;}
+.ltfg.mid{background:var(--c4);}
+.ltfg.full{background:var(--c2);}
+.lqtxt{font-size:clamp(0.95rem,2.5vw,1.1rem);font-weight:700;line-height:1.55;background:var(--s1);border-radius:10px;padding:14px;}
 .lopts{display:flex;flex-direction:column;gap:8px;}
-.lopt{background:var(–s1);border:1.5px solid var(–b1);border-radius:10px;padding:11px 13px;text-align:left;cursor:pointer;font-family:var(–fh);font-size:0.84rem;color:var(–tx);transition:all 0.2s;display:flex;align-items:center;gap:9px;width:100%;}
-.lopt:hover:not(:disabled){border-color:var(–c3);background:rgba(170,255,0,0.04);}
+.lopt{background:var(--s1);border:1.5px solid var(--b1);border-radius:10px;padding:11px 13px;text-align:left;cursor:pointer;font-family:var(--fh);font-size:0.84rem;color:var(--tx);transition:all 0.2s;display:flex;align-items:center;gap:9px;width:100%;}
+.lopt:hover:not(:disabled){border-color:var(--c3);background:rgba(170,255,0,0.04);}
 .lopt:disabled{cursor:default;}
-.lopt .lo{width:24px;height:24px;border-radius:50%;background:var(–b1);display:flex;align-items:center;justify-content:center;font-family:var(–fm);font-size:0.64rem;flex-shrink:0;transition:all 0.2s;}
-.lopt.ok{border-color:var(–c3)!important;background:rgba(170,255,0,0.07)!important;}
-.lopt.ok .lo{background:var(–c3)!important;color:var(–bg)!important;}
-.lopt.bad{border-color:var(–c2)!important;background:rgba(255,61,107,0.05)!important;}
-.lopt.bad .lo{background:var(–c2)!important;color:#fff!important;}
-
-/* SHOW ANSWER BTN */
-.show-ans-btn{background:rgba(170,255,0,0.12);border:1.5px solid var(–c3);color:var(–c3);border-radius:10px;padding:12px;font-family:var(–fh);font-size:0.88rem;font-weight:700;cursor:pointer;width:100%;transition:all 0.2s;}
+.lopt .lo{width:24px;height:24px;border-radius:50%;background:var(--b1);display:flex;align-items:center;justify-content:center;font-family:var(--fm);font-size:0.64rem;flex-shrink:0;}
+.lopt.ok{border-color:var(--c3)!important;background:rgba(170,255,0,0.07)!important;}
+.lopt.ok .lo{background:var(--c3)!important;color:var(--bg)!important;}
+.lopt.bad{border-color:var(--c2)!important;background:rgba(255,61,107,0.05)!important;}
+.lopt.bad .lo{background:var(--c2)!important;color:#fff!important;}
+.show-ans-btn{background:rgba(170,255,0,0.12);border:1.5px solid var(--c3);color:var(--c3);border-radius:10px;padding:12px;font-family:var(--fh);font-size:0.88rem;font-weight:700;cursor:pointer;width:100%;transition:all 0.2s;}
 .show-ans-btn:hover{background:rgba(170,255,0,0.2);}
-
-/* AWARD */
 .award-sec{display:flex;flex-direction:column;gap:8px;}
-.award-lbl{font-family:var(–fm);font-size:0.62rem;color:var(–mt);letter-spacing:2px;text-transform:uppercase;text-align:center;}
+.award-lbl{font-family:var(--fm);font-size:0.62rem;color:var(--mt);letter-spacing:2px;text-transform:uppercase;text-align:center;}
 .award-row{display:flex;gap:7px;}
-.aw-btn{flex:1;border:none;border-radius:10px;padding:11px 6px;font-family:var(–fh);font-size:0.78rem;font-weight:700;cursor:pointer;transition:all 0.2s;}
-.aw-btn.t1{background:rgba(0,240,255,0.12);color:var(–c1);border:1.5px solid var(–c1);}
+.aw-btn{flex:1;border:none;border-radius:10px;padding:11px 6px;font-family:var(--fh);font-size:0.78rem;font-weight:700;cursor:pointer;transition:all 0.2s;}
+.aw-btn.t1{background:rgba(0,240,255,0.12);color:var(--c1);border:1.5px solid var(--c1);}
 .aw-btn.t1:hover{background:rgba(0,240,255,0.22);}
-.aw-btn.t2{background:rgba(255,61,107,0.12);color:var(–c2);border:1.5px solid var(–c2);}
+.aw-btn.t2{background:rgba(255,61,107,0.12);color:var(--c2);border:1.5px solid var(--c2);}
 .aw-btn.t2:hover{background:rgba(255,61,107,0.22);}
-.aw-btn.none{background:rgba(90,100,117,0.12);color:var(–mt);border:1.5px solid var(–b1);}
-.aw-btn.none:hover{border-color:var(–mt);color:var(–tx);}
-.aw-badge{text-align:center;font-family:var(–fm);font-size:0.78rem;padding:9px;border-radius:8px;}
-.aw-badge.t1{color:var(–c1);background:rgba(0,240,255,0.08);border:1px solid rgba(0,240,255,0.2);}
-.aw-badge.t2{color:var(–c2);background:rgba(255,61,107,0.08);border:1px solid rgba(255,61,107,0.2);}
-.aw-badge.none{color:var(–mt);background:rgba(90,100,117,0.06);border:1px solid var(–b1);}
-
-/* ADMIN */
-.qlist{width:100%;display:flex;flex-direction:column;gap:8px;max-height:340px;overflow-y:auto;}
-.qi{background:var(–s2);border:1px solid var(–b1);border-radius:9px;padding:11px 13px;display:flex;align-items:flex-start;gap:9px;}
-.qi-body{flex:1;}
-.qi-q{font-size:0.81rem;font-weight:600;margin-bottom:3px;}
-.qi-a{font-family:var(–fm);font-size:0.66rem;color:var(–mt);}
-.qi-del{background:none;border:none;color:var(–mt);cursor:pointer;font-size:0.9rem;padding:3px;transition:color 0.2s;}
-.qi-del:hover{color:var(–c2);}
-
-/* TOAST */
-.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(–s2);border:1px solid var(–c1);color:var(–tx);font-family:var(–fm);font-size:0.73rem;padding:10px 20px;border-radius:50px;z-index:9999;opacity:0;transition:opacity 0.3s;white-space:nowrap;pointer-events:none;}
+.aw-btn.none{background:rgba(90,100,117,0.12);color:var(--mt);border:1.5px solid var(--b1);}
+.aw-btn.none:hover{border-color:var(--mt);color:var(--tx);}
+.aw-badge{text-align:center;font-family:var(--fm);font-size:0.78rem;padding:9px;border-radius:8px;}
+.aw-badge.t1{color:var(--c1);background:rgba(0,240,255,0.08);border:1px solid rgba(0,240,255,0.2);}
+.aw-badge.t2{color:var(--c2);background:rgba(255,61,107,0.08);border:1px solid rgba(255,61,107,0.2);}
+.aw-badge.none{color:var(--mt);background:rgba(90,100,117,0.06);border:1px solid var(--b1);}
+/* ══ GO FAST ══ */
+.gf-rbox{background:var(--s2);border:1px solid var(--c4);border-radius:14px;padding:20px;text-align:center;width:100%;}
+.gf-rcode{font-family:var(--fm);font-size:2.6rem;font-weight:500;color:var(--c4);letter-spacing:12px;}
+/* Player joined list */
+.gf-plist{width:100%;display:flex;flex-direction:column;gap:8px;max-height:220px;overflow-y:auto;}
+.gf-pslot{background:var(--s2);border:1px solid var(--b1);border-radius:10px;padding:10px 14px;display:flex;align-items:center;gap:10px;font-size:0.86rem;transition:all 0.3s;}
+.gf-pslot.joined{border-color:var(--c4);background:rgba(255,170,0,0.06);}
+.gf-pslot .pdot{width:9px;height:9px;border-radius:50%;background:var(--mt);flex-shrink:0;}
+.gf-pslot.joined .pdot{background:var(--c4);box-shadow:0 0 7px var(--c4);}
+/* GF countdown overlay */
+.gf-countdown{position:fixed;inset:0;z-index:500;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;opacity:0;pointer-events:none;transition:opacity 0.3s;}
+.gf-countdown.on{opacity:1;pointer-events:all;}
+.gf-cd-num{font-family:var(--fm);font-size:6rem;font-weight:800;color:var(--c4);line-height:1;animation:cdpop 1s ease infinite;}
+@keyframes cdpop{0%{transform:scale(1);}50%{transform:scale(1.15);}100%{transform:scale(1);}}
+.gf-cd-txt{font-family:var(--fm);font-size:0.72rem;color:var(--mt);letter-spacing:3px;text-transform:uppercase;}
+/* GF Game screen */
+.gf-hdr{background:var(--s1);border-bottom:1px solid var(--b1);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;position:sticky;top:0;z-index:10;}
+.gf-name-badge{font-family:var(--fm);font-size:0.72rem;color:var(--c4);background:rgba(255,170,0,0.1);border:1px solid rgba(255,170,0,0.3);border-radius:50px;padding:4px 14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:150px;}
+.gf-score-live{font-family:var(--fm);font-size:0.7rem;color:var(--mt);}
+.gf-tbar-wrap{position:relative;}
+.gf-tbar{height:6px;background:var(--b1);}
+.gf-tfill{height:100%;background:linear-gradient(90deg,var(--c3),var(--c4));width:100%;transition:width 1s linear;}
+.gf-tfill.warn{background:linear-gradient(90deg,var(--c4),var(--c2));}
+.gf-tsec{position:absolute;right:12px;top:8px;font-family:var(--fm);font-size:0.68rem;color:var(--mt);}
+/* Answer flash */
+.gf-flash-ovl{position:fixed;inset:0;z-index:400;background:rgba(7,9,13,0.88);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.12s;}
+.gf-flash-ovl.on{opacity:1;}
+.gf-flash-inner{font-size:3rem;font-weight:800;text-align:center;transform:scale(0.8);transition:transform 0.12s;}
+.gf-flash-ovl.on .gf-flash-inner{transform:scale(1);}
+/* Waiting for results */
+.gf-waiting-screen{position:fixed;inset:0;z-index:450;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;padding:24px;opacity:0;pointer-events:none;transition:opacity 0.3s;}
+.gf-waiting-screen.on{opacity:1;pointer-events:all;}
+.gf-wait-score{font-size:3rem;font-weight:800;color:var(--c4);}
+.gf-wait-label{font-family:var(--fm);font-size:0.7rem;color:var(--mt);letter-spacing:2px;text-transform:uppercase;}
+/* GF Results */
+#sc-gf-results{gap:16px;max-width:480px;width:100%;}
+.gf-podium{width:100%;display:flex;flex-direction:column;gap:8px;}
+.gf-place{display:flex;align-items:center;gap:12px;background:var(--s2);border:1px solid var(--b1);border-radius:12px;padding:14px 16px;transition:all 0.3s;}
+.gf-place.r1{border-color:var(--c3);background:rgba(170,255,0,0.05);}
+.gf-place.r2{border-color:var(--c4);background:rgba(255,170,0,0.04);}
+.gf-place.r3{border-color:var(--c5);background:rgba(176,110,255,0.04);}
+.gf-medal{font-size:1.6rem;flex-shrink:0;}
+.gf-pname{font-weight:700;font-size:0.95rem;flex:1;}
+.gf-pscore{font-family:var(--fm);font-size:0.7rem;color:var(--mt);text-align:right;}
+.gf-pscore span{font-size:1.1rem;font-weight:800;color:var(--tx);display:block;}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--s2);border:1px solid var(--c1);color:var(--tx);font-family:var(--fm);font-size:0.73rem;padding:10px 20px;border-radius:50px;z-index:9999;opacity:0;transition:opacity 0.3s;white-space:nowrap;pointer-events:none;}
 .toast.on{opacity:1;}
-.div{width:100%;height:1px;background:var(–b1);}
-::-webkit-scrollbar{width:3px;}::-webkit-scrollbar-track{background:var(–s1);}::-webkit-scrollbar-thumb{background:var(–b1);border-radius:2px;}
+.div{width:100%;height:1px;background:var(--b1);}
+::-webkit-scrollbar{width:3px;}::-webkit-scrollbar-track{background:var(--s1);}::-webkit-scrollbar-thumb{background:var(--b1);border-radius:2px;}
 </style>
-
 </head>
 <body>
 
-<!-- ══ LANDING ══ -->
+<!-- LANDING -->
 
 <div id="sc-land" class="sc on">
   <div style="text-align:center;margin-bottom:4px;">
@@ -281,33 +278,41 @@ select option{background:var(–s2);}
   </div>
   <div class="land-grid">
     <div class="lcard c1" onclick="go('sc-create')">
-      <div class="ico">🌐</div>
-      <h3>Online Battle</h3>
-      <p>جهازان عبر الإنترنت</p>
+      <div class="ico">🌐</div><h3>Online Battle</h3>
+      <p>Two devices — real-time</p>
     </div>
     <div class="lcard c3" onclick="go('sc-local-setup')">
-      <div class="ico">🎮</div>
-      <h3>Local Battle</h3>
-      <p>جهاز واحد — سين وجيم</p>
+      <div class="ico">🎮</div><h3>Local Battle</h3>
+      <p>One device — two teams</p>
     </div>
-    <div class="lcard c2" onclick="go('sc-admin')">
-      <div class="ico">🛠️</div>
-      <h3>Questions</h3>
-      <p>إدارة الأسئلة</p>
+    <div class="lcard c4 full" onclick="go('sc-gf-setup')" style="padding:18px;">
+      <div style="display:flex;align-items:center;justify-content:center;gap:12px;">
+        <span style="font-size:2rem;">⚡</span>
+        <div style="text-align:left;">
+          <h3 style="font-size:1rem;color:var(--c4);">Go Fast</h3>
+          <p>Each player joins with a code — 60 seconds, most correct wins!</p>
+        </div>
+      </div>
+    </div>
+    <div class="lcard c1 full" onclick="go('sc-join')" style="padding:14px;">
+      <div style="display:flex;align-items:center;justify-content:center;gap:10px;">
+        <span style="font-size:1.3rem;">🔗</span>
+        <div style="text-align:left;"><h3>Join Online Room</h3><p style="font-family:var(--fm);font-size:0.6rem;color:var(--mt);">Enter a code to join online battle</p></div>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- ══ ONLINE CREATE ══ -->
+<!-- ONLINE CREATE -->
 
 <div id="sc-create" class="sc">
   <div class="fw">
     <div class="stl">Create <span>Room</span> 🌐</div>
-    <div class="fg"><label>Team Name</label>
-      <input type="text" id="cn-name" placeholder="Team Alpha" maxlength="18"></div>
+    <div class="fg"><label>Team Name</label><input type="text" id="cn-name" placeholder="Team Alpha" maxlength="18"></div>
     <div class="fg"><label>Select exactly 4 categories</label>
       <div class="cgrid" id="cn-cats"></div>
-      <div class="cinfo bad" id="cn-cinfo">Select 4 categories (0/4)</div></div>
+      <div class="cinfo bad" id="cn-cinfo">Select 4 categories (0/4)</div>
+    </div>
     <div class="fg"><label>Questions Per Game</label>
       <div class="qrow">
         <div class="qb" data-v="8" onclick="selQ(this)">8</div>
@@ -315,28 +320,28 @@ select option{background:var(–s2);}
         <div class="qb" data-v="16" onclick="selQ(this)">16</div>
         <div class="qb" data-v="20" onclick="selQ(this)">20</div>
       </div>
-      <div style="font-family:var(--fm);font-size:0.67rem;color:var(--mt);text-align:center;" id="cn-tinfo">Time: 120s per question × 12</div>
+      <div style="font-family:var(--fm);font-size:0.67rem;color:var(--mt);text-align:center;" id="cn-tinfo">10s per question × 12</div>
     </div>
     <button class="btn btn-c" id="cn-btn" onclick="createRoom()" disabled>Create Room ⚔️</button>
     <button class="btn btn-o" onclick="go('sc-land')">← Back</button>
   </div>
 </div>
 
-<!-- ══ JOIN ══ -->
+<!-- JOIN -->
 
 <div id="sc-join" class="sc">
   <div class="fw">
     <div class="stl">Join <span>Room</span></div>
-    <div class="fg"><label>Team Name</label>
-      <input type="text" id="jn-name" placeholder="Team Beta" maxlength="18"></div>
+    <div class="fg"><label>Team Name</label><input type="text" id="jn-name" placeholder="Team Beta" maxlength="18"></div>
     <div class="fg"><label>Room Code</label>
-      <input type="text" id="jn-code" placeholder="XXXX" maxlength="6" style="text-transform:uppercase;letter-spacing:8px;font-size:1.4rem;text-align:center;"></div>
+      <input type="text" id="jn-code" placeholder="XXXX" maxlength="6" style="text-transform:uppercase;letter-spacing:8px;font-size:1.4rem;text-align:center;">
+    </div>
     <button class="btn btn-c" onclick="joinRoom()">Join 🚀</button>
     <button class="btn btn-o" onclick="go('sc-land')">← Back</button>
   </div>
 </div>
 
-<!-- ══ LOBBY ══ -->
+<!-- LOBBY -->
 
 <div id="sc-lobby" class="sc">
   <div class="fw">
@@ -347,17 +352,15 @@ select option{background:var(–s2);}
     </div>
     <div style="display:flex;flex-direction:column;gap:9px;width:100%;">
       <div class="pslot on"><div class="dot"></div><div id="lb-h">Host</div><div class="role">Host 👑</div></div>
-      <div class="pslot" id="lb-gslot"><div class="dot"></div><div id="lb-g">Waiting for opponent...</div><div class="role">Guest</div></div>
+      <div class="pslot" id="lb-gslot"><div class="dot"></div><div id="lb-g">Waiting...</div><div class="role">Guest</div></div>
     </div>
-    <div id="lb-start" style="display:none;width:100%;">
-      <button class="btn btn-c" onclick="startOnline()">Start Battle! ⚔️</button>
-    </div>
+    <div id="lb-start" style="display:none;width:100%;"><button class="btn btn-c" onclick="startOnline()">Start Battle! ⚔️</button></div>
     <div class="pulse" id="lb-wait"><div class="d"></div><div class="d"></div><div class="d"></div><span>Waiting...</span></div>
     <button class="btn btn-o" onclick="leaveRoom()">Leave</button>
   </div>
 </div>
 
-<!-- ══ ONLINE GAME ══ -->
+<!-- ONLINE GAME -->
 
 <div id="sc-game" class="sc game-sc">
   <div class="ghdr">
@@ -366,7 +369,7 @@ select option{background:var(–s2);}
       <div class="vsbg">VS</div>
       <div class="stt p2"><span class="tn" id="g-n2">P2</span><span class="ts" id="g-s2">0</span></div>
     </div>
-    <div class="qinfo">Q<span id="g-qi">1</span>/<span id="g-qt">12</span></div>
+    <div class="qinf">Q<span id="g-qi">1</span>/<span id="g-qt">12</span></div>
   </div>
   <div class="tring-wrap">
     <div class="tring">
@@ -378,10 +381,7 @@ select option{background:var(–s2);}
     </div>
   </div>
   <div class="qarea">
-    <div class="qmeta">
-      <span class="qcat" id="g-cat">Category</span>
-      <span class="qnum">Q<span id="g-qi2">1</span></span>
-    </div>
+    <div class="qmeta"><span class="qcat" id="g-cat">Category</span><span class="qnum">Q<span id="g-qi2">1</span></span></div>
     <div class="qtxt" id="g-q">Loading...</div>
     <div class="mcqg" id="g-opts"></div>
     <div class="pulse" id="g-wait" style="display:none;"><div class="d"></div><div class="d"></div><div class="d"></div><span>Waiting for opponent...</span></div>
@@ -403,15 +403,11 @@ select option{background:var(–s2);}
   <div class="nxt" id="r-nxt">Next in 3...</div>
 </div>
 
-<!-- ══ ONLINE RESULTS ══ -->
+<!-- ONLINE RESULTS -->
 
 <div id="sc-results" class="sc" style="gap:18px;max-width:420px;width:100%;">
   <div class="stl" style="font-size:1.7rem;">Battle <span>Over!</span> 🏆</div>
-  <div class="fpod">
-    <div class="wlbl">Winner 🥇</div>
-    <div class="wnam" id="f-win">—</div>
-    <div class="wsc" id="f-wsc"></div>
-  </div>
+  <div class="fpod"><div class="wlbl">Winner 🥇</div><div class="wnam" id="f-win">—</div><div class="wsc" id="f-wsc"></div></div>
   <div class="scols">
     <div class="scol p1"><div class="cn" id="f-n1">P1</div><div class="cs" id="f-s1">0</div></div>
     <div class="scol p2"><div class="cn" id="f-n2">P2</div><div class="cs" id="f-s2">0</div></div>
@@ -419,44 +415,37 @@ select option{background:var(–s2);}
   <button class="btn btn-c" onclick="go('sc-land');resetOnline();">Play Again 🔄</button>
 </div>
 
-<!-- ══ LOCAL SETUP ══ -->
+<!-- LOCAL SETUP -->
 
 <div id="sc-local-setup" class="sc">
   <div class="fw" style="max-width:500px;">
     <div class="stl g">Local <span>Battle</span> 🎮</div>
-    <div class="fg"><label>Team 1 Name</label>
-      <input type="text" id="lt1" placeholder="e.g. Dentists 🦷" maxlength="14"></div>
-    <div class="fg"><label>Team 2 Name</label>
-      <input type="text" id="lt2" placeholder="e.g. Doctors 🩺" maxlength="14"></div>
-    <div class="fg"><label>Select exactly 6 categories (4 questions × 10/20/30/40 pts)</label>
+    <div class="fg"><label>Team 1 Name</label><input type="text" id="lt1" placeholder="Team 1" maxlength="14"></div>
+    <div class="fg"><label>Team 2 Name</label><input type="text" id="lt2" placeholder="Team 2" maxlength="14"></div>
+    <div class="fg"><label>Select exactly 6 categories</label>
       <div class="cgrid" id="lc-cats"></div>
-      <div class="cinfo bad" id="lc-cinfo">Select 6 categories (0/6)</div></div>
+      <div class="cinfo bad" id="lc-cinfo">Select 6 categories (0/6)</div>
+    </div>
     <button class="btn btn-g" id="lc-btn" onclick="startLocal()" disabled>Start Battle! 🎮</button>
     <button class="btn btn-o" onclick="go('sc-land')">← Back</button>
   </div>
 </div>
 
-<!-- ══ LOCAL GAME ══ -->
+<!-- LOCAL GAME -->
 
 <div id="sc-local" class="sc game-sc" style="display:none;">
   <div class="lgame">
     <div class="lhdr">
-      <div class="lteam t1">
-        <span class="ltn" id="lt1-n">Team 1</span>
-        <span class="lts" id="lt1-s">0</span>
-      </div>
+      <div class="lteam t1"><span class="ltn" id="lt1-n">T1</span><span class="lts" id="lt1-s">0</span></div>
       <div class="lhdr-mid"><span>VS</span></div>
-      <div class="lteam t2">
-        <span class="ltn" id="lt2-n">Team 2</span>
-        <span class="lts" id="lt2-s">0</span>
-      </div>
+      <div class="lteam t2"><span class="ltn" id="lt2-n">T2</span><span class="lts" id="lt2-s">0</span></div>
     </div>
     <div class="board-wrap">
       <div class="board-title">🎯 SELECT A QUESTION</div>
       <div id="l-board"></div>
     </div>
     <div style="padding:10px 14px;border-top:1px solid var(--b1);">
-      <button class="btn btn-o" style="font-size:0.78rem;padding:9px;" onclick="if(confirm('End game and see results?'))showLRes();">🏁 End Game</button>
+      <button class="btn btn-o" style="font-size:0.78rem;padding:9px;" onclick="if(confirm('End game?'))showLRes();">🏁 End Game</button>
     </div>
   </div>
 </div>
@@ -465,19 +454,14 @@ select option{background:var(–s2);}
 
 <div class="lmodal" id="lmodal">
   <div class="lmcard">
-    <div class="lm-hd">
-      <span class="lm-cat" id="lm-cat">Category</span>
-      <span class="lm-pts" id="lm-pts">10 pts</span>
-    </div>
+    <div class="lm-hd"><span class="lm-cat" id="lm-cat">Category</span><span class="lm-pts" id="lm-pts">10 pts</span></div>
     <div class="ltbar-wrap">
       <div class="ltnum" id="lt-num">0:00</div>
       <div class="ltbg"><div class="ltfg" id="lt-fg"></div></div>
     </div>
     <div class="lqtxt" id="lm-q">Question</div>
     <div class="lopts" id="lm-opts"></div>
-    <!-- Show Answer Button -->
     <button class="show-ans-btn" id="show-ans-btn" onclick="revealLocalAns()">👁️ Show Answer</button>
-    <!-- Award section (hidden until answer shown) -->
     <div class="award-sec" id="award-sec" style="display:none;">
       <div class="award-lbl">Who answered correctly?</div>
       <div class="award-row">
@@ -487,19 +471,15 @@ select option{background:var(–s2);}
       </div>
     </div>
     <div class="aw-badge" id="aw-badge" style="display:none;"></div>
-    <button class="btn btn-g" id="lm-next" onclick="closeLocalQ()" style="display:none;">Next Question →</button>
+    <button class="btn btn-g" id="lm-next" onclick="closeLocalQ()" style="display:none;">Next →</button>
   </div>
 </div>
 
-<!-- ══ LOCAL RESULTS ══ -->
+<!-- LOCAL RESULTS -->
 
 <div id="sc-lres" class="sc" style="gap:18px;max-width:420px;width:100%;">
   <div class="stl g" style="font-size:1.7rem;">Game <span>Over!</span> 🏆</div>
-  <div class="fpod">
-    <div class="wlbl">Winner 🥇</div>
-    <div class="wnam" id="lf-win">—</div>
-    <div class="wsc" id="lf-wsc"></div>
-  </div>
+  <div class="fpod"><div class="wlbl">Winner 🥇</div><div class="wnam" id="lf-win">—</div><div class="wsc" id="lf-wsc"></div></div>
   <div class="scols">
     <div class="scol p1"><div class="cn" id="lf-n1">T1</div><div class="cs" id="lf-s1">0</div></div>
     <div class="scol p2"><div class="cn" id="lf-n2">T2</div><div class="cs" id="lf-s2">0</div></div>
@@ -507,451 +487,397 @@ select option{background:var(–s2);}
   <button class="btn btn-g" onclick="go('sc-land');resetLocal();">Play Again 🔄</button>
 </div>
 
-<!-- ══ ADMIN ══ -->
+<!-- ══════════════════════════════
+     GO FAST SETUP (HOST)
+══════════════════════════════ -->
 
-<div id="sc-admin" class="sc" style="gap:16px;max-width:580px;width:100%;">
-  <div class="stl">Manage <span>Questions</span> 🛠️</div>
-  <div class="fg" style="width:100%;"><label>Category</label><select id="adm-cat"></select></div>
-  <div class="fg" style="width:100%;"><label>Question</label><textarea id="adm-q" placeholder="Type question..."></textarea></div>
-  <div class="fg" style="width:100%;"><label>Correct Answer (short — 3 words max)</label><input type="text" id="adm-a" placeholder="e.g. Periapical radiograph"></div>
-  <div class="fg" style="width:100%;"><label>3 Wrong Options (separated by |)</label><input type="text" id="adm-w" placeholder="Bitewing | Panoramic | CBCT"></div>
-  <div class="row2"><button class="btn btn-c" onclick="addQ()">Add ＋</button></div>
-  <div class="div" style="width:100%;"></div>
-  <div class="qlist" id="adm-list" style="width:100%;"></div>
-  <button class="btn btn-o" style="width:100%;" onclick="go('sc-land')">← Back</button>
+<div id="sc-gf-setup" class="sc">
+  <div class="fw" style="max-width:460px;">
+    <div class="stl o">Go <span>Fast</span> ⚡</div>
+    <div style="font-family:var(--fm);font-size:0.68rem;color:var(--mt);text-align:center;line-height:1.8;background:var(--s2);border:1px solid var(--b1);border-radius:10px;padding:12px;">
+      🏠 Create a room → Share the code<br>
+      📱 Each player joins from their own device<br>
+      ⚡ Everyone plays 60 seconds simultaneously<br>
+      🏆 Most correct answers wins!
+    </div>
+    <div class="fg"><label>Your Name (Host)</label><input type="text" id="gf-host-name" placeholder="Host name" maxlength="14"></div>
+    <div class="fg"><label>Select exactly 2 categories</label>
+      <div class="cgrid" id="gf-cats"></div>
+      <div class="cinfo bad" id="gf-cinfo">Select 2 categories (0/2)</div>
+    </div>
+    <button class="btn btn-y" id="gf-create-btn" onclick="createGFRoom()" disabled>Create Room ⚡</button>
+    <button class="btn btn-o" onclick="go('sc-land')">← Back</button>
+  </div>
+</div>
+
+<!-- GO FAST JOIN (for other players) -->
+
+<div id="sc-gf-join" class="sc">
+  <div class="fw">
+    <div class="stl o">Go <span>Fast</span> ⚡</div>
+    <div class="fg"><label>Your Name</label><input type="text" id="gfj-name" placeholder="Your name" maxlength="14"></div>
+    <div class="fg"><label>Room Code</label>
+      <input type="text" id="gfj-code" placeholder="XXXX" maxlength="6" style="text-transform:uppercase;letter-spacing:8px;font-size:1.4rem;text-align:center;">
+    </div>
+    <button class="btn btn-y" onclick="joinGFRoom()">Join ⚡</button>
+    <button class="btn btn-o" onclick="go('sc-land')">← Back</button>
+  </div>
+</div>
+
+<!-- GO FAST LOBBY (HOST) -->
+
+<div id="sc-gf-lobby" class="sc">
+  <div class="fw">
+    <div class="stl o">Go Fast <span>Lobby</span> ⚡</div>
+    <div class="gf-rbox">
+      <div style="font-family:var(--fm);font-size:0.62rem;color:var(--mt);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Share this code</div>
+      <div class="gf-rcode" id="gf-code-display">----</div>
+      <div style="font-family:var(--fm);font-size:0.65rem;color:var(--mt);margin-top:8px;">Others join at: <strong style="color:var(--c4);">jovial-sprinkles-d29126.netlify.app</strong></div>
+    </div>
+    <div class="fg"><label>Players Joined (<span id="gf-pcount">1</span>)</label>
+      <div class="gf-plist" id="gf-plist"></div>
+    </div>
+    <div class="pulse" id="gf-lobby-wait"><div class="d" style="background:var(--c4);"></div><div class="d" style="background:var(--c4);"></div><div class="d" style="background:var(--c4);"></div><span>Waiting for players...</span></div>
+    <button class="btn btn-y" id="gf-start-btn" onclick="startGFGame()">Start Game ⚡ (<span id="gf-pcount2">1</span> players)</button>
+    <button class="btn btn-o" onclick="leaveGFRoom()">Cancel</button>
+  </div>
+</div>
+
+<!-- GO FAST WAITING (for joined players, waiting for host to start) -->
+
+<div id="sc-gf-waiting" class="sc">
+  <div class="fw" style="align-items:center;gap:24px;">
+    <div class="stl o">Go <span>Fast</span> ⚡</div>
+    <div style="text-align:center;">
+      <div style="font-size:2rem;margin-bottom:8px;">✅</div>
+      <div style="font-weight:700;font-size:1.1rem;" id="gf-joined-name">You joined!</div>
+      <div style="font-family:var(--fm);font-size:0.68rem;color:var(--mt);margin-top:6px;">Waiting for host to start...</div>
+    </div>
+    <div class="pulse"><div class="d" style="background:var(--c4);"></div><div class="d" style="background:var(--c4);"></div><div class="d" style="background:var(--c4);"></div></div>
+    <div style="font-family:var(--fm);font-size:0.68rem;color:var(--mt);text-align:center;line-height:1.7;">Get ready!<br>60 seconds — answer as many as possible</div>
+  </div>
+</div>
+
+<!-- GO FAST COUNTDOWN -->
+
+<div class="gf-countdown" id="gf-countdown">
+  <div class="gf-cd-txt">Get ready!</div>
+  <div class="gf-cd-num" id="gf-cd-num">3</div>
+  <div class="gf-cd-txt" id="gf-cd-name">Player</div>
+</div>
+
+<!-- GO FAST GAME SCREEN -->
+
+<div id="sc-gf-game" class="sc game-sc" style="display:none;">
+  <div class="gf-hdr">
+    <div class="gf-name-badge" id="gf-my-name-badge">Player</div>
+    <div class="gf-score-live">✅ <span id="gf-live-score">0</span></div>
+    <div style="font-family:var(--fm);font-size:0.66rem;color:var(--mt);">Q<span id="gf-qnum">1</span></div>
+  </div>
+  <div class="gf-tbar-wrap">
+    <div class="gf-tbar"><div class="gf-tfill" id="gf-tfill"></div></div>
+    <div class="gf-tsec" id="gf-tsec">60s</div>
+  </div>
+  <div class="qarea">
+    <div class="qmeta"><span class="qcat" id="gf-qcat">Category</span></div>
+    <div class="qtxt" id="gf-qtxt">Loading...</div>
+    <div class="mcqg" id="gf-qopts"></div>
+  </div>
+</div>
+
+<!-- GF Answer flash overlay -->
+
+<div class="gf-flash-ovl" id="gf-flash-ovl">
+  <div class="gf-flash-inner" id="gf-flash-inner">✅</div>
+</div>
+
+<!-- GF Waiting for results -->
+
+<div class="gf-waiting-screen" id="gf-waiting-res">
+  <div class="gf-wait-label">Your Score</div>
+  <div class="gf-wait-score" id="gf-wait-score">0</div>
+  <div class="gf-wait-label">Waiting for others to finish...</div>
+  <div class="pulse"><div class="d" style="background:var(--c4);"></div><div class="d" style="background:var(--c4);"></div><div class="d" style="background:var(--c4);"></div></div>
+</div>
+
+<!-- GO FAST RESULTS -->
+
+<div id="sc-gf-results" class="sc">
+  <div class="stl o" style="font-size:1.7rem;">Go Fast <span>Results!</span> ⚡</div>
+  <div class="gf-podium" id="gf-podium"></div>
+  <button class="btn btn-y" style="max-width:400px;width:100%;" onclick="go('sc-land');resetGF();">Back to Menu</button>
+  <button class="btn btn-o" style="max-width:400px;width:100%;" id="gf-play-again-btn" onclick="playAgainGF()">🔄 Play Again (same room)</button>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-// ════════════════════════════════════════
-// CATEGORIES
-// ════════════════════════════════════════
-const CATS = {
-  "General Dentistry":"🦷","Oral Surgery":"🔪","Endodontics":"🦠",
-  "Periodontics":"🩸","Orthodontics":"😬","Prosthodontics":"🦾",
-  "Pediatric Dentistry":"👶","Oral Pathology":"🔬","Oral Pharmacology":"💊",
-  "General Medicine":"🩺","Anatomy":"🧬","Microbiology":"🧫"
-};
+// ════════ CATEGORIES ════════
+const CATS={"General Dentistry":"🦷","Oral Surgery":"🔪","Endodontics":"🦠","Periodontics":"🩸","Orthodontics":"😬","Prosthodontics":"🦾","Pediatric Dentistry":"👶","Oral Pathology":"🔬","Oral Pharmacology":"💊","General Medicine":"🩺","Anatomy":"🧬","Microbiology":"🧫"};
 
-// ════════════════════════════════════════
-// QUESTION BANK — 40+ per specialty, short answers
-// ════════════════════════════════════════
-const QB = [
-// ── GENERAL DENTISTRY ──
+// ════════ QUESTION BANK ════════
+const QB=[
 {c:"General Dentistry",q:"Normal healthy sulcus depth?",a:"1-3 mm",w:["4-6 mm","7-9 mm","0 mm"]},
-{c:"General Dentistry",q:"Hardest tissue in human body?",a:"Enamel",w:["Dentin","Bone","Cementum"]},
+{c:"General Dentistry",q:"Hardest tissue in the body?",a:"Enamel",w:["Dentin","Bone","Cementum"]},
 {c:"General Dentistry",q:"Cells that produce enamel?",a:"Ameloblasts",w:["Odontoblasts","Cementoblasts","Osteoblasts"]},
 {c:"General Dentistry",q:"Cells that produce dentin?",a:"Odontoblasts",w:["Ameloblasts","Cementoblasts","Fibroblasts"]},
-{c:"General Dentistry",q:"Best radiograph showing full root length?",a:"Periapical",w:["Bitewing","Panoramic","CBCT"]},
+{c:"General Dentistry",q:"Best X-ray for full root length?",a:"Periapical",w:["Bitewing","Panoramic","CBCT"]},
 {c:"General Dentistry",q:"Number of permanent teeth?",a:"32",w:["28","30","36"]},
 {c:"General Dentistry",q:"Number of primary teeth?",a:"20",w:["24","16","28"]},
 {c:"General Dentistry",q:"Critical pH for enamel dissolution?",a:"5.5",w:["6.5","7.0","4.0"]},
 {c:"General Dentistry",q:"Tooth wear from tooth-to-tooth contact?",a:"Attrition",w:["Abrasion","Erosion","Abfraction"]},
-{c:"General Dentistry",q:"Tooth wear from acid dissolution?",a:"Erosion",w:["Attrition","Abrasion","Abfraction"]},
-{c:"General Dentistry",q:"Tooth wear from external mechanical forces?",a:"Abrasion",w:["Attrition","Erosion","Abfraction"]},
-{c:"General Dentistry",q:"First permanent tooth to erupt?",a:"Mandibular first molar",w:["Maxillary central incisor","Mandibular canine","First premolar"]},
-{c:"General Dentistry",q:"Tooth with the longest root?",a:"Maxillary canine",w:["Mandibular molar","Maxillary central","Mandibular canine"]},
-{c:"General Dentistry",q:"Main buffer system in saliva?",a:"Bicarbonate",w:["Phosphate","Protein","Carbonate"]},
-{c:"General Dentistry",q:"DMFT index measures?",a:"Caries experience",w:["Periodontal status","Fluorosis","Occlusion"]},
+{c:"General Dentistry",q:"Tooth wear from acid?",a:"Erosion",w:["Attrition","Abrasion","Abfraction"]},
+{c:"General Dentistry",q:"First permanent tooth to erupt?",a:"Mandibular first molar",w:["Max central incisor","Mand canine","First premolar"]},
+{c:"General Dentistry",q:"Tooth with the longest root?",a:"Maxillary canine",w:["Mandibular molar","Max central","Mand canine"]},
+{c:"General Dentistry",q:"Main buffer in saliva?",a:"Bicarbonate",w:["Phosphate","Protein","Carbonate"]},
+{c:"General Dentistry",q:"DMFT measures?",a:"Caries experience",w:["Periodontal status","Fluorosis","Occlusion"]},
 {c:"General Dentistry",q:"Ideal overjet value?",a:"2-4 mm",w:["0 mm","6-8 mm","8-10 mm"]},
-{c:"General Dentistry",q:"Ideal overbite value?",a:"2-4 mm",w:["0 mm","6-8 mm","1 mm"]},
-{c:"General Dentistry",q:"What is bruxism?",a:"Teeth grinding",w:["Jaw dislocation","TMJ clicking","Trismus"]},
-{c:"General Dentistry",q:"Fusion of tooth to alveolar bone?",a:"Ankylosis",w:["Resorption","Pulpitis","Mobility"]},
-{c:"General Dentistry",q:"GIC releases which ion?",a:"Fluoride",w:["Calcium","Phosphate","Sodium"]},
-{c:"General Dentistry",q:"Rubber dam purpose?",a:"Isolation and contamination control",w:["Anesthesia","Suction","Retraction"]},
-{c:"General Dentistry",q:"Sinus tract draining from abscess?",a:"Fistula",w:["Cyst","Pocket","Ulcer"]},
+{c:"General Dentistry",q:"What is bruxism?",a:"Teeth grinding",w:["Jaw dislocation","TMJ click","Trismus"]},
+{c:"General Dentistry",q:"Tooth fused to alveolar bone?",a:"Ankylosis",w:["Resorption","Pulpitis","Mobility"]},
 {c:"General Dentistry",q:"Most caries-prone surface?",a:"Occlusal pits and fissures",w:["Smooth buccal","Lingual","Proximal"]},
-{c:"General Dentistry",q:"Cavity liner purpose?",a:"Pulp protection",w:["Bonding","Whitening","Impression"]},
-{c:"General Dentistry",q:"G.V. Black Class II cavity location?",a:"Posterior proximal",w:["Anterior proximal","Smooth surface","Pit and fissure"]},
-{c:"General Dentistry",q:"What does apex locator measure?",a:"Working length",w:["Pocket depth","Bone density","Plaque index"]},
-{c:"General Dentistry",q:"Area where roots divide in molar?",a:"Furcation",w:["Apex","CEJ","PDL"]},
-{c:"General Dentistry",q:"No vertical overlap between teeth?",a:"Open bite",w:["Crossbite","Deep bite","Scissor bite"]},
-{c:"General Dentistry",q:"Upper teeth occlude inside lower teeth?",a:"Crossbite",w:["Open bite","Deep bite","End-to-end"]},
+{c:"General Dentistry",q:"Cavity liner protects?",a:"Pulp",w:["Enamel","PDL","Cementum"]},
+{c:"General Dentistry",q:"Class II cavity location?",a:"Posterior proximal",w:["Anterior proximal","Smooth surface","Pit and fissure"]},
+{c:"General Dentistry",q:"Apex locator measures?",a:"Working length",w:["Pocket depth","Bone density","Plaque index"]},
+{c:"General Dentistry",q:"No vertical overlap?",a:"Open bite",w:["Crossbite","Deep bite","Scissor bite"]},
 {c:"General Dentistry",q:"Enamel defect from excess fluoride?",a:"Fluorosis",w:["Hypoplasia","Caries","Abrasion"]},
-{c:"General Dentistry",q:"Smear layer located on?",a:"Cut dentin surface",w:["Enamel","Pulp","Cementum"]},
-{c:"General Dentistry",q:"Crown fabricated outside the mouth?",a:"Indirect restoration",w:["Direct restoration","Sealant","Liner"]},
-{c:"General Dentistry",q:"Inlay covers cusps?",a:"No",w:["Yes","Only one cusp","All cusps"]},
+{c:"General Dentistry",q:"Pulp cap material?",a:"MTA",w:["Amalgam","Composite","ZOE"]},
+{c:"General Dentistry",q:"Trismus is?",a:"Limited mouth opening",w:["Jaw dislocation","Bruxism","Macroglossia"]},
+{c:"General Dentistry",q:"Upper teeth inside lower?",a:"Crossbite",w:["Open bite","Deep bite","End-to-end"]},
+{c:"General Dentistry",q:"Sinus tract from abscess?",a:"Fistula",w:["Cyst","Pocket","Ulcer"]},
+{c:"General Dentistry",q:"GIC releases?",a:"Fluoride",w:["Calcium","Phosphate","Sodium"]},
 {c:"General Dentistry",q:"Normal crown-to-root ratio?",a:"1:1.5 or better",w:["1:0.5","2:1","1:3"]},
-{c:"General Dentistry",q:"Pulp cap material of choice?",a:"MTA or calcium hydroxide",w:["Amalgam","Composite","ZOE"]},
-{c:"General Dentistry",q:"Trismus definition?",a:"Limited mouth opening",w:["Jaw dislocation","Bruxism","Macroglossia"]},
-
-// ── ORAL SURGERY ──
+{c:"General Dentistry",q:"Ideal overbite value?",a:"2-4 mm",w:["0 mm","6-8 mm","1 mm"]},
 {c:"Oral Surgery",q:"Dry socket clinical term?",a:"Alveolar osteitis",w:["Pericoronitis","Cellulitis","Osteomyelitis"]},
-{c:"Oral Surgery",q:"Nerve at risk in lower 3rd molar extraction?",a:"Inferior alveolar nerve",w:["Lingual nerve","Buccal nerve","Mental nerve"]},
-{c:"Oral Surgery",q:"Primary danger of Ludwig's angina?",a:"Airway obstruction",w:["Facial swelling","Trismus","Pain"]},
-{c:"Oral Surgery",q:"Surgical removal of impacted tooth?",a:"Odontectomy",w:["Apicectomy","Alveoloplasty","Frenectomy"]},
+{c:"Oral Surgery",q:"Nerve at risk in lower 3rd molar?",a:"Inferior alveolar nerve",w:["Lingual nerve","Buccal nerve","Mental nerve"]},
+{c:"Oral Surgery",q:"Primary danger of Ludwig angina?",a:"Airway obstruction",w:["Facial swelling","Trismus","Pain"]},
 {c:"Oral Surgery",q:"Bisphosphonate jaw complication?",a:"MRONJ",w:["Cyst","Abscess","Fracture"]},
-{c:"Oral Surgery",q:"Floor sinus augmentation for implants?",a:"Sinus lift",w:["Bone graft","Frenectomy","Corticotomy"]},
-{c:"Oral Surgery",q:"Implant direct bond to bone?",a:"Osseointegration",w:["Fibrous union","Soft tissue bond","Cement bond"]},
-{c:"Oral Surgery",q:"Most common salivary gland with stones?",a:"Submandibular",w:["Parotid","Sublingual","Minor glands"]},
+{c:"Oral Surgery",q:"Implant bond to bone?",a:"Osseointegration",w:["Fibrous union","Soft tissue bond","Cement bond"]},
+{c:"Oral Surgery",q:"Most common gland with stones?",a:"Submandibular",w:["Parotid","Sublingual","Minor glands"]},
+{c:"Oral Surgery",q:"Le Fort I fracture level?",a:"Above tooth apices",w:["Through orbits","Craniofacial","Condyle"]},
+{c:"Oral Surgery",q:"Most common mandibular fracture?",a:"Condyle",w:["Body","Symphysis","Ramus"]},
+{c:"Oral Surgery",q:"Safe INR for extraction?",a:"Below 3.5",w:["Below 1","Above 4","Any value"]},
+{c:"Oral Surgery",q:"Air in soft tissues post-op?",a:"Surgical emphysema",w:["Hematoma","Edema","Abscess"]},
+{c:"Oral Surgery",q:"Mental foramen below?",a:"2nd premolar",w:["Canine","Midline","1st molar"]},
+{c:"Oral Surgery",q:"Post-extraction: avoid 24 hours?",a:"Rinsing and spitting",w:["Eating","Sleeping","Talking"]},
+{c:"Oral Surgery",q:"IAN block needle gauge?",a:"25 gauge long",w:["27 gauge short","30 gauge","19 gauge"]},
+{c:"Oral Surgery",q:"Dry socket treatment?",a:"Alvogyl dressing",w:["Antibiotics only","Re-extraction","Bone graft"]},
+{c:"Oral Surgery",q:"Intentional crown removal leaving roots?",a:"Coronectomy",w:["Apicectomy","Extraction","Hemisection"]},
 {c:"Oral Surgery",q:"Mucus cyst of salivary gland?",a:"Mucocele",w:["Ranula","Dermoid","Lymphocele"]},
 {c:"Oral Surgery",q:"Ranula treatment?",a:"Marsupialization",w:["Aspiration","Antibiotics","Observation"]},
-{c:"Oral Surgery",q:"Le Fort I fracture level?",a:"Above tooth apices",w:["Through orbits","Craniofacial","Condyle"]},
-{c:"Oral Surgery",q:"Most common mandibular fracture site?",a:"Condyle",w:["Body","Symphysis","Ramus"]},
-{c:"Oral Surgery",q:"Standard dental LA solution?",a:"Lidocaine 2% + epi",w:["Bupivacaine alone","Benzocaine","Articaine alone"]},
-{c:"Oral Surgery",q:"Intentional crown removal leaving roots?",a:"Coronectomy",w:["Apicectomy","Extraction","Hemisection"]},
-{c:"Oral Surgery",q:"Safe INR for routine extraction?",a:"Below 3.5",w:["Below 1","Above 4","Any value"]},
-{c:"Oral Surgery",q:"Vasoconstrictor in LA prolongs duration by?",a:"Reducing blood flow",w:["Increasing pH","Blocking nerves","Dilating vessels"]},
-{c:"Oral Surgery",q:"Air in soft tissues post-operatively?",a:"Surgical emphysema",w:["Hematoma","Edema","Abscess"]},
-{c:"Oral Surgery",q:"Mental foramen location?",a:"Below 2nd premolar",w:["Below canine","Midline","Below 1st molar"]},
-{c:"Oral Surgery",q:"Post-extraction: avoid for 24 hours?",a:"Rinsing and spitting",w:["Eating","Sleeping","Talking"]},
-{c:"Oral Surgery",q:"Needle gauge for IAN block?",a:"25 gauge long",w:["27 gauge short","30 gauge","19 gauge"]},
-{c:"Oral Surgery",q:"Dry socket treatment?",a:"Alvogyl dressing",w:["Antibiotics only","Re-extraction","Bone graft"]},
-{c:"Oral Surgery",q:"Gingival swelling non-specific term?",a:"Epulis",w:["Fibroma","Papilloma","Lipoma"]},
-{c:"Oral Surgery",q:"Opening between mouth and maxillary sinus?",a:"Oroantral communication",w:["Nasal fistula","Palatal fenestration","Sinus cyst"]},
-{c:"Oral Surgery",q:"Signs of IAN damage post-extraction?",a:"Lip and chin numbness",w:["Tongue numbness","Taste loss","Upper lip numbness"]},
-{c:"Oral Surgery",q:"Instrument used to luxate tooth?",a:"Elevator",w:["Curette","Periosteal elevator","Retractor"]},
-{c:"Oral Surgery",q:"Most common indication for 3rd molar removal?",a:"Recurrent pericoronitis",w:["Cosmetic","Prophylaxis","Space for dentures"]},
-{c:"Oral Surgery",q:"Mucocele of floor of mouth?",a:"Ranula",w:["Mucocele","Dermoid","Fibroma"]},
-{c:"Oral Surgery",q:"ORIF stands for?",a:"Open Reduction Internal Fixation",w:["Oral Ridge Implant Fixation","Occlusal Rim Impression","Oral Reconstruction"]},
-{c:"Oral Surgery",q:"TMJ dislocation treatment?",a:"Manual reduction",w:["Surgery","Splint only","Antibiotics"]},
-{c:"Oral Surgery",q:"Pericoronitis involves which tooth most?",a:"Lower third molar",w:["Upper third molar","Lower second molar","Upper canine"]},
-
-// ── ENDODONTICS ──
+{c:"Oral Surgery",q:"IAN damage sign?",a:"Lip and chin numbness",w:["Tongue numbness","Taste loss","Upper lip numbness"]},
+{c:"Oral Surgery",q:"Instrument to luxate tooth?",a:"Elevator",w:["Curette","Periosteal elevator","Retractor"]},
+{c:"Oral Surgery",q:"Most common indication 3rd molar removal?",a:"Recurrent pericoronitis",w:["Cosmetic","Prophylaxis","Space"]},
 {c:"Endodontics",q:"Most common RCT irrigant?",a:"Sodium hypochlorite",w:["Saline","H2O2","Chlorhexidine"]},
 {c:"Endodontics",q:"Working length ends at?",a:"Apical constriction",w:["Radiographic apex","Crown tip","CEJ"]},
-{c:"Endodontics",q:"Irreversible pulpitis key feature?",a:"Spontaneous lingering pain",w:["Pain stops quickly","No pain","Only cold sensitivity"]},
-{c:"Endodontics",q:"Reversible pulpitis: pain stops?",a:"When stimulus removed",w:["Spontaneously","After hours","Never"]},
-{c:"Endodontics",q:"Pulp necrosis vitality test?",a:"No response",w:["Normal response","Exaggerated","Delayed"]},
+{c:"Endodontics",q:"Irreversible pulpitis key feature?",a:"Spontaneous lingering pain",w:["Pain stops quickly","No pain","Cold only"]},
 {c:"Endodontics",q:"EDTA in RCT removes?",a:"Smear layer",w:["Bacteria","Pulp tissue","Calculus"]},
 {c:"Endodontics",q:"Standard RCT filling material?",a:"Gutta-percha + sealer",w:["Amalgam","Composite","ZOE only"]},
-{c:"Endodontics",q:"Number of roots in upper first molar?",a:"3 roots",w:["2 roots","1 root","4 roots"]},
-{c:"Endodontics",q:"Number of canals in lower first molar?",a:"3-4 canals",w:["1 canal","2 canals","5 canals"]},
-{c:"Endodontics",q:"Pulp cap material of choice?",a:"MTA",w:["Amalgam","Glass ionomer","Composite"]},
-{c:"Endodontics",q:"Apexification purpose?",a:"Induce apical closure",w:["Obturate canal","Remove pulp","Extract tooth"]},
-{c:"Endodontics",q:"False pathway in canal wall?",a:"Ledge",w:["Perforation","Step-back","Apical delta"]},
-{c:"Endodontics",q:"Communication between canal and periodontium?",a:"Perforation",w:["Ledge","Lateral canal","Resorption"]},
-{c:"Endodontics",q:"Cracked tooth: pain occurs when?",a:"On release of biting",w:["During biting","Spontaneously","With cold only"]},
-{c:"Endodontics",q:"Upper central incisor access cavity shape?",a:"Triangular",w:["Oval","Round","Trapezoidal"]},
-{c:"Endodontics",q:"Removal of coronal pulp only?",a:"Pulpotomy",w:["Pulpectomy","Pulp capping","Apexification"]},
-{c:"Endodontics",q:"Hot tooth — anesthesia difficult because?",a:"Low pH reduces LA efficacy",w:["Wrong injection","Allergy","Dose too small"]},
-{c:"Endodontics",q:"Periapical sclerosis from low-grade infection?",a:"Condensing osteitis",w:["Cyst","Osteosarcoma","Normal bone"]},
-{c:"Endodontics",q:"Biologic replacement of pulp-dentin?",a:"Regenerative endodontics",w:["Traditional RCT","Pulpotomy","Apexification"]},
-{c:"Endodontics",q:"Calcium hydroxide dressing duration?",a:"1-4 weeks",w:["24 hours","6 months","1 year"]},
-{c:"Endodontics",q:"Multiple foramina at root apex?",a:"Apical delta",w:["Lateral canal","Perforation","Resorption"]},
-{c:"Endodontics",q:"Sign of successful RCT on X-ray?",a:"Periapical lesion resolution",w:["Bone disappears","Larger lesion","No change"]},
-{c:"Endodontics",q:"Resorption of dentin from within pulp?",a:"Internal resorption",w:["External resorption","Erosion","Abrasion"]},
-{c:"Endodontics",q:"Acute flare-up of chronic periapical lesion?",a:"Phoenix abscess",w:["New abscess","Lateral abscess","Gingival abscess"]},
-{c:"Endodontics",q:"Channel draining periapical infection to mucosa?",a:"Sinus tract",w:["Fistula","Pocket","Canal"]},
-{c:"Endodontics",q:"Most common RCT failure reason?",a:"Inadequate obturation",w:["Correct treatment","Wrong tooth","Non-compliance"]},
-{c:"Endodontics",q:"Periapical lesion from pulpal infection?",a:"Periapical abscess",w:["Periodontal abscess","Cyst only","Normal tissue"]},
-{c:"Endodontics",q:"Root-end filling material of choice?",a:"MTA",w:["Amalgam","Composite","ZOE"]},
+{c:"Endodontics",q:"Roots in upper first molar?",a:"3 roots",w:["2 roots","1 root","4 roots"]},
+{c:"Endodontics",q:"Apexification purpose?",a:"Induce apical closure",w:["Obturate canal","Remove pulp","Extract"]},
+{c:"Endodontics",q:"False pathway in canal?",a:"Ledge",w:["Perforation","Step-back","Apical delta"]},
+{c:"Endodontics",q:"Cracked tooth pain occurs?",a:"On release of biting",w:["During biting","Spontaneously","Cold only"]},
+{c:"Endodontics",q:"Upper central incisor access shape?",a:"Triangular",w:["Oval","Round","Trapezoidal"]},
+{c:"Endodontics",q:"Coronal pulp removal only?",a:"Pulpotomy",w:["Pulpectomy","Pulp cap","Apexification"]},
+{c:"Endodontics",q:"Resorption from within pulp?",a:"Internal resorption",w:["External resorption","Erosion","Abrasion"]},
+{c:"Endodontics",q:"Acute flare of chronic lesion?",a:"Phoenix abscess",w:["New abscess","Lateral abscess","Gingival abscess"]},
+{c:"Endodontics",q:"Multiple foramina at apex?",a:"Apical delta",w:["Lateral canal","Perforation","Resorption"]},
+{c:"Endodontics",q:"Root-end filling material?",a:"MTA",w:["Amalgam","Composite","ZOE"]},
 {c:"Endodontics",q:"Periapical surgery to remove root tip?",a:"Apicectomy",w:["Pulpectomy","Coronectomy","Hemisection"]},
-{c:"Endodontics",q:"Canal taper for adequate obturation?",a:"0.04 or 0.06",w:["0.01","0.10","No taper needed"]},
-
-// ── PERIODONTICS ──
-{c:"Periodontics",q:"Main cause of periodontitis?",a:"Dental plaque biofilm",w:["Genetics only","Sugar","Trauma"]},
+{c:"Endodontics",q:"Condensing osteitis caused by?",a:"Low-grade infection",w:["Cyst","Tumor","Normal variant"]},
+{c:"Endodontics",q:"Calcium hydroxide dressing duration?",a:"1-4 weeks",w:["24 hours","6 months","1 year"]},
+{c:"Endodontics",q:"Hot tooth: anesthesia difficult because?",a:"Low pH reduces LA",w:["Wrong injection","Allergy","Dose too small"]},
+{c:"Endodontics",q:"Pulp necrosis vitality test?",a:"No response",w:["Normal","Exaggerated","Delayed"]},
 {c:"Periodontics",q:"BOP indicates?",a:"Gingival inflammation",w:["Healthy gingiva","Bone loss","Caries"]},
-{c:"Periodontics",q:"Biologic width components?",a:"JE + supracrestal CT",w:["Pocket depth","Crown height","Enamel"]},
-{c:"Periodontics",q:"Key difference: periodontitis vs gingivitis?",a:"Bone and attachment loss",w:["More bleeding","More plaque","No difference"]},
-{c:"Periodontics",q:"Furcation Grade III means?",a:"Through-and-through",w:["Initial furcation","Partial involvement","No furcation"]},
+{c:"Periodontics",q:"Furcation Grade III?",a:"Through-and-through",w:["Initial","Partial","No furcation"]},
 {c:"Periodontics",q:"Subgingival calculus color?",a:"Dark brown to black",w:["White","Yellow","Clear"]},
-{c:"Periodontics",q:"NUG appearance of papillae?",a:"Punched-out necrotic",w:["Edematous","Normal","Fibrotic"]},
-{c:"Periodontics",q:"Gingival margin moves apically?",a:"Recession",w:["Enlargement","Pocket","Cleft"]},
 {c:"Periodontics",q:"Drug causing gingival enlargement?",a:"Phenytoin, cyclosporine, CCBs",w:["Antibiotics","NSAIDs","Antihistamines"]},
-{c:"Periodontics",q:"Rapid periodontitis with strong risk factors = Grade?",a:"Grade C",w:["Grade A","Grade B","Grade D"]},
 {c:"Periodontics",q:"GTR membrane purpose?",a:"Allow PDL regeneration",w:["Gingival graft","Bone removal","Antibiotic delivery"]},
 {c:"Periodontics",q:"Furcation probe name?",a:"Nabers probe",w:["Straight probe","Explorer","Scaler"]},
-{c:"Periodontics",q:"Smokers: bleeding in disease is?",a:"Reduced (masking severity)",w:["Increased","Normal","Absent always"]},
-{c:"Periodontics",q:"Systemic disease most affecting periodontium?",a:"Diabetes mellitus",w:["Hypertension","Asthma","Hypothyroidism"]},
-{c:"Periodontics",q:"Root planing removes?",a:"Contaminated cementum/dentin",w:["Calculus only","Crown","PDL"]},
-{c:"Periodontics",q:"Maintenance interval post-periodontitis?",a:"Every 3-4 months",w:["Annually","Monthly","Every 6 months"]},
+{c:"Periodontics",q:"Smokers: bleeding in perio disease?",a:"Reduced",w:["Increased","Normal","Absent always"]},
+{c:"Periodontics",q:"Systemic disease most affecting perio?",a:"Diabetes mellitus",w:["Hypertension","Asthma","Hypothyroidism"]},
+{c:"Periodontics",q:"Root planing removes?",a:"Contaminated cementum",w:["Calculus only","Crown","PDL"]},
+{c:"Periodontics",q:"Maintenance post-periodontitis?",a:"Every 3-4 months",w:["Annually","Monthly","Every 6 months"]},
 {c:"Periodontics",q:"Grade III tooth mobility includes?",a:"Vertical movement",w:["Only horizontal","Only rotation","No movement"]},
-{c:"Periodontics",q:"Surgical gingival tissue removal?",a:"Gingivectomy",w:["Graft","Flap surgery","Bone removal"]},
-{c:"Periodontics",q:"Chlorhexidine mechanism?",a:"Cell membrane disruption",w:["Cell wall inhibition","DNA damage","Protein synthesis"]},
-{c:"Periodontics",q:"Tissue-destroying enzyme in periodontitis?",a:"MMPs",w:["Amylase","Lipase","Lysozyme"]},
-{c:"Periodontics",q:"CAL measured from?",a:"CEJ to pocket base",w:["Gingival margin","Bone crest","Tooth apex"]},
-{c:"Periodontics",q:"Normal attached gingiva width?",a:"1-9 mm",w:["Exactly 5 mm","10-15 mm","0.5 mm"]},
-{c:"Periodontics",q:"Horizontal bone loss: bone equal on?",a:"Both sides of septum",w:["One side only","Buccal only","Palatal only"]},
-{c:"Periodontics",q:"Bone graft in periodontal defect?",a:"Osseous grafting",w:["Soft tissue graft","GTR alone","Root planing"]},
+{c:"Periodontics",q:"CAL measured from?",a:"CEJ to pocket base",w:["Gingival margin","Bone crest","Apex"]},
 {c:"Periodontics",q:"Pus in periodontal tissues?",a:"Periodontal abscess",w:["Cyst","Normal pocket","Epulis"]},
+{c:"Periodontics",q:"Chlorhexidine mechanism?",a:"Cell membrane disruption",w:["Cell wall inhibition","DNA damage","Protein synthesis"]},
+{c:"Periodontics",q:"Tissue-destroying enzyme in perio?",a:"MMPs",w:["Amylase","Lipase","Lysozyme"]},
+{c:"Periodontics",q:"Normal attached gingiva width?",a:"1-9 mm",w:["Exactly 5 mm","10-15 mm","0.5 mm"]},
+{c:"Periodontics",q:"NUG papillae appearance?",a:"Punched-out necrotic",w:["Edematous","Normal","Fibrotic"]},
+{c:"Periodontics",q:"Rapid periodontitis = Grade?",a:"Grade C",w:["Grade A","Grade B","Grade D"]},
+{c:"Periodontics",q:"Biologic width components?",a:"JE + supracrestal CT",w:["Pocket depth","Crown height","Enamel"]},
 {c:"Periodontics",q:"Miller Class I recession prognosis?",a:"Complete coverage",w:["No coverage","Partial only","Extraction"]},
-{c:"Periodontics",q:"Periodontal-endodontic lesion: treat first?",a:"Endodontic component",w:["Periodontal first","Both together","Neither"]},
-{c:"Periodontics",q:"Cytokine key in periodontal bone loss?",a:"IL-1β and TNF-α",w:["IL-4","IL-10","IL-2"]},
-{c:"Periodontics",q:"Mucogingival junction separates?",a:"Attached gingiva from alveolar mucosa",w:["Free gingiva","CEJ line","Interdental papilla"]},
-{c:"Periodontics",q:"Splinting mobile teeth purpose?",a:"Stabilize using adjacent teeth",w:["Aesthetic improvement","Orthodontics","Space maintenance"]},
-
-// ── ORTHODONTICS ──
-{c:"Orthodontics",q:"Angle Class II div 1 feature?",a:"Proclined upper incisors",w:["Retroclined upper","Prognathic mandible","Anterior crossbite"]},
 {c:"Orthodontics",q:"ANB normal value?",a:"1-3 degrees",w:["0 degrees","8-10 degrees","-5 degrees"]},
 {c:"Orthodontics",q:"Increased ANB = skeletal?",a:"Class II",w:["Class III","Class I","Normal"]},
-{c:"Orthodontics",q:"SNA measures?",a:"Maxillary position",w:["Mandibular position","Dental inclination","Facial height"]},
 {c:"Orthodontics",q:"Palatal expander corrects?",a:"Posterior crossbite",w:["Deep bite","Proclination","Class III"]},
-{c:"Orthodontics",q:"Standard bracket slot size?",a:"0.022 inch",w:["0.010 inch","0.035 inch","0.005 inch"]},
-{c:"Orthodontics",q:"First wire material used?",a:"NiTi round",w:["Stainless steel","TMA","Cobalt chromium"]},
+{c:"Orthodontics",q:"First wire material?",a:"NiTi round",w:["Stainless steel","TMA","Cobalt chrome"]},
 {c:"Orthodontics",q:"Rectangular wire controls?",a:"Root torque",w:["Alignment","Space closure","Retention"]},
 {c:"Orthodontics",q:"Hawley retainer contains?",a:"Adams clasp + labial bow",w:["Brackets only","Clear aligner","Spring only"]},
-{c:"Orthodontics",q:"Leeway space: mandible each side?",a:"1.7 mm",w:["0.9 mm","3 mm","0.5 mm"]},
-{c:"Orthodontics",q:"Torque in orthodontics moves?",a:"Root bucco-lingually",w:["Crown mesially","Tooth vertically","Tooth rotates"]},
-{c:"Orthodontics",q:"Class II elastics run from?",a:"Upper canine to lower molar",w:["Upper molar to lower canine","Vertical","Crossbite direction"]},
-{c:"Orthodontics",q:"Root resorption risk with?",a:"Heavy prolonged forces",w:["Light forces","Short treatment","Retention phase"]},
+{c:"Orthodontics",q:"Leeway space mandible each side?",a:"1.7 mm",w:["0.9 mm","3 mm","0.5 mm"]},
+{c:"Orthodontics",q:"Class II elastics from?",a:"Upper canine to lower molar",w:["Upper molar to lower canine","Vertical","Crossbite"]},
+{c:"Orthodontics",q:"Root resorption risk with?",a:"Heavy prolonged forces",w:["Light forces","Short treatment","Retention"]},
 {c:"Orthodontics",q:"Tipping: which part moves mainly?",a:"Crown",w:["Root","Both equally","Neither"]},
 {c:"Orthodontics",q:"TPA connects?",a:"Upper molars across palate",w:["Lower molars","Canines","Incisors"]},
-{c:"Orthodontics",q:"Moderate crowding = how many mm?",a:"4-8 mm",w:["0-3 mm","9-12 mm","Over 12 mm"]},
-{c:"Orthodontics",q:"Bolton analysis measures?",a:"Tooth size discrepancy",w:["Arch length","Facial profile","Bone width"]},
-{c:"Orthodontics",q:"Self-ligating brackets advantage?",a:"Less friction",w:["More torque","Lower cost","Faster extraction"]},
-{c:"Orthodontics",q:"Best orthodontic force type?",a:"Light continuous",w:["Heavy intermittent","No force","Heavy continuous"]},
+{c:"Orthodontics",q:"Moderate crowding?",a:"4-8 mm",w:["0-3 mm","9-12 mm","Over 12 mm"]},
+{c:"Orthodontics",q:"Best orthodontic force?",a:"Light continuous",w:["Heavy intermittent","No force","Heavy continuous"]},
 {c:"Orthodontics",q:"Power chain used for?",a:"Space closure",w:["Retention","Torque","Expansion"]},
-{c:"Orthodontics",q:"Class III surgery: mandibular setback name?",a:"BSSO",w:["Le Fort I","SARPE","Genioplasty"]},
-{c:"Orthodontics",q:"Cervical headgear force on molars?",a:"Distal and extrusive",w:["Intrusive","Mesial","No effect"]},
-{c:"Orthodontics",q:"Bracket removal at end of treatment?",a:"Debonding",w:["Debanding","Detorquing","Deligation"]},
+{c:"Orthodontics",q:"Class III surgery name?",a:"BSSO",w:["Le Fort I","SARPE","Genioplasty"]},
+{c:"Orthodontics",q:"Debonding means?",a:"Bracket removal",w:["Band removal","Wire change","Retainer"]},
+{c:"Orthodontics",q:"Bolton analysis measures?",a:"Tooth size discrepancy",w:["Arch length","Facial profile","Bone width"]},
 {c:"Orthodontics",q:"Hyalinization in PDL caused by?",a:"Heavy force",w:["Light force","No force","Retention"]},
-{c:"Orthodontics",q:"Nance appliance reinforces?",a:"Maxillary molar anchorage",w:["Lower anchorage","Canine position","Incisor torque"]},
-{c:"Orthodontics",q:"Invisalign is which type of appliance?",a:"Clear aligner",w:["Fixed functional","Removable plate","Headgear"]},
-{c:"Orthodontics",q:"Deep bite treated by?",a:"Incisor intrusion or molar extrusion",w:["Expansion only","Extraction only","Proclination"]},
-{c:"Orthodontics",q:"What is SARPE?",a:"Surgically assisted palatal expansion",w:["Simple RPE","Functional appliance","Molar extraction"]},
-{c:"Orthodontics",q:"Frontal resorption occurs with?",a:"Light force",w:["Heavy force","No force","Retention"]},
+{c:"Orthodontics",q:"SNA measures?",a:"Maxillary position",w:["Mandibular position","Dental inclination","Facial height"]},
+{c:"Orthodontics",q:"Cervical headgear force on molars?",a:"Distal and extrusive",w:["Intrusive","Mesial","No effect"]},
 {c:"Orthodontics",q:"Angle Class III feature?",a:"Mandibular prognathism",w:["Maxillary prognathism","Deep bite","Proclined uppers"]},
-
-// ── ORAL PHARMACOLOGY ──
-{c:"Oral Pharmacology",q:"Amoxicillin mechanism?",a:"Cell wall synthesis inhibition",w:["Protein synthesis inhibition","Membrane disruption","DNA damage"]},
+{c:"Oral Pharmacology",q:"Amoxicillin mechanism?",a:"Cell wall inhibition",w:["Protein inhibition","Membrane disruption","DNA damage"]},
 {c:"Oral Pharmacology",q:"Max dose lidocaine with epi?",a:"7 mg/kg",w:["3 mg/kg","10 mg/kg","1 mg/kg"]},
-{c:"Oral Pharmacology",q:"Max dose lidocaine without epi?",a:"4.4 mg/kg",w:["7 mg/kg","10 mg/kg","2 mg/kg"]},
 {c:"Oral Pharmacology",q:"Penicillin allergy alternative?",a:"Clindamycin",w:["Amoxicillin","Ampicillin","Cefalexin"]},
-{c:"Oral Pharmacology",q:"Metronidazole mechanism?",a:"DNA strand breakage",w:["Cell wall inhibition","Protein inhibition","Membrane disruption"]},
-{c:"Oral Pharmacology",q:"Drug of choice for oral anaerobes?",a:"Metronidazole",w:["Erythromycin","Tetracycline","Fluconazole"]},
-{c:"Oral Pharmacology",q:"Ibuprofen: selective or non-selective COX?",a:"Non-selective COX 1&2",w:["COX-2 selective","COX-1 only","Not COX-related"]},
+{c:"Oral Pharmacology",q:"Drug for oral anaerobes?",a:"Metronidazole",w:["Erythromycin","Tetracycline","Fluconazole"]},
 {c:"Oral Pharmacology",q:"Paracetamol overdose antidote?",a:"N-acetylcysteine",w:["Flumazenil","Naloxone","Atropine"]},
-{c:"Oral Pharmacology",q:"Opioid reversal agent?",a:"Naloxone",w:["Flumazenil","Atropine","Neostigmine"]},
-{c:"Oral Pharmacology",q:"Benzodiazepine reversal agent?",a:"Flumazenil",w:["Naloxone","Atropine","Physostigmine"]},
-{c:"Oral Pharmacology",q:"Dental LA class most common?",a:"Amide",w:["Ester","Both equal","Neither"]},
-{c:"Oral Pharmacology",q:"Ester LA metabolized by?",a:"Plasma pseudocholinesterase",w:["Liver","Kidneys","Lungs"]},
-{c:"Oral Pharmacology",q:"Amide LA metabolized by?",a:"Liver",w:["Plasma","Kidneys","Salivary enzymes"]},
-{c:"Oral Pharmacology",q:"Metronidazole + alcohol reaction?",a:"Disulfiram-like reaction",w:["Increased sedation","No interaction","Reduced effect"]},
+{c:"Oral Pharmacology",q:"Opioid reversal?",a:"Naloxone",w:["Flumazenil","Atropine","Neostigmine"]},
+{c:"Oral Pharmacology",q:"Benzodiazepine reversal?",a:"Flumazenil",w:["Naloxone","Atropine","Physostigmine"]},
+{c:"Oral Pharmacology",q:"Metronidazole + alcohol?",a:"Disulfiram-like reaction",w:["Sedation","No effect","Reduced effect"]},
 {c:"Oral Pharmacology",q:"Tetracycline in children causes?",a:"Teeth discoloration",w:["Nerve damage","Bone loss","No effect"]},
-{c:"Oral Pharmacology",q:"Articaine advantage?",a:"Better tissue diffusion",w:["Longer duration","No vasoconstrictor","Less toxic"]},
-{c:"Oral Pharmacology",q:"Bupivacaine advantage?",a:"Long duration (8-12 hours)",w:["Short duration","Better infiltration","No cardiac toxicity"]},
-{c:"Oral Pharmacology",q:"IE prophylaxis: drug and dose?",a:"Amoxicillin 2g oral",w:["Metro 400mg","Clindamycin 1g","Pen V 500mg"]},
-{c:"Oral Pharmacology",q:"Oral candidiasis topical treatment?",a:"Nystatin",w:["Metronidazole","Amoxicillin","Acyclovir"]},
-{c:"Oral Pharmacology",q:"Aspirin platelet effect is?",a:"Irreversible inhibition",w:["Reversible inhibition","Increases platelets","No effect"]},
-{c:"Oral Pharmacology",q:"Clindamycin serious side effect?",a:"C. difficile colitis",w:["Tooth discoloration","Rash only","Kidney failure"]},
+{c:"Oral Pharmacology",q:"Bupivacaine duration?",a:"8-12 hours",w:["30 minutes","2 hours","24 hours"]},
+{c:"Oral Pharmacology",q:"IE prophylaxis drug?",a:"Amoxicillin 2g oral",w:["Metro 400mg","Clindamycin 1g","Pen V 500mg"]},
+{c:"Oral Pharmacology",q:"Topical oral candidiasis?",a:"Nystatin",w:["Metronidazole","Amoxicillin","Acyclovir"]},
+{c:"Oral Pharmacology",q:"Aspirin platelet effect?",a:"Irreversible inhibition",w:["Reversible","Increases platelets","No effect"]},
+{c:"Oral Pharmacology",q:"Clindamycin serious side effect?",a:"C. difficile colitis",w:["Tooth discoloration","Rash","Kidney failure"]},
 {c:"Oral Pharmacology",q:"Dental sedation drug?",a:"Midazolam",w:["Metronidazole","Lidocaine","Fluconazole"]},
-{c:"Oral Pharmacology",q:"N2O contraindicated in?",a:"B12 deficiency and pregnancy T1",w:["Dental anxiety","Children","Hypertension"]},
 {c:"Oral Pharmacology",q:"Drug causing dry mouth?",a:"Anticholinergics",w:["Metronidazole","Amoxicillin","NSAIDs"]},
-{c:"Oral Pharmacology",q:"Lidocaine + epi pulpal anesthesia duration?",a:"60-90 minutes",w:["5-10 min","3-4 hours","30 min only"]},
 {c:"Oral Pharmacology",q:"Safe analgesic in pregnancy?",a:"Paracetamol",w:["Ibuprofen","Aspirin","Codeine"]},
 {c:"Oral Pharmacology",q:"Fluoride inhibits bacterial enzyme?",a:"Enolase",w:["Amylase","Lipase","Protease"]},
-{c:"Oral Pharmacology",q:"Epinephrine concentration in dental cartridge?",a:"1:80,000 or 1:100,000",w:["1:1,000","1:10,000","1:500,000"]},
-{c:"Oral Pharmacology",q:"Doxycycline subantimicrobial dose reduces?",a:"MMPs",w:["Bacteria","Plaque","Calculus"]},
-{c:"Oral Pharmacology",q:"Which antibiotic discolors teeth in children?",a:"Tetracycline",w:["Amoxicillin","Metronidazole","Clindamycin"]},
-
-// ── GENERAL MEDICINE ──
+{c:"Oral Pharmacology",q:"Most common LA class in dentistry?",a:"Amide",w:["Ester","Both equal","Neither"]},
+{c:"Oral Pharmacology",q:"Max dose lidocaine WITHOUT epi?",a:"4.4 mg/kg",w:["7 mg/kg","10 mg/kg","2 mg/kg"]},
 {c:"General Medicine",q:"Normal fasting glucose?",a:"70-100 mg/dL",w:["120-140 mg/dL","50-70 mg/dL","150-200 mg/dL"]},
-{c:"General Medicine",q:"Anaphylaxis first-line treatment?",a:"Epinephrine 0.5mg IM",w:["Antihistamine","Steroids first","Oxygen only"]},
+{c:"General Medicine",q:"Anaphylaxis first-line?",a:"Epinephrine 0.5mg IM",w:["Antihistamine","Steroids","Oxygen only"]},
 {c:"General Medicine",q:"HbA1c diabetes threshold?",a:"6.5% or higher",w:["5.0%","8.0%","10%"]},
-{c:"General Medicine",q:"Type 1 DM pathology?",a:"Beta cell autoimmune destruction",w:["Insulin resistance","Glucagon excess","Dietary"]},
 {c:"General Medicine",q:"Normal male hemoglobin?",a:"13.5-17.5 g/dL",w:["8-10 g/dL","20-22 g/dL","10-11 g/dL"]},
-{c:"General Medicine",q:"Hypoglycemia symptoms?",a:"Sweating, tremor, confusion",w:["Polyuria, polydipsia","Bradycardia, dry skin","Flushing"]},
-{c:"General Medicine",q:"Conscious hypoglycemia treatment?",a:"15g oral glucose",w:["Insulin injection","Glucagon IV","IV fluid"]},
+{c:"General Medicine",q:"Hypoglycemia symptoms?",a:"Sweating and tremor",w:["Polyuria","Bradycardia","Flushing"]},
 {c:"General Medicine",q:"Therapeutic INR for AF?",a:"2.0-3.0",w:["1.0-1.5","4.0-5.0","0.5-1.0"]},
-{c:"General Medicine",q:"Iron deficiency oral sign?",a:"Angular cheilitis and glossitis",w:["Gingival hyperplasia","Brown pigmentation","Hairy tongue"]},
-{c:"General Medicine",q:"Hypothyroidism features?",a:"Bradycardia, macroglossia, weight gain",w:["Tachycardia, weight loss","Hypertension","Exophthalmos"]},
-{c:"General Medicine",q:"Hyperthyroidism: avoid which LA additive?",a:"Epinephrine (uncontrolled)",w:["Lidocaine","Articaine","Prilocaine"]},
-{c:"General Medicine",q:"Hemophilia A: deficient factor?",a:"Factor VIII",w:["Factor IX","Factor X","Factor XII"]},
-{c:"General Medicine",q:"Warfarin mechanism?",a:"Inhibit vit K-dependent factors",w:["Inhibit thrombin","Antiplatelet","Fibrinolysis"]},
-{c:"General Medicine",q:"Sjogren syndrome affects?",a:"Salivary and lacrimal glands",w:["Kidneys","Liver","Skin only"]},
-{c:"General Medicine",q:"HIV oral indicator lesion?",a:"Candidiasis + hairy leukoplakia",w:["Osteosarcoma","Ankylosis","Dry socket"]},
-{c:"General Medicine",q:"Bisphosphonates prescribed for?",a:"Osteoporosis",w:["Heart disease","Diabetes","Hypertension"]},
+{c:"General Medicine",q:"Hypothyroidism feature?",a:"Bradycardia and weight gain",w:["Tachycardia","Hypertension","Exophthalmos"]},
+{c:"General Medicine",q:"Hemophilia A deficient factor?",a:"Factor VIII",w:["Factor IX","Factor X","Factor XII"]},
+{c:"General Medicine",q:"Warfarin inhibits?",a:"Vitamin K-dependent factors",w:["Thrombin","Platelets","Fibrinogen"]},
+{c:"General Medicine",q:"Sjogren syndrome affects?",a:"Salivary and lacrimal glands",w:["Kidneys","Liver","Skin"]},
 {c:"General Medicine",q:"GERD oral sign?",a:"Palatal erosion",w:["Tooth fracture","Gingival hyperplasia","White patches"]},
-{c:"General Medicine",q:"Safe trimester for dental treatment?",a:"Second (14-20 weeks)",w:["First","Third","All equally safe"]},
-{c:"General Medicine",q:"Asthma: which analgesic to avoid?",a:"Aspirin and NSAIDs",w:["Paracetamol","Penicillin","Local anesthetic"]},
-{c:"General Medicine",q:"FAST stroke acronym: F stands for?",a:"Face drooping",w:["Fever","Fatigue","Flushing"]},
+{c:"General Medicine",q:"Safe dental trimester?",a:"Second",w:["First","Third","All equal"]},
 {c:"General Medicine",q:"HPV-associated oral cancer?",a:"Oropharyngeal SCC",w:["Kaposi sarcoma","Ameloblastoma","Fibroma"]},
 {c:"General Medicine",q:"Normal platelet count?",a:"150,000-400,000/uL",w:["50,000-100,000","500,000-700,000","100,000-150,000"]},
-{c:"General Medicine",q:"MI: dental contraindication for how long?",a:"3-6 months",w:["5 years","1 year","Never contraindicated"]},
-{c:"General Medicine",q:"Addisonian crisis signs?",a:"Hypotension and collapse",w:["Hypertensive crisis","Hypoglycemia only","Stroke"]},
-{c:"General Medicine",q:"Normal INR range?",a:"0.9-1.2",w:["3-5","5-7","1.5-2.0"]},
-{c:"General Medicine",q:"Dabigatran mechanism?",a:"Direct thrombin inhibitor",w:["Vit K antagonist","Factor Xa inhibitor","Antiplatelet"]},
-{c:"General Medicine",q:"EBV causes which disease?",a:"Infectious mononucleosis",w:["Herpes","HIV","CMV disease"]},
-{c:"General Medicine",q:"Von Willebrand disease affects?",a:"Platelet adhesion + Factor VIII",w:["Fibrinogen","Factor X","Prothrombin"]},
+{c:"General Medicine",q:"MI dental contraindication?",a:"3-6 months",w:["5 years","1 year","Never"]},
+{c:"General Medicine",q:"Normal INR?",a:"0.9-1.2",w:["3-5","5-7","1.5-2.0"]},
 {c:"General Medicine",q:"Type 2 DM first-line drug?",a:"Metformin",w:["Insulin","Sulphonylurea","Pioglitazone"]},
-{c:"General Medicine",q:"Troponin elevated in?",a:"Myocardial infarction",w:["Stroke","Pulmonary embolism","Normal finding"]},
-
-// ── ANATOMY ──
+{c:"General Medicine",q:"Troponin elevated in?",a:"Myocardial infarction",w:["Stroke","Pulmonary embolism","Normal"]},
+{c:"General Medicine",q:"Addisonian crisis signs?",a:"Hypotension and collapse",w:["Hypertensive crisis","Hypoglycemia only","Stroke"]},
 {c:"Anatomy",q:"Maxillary sinus drains into?",a:"Middle meatus",w:["Inferior meatus","Superior meatus","Nasopharynx"]},
-{c:"Anatomy",q:"Parotid duct opens opposite?",a:"Upper second molar",w:["Upper first molar","Lower second molar","Canine"]},
-{c:"Anatomy",q:"Sublingual caruncle location?",a:"Floor of mouth beside frenum",w:["Upper buccal mucosa","Soft palate","Uvula"]},
-{c:"Anatomy",q:"Lingual nerve supplies?",a:"Anterior 2/3 tongue sensation",w:["Posterior 1/3 taste","Motor to tongue","Cheek sensation"]},
-{c:"Anatomy",q:"Chorda tympani carries?",a:"Anterior tongue taste + parasympathetics",w:["Pain from tongue","Motor to masseter","Cheek sensation"]},
-{c:"Anatomy",q:"Greater palatine nerve supplies?",a:"Hard palate posterior to canine",w:["Soft palate","Upper lip","Buccal gingiva"]},
-{c:"Anatomy",q:"Nasopalatine nerve supplies?",a:"Hard palate anterior to canine",w:["Soft palate","Posterior hard palate","Nasal mucosa"]},
-{c:"Anatomy",q:"Masseter muscle: function?",a:"Jaw closure (elevation)",w:["Jaw opening","Lateral deviation","Tongue protrusion"]},
-{c:"Anatomy",q:"Lateral pterygoid: function?",a:"Jaw opening and protrusion",w:["Jaw closing","Retraction","Elevation"]},
-{c:"Anatomy",q:"Temporalis: function?",a:"Elevation and retraction",w:["Protrusion","Jaw opening","Tongue"]},
-{c:"Anatomy",q:"CN XII controls?",a:"All tongue muscles (except palatoglossus)",w:["Taste","Tongue sensation","Salivary glands"]},
-{c:"Anatomy",q:"Posterior 1/3 tongue taste via?",a:"Glossopharyngeal (IX)",w:["Facial (VII)","Vagus (X)","Trigeminal (V)"]},
-{c:"Anatomy",q:"Foramen rotundum transmits?",a:"Maxillary nerve (V2)",w:["Mandibular (V3)","Ophthalmic (V1)","Facial (VII)"]},
-{c:"Anatomy",q:"Foramen ovale transmits?",a:"Mandibular nerve (V3)",w:["Maxillary (V2)","Ophthalmic (V1)","Abducens"]},
-{c:"Anatomy",q:"Stylomastoid foramen transmits?",a:"Facial nerve (VII)",w:["CN IX","CN XII","Vagus (X)"]},
+{c:"Anatomy",q:"Parotid duct opens opposite?",a:"Upper second molar",w:["Upper first molar","Lower molar","Canine"]},
+{c:"Anatomy",q:"Lingual nerve supplies?",a:"Anterior 2/3 tongue sensation",w:["Posterior 1/3 taste","Motor to tongue","Cheek"]},
+{c:"Anatomy",q:"Chorda tympani carries?",a:"Anterior tongue taste + parasympathetics",w:["Pain from tongue","Motor to masseter","Cheek"]},
+{c:"Anatomy",q:"Masseter function?",a:"Jaw closure",w:["Jaw opening","Lateral deviation","Tongue protrusion"]},
+{c:"Anatomy",q:"Lateral pterygoid function?",a:"Jaw opening and protrusion",w:["Jaw closing","Retraction","Elevation"]},
+{c:"Anatomy",q:"Temporalis function?",a:"Elevation and retraction",w:["Protrusion","Jaw opening","Tongue"]},
+{c:"Anatomy",q:"CN XII controls?",a:"Tongue muscles",w:["Taste","Sensation","Salivary glands"]},
+{c:"Anatomy",q:"Posterior 1/3 tongue taste via?",a:"Glossopharyngeal IX",w:["Facial VII","Vagus X","Trigeminal V"]},
+{c:"Anatomy",q:"Foramen rotundum transmits?",a:"Maxillary nerve V2",w:["Mandibular V3","Ophthalmic V1","Facial VII"]},
+{c:"Anatomy",q:"Foramen ovale transmits?",a:"Mandibular nerve V3",w:["Maxillary V2","Ophthalmic V1","Abducens"]},
+{c:"Anatomy",q:"Stylomastoid foramen transmits?",a:"Facial nerve VII",w:["CN IX","CN XII","Vagus X"]},
 {c:"Anatomy",q:"TMJ disc made of?",a:"Fibrocartilage",w:["Hyaline cartilage","Elastic cartilage","Bone"]},
-{c:"Anatomy",q:"Superior TMJ compartment movement?",a:"Translation",w:["Rotation","Elevation","Lateral deviation"]},
-{c:"Anatomy",q:"Inferior TMJ compartment movement?",a:"Rotation",w:["Translation","Protrusion","Lateral glide"]},
-{c:"Anatomy",q:"Otic ganglion supplies?",a:"Parotid gland",w:["Submandibular","Sublingual","Lacrimal"]},
-{c:"Anatomy",q:"Submandibular ganglion supplies?",a:"Submandibular and sublingual",w:["Parotid","Lacrimal","Nasal"]},
-{c:"Anatomy",q:"Hard palate bones?",a:"Maxilla + palatine bones",w:["Frontal","Temporal","Sphenoid"]},
-{c:"Anatomy",q:"Retromolar trigone is posterior to?",a:"Last mandibular molar",w:["Last upper molar","Palate","Tongue base"]},
+{c:"Anatomy",q:"Superior TMJ movement?",a:"Translation",w:["Rotation","Elevation","Lateral deviation"]},
+{c:"Anatomy",q:"Inferior TMJ movement?",a:"Rotation",w:["Translation","Protrusion","Lateral glide"]},
+{c:"Anatomy",q:"Hard palate formed by?",a:"Maxilla + palatine bones",w:["Frontal","Temporal","Sphenoid"]},
 {c:"Anatomy",q:"Mylohyoid forms?",a:"Floor of mouth",w:["Roof of orbit","Pharyngeal wall","Tonsillar fossa"]},
-{c:"Anatomy",q:"Digastric posterior belly innervated by?",a:"Facial nerve (VII)",w:["V3","Hypoglossal (XII)","CN IX"]},
-{c:"Anatomy",q:"Sphenomandibular ligament attaches to?",a:"Lingula of mandibular foramen",w:["Condyle","Coronoid","Symphysis"]},
+{c:"Anatomy",q:"Otic ganglion supplies?",a:"Parotid gland",w:["Submandibular","Sublingual","Lacrimal"]},
 {c:"Anatomy",q:"Jugular foramen contains?",a:"CN IX, X, XI + IJV",w:["CN VII","CN XII","CN V3"]},
-{c:"Anatomy",q:"Pterygopalatine fossa contents?",a:"V2 + pterygopalatine ganglion + maxillary artery",w:["IAN + lingual nerve","Parotid gland","Facial nerve"]},
-{c:"Anatomy",q:"Foramen spinosum transmits?",a:"Middle meningeal artery",w:["V3","Internal carotid","Vertebral artery"]},
-{c:"Anatomy",q:"Buccal fat pad location?",a:"Masseteric and buccal space",w:["Under tongue","Temporal fossa","Behind mandible"]},
-{c:"Anatomy",q:"Anterior 2/3 tongue taste via?",a:"Chorda tympani (VII)",w:["CN IX","CN X","CN V3"]},
-
-// ── MICROBIOLOGY ──
+{c:"Anatomy",q:"Greater palatine nerve supplies?",a:"Hard palate posterior to canine",w:["Soft palate","Upper lip","Buccal gingiva"]},
 {c:"Microbiology",q:"Most cariogenic bacterium?",a:"Streptococcus mutans",w:["Lactobacillus","Actinomyces","P. gingivalis"]},
 {c:"Microbiology",q:"Primary periodontitis pathogen?",a:"Porphyromonas gingivalis",w:["S. mutans","Actinomyces","T. denticola"]},
-{c:"Microbiology",q:"Red complex bacteria?",a:"P. gingivalis, T. denticola, T. forsythia",w:["S. mutans group","Orange complex","Fusobacterium group"]},
-{c:"Microbiology",q:"Candida albicans morphology?",a:"Dimorphic yeast + hyphae",w:["Gram-positive rod","Spore-forming","Spirochete"]},
-{c:"Microbiology",q:"Oral thrush wipes off to reveal?",a:"Erythematous base",w:["Normal mucosa","Ulcer","Bone"]},
+{c:"Microbiology",q:"Red complex bacteria?",a:"P. gingivalis, T. denticola, T. forsythia",w:["S. mutans group","Orange complex","Fusobacterium"]},
+{c:"Microbiology",q:"Oral thrush reveals?",a:"Erythematous base",w:["Normal mucosa","Ulcer","Bone"]},
 {c:"Microbiology",q:"Actinomycosis organism?",a:"Actinomyces israelii",w:["Candida","S. pyogenes","S. aureus"]},
-{c:"Microbiology",q:"Sulfur granules in pus = ?",a:"Actinomycosis",w:["TB","Syphilis","Candidiasis"]},
-{c:"Microbiology",q:"Primary herpes in children?",a:"Herpetic gingivostomatitis",w:["Cold sore only","Herpes zoster","HFMD"]},
+{c:"Microbiology",q:"Sulfur granules in pus?",a:"Actinomycosis",w:["TB","Syphilis","Candidiasis"]},
+{c:"Microbiology",q:"Primary herpes in children?",a:"Herpetic gingivostomatitis",w:["Cold sore","Herpes zoster","HFMD"]},
 {c:"Microbiology",q:"Hairy leukoplakia caused by?",a:"EBV",w:["Candida","HPV","HSV-1"]},
-{c:"Microbiology",q:"HPV oral lesion?",a:"Squamous papilloma",w:["Hairy leukoplakia","Candidiasis","Herpes ulcer"]},
-{c:"Microbiology",q:"Dental plaque is classified as?",a:"Biofilm",w:["Planktonic bacteria","Viral colony","Simple bacteria"]},
-{c:"Microbiology",q:"S. mutans virulence factor?",a:"GTF (glucosyltransferase)",w:["Collagenase","Hyaluronidase","Coagulase"]},
-{c:"Microbiology",q:"HBeAg indicates?",a:"High infectivity (Hep B)",w:["Past infection","Immunity","Carrier only"]},
-{c:"Microbiology",q:"Autoclave settings for instruments?",a:"134°C for 3 min",w:["100°C for 30 min","80°C for 1 hour","150°C for 1 min"]},
+{c:"Microbiology",q:"Dental plaque classified as?",a:"Biofilm",w:["Planktonic bacteria","Viral colony","Simple bacteria"]},
+{c:"Microbiology",q:"S. mutans virulence factor?",a:"GTF glucosyltransferase",w:["Collagenase","Hyaluronidase","Coagulase"]},
+{c:"Microbiology",q:"Autoclave: 134°C for?",a:"3 minutes",w:["30 minutes","1 hour","10 minutes"]},
 {c:"Microbiology",q:"Hepatitis A route?",a:"Fecal-oral",w:["Blood-borne","Sexual only","Respiratory"]},
 {c:"Microbiology",q:"Post-extraction bacteremia organism?",a:"Streptococcus viridans",w:["S. aureus","E. coli","Enterococcus"]},
-{c:"Microbiology",q:"Beta-lactamase breaks which ring?",a:"Beta-lactam ring",w:["Peptide bond","Cell membrane","DNA strand"]},
-{c:"Microbiology",q:"Clavulanate role in Augmentin?",a:"Beta-lactamase inhibitor",w:["Second antibiotic","Analgesic","Reduces allergy"]},
-{c:"Microbiology",q:"MRSA: resistant to?",a:"Methicillin",w:["Vancomycin","Tetracycline","Metronidazole"]},
-{c:"Microbiology",q:"MIC measures?",a:"Minimum inhibitory concentration",w:["Maximum tolerated dose","Killing speed","Absorption rate"]},
-{c:"Microbiology",q:"LPS of gram-negative bacteria?",a:"Endotoxin",w:["Exotoxin","Capsule","Pili"]},
-{c:"Microbiology",q:"Hand-foot-mouth disease caused by?",a:"Coxsackievirus A16",w:["HSV-1","EBV","HPV"]},
+{c:"Microbiology",q:"Beta-lactamase breaks?",a:"Beta-lactam ring",w:["Peptide bond","Cell membrane","DNA"]},
+{c:"Microbiology",q:"MRSA resistant to?",a:"Methicillin",w:["Vancomycin","Tetracycline","Metronidazole"]},
 {c:"Microbiology",q:"Treponema pallidum causes?",a:"Syphilis",w:["Gonorrhea","Chlamydia","Candidiasis"]},
-{c:"Microbiology",q:"Primary syphilis oral lesion?",a:"Painless chancre",w:["Mucous patch","Gumma","Ulcer"]},
-{c:"Microbiology",q:"Impression disinfection solution?",a:"1% NaOCl or 2% glutaraldehyde",w:["Autoclaving","Boiling water","Formaldehyde only"]},
-{c:"Microbiology",q:"Normal oral flora dominant genus?",a:"Streptococcus",w:["Staphylococcus","E. coli","Pseudomonas"]},
-{c:"Microbiology",q:"Waterline contamination common organism?",a:"Pseudomonas + Legionella",w:["S. mutans","HIV","Hepatitis B"]},
-{c:"Microbiology",q:"Most common dental abscess flora?",a:"Mixed anaerobic-aerobic",w:["Pure aerobic","Pure viral","Fungal"]},
-{c:"Microbiology",q:"T. denticola is in which complex?",a:"Red complex",w:["Orange complex","Green complex","Blue complex"]},
-{c:"Microbiology",q:"EBV oral lesion in HIV patients?",a:"Hairy leukoplakia",w:["Candidiasis","Fibroma","Kaposi sarcoma"]},
-
-// ── PROSTHODONTICS ──
-{c:"Prosthodontics",q:"Kennedy Class I?",a:"Bilateral free-end saddles",w:["Unilateral free-end","Single bounded space","Anterior space"]},
+{c:"Microbiology",q:"LPS of gram-negative?",a:"Endotoxin",w:["Exotoxin","Capsule","Pili"]},
+{c:"Microbiology",q:"Hand-foot-mouth caused by?",a:"Coxsackievirus A16",w:["HSV-1","EBV","HPV"]},
+{c:"Microbiology",q:"HBeAg indicates?",a:"High infectivity",w:["Past infection","Immunity","Carrier only"]},
+{c:"Microbiology",q:"HPV oral lesion?",a:"Squamous papilloma",w:["Hairy leukoplakia","Candidiasis","Herpes"]},
+{c:"Prosthodontics",q:"Kennedy Class I?",a:"Bilateral free-end saddles",w:["Unilateral free-end","Single bounded","Anterior space"]},
 {c:"Prosthodontics",q:"Kennedy Class II?",a:"Unilateral free-end saddle",w:["Bilateral free-end","Anterior space","Multiple spaces"]},
-{c:"Prosthodontics",q:"Kennedy Class III?",a:"Unilateral bounded posterior space",w:["Bilateral free-end","Unilateral free-end","Anterior space"]},
-{c:"Prosthodontics",q:"Kennedy Class IV?",a:"Anterior space crossing midline",w:["Bilateral free-end","Unilateral space","Multiple spaces"]},
-{c:"Prosthodontics",q:"Occlusal rest function?",a:"Transfer vertical forces to tooth",w:["Retention only","Support base","Connect connector"]},
-{c:"Prosthodontics",q:"RPD mandibular major connector?",a:"Lingual bar",w:["Palatal bar","Horseshoe","AP bar"]},
-{c:"Prosthodontics",q:"VDO stands for?",a:"Vertical dimension of occlusion",w:["Vertical distance of orbit","Variable dental occlusion","Vertical degree offset"]},
-{c:"Prosthodontics",q:"Freeway space normal value?",a:"2-4 mm",w:["0 mm","6-8 mm","1 mm"]},
-{c:"Prosthodontics",q:"Centric relation: condyle position?",a:"Anterosuperior in fossa",w:["Posterior position","Retruded","Inferior"]},
-{c:"Prosthodontics",q:"Retention of complete denture: main mechanism?",a:"Adhesion, cohesion, atmospheric pressure",w:["Clasps","Implants","Tooth support"]},
-{c:"Prosthodontics",q:"Post dam function?",a:"Posterior peripheral seal",w:["Aesthetic feature","Tooth support","Food trap prevention"]},
+{c:"Prosthodontics",q:"Kennedy Class III?",a:"Unilateral bounded posterior",w:["Bilateral free-end","Unilateral free-end","Anterior space"]},
+{c:"Prosthodontics",q:"Kennedy Class IV?",a:"Anterior crossing midline",w:["Bilateral free-end","Unilateral space","Multiple spaces"]},
+{c:"Prosthodontics",q:"Occlusal rest function?",a:"Transfer vertical forces",w:["Retention only","Support base","Connect connector"]},
+{c:"Prosthodontics",q:"Mandibular RPD major connector?",a:"Lingual bar",w:["Palatal bar","Horseshoe","AP bar"]},
+{c:"Prosthodontics",q:"VDO stands for?",a:"Vertical dimension of occlusion",w:["Variable dental occlusion","Vertical distance orbit","Vertical degree offset"]},
+{c:"Prosthodontics",q:"Freeway space normal?",a:"2-4 mm",w:["0 mm","6-8 mm","1 mm"]},
+{c:"Prosthodontics",q:"Post dam function?",a:"Posterior peripheral seal",w:["Aesthetic","Tooth support","Food trap"]},
 {c:"Prosthodontics",q:"Overdenture advantage?",a:"Bone preservation",w:["Easier construction","Cheaper","No maintenance"]},
-{c:"Prosthodontics",q:"Relining adds material to?",a:"Denture base",w:["Artificial teeth","Metal framework","Clasps"]},
 {c:"Prosthodontics",q:"FPD components?",a:"Abutment, connector, pontic",w:["Rest, clasp, connector","Crown, post, core","Base, framework, teeth"]},
 {c:"Prosthodontics",q:"All-ceramic crown: occlusal reduction?",a:"2 mm",w:["0.5 mm","4 mm","1 mm"]},
-{c:"Prosthodontics",q:"Maryland bridge: preparation required?",a:"Minimal (wings bonded to enamel)",w:["Full crown prep","No preparation at all","Implant placement"]},
-{c:"Prosthodontics",q:"Surveyor used to identify?",a:"Path of insertion and undercuts",w:["Pocket depth","Impressions","Occlusion"]},
-{c:"Prosthodontics",q:"Akers clasp is which type?",a:"Circumferential",w:["Bar clasp","I-bar","RPI"]},
-{c:"Prosthodontics",q:"RPI clasp: what does I stand for?",a:"I-bar (bar clasp)",w:["Indirect retainer","Incisal rest","Interproximal"]},
-{c:"Prosthodontics",q:"Temporary crown purpose?",a:"Protect prep + maintain space",w:["Permanent restoration","Bleaching tray","Orthodontic device"]},
-{c:"Prosthodontics",q:"Implant abutment connects?",a:"Implant to crown",w:["Two implants","Bone to implant","Crown to bone"]},
-{c:"Prosthodontics",q:"Immediate denture disadvantage?",a:"Needs relining as ridge resorbs",w:["No aesthetics","Cannot be adjusted","Expensive always"]},
-{c:"Prosthodontics",q:"Zinc phosphate cement reaction?",a:"Acid-base reaction",w:["Light curing","Ionic exchange","Chemical condensation"]},
+{c:"Prosthodontics",q:"Surveyor identifies?",a:"Path of insertion and undercuts",w:["Pocket depth","Impressions","Occlusion"]},
+{c:"Prosthodontics",q:"Akers clasp type?",a:"Circumferential",w:["Bar clasp","I-bar","RPI"]},
+{c:"Prosthodontics",q:"Temporary crown purpose?",a:"Protect prep and maintain space",w:["Permanent restoration","Bleaching tray","Orthodontics"]},
 {c:"Prosthodontics",q:"Shade selection best light?",a:"Natural daylight",w:["Bright dental light","Dim room","Fluorescent"]},
+{c:"Prosthodontics",q:"Relining adds material to?",a:"Denture base",w:["Teeth","Framework","Clasps"]},
 {c:"Prosthodontics",q:"Cantilever bridge: pontic supported by?",a:"One side only",w:["Both sides","Implants only","Resin wings"]},
-{c:"Prosthodontics",q:"Border molding records?",a:"Functional sulcus width",w:["Centric relation","Tooth details","Jaw position"]},
-{c:"Prosthodontics",q:"Porosity in denture acrylic from?",a:"Inadequate pressure/temperature",w:["Color choice","Tooth type","Impression error"]},
-{c:"Prosthodontics",q:"Flasking in complete denture?",a:"Investing wax denture in plaster",w:["Impression making","Tooth arrangement","Jaw recording"]},
-{c:"Prosthodontics",q:"Ovate pontic sits in?",a:"Prepared ovoid ridge recess",w:["On ridge flat","Suspended above","Ridge lap"]},
-
-// ── PEDIATRIC DENTISTRY ──
-{c:"Pediatric Dentistry",q:"First primary tooth to erupt?",a:"Mandibular central incisor",w:["Maxillary central","First molar","Canine"]},
+{c:"Pediatric Dentistry",q:"First primary tooth to erupt?",a:"Mandibular central incisor",w:["Max central","First molar","Canine"]},
 {c:"Pediatric Dentistry",q:"Nursing caries most affects?",a:"Upper anteriors",w:["Lower anteriors","Lower molars","All equally"]},
 {c:"Pediatric Dentistry",q:"Vital primary pulp therapy?",a:"Pulpotomy",w:["Pulpectomy","Extraction","Observation"]},
-{c:"Pediatric Dentistry",q:"Turner's tooth caused by?",a:"Primary predecessor infection",w:["Fluorosis","Trauma during birth","Genetics"]},
+{c:"Pediatric Dentistry",q:"Turner's tooth caused by?",a:"Primary predecessor infection",w:["Fluorosis","Birth trauma","Genetics"]},
 {c:"Pediatric Dentistry",q:"Taurodontism feature?",a:"Enlarged pulp chamber",w:["Fused roots","Extra root","Small pulp"]},
-{c:"Pediatric Dentistry",q:"Single bud attempts to divide?",a:"Gemination",w:["Fusion","Concrescence","Dilaceration"]},
-{c:"Pediatric Dentistry",q:"Two buds unite forming wide tooth?",a:"Fusion",w:["Gemination","Twinning","Concrescence"]},
-{c:"Pediatric Dentistry",q:"Supernumerary at maxillary midline?",a:"Mesiodens",w:["Paramolar","Distomolar","Peridens"]},
+{c:"Pediatric Dentistry",q:"Single bud divides?",a:"Gemination",w:["Fusion","Concrescence","Dilaceration"]},
+{c:"Pediatric Dentistry",q:"Two buds unite?",a:"Fusion",w:["Gemination","Twinning","Concrescence"]},
+{c:"Pediatric Dentistry",q:"Supernumerary at midline?",a:"Mesiodens",w:["Paramolar","Distomolar","Peridens"]},
 {c:"Pediatric Dentistry",q:"Ankylosed primary tooth shows?",a:"Infraocclusion",w:["Supraocclusion","Normal occlusion","Mobility"]},
-{c:"Pediatric Dentistry",q:"Primary tooth avulsion: replant?",a:"No — do not replant",w:["Yes immediately","Yes within 2 hours","Yes with splint"]},
-{c:"Pediatric Dentistry",q:"Permanent tooth avulsion: best storage?",a:"HBSS or milk",w:["Tap water","Dry storage","Saline only"]},
-{c:"Pediatric Dentistry",q:"Tooth concussion: mobility?",a:"No mobility",w:["Present mobility","Displacement","Root fracture"]},
-{c:"Pediatric Dentistry",q:"Intruded primary tooth: treatment?",a:"Allow spontaneous re-eruption",w:["Reposition","Extract always","Orthodontic extrusion"]},
-{c:"Pediatric Dentistry",q:"Cvek pulpotomy material?",a:"MTA",w:["Formocresol","ZOE","Calcium hydroxide only"]},
-{c:"Pediatric Dentistry",q:"First dental visit recommended at?",a:"Age 1 or first tooth",w:["Age 3","Age 5","First cavity"]},
-{c:"Pediatric Dentistry",q:"Fluoride varnish for high-risk child every?",a:"3-6 months",w:["Annually","Monthly","Every 2 years"]},
-{c:"Pediatric Dentistry",q:"ECC defined as caries in child under?",a:"6 years",w:["3 years","10 years","12 years"]},
-{c:"Pediatric Dentistry",q:"Hall technique: preparation required?",a:"None",w:["Full preparation","Minimal prep","Occlusal only"]},
-{c:"Pediatric Dentistry",q:"Band and loop after loss of?",a:"Single primary molar",w:["Multiple teeth","Anterior tooth","All cases"]},
-{c:"Pediatric Dentistry",q:"Root bend from developmental trauma?",a:"Dilaceration",w:["Taurodontism","Gemination","Fusion"]},
-{c:"Pediatric Dentistry",q:"Tooth present at birth?",a:"Natal tooth",w:["Neonatal tooth","Supernumerary","Early eruption"]},
-{c:"Pediatric Dentistry",q:"Neonatal tooth erupts within?",a:"First 30 days of life",w:["At birth","3 months","6 months"]},
-{c:"Pediatric Dentistry",q:"Non-succedaneous permanent teeth?",a:"Permanent molars",w:["Premolars","Incisors","Canines"]},
-{c:"Pediatric Dentistry",q:"Child abuse oral sign?",a:"Frenum bruising or bite marks",w:["Normal caries","Gingival bleeding","Calculus"]},
-{c:"Pediatric Dentistry",q:"Chronological hypoplasia affects teeth?",a:"All forming at same time",w:["Single tooth","Permanent only","Primary only"]},
-{c:"Pediatric Dentistry",q:"Horizontal root fracture: treatment?",a:"Reposition and splint",w:["Extract always","RCT immediately","No treatment"]},
-{c:"Pediatric Dentistry",q:"Complicated crown fracture young permanent tooth?",a:"Cvek pulpotomy",w:["Full pulpectomy","Extract","Ignore"]},
-{c:"Pediatric Dentistry",q:"Fluoride toothpaste under 3 years?",a:"1000 ppm smear amount",w:["1450 ppm","500 ppm","No fluoride"]},
-{c:"Pediatric Dentistry",q:"Eruption cyst: usual management?",a:"Spontaneous resolution",w:["Immediate incision","Antibiotics","No follow-up"]},
-
-// ── ORAL PATHOLOGY ──
-{c:"Oral Pathology",q:"Most common odontogenic cyst?",a:"Radicular cyst",w:["Dentigerous cyst","OKC","Lateral periodontal"]},
+{c:"Pediatric Dentistry",q:"Primary avulsion: replant?",a:"No",w:["Yes immediately","Yes within 2h","Yes with splint"]},
+{c:"Pediatric Dentistry",q:"Permanent avulsion storage?",a:"HBSS or milk",w:["Tap water","Dry","Saline only"]},
+{c:"Pediatric Dentistry",q:"Cvek pulpotomy material?",a:"MTA",w:["Formocresol","ZOE","Ca(OH)2 only"]},
+{c:"Pediatric Dentistry",q:"First dental visit at?",a:"Age 1 or first tooth",w:["Age 3","Age 5","First cavity"]},
+{c:"Pediatric Dentistry",q:"ECC: caries in child under?",a:"6 years",w:["3 years","10 years","12 years"]},
+{c:"Pediatric Dentistry",q:"Hall technique preparation?",a:"None",w:["Full prep","Minimal prep","Occlusal only"]},
+{c:"Pediatric Dentistry",q:"Dilaceration is?",a:"Root bend from trauma",w:["Taurodontism","Gemination","Fusion"]},
+{c:"Pediatric Dentistry",q:"Non-succedaneous teeth?",a:"Permanent molars",w:["Premolars","Incisors","Canines"]},
+{c:"Pediatric Dentistry",q:"Child abuse oral sign?",a:"Frenum bruising",w:["Normal caries","Gingival bleeding","Calculus"]},
+{c:"Pediatric Dentistry",q:"Fluoride toothpaste under 3?",a:"1000 ppm smear",w:["1450 ppm","500 ppm","No fluoride"]},
+{c:"Oral Pathology",q:"Most common odontogenic cyst?",a:"Radicular cyst",w:["Dentigerous","OKC","Lateral periodontal"]},
 {c:"Oral Pathology",q:"Dentigerous cyst attaches at?",a:"CEJ of unerupted tooth",w:["Root apex","Root surface","Gingival crest"]},
-{c:"Oral Pathology",q:"OKC histology?",a:"Parakeratinized epithelium",w:["Cuboidal epithelium","Mucous cells","No lining"]},
 {c:"Oral Pathology",q:"OKC recurrence rate?",a:"Up to 60%",w:["Less than 5%","10-15%","Zero"]},
-{c:"Oral Pathology",q:"Gorlin syndrome: multiple?",a:"OKCs + basal cell carcinomas",w:["Radicular cysts","Fibrous dysplasia","Ameloblastomas"]},
 {c:"Oral Pathology",q:"Ameloblastoma most common location?",a:"Posterior mandible",w:["Anterior maxilla","Hard palate","Anterior mandible"]},
-{c:"Oral Pathology",q:"Ameloblastoma histology hallmark?",a:"Reverse polarity columnar cells",w:["Ghost cells","Mucous cells","Amyloid"]},
-{c:"Oral Pathology",q:"Leukoplakia: rub off?",a:"Cannot be rubbed off",w:["Rubs off easily","Rubs off partially","Always rubs off"]},
-{c:"Oral Pathology",q:"Higher malignant potential: erythroplakia or leukoplakia?",a:"Erythroplakia",w:["Leukoplakia","Same risk","Neither"]},
-{c:"Oral Pathology",q:"Lichen planus: oral appearance?",a:"Bilateral Wickham striae",w:["Unilateral ulcer","Nodular growth","Red flat lesion only"]},
+{c:"Oral Pathology",q:"Leukoplakia: rubs off?",a:"No",w:["Yes easily","Partially","Always"]},
+{c:"Oral Pathology",q:"Higher malignant potential?",a:"Erythroplakia",w:["Leukoplakia","Same risk","Neither"]},
+{c:"Oral Pathology",q:"Lichen planus oral appearance?",a:"Bilateral Wickham striae",w:["Unilateral ulcer","Nodular","Red flat only"]},
 {c:"Oral Pathology",q:"Most common site of oral SCC?",a:"Lateral tongue",w:["Dorsum","Hard palate","Upper lip"]},
-{c:"Oral Pathology",q:"Most common benign salivary tumor?",a:"Pleomorphic adenoma",w:["Warthin tumor","Mucoepidermoid","Monomorphic"]},
+{c:"Oral Pathology",q:"Most common benign salivary tumor?",a:"Pleomorphic adenoma",w:["Warthin","Mucoepidermoid","Monomorphic"]},
 {c:"Oral Pathology",q:"Adenoid cystic carcinoma feature?",a:"Perineural invasion",w:["Rapid spread","No nerve invasion","Always curable"]},
-{c:"Oral Pathology",q:"Fibrous dysplasia X-ray appearance?",a:"Ground glass",w:["Sunburst","Punched-out","Dense sclerosis"]},
-{c:"Oral Pathology",q:"Pyogenic granuloma: cause?",a:"Irritation or pregnancy",w:["Malignancy","Infection","Autoimmune"]},
+{c:"Oral Pathology",q:"Fibrous dysplasia X-ray?",a:"Ground glass",w:["Sunburst","Punched-out","Dense sclerosis"]},
 {c:"Oral Pathology",q:"Fordyce spots are?",a:"Ectopic sebaceous glands",w:["Viral lesion","Candidiasis","Salivary obstruction"]},
 {c:"Oral Pathology",q:"Minor aphthous ulcer heals in?",a:"7-14 days",w:["24 hours","30 days","60 days"]},
-{c:"Oral Pathology",q:"Pemphigus vulgaris target?",a:"Desmoglein 1 and 3",w:["Collagen IV","BP180","Integrin"]},
 {c:"Oral Pathology",q:"Nikolsky sign positive in?",a:"Pemphigus vulgaris",w:["Pemphigoid","Lichen planus","Aphthous"]},
-{c:"Oral Pathology",q:"Multiple myeloma bone lesions appear?",a:"Punched-out radiolucent",w:["Ground glass","Dense","Sunburst"]},
 {c:"Oral Pathology",q:"Highest recurrence rate cyst?",a:"OKC",w:["Radicular","Dentigerous","Nasopalatine"]},
-{c:"Oral Pathology",q:"Nasopalatine cyst location?",a:"Anterior midline hard palate",w:["Lateral premolar area","Posterior palate","Floor of mouth"]},
+{c:"Oral Pathology",q:"Nasopalatine cyst location?",a:"Anterior midline hard palate",w:["Lateral premolar","Posterior palate","Floor of mouth"]},
 {c:"Oral Pathology",q:"Oral SCC risk factors?",a:"Tobacco, alcohol, HPV",w:["Sugar, poor brushing","Fluoride","Vitamin D"]},
-{c:"Oral Pathology",q:"Compound odontoma: structure?",a:"Multiple toothlets",w:["Calcified mass","Ghost cells","Amyloid"]},
-{c:"Oral Pathology",q:"Geographic tongue: histology?",a:"Filiform papillae loss + inflammation",w:["Dysplasia","Fungal infection","Malignancy"]},
-{c:"Oral Pathology",q:"Hairy tongue caused by?",a:"Elongated filiform papillae",w:["Hairy leukoplakia virus","Candida only","Cancer"]},
-{c:"Oral Pathology",q:"Peripheral giant cell granuloma: color?",a:"Reddish-purple",w:["White","Yellow","Brown"]},
-{c:"Oral Pathology",q:"Periapical cemento-osseous dysplasia: teeth vitality?",a:"Vital",w:["Non-vital","Variable","Unknown"]},
-{c:"Oral Pathology",q:"Oral submucous fibrosis: main cause?",a:"Areca nut (betel nut)",w:["Alcohol","Tobacco only","HPV"]},
-{c:"Oral Pathology",q:"TNM: T1 oral SCC size?",a:"2 cm or less",w:["2-4 cm","Over 4 cm","Any size with nodes"]},
+{c:"Oral Pathology",q:"Gorlin syndrome includes?",a:"Multiple OKCs + BCCs",w:["Radicular cysts","Fibrous dysplasia","Ameloblastomas"]},
 ];
 
-// ════════════════════════════════════════
-// UTILITIES
-// ════════════════════════════════════════
+// ════════ UTILS ════════
 function go(id){
   document.querySelectorAll('.sc').forEach(s=>{s.classList.remove('on');s.style.display='';});
-  const el=document.getElementById(id);
-  if(!el)return;
-  if(id==='sc-local'){el.style.display='flex';}
+  const el=document.getElementById(id);if(!el)return;
+  if(['sc-local','sc-gf-game'].includes(id)){el.style.display='flex';}
   else{el.classList.add('on');}
 }
-function toast(msg,d=2500){
-  const t=document.getElementById('toast');
-  t.textContent=msg;t.classList.add('on');
-  setTimeout(()=>t.classList.remove('on'),d);
-}
+function toast(msg,d=2500){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),d);}
 function genCode(){return Math.random().toString(36).substring(2,6).toUpperCase();}
 function rnd(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
 function mkOpts(q){return rnd([q.a,...(q.w||[]).slice(0,3)]);}
 
-let localQuestions=JSON.parse(localStorage.getItem('dlq')||'null')||QB;
-
-// ════════════════════════════════════════
-// CATEGORY GRIDS
-// ════════════════════════════════════════
-function mkCatGrid(elId, sel, cls, max, cb){
+// ════════ CAT GRIDS ════════
+function mkCatGrid(elId,sel,cls,max,cb){
   const el=document.getElementById(elId);if(!el)return;el.innerHTML='';
   Object.entries(CATS).forEach(([n,i])=>{
     const c=document.createElement('div');c.className='chip'+(sel.includes(n)?' '+cls:'');
@@ -966,84 +892,53 @@ function mkCatGrid(elId, sel, cls, max, cb){
   });
 }
 
-// ════════════════════════════════════════
-// ONLINE STATE
-// ════════════════════════════════════════
-let O={
-  isHost:false,code:null,role:null,name:null,
-  timerSecs:10,qCount:12,selCats:[],
-  qs:[],qi:0,scores:{host:0,guest:0},
-  timer:null,tLeft:0,
-  myDone:false,oppDone:false,
-  hName:'',gName:'',
-  subs:[]
-};
+// ════════ ONLINE STATE ════════
+let O={isHost:false,code:null,role:null,name:null,timerSecs:10,qCount:12,selCats:[],qs:[],qi:0,scores:{host:0,guest:0},timer:null,tLeft:0,myDone:false,oppDone:false,hName:'',gName:'',subs:[]};
 
 function updOnlineCatInfo(){
   const n=O.selCats.length,el=document.getElementById('cn-cinfo'),btn=document.getElementById('cn-btn');
   if(n===4){el.className='cinfo ok';el.textContent='✅ 4 categories selected!';btn.disabled=false;}
   else{el.className='cinfo bad';el.textContent='Select exactly 4 ('+n+'/4)';btn.disabled=true;}
 }
-
-function selQ(el){
-  document.querySelectorAll('.qb').forEach(e=>e.classList.remove('on'));
-  el.classList.add('on');O.qCount=parseInt(el.dataset.v);
-  document.getElementById('cn-tinfo').textContent='Time: 10s per question × '+O.qCount;
-}
-
+function selQ(el){document.querySelectorAll('.qb').forEach(e=>e.classList.remove('on'));el.classList.add('on');O.qCount=parseInt(el.dataset.v);document.getElementById('cn-tinfo').textContent='10s per question × '+O.qCount;}
 async function createRoom(){
   if(!window._fbReady){toast('Firebase not ready!');return;}
   const name=document.getElementById('cn-name').value.trim();
   if(!name){toast('Enter team name!');return;}
   if(O.selCats.length!==4){toast('Select exactly 4 categories!');return;}
-  const pool=localQuestions.filter(q=>O.selCats.includes(q.c));
+  const pool=QB.filter(q=>O.selCats.includes(q.c));
   if(pool.length<O.qCount){toast('Not enough questions!');return;}
   O.qs=rnd(pool).slice(0,O.qCount).map(q=>({...q,opts:mkOpts(q)}));
   const code=genCode();
   O.code=code;O.isHost=true;O.role='host';O.name=name;O.hName=name;
-  O.timerSecs=10;
-  await window._set(window._ref(window._db,'rooms/'+code),{
-    host:name,guest:null,status:'waiting',
-    timerSecs:10,qCount:O.qCount,
-    qs:O.qs,qi:0,scores:{host:0,guest:0},answers:{},
-    created:Date.now()
-  });
+  await window._set(window._ref(window._db,'rooms/'+code),{host:name,guest:null,status:'waiting',timerSecs:10,qCount:O.qCount,qs:O.qs,qi:0,scores:{host:0,guest:0},answers:{},created:Date.now()});
   showLobby(code);listenRoom(code);
 }
-
 async function joinRoom(){
   if(!window._fbReady){toast('Firebase not ready!');return;}
   const name=document.getElementById('jn-name').value.trim();
   const code=document.getElementById('jn-code').value.trim().toUpperCase();
-  if(!name){toast('Enter name!');return;}
-  if(!code){toast('Enter room code!');return;}
+  if(!name){toast('Enter name!');return;}if(!code){toast('Enter room code!');return;}
   const snap=await window._get(window._ref(window._db,'rooms/'+code));
   if(!snap.exists()){toast('Room not found!');return;}
   const d=snap.val();
   if(d.status!=='waiting'){toast('Game already started!');return;}
   if(d.guest){toast('Room is full!');return;}
-  O.code=code;O.isHost=false;O.role='guest';O.name=name;
-  O.hName=d.host;O.gName=name;
+  O.code=code;O.isHost=false;O.role='guest';O.name=name;O.hName=d.host;O.gName=name;
   O.timerSecs=d.timerSecs;O.qCount=d.qCount;O.qs=d.qs;
   await window._update(window._ref(window._db,'rooms/'+code),{guest:name});
   showLobby(code);listenRoom(code);
 }
-
 function showLobby(code){
   go('sc-lobby');
   document.getElementById('lb-code').textContent=code;
   document.getElementById('lb-h').textContent=O.hName||O.name;
-  if(O.role==='guest'){
-    document.getElementById('lb-g').textContent=O.name;
-    document.getElementById('lb-gslot').classList.add('on');
-  }
+  if(O.role==='guest'){document.getElementById('lb-g').textContent=O.name;document.getElementById('lb-gslot').classList.add('on');}
 }
-
 function listenRoom(code){
   const r=window._ref(window._db,'rooms/'+code);
   const u=window._onValue(r,snap=>{
-    if(!snap.exists())return;
-    const d=snap.val();
+    if(!snap.exists())return;const d=snap.val();
     if(d.guest&&d.guest!==O.gName){
       document.getElementById('lb-g').textContent=d.guest;
       document.getElementById('lb-gslot').classList.add('on');
@@ -1052,251 +947,164 @@ function listenRoom(code){
       if(O.isHost){document.getElementById('lb-start').style.display='block';}
     }
     if(d.status==='playing'){
-      O.qs=d.qs;O.timerSecs=d.timerSecs;O.qCount=d.qCount;
-      O.scores=d.scores||{host:0,guest:0};
+      O.qs=d.qs;O.timerSecs=d.timerSecs;O.qCount=d.qCount;O.scores=d.scores||{host:0,guest:0};
       const qi=d.qi||0;
-      if(qi!==O.qi||!document.getElementById('sc-game').classList.contains('on')){
-        O.qi=qi;showGameScreen(d);
-      }
+      if(qi!==O.qi||!document.getElementById('sc-game').classList.contains('on')){O.qi=qi;showGameScreen(d);}
     }
     if(d.status==='finished'){showOnlineEnd(d);return;}
-    // AUTO-ADVANCE: check if opponent answered
     if(d.status==='playing'&&d.answers&&d.answers[O.qi]){
       const opp=O.role==='host'?'guest':'host';
-      if(d.answers[O.qi][opp]&&!O.oppDone){
-        O.oppDone=true;
-        if(O.myDone)evalRound();
-      }
+      if(d.answers[O.qi][opp]&&!O.oppDone){O.oppDone=true;if(O.myDone)evalRound();}
     }
   });
   O.subs.push(u);
 }
-
-async function startOnline(){
-  await window._update(window._ref(window._db,'rooms/'+O.code),{status:'playing',qi:0});
-}
-
+async function startOnline(){await window._update(window._ref(window._db,'rooms/'+O.code),{status:'playing',qi:0});}
 function leaveRoom(){O.subs.forEach(u=>u&&u());O.subs=[];go('sc-land');resetOnline();}
-
 function showGameScreen(d){
-  go('sc-game');
-  O.scores=d.scores||{host:0,guest:0};
+  go('sc-game');O.scores=d.scores||{host:0,guest:0};
   document.getElementById('g-n1').textContent=d.host;
   document.getElementById('g-n2').textContent=d.guest||'Guest';
   document.getElementById('g-s1').textContent=O.scores.host||0;
   document.getElementById('g-s2').textContent=O.scores.guest||0;
   loadQ(d.qi||0);
 }
-
 function loadQ(idx){
   O.qi=idx;O.myDone=false;O.oppDone=false;
   const q=O.qs[idx];if(!q)return;
-  document.getElementById('g-qi').textContent=idx+1;
-  document.getElementById('g-qi2').textContent=idx+1;
+  document.getElementById('g-qi').textContent=idx+1;document.getElementById('g-qi2').textContent=idx+1;
   document.getElementById('g-qt').textContent=O.qs.length;
   document.getElementById('g-cat').textContent=(CATS[q.c]||'')+' '+q.c;
   document.getElementById('g-q').textContent=q.q;
   const opts=q.opts||mkOpts(q);
-  document.getElementById('g-opts').innerHTML=opts.map((o,i)=>`
-    <button class="mopt" id="mo${i}" onclick="pickOpt(${i},this,'${encodeURIComponent(o)}','${encodeURIComponent(q.a)}')">
-      <span class="ol">${'ABCD'[i]}</span>${o}
-    </button>`).join('');
+  document.getElementById('g-opts').innerHTML=opts.map((o,i)=>`<button class="mopt" id="mo${i}" onclick="pickOpt(${i},this,'${encodeURIComponent(o)}','${encodeURIComponent(q.a)}')"><span class="ol">${'ABCD'[i]}</span>${o}</button>`).join('');
   document.getElementById('g-wait').style.display='none';
   document.getElementById('rovl').classList.remove('on');
-  clearInterval(O.timer);
-  startTimer(O.timerSecs);
+  clearInterval(O.timer);startTimer(O.timerSecs);
 }
-
 function startTimer(secs){
   clearInterval(O.timer);O.tLeft=secs;
   const C=2*Math.PI*30;
   const upd=()=>{
     document.getElementById('tnum').textContent=O.tLeft;
-    const p=O.tLeft/secs;
-    const pg=document.getElementById('tpg');
-    pg.style.strokeDasharray=C;
-    pg.style.strokeDashoffset=C*(1-p);
+    const p=O.tLeft/secs;const pg=document.getElementById('tpg');
+    pg.style.strokeDasharray=C;pg.style.strokeDashoffset=C*(1-p);
     pg.className='tpg'+(p<=0.25?' dng':p<=0.5?' warn':'');
   };
   upd();
-  O.timer=setInterval(()=>{
-    O.tLeft--;upd();
-    if(O.tLeft<=0){clearInterval(O.timer);if(!O.myDone)submitAns('__timeout__',false);}
-  },1000);
+  O.timer=setInterval(()=>{O.tLeft--;upd();if(O.tLeft<=0){clearInterval(O.timer);if(!O.myDone)submitAns('__timeout__',false);}},1000);
 }
-
 function pickOpt(idx,btn,oEnc,aEnc){
   if(O.myDone)return;
   const o=decodeURIComponent(oEnc),a=decodeURIComponent(aEnc);
   document.querySelectorAll('.mopt').forEach(b=>b.disabled=true);
-  btn.classList.add('picked');
-  clearInterval(O.timer);
-  submitAns(o,o===a);
+  btn.classList.add('picked');clearInterval(O.timer);submitAns(o,o===a);
 }
-
 async function submitAns(txt,correct){
-  if(O.myDone)return;
-  O.myDone=true;
+  if(O.myDone)return;O.myDone=true;
   document.querySelectorAll('.mopt').forEach(b=>b.disabled=true);
   document.getElementById('g-wait').style.display='flex';
-  await window._set(window._ref(window._db,'rooms/'+O.code+'/answers/'+O.qi+'/'+O.role),
-    {txt,correct,time:O.timerSecs-O.tLeft});
-  // Check if opp already answered
+  await window._set(window._ref(window._db,'rooms/'+O.code+'/answers/'+O.qi+'/'+O.role),{txt,correct,time:O.timerSecs-O.tLeft});
   const snap=await window._get(window._ref(window._db,'rooms/'+O.code+'/answers/'+O.qi));
-  if(snap.exists()){
-    const opp=O.role==='host'?'guest':'host';
-    if(snap.val()[opp])O.oppDone=true;
-  }
+  if(snap.exists()){const opp=O.role==='host'?'guest':'host';if(snap.val()[opp])O.oppDone=true;}
   if(O.myDone&&O.oppDone)await evalRound();
 }
-
 async function evalRound(){
   const snap=await window._get(window._ref(window._db,'rooms/'+O.code));
-  if(!snap.exists())return;
-  const d=snap.val();
-  const q=O.qs[O.qi];
+  if(!snap.exists())return;const d=snap.val();const q=O.qs[O.qi];
   const opts=q.opts||mkOpts(q);
-  // Reveal answers
-  document.querySelectorAll('.mopt').forEach((btn,i)=>{
-    if(opts[i]===q.a)btn.classList.add('ok');
-    else if(btn.classList.contains('picked'))btn.classList.add('bad');
-  });
+  document.querySelectorAll('.mopt').forEach((btn,i)=>{if(opts[i]===q.a)btn.classList.add('ok');else if(btn.classList.contains('picked'))btn.classList.add('bad');});
   const myD=d.answers?.[O.qi]?.[O.role];
-  const oppR=O.role==='host'?'guest':'host';
-  const oppD=d.answers?.[O.qi]?.[oppR];
   if(O.isHost){
     const ns={...d.scores};
     const hd=d.answers?.[O.qi]?.host;const gd=d.answers?.[O.qi]?.guest;
-    let hp=0,gp=0;
-    if(hd?.correct)hp=2;if(gd?.correct)gp=2;
-    if(hd?.correct&&gd?.correct){
-      if((hd.time||99)<(gd.time||99))hp++;else if((gd.time||99)<(hd.time||99))gp++;
-    }
+    let hp=0,gp=0;if(hd?.correct)hp=2;if(gd?.correct)gp=2;
+    if(hd?.correct&&gd?.correct){if((hd.time||99)<(gd.time||99))hp++;else if((gd.time||99)<(hd.time||99))gp++;}
     ns.host=(ns.host||0)+hp;ns.guest=(ns.guest||0)+gp;
     const nxi=O.qi+1,done=nxi>=O.qs.length;
-    setTimeout(async()=>{
-      await window._update(window._ref(window._db,'rooms/'+O.code),
-        {scores:ns,qi:nxi,status:done?'finished':'playing'});
-    },3500);
+    setTimeout(async()=>{await window._update(window._ref(window._db,'rooms/'+O.code),{scores:ns,qi:nxi,status:done?'finished':'playing'});},3500);
   }
   const sc=d.scores||{host:0,guest:0};
-  showResultOverlay(myD?.correct||false,q.a,
-    O.role==='host'?sc.host:sc.guest,
-    O.role==='host'?sc.guest:sc.host);
+  showResultOverlay(myD?.correct||false,q.a,O.role==='host'?sc.host:sc.guest,O.role==='host'?sc.guest:sc.host);
 }
-
 function showResultOverlay(correct,ans,my,opp){
   document.getElementById('r-emj').textContent=correct?'✅':'❌';
   document.getElementById('r-vrd').textContent=correct?'Correct! 🎉':'Wrong!';
   document.getElementById('r-vrd').className='rvrd '+(correct?'ok':'bad');
   document.getElementById('r-ans').textContent=' '+ans;
-  document.getElementById('r-ms').textContent=my;
-  document.getElementById('r-os').textContent=opp;
+  document.getElementById('r-ms').textContent=my;document.getElementById('r-os').textContent=opp;
   document.getElementById('rovl').classList.add('on');
   let c=3;const nx=document.getElementById('r-nxt');
   const t=setInterval(()=>{c--;nx.textContent='Next in '+c+'...';if(c<=0){clearInterval(t);document.getElementById('rovl').classList.remove('on');}},1000);
 }
-
 function showOnlineEnd(d){
-  clearInterval(O.timer);document.getElementById('rovl').classList.remove('on');
-  go('sc-results');
+  clearInterval(O.timer);document.getElementById('rovl').classList.remove('on');go('sc-results');
   const hs=d.scores?.host||0,gs=d.scores?.guest||0;
   const w=hs>gs?d.host:gs>hs?(d.guest||'Guest'):'🤝 Tie!';
   document.getElementById('f-win').textContent=w;
   document.getElementById('f-wsc').textContent=w==='🤝 Tie!'?'Equal scores!':'Score: '+Math.max(hs,gs);
-  document.getElementById('f-n1').textContent=d.host;
-  document.getElementById('f-n2').textContent=d.guest||'Guest';
-  document.getElementById('f-s1').textContent=hs;
-  document.getElementById('f-s2').textContent=gs;
+  document.getElementById('f-n1').textContent=d.host;document.getElementById('f-n2').textContent=d.guest||'Guest';
+  document.getElementById('f-s1').textContent=hs;document.getElementById('f-s2').textContent=gs;
 }
+function resetOnline(){O.subs.forEach(u=>u&&u());O.subs=[];clearInterval(O.timer);O.code=null;O.isHost=false;O.role=null;O.qi=0;O.scores={host:0,guest:0};O.myDone=false;O.oppDone=false;O.selCats=[];}
 
-function resetOnline(){
-  O.subs.forEach(u=>u&&u());O.subs=[];clearInterval(O.timer);
-  O.code=null;O.isHost=false;O.role=null;O.qi=0;
-  O.scores={host:0,guest:0};O.myDone=false;O.oppDone=false;O.selCats=[];
-}
-
-// ════════════════════════════════════════
-// LOCAL MODE
-// ════════════════════════════════════════
+// ════════ LOCAL MODE ════════
 let L={t1:'',t2:'',s:{t1:0,t2:0},selCats:[],board:{},curQ:null,timer:null,secs:0,awarded:false,ansRevealed:false};
-
 function updLocalCatInfo(){
   const n=L.selCats.length,el=document.getElementById('lc-cinfo'),btn=document.getElementById('lc-btn');
   if(n===6){el.className='cinfo ok';el.textContent='✅ 6 categories selected!';btn.disabled=false;}
   else{el.className='cinfo bad';el.textContent='Select exactly 6 ('+n+'/6)';btn.disabled=true;}
 }
-
 function startLocal(){
   L.t1=document.getElementById('lt1').value.trim()||'Team 1';
   L.t2=document.getElementById('lt2').value.trim()||'Team 2';
-  if(L.selCats.length!==6){toast('Select exactly 6 categories!');return;}
+  if(L.selCats.length!==6){toast('Select exactly 6!');return;}
   L.s={t1:0,t2:0};L.board={};
   L.selCats.forEach(cat=>{
-    const pool=rnd(localQuestions.filter(q=>q.c===cat));
+    const pool=rnd(QB.filter(q=>q.c===cat));
     L.board[cat]=pool.slice(0,4).map((q,i)=>({...q,opts:mkOpts(q),used:false,usedBy:null,pts:10*(i+1)}));
   });
-  go('sc-local');
-  updLBoard();updLHdr();
+  go('sc-local');updLBoard();updLHdr();
 }
-
 function updLBoard(){
   const el=document.getElementById('l-board');el.innerHTML='';
   L.selCats.forEach(cat=>{
-    const qs=L.board[cat];
-    const sec=document.createElement('div');sec.className='cat-sec';
+    const qs=L.board[cat];const sec=document.createElement('div');sec.className='cat-sec';
     const tiles=qs.map((q,i)=>{
       const u=q.used,by=q.usedBy;
       const cls=u?(by==='t1'?' u1':by==='t2'?' u2':' un'):'';
       const lbl=u?(by==='t1'?'✅':by==='t2'?'❌':'—'):'Q'+(i+1);
       const click=u?'':`onclick="openLQ('${encodeURIComponent(cat)}',${i})"`;
-      return `<div class="tile used${cls}" ${click} style="${u?'':'cursor:pointer;'}opacity:${u?0.6:1};">
-        <span>${lbl}</span><span class="tpts">${q.pts}pts</span></div>`;
+      return `<div class="tile${u?' used'+cls:''}" ${click}><span>${lbl}</span><span class="tpts">${q.pts}pts</span></div>`;
     }).join('');
     sec.innerHTML=`<div class="cat-hd">${CATS[cat]||'📋'} ${cat}</div><div class="tiles">${tiles}</div>`;
     el.appendChild(sec);
   });
 }
-
 function updLHdr(){
-  document.getElementById('lt1-n').textContent=L.t1;
-  document.getElementById('lt2-n').textContent=L.t2;
-  document.getElementById('lt1-s').textContent=L.s.t1;
-  document.getElementById('lt2-s').textContent=L.s.t2;
-  document.getElementById('aw-t1').textContent='🏆 '+L.t1;
-  document.getElementById('aw-t2').textContent='🏆 '+L.t2;
-  if(document.getElementById('lf-n1')){
-    document.getElementById('lf-n1').textContent=L.t1;
-    document.getElementById('lf-n2').textContent=L.t2;
-  }
+  document.getElementById('lt1-n').textContent=L.t1;document.getElementById('lt2-n').textContent=L.t2;
+  document.getElementById('lt1-s').textContent=L.s.t1;document.getElementById('lt2-s').textContent=L.s.t2;
+  document.getElementById('aw-t1').textContent='🏆 '+L.t1;document.getElementById('aw-t2').textContent='🏆 '+L.t2;
+  if(document.getElementById('lf-n1')){document.getElementById('lf-n1').textContent=L.t1;document.getElementById('lf-n2').textContent=L.t2;}
 }
-
 function openLQ(catEnc,idx){
-  const cat=decodeURIComponent(catEnc);
-  const q=L.board[cat][idx];if(q.used)return;
+  const cat=decodeURIComponent(catEnc);const q=L.board[cat][idx];if(q.used)return;
   L.curQ={cat,idx,q};L.awarded=false;L.ansRevealed=false;
   document.getElementById('lm-cat').textContent=(CATS[cat]||'')+' '+cat;
   document.getElementById('lm-pts').textContent=q.pts+' pts';
   document.getElementById('lm-q').textContent=q.q;
-  // Render options (no onclick on options — host controls)
-  document.getElementById('lm-opts').innerHTML=q.opts.map((o,i)=>`
-    <div class="lopt" id="lo${i}">
-      <span class="lo">${'ABCD'[i]}</span>${o}
-    </div>`).join('');
-  // Show "Show Answer" button, hide award section
+  document.getElementById('lm-opts').innerHTML=q.opts.map((o,i)=>`<div class="lopt" id="lo${i}"><span class="lo">${'ABCD'[i]}</span>${o}</div>`).join('');
   document.getElementById('show-ans-btn').style.display='block';
   document.getElementById('award-sec').style.display='none';
   document.getElementById('aw-badge').style.display='none';
   document.getElementById('lm-next').style.display='none';
   updLHdr();
-  // Start timer counting UP
   clearInterval(L.timer);L.secs=0;
   document.getElementById('lt-num').textContent='0:00';
   document.getElementById('lt-fg').style.width='0%';
   document.getElementById('lt-fg').className='ltfg';
   L.timer=setInterval(()=>{
-    L.secs++;
-    const m=Math.floor(L.secs/60),s=L.secs%60;
+    L.secs++;const m=Math.floor(L.secs/60),s=L.secs%60;
     document.getElementById('lt-num').textContent=m+':'+(s<10?'0':'')+s;
     const pct=Math.min((L.secs/120)*100,100);
     document.getElementById('lt-fg').style.width=pct+'%';
@@ -1305,122 +1113,328 @@ function openLQ(catEnc,idx){
   },1000);
   document.getElementById('lmodal').classList.add('on');
 }
-
 function revealLocalAns(){
-  // Reveal correct answer visually on MCQ options
   const q=L.curQ.q;
-  document.querySelectorAll('#lm-opts .lopt').forEach((btn,i)=>{
-    if(q.opts[i]===q.a)btn.classList.add('ok');
-  });
+  document.querySelectorAll('#lm-opts .lopt').forEach((btn,i)=>{if(q.opts[i]===q.a)btn.classList.add('ok');});
   L.ansRevealed=true;
   document.getElementById('show-ans-btn').style.display='none';
   document.getElementById('award-sec').style.display='flex';
 }
-
 function awardPts(team){
-  if(L.awarded)return;L.awarded=true;
-  clearInterval(L.timer);
+  if(L.awarded)return;L.awarded=true;clearInterval(L.timer);
   const q=L.curQ.q;const badge=document.getElementById('aw-badge');
-  if(team==='t1'){
-    L.s.t1+=q.pts;L.board[L.curQ.cat][L.curQ.idx].usedBy='t1';
-    badge.className='aw-badge t1';badge.textContent='🏆 '+L.t1+' +'+q.pts+' pts!';
-  }else if(team==='t2'){
-    L.s.t2+=q.pts;L.board[L.curQ.cat][L.curQ.idx].usedBy='t2';
-    badge.className='aw-badge t2';badge.textContent='🏆 '+L.t2+' +'+q.pts+' pts!';
-  }else{
-    L.board[L.curQ.cat][L.curQ.idx].usedBy='none';
-    badge.className='aw-badge none';badge.textContent='⏭️ No answer — 0 pts';
-  }
+  if(team==='t1'){L.s.t1+=q.pts;L.board[L.curQ.cat][L.curQ.idx].usedBy='t1';badge.className='aw-badge t1';badge.textContent='🏆 '+L.t1+' +'+q.pts+' pts!';}
+  else if(team==='t2'){L.s.t2+=q.pts;L.board[L.curQ.cat][L.curQ.idx].usedBy='t2';badge.className='aw-badge t2';badge.textContent='🏆 '+L.t2+' +'+q.pts+' pts!';}
+  else{L.board[L.curQ.cat][L.curQ.idx].usedBy='none';badge.className='aw-badge none';badge.textContent='⏭️ No answer — 0 pts';}
   L.board[L.curQ.cat][L.curQ.idx].used=true;
-  // Reveal correct answer if not already shown
-  if(!L.ansRevealed){
-    document.querySelectorAll('#lm-opts .lopt').forEach((b,i)=>{
-      if(L.curQ.q.opts[i]===L.curQ.q.a)b.classList.add('ok');
-    });
-  }
-  document.getElementById('award-sec').style.display='none';
-  badge.style.display='block';
+  if(!L.ansRevealed){document.querySelectorAll('#lm-opts .lopt').forEach((b,i)=>{if(L.curQ.q.opts[i]===L.curQ.q.a)b.classList.add('ok');});}
+  document.getElementById('award-sec').style.display='none';badge.style.display='block';
   document.getElementById('lm-next').style.display='block';
   updLHdr();updLBoard();
 }
-
 function closeLocalQ(){
-  clearInterval(L.timer);
-  document.getElementById('lmodal').classList.remove('on');
-  const all=L.selCats.every(c=>L.board[c].every(q=>q.used));
-  if(all)showLRes();
+  clearInterval(L.timer);document.getElementById('lmodal').classList.remove('on');
+  const all=L.selCats.every(c=>L.board[c].every(q=>q.used));if(all)showLRes();
 }
-
 function showLRes(){
   go('sc-lres');
-  const s1=L.s.t1,s2=L.s.t2;
-  const w=s1>s2?L.t1:s2>s1?L.t2:'🤝 Tie!';
+  const s1=L.s.t1,s2=L.s.t2;const w=s1>s2?L.t1:s2>s1?L.t2:'🤝 Tie!';
   document.getElementById('lf-win').textContent=w;
   document.getElementById('lf-wsc').textContent=w==='🤝 Tie!'?'Equal scores!':'Total: '+Math.max(s1,s2)+' pts';
-  document.getElementById('lf-s1').textContent=s1;
-  document.getElementById('lf-s2').textContent=s2;
+  document.getElementById('lf-s1').textContent=s1;document.getElementById('lf-s2').textContent=s2;
+}
+function resetLocal(){L.selCats=[];L.s={t1:0,t2:0};L.board={};L.curQ=null;clearInterval(L.timer);L.awarded=false;L.ansRevealed=false;}
+
+// ══════════════════════════════════════════
+// GO FAST MODE — Multiplayer via Firebase
+// Each player joins with code, plays 60s simultaneously
+// ══════════════════════════════════════════
+let GF = {
+  // Shared
+  code: null,
+  isHost: false,
+  myName: null,
+  myId: null,        // unique player ID
+  selCats: [],
+  qs: [],            // question pool (same for all, stored in Firebase)
+  subs: [],
+  // Per-player game state
+  qi: 0,
+  score: 0,
+  answered: 0,
+  timer: null,
+  timeLeft: 60,
+  done: false
+};
+
+function updGFCatInfo(){
+  const n=GF.selCats.length,el=document.getElementById('gf-cinfo'),btn=document.getElementById('gf-create-btn');
+  if(n===2){el.className='cinfo ok';el.textContent='✅ 2 categories selected!';btn.disabled=false;}
+  else{el.className='cinfo bad';el.textContent='Select exactly 2 ('+n+'/2)';btn.disabled=true;}
 }
 
-function resetLocal(){
-  L.selCats=[];L.s={t1:0,t2:0};L.board={};L.curQ=null;clearInterval(L.timer);L.awarded=false;L.ansRevealed=false;
+async function createGFRoom(){
+  if(!window._fbReady){toast('Firebase not ready!');return;}
+  const name=document.getElementById('gf-host-name').value.trim();
+  if(!name){toast('Enter your name!');return;}
+  if(GF.selCats.length!==2){toast('Select exactly 2 categories!');return;}
+  const pool=rnd(QB.filter(q=>GF.selCats.includes(q.c)));
+  // Prepare large pool with options pre-generated
+  GF.qs=pool.map(q=>({...q,opts:mkOpts(q)}));
+  const code=genCode();
+  GF.code=code;GF.isHost=true;GF.myName=name;
+  GF.myId='p_'+Date.now()+'_'+Math.random().toString(36).slice(2,6);
+  await window._set(window._ref(window._db,'gfrooms/'+code),{
+    status:'waiting',
+    cats:GF.selCats,
+    qs:GF.qs,
+    host:name,
+    hostId:GF.myId,
+    players:{},
+    created:Date.now()
+  });
+  // Register host as player
+  await window._set(window._ref(window._db,'gfrooms/'+code+'/players/'+GF.myId),{name,score:0,answered:0,done:false,joined:Date.now()});
+  showGFLobby();
+  listenGFRoom();
 }
 
-// ════════════════════════════════════════
-// ADMIN
-// ════════════════════════════════════════
-function initAdmCat(){
-  const s=document.getElementById('adm-cat');
-  s.innerHTML=Object.keys(CATS).map(c=>`<option value="${c}">${c}</option>`).join('');
+async function joinGFRoom(){
+  if(!window._fbReady){toast('Firebase not ready!');return;}
+  const name=document.getElementById('gfj-name').value.trim();
+  const code=document.getElementById('gfj-code').value.trim().toUpperCase();
+  if(!name){toast('Enter your name!');return;}
+  if(!code){toast('Enter room code!');return;}
+  const snap=await window._get(window._ref(window._db,'gfrooms/'+code));
+  if(!snap.exists()){toast('Room not found!');return;}
+  const d=snap.val();
+  if(d.status==='playing'){toast('Game already started!');return;}
+  if(d.status==='finished'){toast('Game is over!');return;}
+  GF.code=code;GF.isHost=false;GF.myName=name;
+  GF.qs=d.qs;GF.selCats=d.cats;
+  GF.myId='p_'+Date.now()+'_'+Math.random().toString(36).slice(2,6);
+  // Register player
+  await window._set(window._ref(window._db,'gfrooms/'+code+'/players/'+GF.myId),{name,score:0,answered:0,done:false,joined:Date.now()});
+  go('sc-gf-waiting');
+  document.getElementById('gf-joined-name').textContent='✅ '+name+' — Ready!';
+  listenGFRoom();
 }
 
-function addQ(){
-  const cat=document.getElementById('adm-cat').value;
-  const q=document.getElementById('adm-q').value.trim();
-  const a=document.getElementById('adm-a').value.trim();
-  const wStr=document.getElementById('adm-w').value.trim();
-  const w=wStr.split('|').map(s=>s.trim()).filter(Boolean);
-  if(!q||!a){toast('Fill question and answer!');return;}
-  if(w.length<3){toast('Need 3 wrong options!');return;}
-  localQuestions.push({c:cat,q,a,w:w.slice(0,3)});
-  localStorage.setItem('dlq',JSON.stringify(localQuestions));
-  document.getElementById('adm-q').value='';
-  document.getElementById('adm-a').value='';
-  document.getElementById('adm-w').value='';
-  renderAdmList();toast('✅ Added to '+cat+'!');
+function showGFLobby(){
+  go('sc-gf-lobby');
+  document.getElementById('gf-code-display').textContent=GF.code;
+  updGFLobbyPlayers();
 }
 
-function delQ(i){
-  localQuestions.splice(i,1);
-  localStorage.setItem('dlq',JSON.stringify(localQuestions));
-  renderAdmList();toast('🗑️ Deleted');
+function updGFLobbyPlayers(){
+  // Will be updated by listener
 }
 
-function renderAdmList(){
-  const cat=document.getElementById('adm-cat').value;
-  const list=document.getElementById('adm-list');
-  const f=localQuestions.map((q,i)=>({...q,i})).filter(q=>q.c===cat);
-  if(!f.length){list.innerHTML='<div style="font-family:var(--fm);font-size:0.72rem;color:var(--mt);text-align:center;padding:16px;">No questions in this category yet.</div>';return;}
-  list.innerHTML=f.map(q=>`<div class="qi"><div class="qi-body"><div class="qi-q">${q.q}</div><div class="qi-a">✅ ${q.a}</div></div><button class="qi-del" onclick="delQ(${q.i})">🗑️</button></div>`).join('');
+function listenGFRoom(){
+  const r=window._ref(window._db,'gfrooms/'+GF.code);
+  const u=window._onValue(r,snap=>{
+    if(!snap.exists())return;
+    const d=snap.val();
+    const players=d.players||{};
+    const pList=Object.values(players);
+    // Update lobby UI
+    if(document.getElementById('sc-gf-lobby').classList.contains('on')||document.getElementById('gf-lobby-wait')){
+      document.getElementById('gf-pcount').textContent=pList.length;
+      document.getElementById('gf-pcount2').textContent=pList.length;
+      const el=document.getElementById('gf-plist');
+      if(el){el.innerHTML=pList.map(p=>`<div class="gf-pslot joined"><div class="pdot"></div><div>${p.name}</div></div>`).join('');}
+    }
+    // Start game for everyone when host triggers
+    if(d.status==='playing'&&!GF.done){
+      GF.qs=d.qs;
+      startGFGameForMe();
+    }
+    // Show results when all done
+    if(d.status==='finished'){
+      showGFResultsScreen(players);
+    }
+    // Play again
+    if(d.status==='waiting'&&GF.done){
+      GF.done=false;GF.qi=0;GF.score=0;GF.answered=0;
+      go('sc-gf-waiting');
+      document.getElementById('gf-joined-name').textContent='✅ '+GF.myName+' — Ready!';
+    }
+  });
+  GF.subs.push(u);
 }
 
-// ════════════════════════════════════════
-// INIT
-// ════════════════════════════════════════
+async function startGFGame(){
+  if(!GF.isHost){return;}
+  // Trigger game start in Firebase
+  await window._update(window._ref(window._db,'gfrooms/'+GF.code),{status:'playing'});
+}
+
+function startGFGameForMe(){
+  // Show countdown then start
+  GF.qi=0;GF.score=0;GF.answered=0;GF.done=false;
+  GF.timeLeft=60;
+  const cd=document.getElementById('gf-countdown');
+  const cdNum=document.getElementById('gf-cd-num');
+  const cdName=document.getElementById('gf-cd-name');
+  cdName.textContent=GF.myName;
+  cd.classList.add('on');
+  let c=3;cdNum.textContent=c;
+  const t=setInterval(()=>{
+    c--;
+    if(c<=0){clearInterval(t);cd.classList.remove('on');launchGFGame();}
+    else{cdNum.textContent=c;}
+  },1000);
+}
+
+function launchGFGame(){
+  go('sc-gf-game');
+  document.getElementById('gf-my-name-badge').textContent='⚡ '+GF.myName;
+  document.getElementById('gf-live-score').textContent='0';
+  document.getElementById('gf-qnum').textContent='1';
+  renderGFQuestion();
+  startGFTimer();
+}
+
+function startGFTimer(){
+  clearInterval(GF.timer);
+  const upd=()=>{
+    const pct=(GF.timeLeft/60)*100;
+    document.getElementById('gf-tfill').style.width=pct+'%';
+    document.getElementById('gf-tfill').className='gf-tfill'+(pct<=30?' warn':'');
+    document.getElementById('gf-tsec').textContent=GF.timeLeft+'s';
+  };
+  upd();
+  GF.timer=setInterval(()=>{
+    GF.timeLeft--;upd();
+    if(GF.timeLeft<=0){clearInterval(GF.timer);endGFGame();}
+  },1000);
+}
+
+function renderGFQuestion(){
+  const q=GF.qs[GF.qi%GF.qs.length];
+  document.getElementById('gf-qcat').textContent=(CATS[q.c]||'')+' '+q.c;
+  document.getElementById('gf-qtxt').textContent=q.q;
+  document.getElementById('gf-qnum').textContent=GF.qi+1;
+  document.getElementById('gf-qopts').innerHTML=q.opts.map((o,i)=>`
+    <button class="mopt" onclick="gfAnswer(this,'${encodeURIComponent(o)}','${encodeURIComponent(q.a)}')">
+      <span class="ol">${'ABCD'[i]}</span>${o}
+    </button>`).join('');
+}
+
+function gfAnswer(btn,oEnc,aEnc){
+  const o=decodeURIComponent(oEnc),a=decodeURIComponent(aEnc);
+  const correct=o===a;
+  document.querySelectorAll('#gf-qopts .mopt').forEach(b=>b.disabled=true);
+  const q=GF.qs[GF.qi%GF.qs.length];
+  document.querySelectorAll('#gf-qopts .mopt').forEach((b,i)=>{
+    if(q.opts[i]===a)b.classList.add('ok');
+    else if(b===btn&&!correct)b.classList.add('bad');
+  });
+  GF.answered++;
+  if(correct)GF.score++;
+  document.getElementById('gf-live-score').textContent=GF.score;
+  // Flash
+  const fl=document.getElementById('gf-flash-ovl');
+  const fi=document.getElementById('gf-flash-inner');
+  fi.textContent=correct?'✅ +1':'❌';
+  fi.className='gf-flash-inner'+(correct?' ok':' bad');
+  // Color
+  fi.style.color=correct?'var(--c3)':'var(--c2)';
+  fl.classList.add('on');
+  setTimeout(()=>{
+    fl.classList.remove('on');
+    GF.qi++;
+    renderGFQuestion();
+  },280);
+}
+
+async function endGFGame(){
+  clearInterval(GF.timer);GF.done=true;
+  // Save score to Firebase
+  if(GF.myId&&GF.code){
+    await window._update(window._ref(window._db,'gfrooms/'+GF.code+'/players/'+GF.myId),{score:GF.score,answered:GF.answered,done:true});
+    // Check if all players done — host checks
+    if(GF.isHost){
+      // Wait a moment then check all players
+      setTimeout(async()=>await checkAllGFDone(),2000);
+    }
+  }
+  // Show waiting screen
+  document.getElementById('gf-waiting-res').classList.add('on');
+  document.getElementById('gf-wait-score').textContent=GF.score;
+  // Hide game
+  document.getElementById('sc-gf-game').style.display='none';
+}
+
+async function checkAllGFDone(){
+  const snap=await window._get(window._ref(window._db,'gfrooms/'+GF.code+'/players'));
+  if(!snap.exists())return;
+  const players=snap.val();
+  const allDone=Object.values(players).every(p=>p.done);
+  if(allDone){
+    await window._update(window._ref(window._db,'gfrooms/'+GF.code),{status:'finished'});
+  } else {
+    // Keep checking every 3 seconds
+    setTimeout(async()=>await checkAllGFDone(),3000);
+  }
+}
+
+function showGFResultsScreen(players){
+  document.getElementById('gf-waiting-res').classList.remove('on');
+  go('sc-gf-results');
+  const sorted=Object.values(players).sort((a,b)=>b.score-a.score||(a.answered-b.answered));
+  const medals=['🥇','🥈','🥉'];
+  const rankCls=['r1','r2','r3'];
+  document.getElementById('gf-podium').innerHTML=sorted.map((p,i)=>`
+    <div class="gf-place ${rankCls[i]||''}">
+      <div class="gf-medal">${medals[i]||'🎖️'}</div>
+      <div class="gf-pname">${p.name}${p.name===GF.myName?' 👈':''}</div>
+      <div class="gf-pscore"><span>${p.score}</span>${p.answered} answered</div>
+    </div>`).join('');
+  // Show play again only for host
+  document.getElementById('gf-play-again-btn').style.display=GF.isHost?'block':'none';
+}
+
+async function playAgainGF(){
+  if(!GF.isHost)return;
+  // Reset all players and restart waiting
+  const snap=await window._get(window._ref(window._db,'gfrooms/'+GF.code+'/players'));
+  if(!snap.exists())return;
+  const players=snap.val();
+  const updates={};
+  Object.keys(players).forEach(id=>{updates['players/'+id+'/score']=0;updates['players/'+id+'/answered']=0;updates['players/'+id+'/done']=false;});
+  updates.status='waiting';
+  // New question pool
+  const pool=rnd(QB.filter(q=>GF.selCats.includes(q.c)));
+  GF.qs=pool.map(q=>({...q,opts:mkOpts(q)}));
+  updates.qs=GF.qs;
+  await window._update(window._ref(window._db,'gfrooms/'+GF.code),updates);
+  go('sc-gf-lobby');showGFLobby();
+}
+
+function leaveGFRoom(){
+  GF.subs.forEach(u=>u&&u());GF.subs=[];
+  if(GF.code&&GF.myId){window._remove(window._ref(window._db,'gfrooms/'+GF.code+'/players/'+GF.myId)).catch(()=>{});}
+  clearInterval(GF.timer);
+  go('sc-land');resetGF();
+}
+
+function resetGF(){
+  GF.subs.forEach(u=>u&&u());GF.subs=[];clearInterval(GF.timer);
+  GF.code=null;GF.isHost=false;GF.myName=null;GF.myId=null;
+  GF.selCats=[];GF.qs=[];GF.qi=0;GF.score=0;GF.answered=0;GF.done=false;GF.timeLeft=60;
+  // Rebuild cat grid
+  mkCatGrid('gf-cats',GF.selCats,'sc4',2,updGFCatInfo);updGFCatInfo();
+}
+
+// Also add "Join Go Fast Room" entry from landing
+function goToGFJoin(){go('sc-gf-join');}
+
+// ════════ INIT ════════
 document.addEventListener('DOMContentLoaded',()=>{
-  // Online cat grid
   mkCatGrid('cn-cats',O.selCats,'sc1',4,updOnlineCatInfo);
-  // Local cat grid
   mkCatGrid('lc-cats',L.selCats,'sc3',6,updLocalCatInfo);
-  // Admin
-  initAdmCat();
-  renderAdmList();
-  document.getElementById('adm-cat').addEventListener('change',renderAdmList);
-  // Join button on landing
-  const joinBtn=document.createElement('div');
-  joinBtn.className='lcard c1';joinBtn.style.cssText='grid-column:1/-1;margin-top:-4px;';
-  joinBtn.innerHTML='<div class="ico">🔗</div><h3>Join Room</h3><p>Enter a room code to join</p>';
-  joinBtn.onclick=()=>go('sc-join');
-  document.querySelector('.land-grid').appendChild(joinBtn);
+  mkCatGrid('gf-cats',GF.selCats,'sc4',2,updGFCatInfo);
 });
 </script>
 
