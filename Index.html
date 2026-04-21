@@ -456,6 +456,12 @@ select option { background: var(--card); }
       <h3>Join Room</h3>
       <p>Enter a room code to join an existing battle</p>
     </div>
+    <div class="action-card" onclick="showScreen('screen-local-setup')" style="border-color:#1e2530;">
+  <div class="icon">🎮</div>
+  <h3>Local Battle</h3>
+  <p>جهاز واحد — فريقان، سين وجيم</p>
+</div>
+
     <div class="action-card admin-card" onclick="showScreen('screen-admin')">
       <div class="icon">🛠️</div>
       <h3>Manage Questions</h3>
@@ -585,6 +591,79 @@ select option { background: var(--card); }
       </div>
     </div>
   </div>
+</div>
+<!-- LOCAL SETUP -->
+<div id="screen-local-setup" class="screen">
+  <div class="form-wrap" style="max-width:520px;">
+    <div class="stitle" style="color:#b8ff57">Local <span style="color:#b8ff57">Battle</span> 🎮</div>
+    <div class="fg"><label>Team 1 Name</label>
+      <input type="text" id="lt1" placeholder="Dentists" maxlength="16"></div>
+    <div class="fg"><label>Team 2 Name</label>
+      <input type="text" id="lt2" placeholder="Doctors" maxlength="16"></div>
+    <div class="fg"><label>Select exactly 6 categories</label>
+      <div class="cat-grid" id="lc-cats"></div>
+      <div class="cat-info warn" id="lc-cat-info">Select 6 categories (0/6)</div></div>
+    <button class="btn btn-g" id="lc-btn" onclick="startLocal()" disabled>Start! 🎮</button>
+    <button class="btn btn-s" onclick="showScreen('screen-landing')">← Back</button>
+  </div>
+</div>
+
+<div id="screen-local-game" class="screen" style="padding:0;align-items:stretch;justify-content:flex-start;flex-direction:column;min-height:100vh;">
+  <div style="display:flex;background:#111318;border-bottom:1px solid #1e2530;min-height:66px;">
+    <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px;border-bottom:3px solid #00e5ff;">
+      <span style="font-family:'DM Mono',monospace;font-size:0.58rem;color:#5a6475;text-transform:uppercase;letter-spacing:1px;" id="lt1-name">Team 1</span>
+      <span style="font-size:1.4rem;font-weight:800;color:#00e5ff;" id="lt1-score">0</span>
+    </div>
+    <div style="display:flex;align-items:center;padding:0 12px;"><span style="font-family:'DM Mono',monospace;font-size:0.6rem;color:#5a6475;">VS</span></div>
+    <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px;border-bottom:3px solid #ff4d6d;">
+      <span style="font-family:'DM Mono',monospace;font-size:0.58rem;color:#5a6475;text-transform:uppercase;letter-spacing:1px;" id="lt2-name">Team 2</span>
+      <span style="font-size:1.4rem;font-weight:800;color:#ff4d6d;" id="lt2-score">0</span>
+    </div>
+  </div>
+  <div style="flex:1;overflow-y:auto;padding:14px;">
+    <div style="font-family:'DM Mono',monospace;font-size:0.66rem;color:#5a6475;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;text-align:center;">SELECT A QUESTION</div>
+    <div id="local-board"></div>
+  </div>
+  <div style="padding:10px 14px;border-top:1px solid #1e2530;">
+    <button class="btn btn-s" style="font-size:0.78rem;padding:9px;" onclick="if(confirm('End game?'))showLocalResults();">🏁 End Game</button>
+  </div>
+</div>
+
+<div id="lqmodal" style="position:fixed;inset:0;z-index:200;background:rgba(10,12,16,0.97);backdrop-filter:blur(16px);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px;opacity:0;pointer-events:none;transition:opacity 0.3s;">
+  <div style="background:#161a22;border-radius:20px;padding:22px;width:100%;max-width:500px;display:flex;flex-direction:column;gap:14px;max-height:90vh;overflow-y:auto;">
+    <div style="display:flex;align-items:center;justify-content:space-between;">
+      <span style="font-family:'DM Mono',monospace;font-size:0.65rem;color:#b8ff57;letter-spacing:1px;text-transform:uppercase;" id="lq-cat">Category</span>
+      <span style="font-family:'DM Mono',monospace;font-size:0.8rem;color:#b8ff57;font-weight:700;" id="lq-pts">10 pts</span>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+      <div style="font-family:'DM Mono',monospace;font-size:1rem;font-weight:700;color:#b8ff57;" id="lt-num">0:00</div>
+      <div style="width:100%;height:7px;background:#1e2530;border-radius:4px;overflow:hidden;">
+        <div id="lt-bar" style="height:100%;background:#b8ff57;border-radius:4px;width:0%;transition:width 1s linear;"></div>
+      </div>
+    </div>
+    <div style="font-size:1rem;font-weight:700;line-height:1.5;background:#111318;border-radius:10px;padding:14px;" id="lq-txt">Question</div>
+    <div id="lq-opts" style="display:flex;flex-direction:column;gap:8px;"></div>
+    <div id="award-section" style="display:flex;flex-direction:column;gap:8px;">
+      <div style="font-family:'DM Mono',monospace;font-size:0.63rem;color:#5a6475;letter-spacing:2px;text-transform:uppercase;text-align:center;">Award Points To:</div>
+      <div style="display:flex;gap:7px;">
+        <button id="award-t1" onclick="awardPts('t1')" style="flex:1;border:1.5px solid #00e5ff;border-radius:10px;padding:11px 6px;font-family:'Syne',sans-serif;font-size:0.78rem;font-weight:700;cursor:pointer;background:rgba(0,229,255,0.12);color:#00e5ff;">Team 1</button>
+        <button onclick="awardPts('none')" style="flex:1;border:1.5px solid #1e2530;border-radius:10px;padding:11px 6px;font-family:'Syne',sans-serif;font-size:0.78rem;font-weight:700;cursor:pointer;background:rgba(90,100,117,0.12);color:#5a6475;">No Answer</button>
+        <button id="award-t2" onclick="awardPts('t2')" style="flex:1;border:1.5px solid #ff4d6d;border-radius:10px;padding:11px 6px;font-family:'Syne',sans-serif;font-size:0.78rem;font-weight:700;cursor:pointer;background:rgba(255,77,109,0.12);color:#ff4d6d;">Team 2</button>
+      </div>
+    </div>
+    <div id="awarded-badge" style="display:none;text-align:center;font-family:'DM Mono',monospace;font-size:0.8rem;padding:9px;border-radius:8px;"></div>
+    <button id="lq-next" onclick="closeLocalQ()" style="display:none;" class="btn btn-g">Next Question →</button>
+  </div>
+</div>
+
+<div id="screen-local-results" class="screen">
+  <div class="stitle" style="font-size:1.8rem;color:#b8ff57">Game Over! 🏆</div>
+  <div class="fpod"><div class="wlbl">Winner</div><div class="wname" id="lf-winner">—</div><div class="wscore" id="lf-wscore"></div></div>
+  <div class="sbdown">
+    <div class="scol t1"><div class="cname" id="lf-n1">T1</div><div class="cscore" id="lf-s1">0</div></div>
+    <div class="scol t2"><div class="cname" id="lf-n2">T2</div><div class="cscore" id="lf-s2">0</div></div>
+  </div>
+  <button class="btn btn-g" onclick="showScreen('screen-landing');resetLocal();">Play Again 🔄</button>
 </div>
 
 <div class="result-overlay" id="result-overlay">
@@ -1047,6 +1126,147 @@ document.addEventListener('DOMContentLoaded',()=>{
     document.getElementById('firebase-warning') && (document.getElementById('firebase-warning').style.display='none');
   }
 });
+  // ═══ LOCAL MODE ═══
+let L={team1Name:'',team2Name:'',scores:{t1:0,t2:0},selectedCats:[],board:{},currentQ:null,timerInterval:null,timerSecs:0,awarded:false};
+
+function updateLocalCatInfo(){
+  const n=L.selectedCats.length,info=document.getElementById('lc-cat-info'),btn=document.getElementById('lc-btn');
+  if(n===6){info.className='cat-info ok';info.textContent='✅ 6 categories — ready!';btn.disabled=false;}
+  else{info.className='cat-info warn';info.textContent='Select 6 categories ('+n+'/6)';btn.disabled=true;}
+}
+
+function startLocal(){
+  L.team1Name=document.getElementById('lt1').value.trim()||'Team 1';
+  L.team2Name=document.getElementById('lt2').value.trim()||'Team 2';
+  if(L.selectedCats.length!==6){toast('Select exactly 6 categories!');return;}
+  L.scores={t1:0,t2:0};L.board={};
+  L.selectedCats.forEach(cat=>{
+    const pool=shuffle(localQuestions.filter(q=>q.cat===cat));
+    L.board[cat]=pool.slice(0,4).map((q,i)=>({...q,opts:shuffle([q.a,...(q.w||[]).slice(0,3)]),used:false,usedBy:null,pts:10*(i+1)}));
+  });
+  showScreen('screen-local-game');
+  renderLocalBoard();updateLocalHeader();
+}
+
+function renderLocalBoard(){
+  const board=document.getElementById('local-board');board.innerHTML='';
+  const icons={"General Dentistry":"🦷","Oral Surgery":"🔪","Endodontics":"🦠","Periodontics":"🩸","Orthodontics":"😬","Prosthodontics":"🦾","Pediatric Dentistry":"👶","Oral Pathology":"🔬","Oral Pharmacology":"💊","General Medicine":"🩺","Anatomy":"🧬","Microbiology":"🧫"};
+  L.selectedCats.forEach(cat=>{
+    const qs=L.board[cat];
+    const sec=document.createElement('div');sec.style.marginBottom='18px';
+    const tilesHtml=qs.map((q,i)=>{
+      const u=q.used;
+      const col=u?(q.usedBy==='t1'?'rgba(0,229,255,0.1)':q.usedBy==='t2'?'rgba(255,77,109,0.1)':'rgba(90,100,117,0.08)'):'#161a22';
+      const bc=u?(q.usedBy==='t1'?'#00e5ff':q.usedBy==='t2'?'#ff4d6d':'#1e2530'):'#1e2530';
+      const tc=u?(q.usedBy==='t1'?'#00e5ff':q.usedBy==='t2'?'#ff4d6d':'#5a6475'):'#e8edf5';
+      const label=u?(q.usedBy==='t1'?'✅':q.usedBy==='t2'?'❌':'—'):'Q'+(i+1);
+      const click=u?'':`onclick="openLocalQ('${encodeURIComponent(cat)}',${i})"`;
+      return `<div ${click} style="background:${col};border:1.5px solid ${bc};border-radius:10px;padding:10px 5px;text-align:center;cursor:${u?'default':'pointer'};font-family:'DM Mono',monospace;font-size:0.75rem;color:${tc};opacity:${u?0.65:1};">${label}<div style="font-size:0.62rem;color:#5a6475;margin-top:3px;">${q.pts}pts</div></div>`;
+    }).join('');
+    sec.innerHTML=`<div style="font-size:0.82rem;font-weight:700;margin-bottom:8px;">${icons[cat]||'📋'} ${cat}</div><div style="display:grid;grid-template-columns:repeat(4,1fr);gap:7px;">${tilesHtml}</div>`;
+    board.appendChild(sec);
+  });
+}
+
+function updateLocalHeader(){
+  document.getElementById('lt1-name').textContent=L.team1Name;
+  document.getElementById('lt2-name').textContent=L.team2Name;
+  document.getElementById('lt1-score').textContent=L.scores.t1;
+  document.getElementById('lt2-score').textContent=L.scores.t2;
+  document.getElementById('award-t1').textContent=L.team1Name;
+  document.getElementById('award-t2').textContent=L.team2Name;
+  if(document.getElementById('lf-n1')){document.getElementById('lf-n1').textContent=L.team1Name;document.getElementById('lf-n2').textContent=L.team2Name;}
+}
+
+function openLocalQ(catEnc,qIdx){
+  const cat=decodeURIComponent(catEnc);const q=L.board[cat][qIdx];if(q.used)return;
+  L.currentQ={cat,qIdx,q};L.awarded=false;
+  document.getElementById('lq-cat').textContent=cat;
+  document.getElementById('lq-pts').textContent=q.pts+' pts';
+  document.getElementById('lq-txt').textContent=q.q;
+  document.getElementById('lq-opts').innerHTML=q.opts.map((opt,i)=>`<button id="lopt-${i}" onclick="revealLocalOpt(${i},'${encodeURIComponent(opt)}','${encodeURIComponent(q.a)}')" style="background:#111318;border:1.5px solid #1e2530;border-radius:10px;padding:11px 13px;text-align:left;cursor:pointer;font-family:'Syne',sans-serif;font-size:0.84rem;color:#e8edf5;display:flex;align-items:center;gap:9px;width:100%;"><span style="width:24px;height:24px;border-radius:50%;background:#1e2530;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:0.65rem;flex-shrink:0;">${'ABCD'[i]}</span>${opt}</button>`).join('');
+  document.getElementById('award-section').style.display='flex';
+  document.getElementById('awarded-badge').style.display='none';
+  document.getElementById('lq-next').style.display='none';
+  updateLocalHeader();
+  clearInterval(L.timerInterval);L.timerSecs=0;
+  document.getElementById('lt-num').textContent='0:00';
+  document.getElementById('lt-bar').style.width='0%';
+  L.timerInterval=setInterval(()=>{
+    L.timerSecs++;
+    const m=Math.floor(L.timerSecs/60),s=L.timerSecs%60;
+    document.getElementById('lt-num').textContent=m+':'+(s<10?'0':'')+s;
+    const pct=Math.min((L.timerSecs/120)*100,100);
+    document.getElementById('lt-bar').style.width=pct+'%';
+    document.getElementById('lt-bar').style.background=pct>=100?'#ff4d6d':pct>=60?'#ffb800':'#b8ff57';
+    if(L.timerSecs>=120)clearInterval(L.timerInterval);
+  },1000);
+  document.getElementById('lqmodal').style.opacity='1';
+  document.getElementById('lqmodal').style.pointerEvents='all';
+}
+
+function revealLocalOpt(idx,optEnc,correctEnc){
+  const correct=decodeURIComponent(correctEnc);
+  document.querySelectorAll('#lq-opts button').forEach((btn,i)=>{
+    btn.disabled=true;
+    const txt=btn.textContent.slice(1).trim();
+    if(txt===correct){btn.style.borderColor='#b8ff57';btn.style.background='rgba(184,255,87,0.08)';}
+    else if(i===idx){btn.style.borderColor='#ff4d6d';btn.style.background='rgba(255,77,109,0.05)';}
+  });
+}
+
+function awardPts(team){
+  if(L.awarded)return;L.awarded=true;clearInterval(L.timerInterval);
+  const q=L.currentQ.q;const badge=document.getElementById('awarded-badge');
+  if(team==='t1'){L.scores.t1+=q.pts;L.board[L.currentQ.cat][L.currentQ.qIdx].usedBy='t1';badge.style.cssText='display:block;text-align:center;font-family:"DM Mono",monospace;font-size:0.8rem;padding:9px;border-radius:8px;color:#00e5ff;background:rgba(0,229,255,0.08);border:1px solid rgba(0,229,255,0.2)';badge.textContent='✅ '+L.team1Name+' gets '+q.pts+' pts!';}
+  else if(team==='t2'){L.scores.t2+=q.pts;L.board[L.currentQ.cat][L.currentQ.qIdx].usedBy='t2';badge.style.cssText='display:block;text-align:center;font-family:"DM Mono",monospace;font-size:0.8rem;padding:9px;border-radius:8px;color:#ff4d6d;background:rgba(255,77,109,0.08);border:1px solid rgba(255,77,109,0.2)';badge.textContent='✅ '+L.team2Name+' gets '+q.pts+' pts!';}
+  else{L.board[L.currentQ.cat][L.currentQ.qIdx].usedBy='none';badge.style.cssText='display:block;text-align:center;font-family:"DM Mono",monospace;font-size:0.8rem;padding:9px;border-radius:8px;color:#5a6475;background:rgba(90,100,117,0.06);border:1px solid #1e2530';badge.textContent='⏭️ No points awarded';}
+  L.board[L.currentQ.cat][L.currentQ.qIdx].used=true;
+  document.querySelectorAll('#lq-opts button').forEach(btn=>{btn.disabled=true;if(btn.textContent.slice(1).trim()===q.a){btn.style.borderColor='#b8ff57';btn.style.background='rgba(184,255,87,0.08)';}});
+  document.getElementById('award-section').style.display='none';
+  document.getElementById('lq-next').style.display='block';
+  updateLocalHeader();renderLocalBoard();
+}
+
+function closeLocalQ(){
+  clearInterval(L.timerInterval);
+  document.getElementById('lqmodal').style.opacity='0';
+  document.getElementById('lqmodal').style.pointerEvents='none';
+  const allUsed=L.selectedCats.every(cat=>L.board[cat].every(q=>q.used));
+  if(allUsed)showLocalResults();
+}
+
+function showLocalResults(){
+  showScreen('screen-local-results');
+  const s1=L.scores.t1,s2=L.scores.t2;
+  const winner=s1>s2?L.team1Name:s2>s1?L.team2Name:'🤝 Tie!';
+  document.getElementById('lf-winner').textContent=winner;
+  document.getElementById('lf-wscore').textContent=winner==='🤝 Tie!'?'Equal scores!':'Total: '+Math.max(s1,s2)+' pts';
+  document.getElementById('lf-s1').textContent=s1;document.getElementById('lf-s2').textContent=s2;
+}
+
+function resetLocal(){L.selectedCats=[];L.scores={t1:0,t2:0};L.board={};L.currentQ=null;clearInterval(L.timerInterval);L.awarded=false;}
+
+// Init local cats
+(function(){
+  document.addEventListener('DOMContentLoaded',()=>{
+    const lcCats=document.getElementById('lc-cats');
+    if(!lcCats)return;
+    const icons={"General Dentistry":"🦷","Oral Surgery":"🔪","Endodontics":"🦠","Periodontics":"🩸","Orthodontics":"😬","Prosthodontics":"🦾","Pediatric Dentistry":"👶","Oral Pathology":"🔬","Oral Pharmacology":"💊","General Medicine":"🩺","Anatomy":"🧬","Microbiology":"🧫"};
+    Object.entries(icons).forEach(([name,icon])=>{
+      const chip=document.createElement('div');
+      chip.className='cat-chip';chip.textContent=icon+' '+name;
+      chip.onclick=()=>{
+        const idx=L.selectedCats.indexOf(name);
+        if(idx>-1){L.selectedCats.splice(idx,1);chip.style.background='';chip.style.borderColor='';chip.style.color='';}
+        else{if(L.selectedCats.length>=6){toast('Max 6!');return;}L.selectedCats.push(name);chip.style.background='rgba(184,255,87,0.1)';chip.style.borderColor='#b8ff57';chip.style.color='#b8ff57';}
+        updateLocalCatInfo();
+      };
+      lcCats.appendChild(chip);
+    });
+  });
+})();
+
 </script>
 </body>
 </html>
