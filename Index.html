@@ -285,22 +285,32 @@ select option{background:var(--s2);}
       <div class="ico">🎮</div><h3>Local Battle</h3>
       <p>One device — two teams</p>
     </div>
-    <div class="lcard c4 full" onclick="go('sc-gf-setup')" style="padding:18px;">
-      <div style="display:flex;align-items:center;justify-content:center;gap:12px;">
-        <span style="font-size:2rem;">⚡</span>
-        <div style="text-align:left;">
-          <h3 style="font-size:1rem;color:var(--c4);">Go Fast</h3>
-          <p>Each player joins with a code — 60 seconds, most correct wins!</p>
-        </div>
-      </div>
+    <div class="lcard c4" onclick="go('sc-gf-setup')">
+      <div class="ico">⚡</div>
+      <h3 style="color:var(--c4);">Go Fast</h3>
+      <p>Create a room — 60s, most correct wins!</p>
+    </div>
+    <div class="lcard c4" onclick="go('sc-gf-join')" style="border-style:dashed;">
+      <div class="ico">⚡🔗</div>
+      <h3 style="color:var(--c4);">Join Go Fast</h3>
+      <p>Enter a code to join a Go Fast room</p>
     </div>
     <div class="lcard c1 full" onclick="go('sc-join')" style="padding:14px;">
       <div style="display:flex;align-items:center;justify-content:center;gap:10px;">
         <span style="font-size:1.3rem;">🔗</span>
-        <div style="text-align:left;"><h3>Join Online Room</h3><p style="font-family:var(--fm);font-size:0.6rem;color:var(--mt);">Enter a code to join online battle</p></div>
+        <div style="text-align:left;"><h3>Join Online Battle</h3><p style="font-family:var(--fm);font-size:0.6rem;color:var(--mt);">Enter a code to join online battle</p></div>
       </div>
     </div>
   </div>
+  <!-- Instagram -->
+  <a href="https://www.instagram.com/dent.list" target="_blank" style="display:flex;align-items:center;gap:9px;text-decoration:none;margin-top:4px;opacity:0.7;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="2" y="2" width="20" height="20" rx="5" stroke="#e8edf5" stroke-width="1.8"/>
+      <circle cx="12" cy="12" r="4.5" stroke="#e8edf5" stroke-width="1.8"/>
+      <circle cx="17.5" cy="6.5" r="1" fill="#e8edf5"/>
+    </svg>
+    <span style="font-family:var(--fm);font-size:0.72rem;color:var(--tx);letter-spacing:1px;">@dent.list</span>
+  </a>
 </div>
 
 <!-- ONLINE CREATE -->
@@ -412,7 +422,10 @@ select option{background:var(--s2);}
     <div class="scol p1"><div class="cn" id="f-n1">P1</div><div class="cs" id="f-s1">0</div></div>
     <div class="scol p2"><div class="cn" id="f-n2">P2</div><div class="cs" id="f-s2">0</div></div>
   </div>
-  <button class="btn btn-c" onclick="go('sc-land');resetOnline();">Play Again 🔄</button>
+  <div class="row2" style="max-width:420px;width:100%;">
+    <button class="btn btn-c" onclick="go('sc-land');resetOnline();">Play Again 🔄</button>
+    <button class="btn btn-o" onclick="go('sc-land');resetOnline();">← Menu</button>
+  </div>
 </div>
 
 <!-- LOCAL SETUP -->
@@ -484,7 +497,10 @@ select option{background:var(--s2);}
     <div class="scol p1"><div class="cn" id="lf-n1">T1</div><div class="cs" id="lf-s1">0</div></div>
     <div class="scol p2"><div class="cn" id="lf-n2">T2</div><div class="cs" id="lf-s2">0</div></div>
   </div>
-  <button class="btn btn-g" onclick="go('sc-land');resetLocal();">Play Again 🔄</button>
+  <div class="row2" style="max-width:420px;width:100%;">
+    <button class="btn btn-g" onclick="go('sc-land');resetLocal();">Play Again 🔄</button>
+    <button class="btn btn-o" onclick="go('sc-land');resetLocal();">← Menu</button>
+  </div>
 </div>
 
 <!-- ══════════════════════════════
@@ -605,8 +621,10 @@ select option{background:var(--s2);}
 <div id="sc-gf-results" class="sc">
   <div class="stl o" style="font-size:1.7rem;">Go Fast <span>Results!</span> ⚡</div>
   <div class="gf-podium" id="gf-podium"></div>
-  <button class="btn btn-y" style="max-width:400px;width:100%;" onclick="go('sc-land');resetGF();">Back to Menu</button>
-  <button class="btn btn-o" style="max-width:400px;width:100%;" id="gf-play-again-btn" onclick="playAgainGF()">🔄 Play Again (same room)</button>
+  <div style="max-width:400px;width:100%;display:flex;flex-direction:column;gap:9px;">
+    <button class="btn btn-y" id="gf-play-again-btn" onclick="playAgainGF()">🔄 Play Again (same room)</button>
+    <button class="btn btn-o" onclick="go('sc-land');resetGF();">← Back to Menu</button>
+  </div>
 </div>
 
 <div class="toast" id="toast"></div>
