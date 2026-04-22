@@ -16,48 +16,37 @@ const db=getDatabase(app);
 const auth=getAuth(app);
 window._db=db;window._ref=ref;window._set=set;window._get=get;window._onValue=onValue;window._update=update;window._remove=remove;
 window._fbReady=true;window.dispatchEvent(new Event('fbReady'));
-// ── AUTH STATE ──
 onAuthStateChanged(auth,(user)=>{
   const bar=document.getElementById('user-bar');
-  const nameEl=document.getElementById('user-name');
-  const loginBtn=document.getElementById('btn-login');
-  const logoutBtn=document.getElementById('btn-logout');
   if(!bar)return;
   bar.style.display='flex';
   if(user){
-    const n=user.displayName||user.email.split('@')[0];
-    nameEl.textContent=n;nameEl.style.display='block';
-    loginBtn.style.display='none';logoutBtn.style.display='flex';
+    document.getElementById('user-name').textContent=user.displayName||user.email.split('@')[0];
+    document.getElementById('user-name').style.display='block';
+    document.getElementById('btn-login').style.display='none';
+    document.getElementById('btn-logout').style.display='flex';
   }else{
-    nameEl.textContent='';nameEl.style.display='none';
-    loginBtn.style.display='flex';logoutBtn.style.display='none';
+    document.getElementById('user-name').style.display='none';
+    document.getElementById('btn-login').style.display='flex';
+    document.getElementById('btn-logout').style.display='none';
   }
 });
 window.doLogout=async function(){await signOut(auth);window.location.reload();};
 </script>
 <style>
-:root{
-  --bg:#07090d;--s1:#0e1117;--s2:#141820;--s3:#1a2030;
-  --b1:#1e2738;--b2:#263047;
-  --c1:#00f0ff;--c2:#ff3d6b;--c3:#aaff00;--c4:#ffaa00;--c5:#b06eff;
-  --tx:#eef2ff;--mt:#6b7a99;
-  --fh:'Syne',sans-serif;--fm:'DM Mono',monospace;
-}
+:root{--bg:#07090d;--s1:#0e1117;--s2:#141820;--s3:#1a2030;--b1:#1e2738;--b2:#263047;--c1:#00f0ff;--c2:#ff3d6b;--c3:#aaff00;--c4:#ffaa00;--c5:#b06eff;--tx:#eef2ff;--mt:#6b7a99;--fh:'Syne',sans-serif;--fm:'DM Mono',monospace;}
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 html,body{height:100%;}
 body{font-family:var(--fh);background:var(--bg);color:var(--tx);overflow-x:hidden;}
 body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 50% at 20% -10%,rgba(0,240,255,0.06),transparent),radial-gradient(ellipse 60% 40% at 80% 110%,rgba(176,110,255,0.06),transparent);pointer-events:none;z-index:0;}
-/* ══ USER BAR ══ */
-#user-bar{display:none;align-items:center;justify-content:space-between;padding:9px 16px;background:var(--s1);border-bottom:1px solid var(--b1);position:sticky;top:0;z-index:100;width:100%;}
-.ub-logo{font-family:var(--fh);font-size:0.9rem;font-weight:800;background:linear-gradient(135deg,var(--c1),var(--c5));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-0.5px;}
+#user-bar{display:none;align-items:center;justify-content:space-between;padding:9px 16px;background:var(--s1);border-bottom:1px solid var(--b1);width:100%;position:relative;z-index:50;}
+.ub-logo{font-family:var(--fh);font-size:0.9rem;font-weight:800;background:linear-gradient(135deg,var(--c1),var(--c5));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
 .ub-right{display:flex;align-items:center;gap:8px;}
-#user-name{font-family:var(--fm);font-size:0.7rem;color:var(--c3);background:rgba(170,255,0,0.08);border:1px solid rgba(170,255,0,0.2);padding:4px 11px;border-radius:50px;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:none;}
-#btn-login{display:none;align-items:center;gap:6px;background:var(--c1);color:var(--bg);border:none;border-radius:8px;padding:7px 14px;font-family:var(--fh);font-size:0.78rem;font-weight:700;cursor:pointer;transition:all 0.2s;text-decoration:none;}
-#btn-login:hover{filter:brightness(1.1);}
-#btn-logout{display:none;align-items:center;gap:5px;background:transparent;color:var(--mt);border:1px solid var(--b1);border-radius:8px;padding:6px 11px;font-family:var(--fh);font-size:0.72rem;cursor:pointer;transition:all 0.2s;}
+#user-name{font-family:var(--fm);font-size:0.7rem;color:var(--c3);background:rgba(170,255,0,0.08);border:1px solid rgba(170,255,0,0.2);padding:4px 11px;border-radius:50px;display:none;}
+#btn-login{display:none;background:var(--c1);color:var(--bg);border:none;border-radius:8px;padding:7px 14px;font-family:var(--fh);font-size:0.78rem;font-weight:700;cursor:pointer;text-decoration:none;}
+#btn-logout{display:none;align-items:center;gap:5px;background:transparent;color:var(--mt);border:1px solid var(--b1);border-radius:8px;padding:6px 11px;font-family:var(--fh);font-size:0.72rem;cursor:pointer;}
 #btn-logout:hover{color:var(--c2);border-color:var(--c2);}
-/* ══ SCREENS ══ */
-.sc{display:none;position:relative;z-index:1;min-height:100dvh;flex-direction:column;align-items:center;justify-content:center;padding:20px;}
+.sc{display:none;position:relative;z-index:1;min-height:calc(100dvh - 42px);flex-direction:column;align-items:center;justify-content:center;padding:20px;}
 .sc.on{display:flex;}
 .sc.game-sc{padding:0;align-items:stretch;justify-content:flex-start;}
 .logo{font-size:clamp(3rem,11vw,5.5rem);font-weight:800;letter-spacing:-4px;line-height:1;background:linear-gradient(135deg,#00f0ff 0%,#b06eff 45%,#ff3d6b 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
@@ -275,7 +264,7 @@ select option{background:var(--s2);}
 .gf-wait-label{font-family:var(--fm);font-size:0.7rem;color:var(--mt);letter-spacing:2px;text-transform:uppercase;}
 #sc-gf-results{gap:16px;max-width:480px;width:100%;}
 .gf-podium{width:100%;display:flex;flex-direction:column;gap:8px;}
-.gf-place{display:flex;align-items:center;gap:12px;background:var(--s2);border:1px solid var(--b1);border-radius:12px;padding:14px 16px;transition:all 0.3s;}
+.gf-place{display:flex;align-items:center;gap:12px;background:var(--s2);border:1px solid var(--b1);border-radius:12px;padding:14px 16px;}
 .gf-place.r1{border-color:var(--c3);background:rgba(170,255,0,0.05);}
 .gf-place.r2{border-color:var(--c4);background:rgba(255,170,0,0.04);}
 .gf-place.r3{border-color:var(--c5);background:rgba(176,110,255,0.04);}
@@ -283,9 +272,11 @@ select option{background:var(--s2);}
 .gf-pname{font-weight:700;font-size:0.95rem;flex:1;}
 .gf-pscore{font-family:var(--fm);font-size:0.7rem;color:var(--mt);text-align:right;}
 .gf-pscore span{font-size:1.1rem;font-weight:800;color:var(--tx);display:block;}
+.ig-bar{display:flex;flex-direction:column;align-items:center;gap:7px;padding:14px 0 2px;width:100%;}
+.ig-link{display:flex;align-items:center;gap:7px;text-decoration:none;opacity:0.65;transition:opacity 0.2s;font-family:var(--fm);font-size:0.68rem;color:var(--mt);}
+.ig-link:hover{opacity:1;color:var(--tx);}
 .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--s2);border:1px solid var(--c1);color:var(--tx);font-family:var(--fm);font-size:0.73rem;padding:10px 20px;border-radius:50px;z-index:9999;opacity:0;transition:opacity 0.3s;white-space:nowrap;pointer-events:none;}
 .toast.on{opacity:1;}
-.div{width:100%;height:1px;background:var(--b1);}
 ::-webkit-scrollbar{width:3px;}::-webkit-scrollbar-track{background:var(--s1);}::-webkit-scrollbar-thumb{background:var(--b1);border-radius:2px;}
 </style>
 </head>
@@ -298,10 +289,7 @@ select option{background:var(--s2);}
   <div class="ub-right">
     <span id="user-name"></span>
     <a id="btn-login" href="auth.html">Sign In →</a>
-    <button id="btn-logout" onclick="doLogout()">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-right:4px"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-      Logout
-    </button>
+    <button id="btn-logout" onclick="doLogout()">⎋ Logout</button>
   </div>
 </div>
 
@@ -314,27 +302,21 @@ select option{background:var(--s2);}
   </div>
   <div class="land-grid">
     <div class="lcard c1" onclick="go('sc-create')">
-      <div class="ico">🌐</div><h3>Online Battle</h3>
-      <p>Two devices — real-time</p>
+      <div class="ico">🌐</div><h3>Online Battle</h3><p>Two devices — real-time</p>
     </div>
     <div class="lcard c3" onclick="go('sc-local-setup')">
-      <div class="ico">🎮</div><h3>Local Battle</h3>
-      <p>One device — two teams</p>
+      <div class="ico">🎮</div><h3>Local Battle</h3><p>One device — two teams</p>
     </div>
     <div class="lcard c4" onclick="go('sc-gf-setup')">
-      <div class="ico">⚡</div>
-      <h3 style="color:var(--c4);">Go Fast</h3>
-      <p>Create a room — 60s, most correct wins!</p>
+      <div class="ico">⚡</div><h3 style="color:var(--c4);">Go Fast</h3><p>Create a room — 60s, most correct wins!</p>
     </div>
     <div class="lcard c4" onclick="go('sc-gf-join')" style="border-style:dashed;">
-      <div class="ico">⚡🔗</div>
-      <h3 style="color:var(--c4);">Join Go Fast</h3>
-      <p>Enter a code to join a Go Fast room</p>
+      <div class="ico">⚡🔗</div><h3 style="color:var(--c4);">Join Go Fast</h3><p>Enter a code to join</p>
     </div>
     <div class="lcard c1 full" onclick="go('sc-join')" style="padding:14px;">
       <div style="display:flex;align-items:center;justify-content:center;gap:10px;">
         <span style="font-size:1.3rem;">🔗</span>
-        <div style="text-align:left;"><h3>Join Online Battle</h3><p style="font-family:var(--fm);font-size:0.6rem;color:var(--mt);">Enter a code to join online battle</p></div>
+        <div style="text-align:left;"><h3>Join Online Battle</h3><p style="font-family:var(--fm);font-size:0.6rem;color:var(--mt);">Enter a code to join</p></div>
       </div>
     </div>
     <div class="lcard full" onclick="go('sc-exam-home')" style="padding:18px;border-color:rgba(240,201,77,0.3);background:rgba(240,201,77,0.04);">
@@ -342,19 +324,19 @@ select option{background:var(--s2);}
         <span style="font-size:2rem;">📚</span>
         <div style="text-align:left;">
           <h3 style="color:#f0c94d;font-size:1rem;">General Dentistry Exam</h3>
-          <p style="font-family:var(--fm);font-size:0.6rem;color:var(--mt);">Study Mode — Show Answer flashcards</p>
+          <p style="font-family:var(--fm);font-size:0.6rem;color:var(--mt);">Study Mode — KBR · Dental Material · Flashcards</p>
         </div>
       </div>
     </div>
-  <!-- Instagram Bar -->
-  <div style="display:flex;flex-direction:column;align-items:center;gap:8px;margin-top:12px;padding-top:12px;border-top:1px solid var(--b1);width:100%;max-width:520px;">
-    <a href="https://www.instagram.com/dr.ibrahimdashty" target="_blank" style="display:flex;align-items:center;gap:9px;text-decoration:none;opacity:0.75;transition:opacity 0.2s;width:100%;justify-content:center;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.75'">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#e8edf5" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="#e8edf5" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="#e8edf5"/></svg>
-      <span style="font-family:var(--fm);font-size:0.7rem;color:var(--tx);letter-spacing:1px;">@dr.ibrahimdashty</span>
+  </div>
+  <div class="ig-bar" style="max-width:520px;">
+    <a class="ig-link" href="https://www.instagram.com/dr.ibrahimdashty" target="_blank">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+      @dr.ibrahimdashty
     </a>
-    <a href="https://www.instagram.com/dent.list" target="_blank" style="display:flex;align-items:center;gap:9px;text-decoration:none;opacity:0.75;transition:opacity 0.2s;width:100%;justify-content:center;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.75'">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#e8edf5" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="#e8edf5" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="#e8edf5"/></svg>
-      <span style="font-family:var(--fm);font-size:0.7rem;color:var(--tx);letter-spacing:1px;">@dent.list</span>
+    <a class="ig-link" href="https://www.instagram.com/dent.list" target="_blank">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+      @dent.list
     </a>
   </div>
 </div>
@@ -380,17 +362,7 @@ select option{background:var(--s2);}
     </div>
     <button class="btn btn-c" id="cn-btn" onclick="createRoom()" disabled>Create Room ⚔️</button>
     <button class="btn btn-o" onclick="go('sc-land')">← Back</button>
-  <!-- Instagram -->
-  <div style="display:flex;flex-direction:column;align-items:center;gap:7px;padding:16px 0 4px;">
-    <a href="https://www.instagram.com/dr.ibrahimdashty" target="_blank" style="display:flex;align-items:center;gap:7px;text-decoration:none;opacity:0.6;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="#6b7a99"/></svg>
-      <span style="font-family:var(--fm);font-size:0.62rem;color:var(--mt);">@dr.ibrahimdashty</span>
-    </a>
-    <a href="https://www.instagram.com/dent.list" target="_blank" style="display:flex;align-items:center;gap:7px;text-decoration:none;opacity:0.6;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="#6b7a99"/></svg>
-      <span style="font-family:var(--fm);font-size:0.62rem;color:var(--mt);">@dent.list</span>
-    </a>
-  </div>
+    <div class="ig-bar"><a class="ig-link" href="https://www.instagram.com/dr.ibrahimdashty" target="_blank"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>@dr.ibrahimdashty</a><a class="ig-link" href="https://www.instagram.com/dent.list" target="_blank"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>@dent.list</a></div>
   </div>
 </div>
 
@@ -405,17 +377,7 @@ select option{background:var(--s2);}
     </div>
     <button class="btn btn-c" onclick="joinRoom()">Join 🚀</button>
     <button class="btn btn-o" onclick="go('sc-land')">← Back</button>
-  <!-- Instagram -->
-  <div style="display:flex;flex-direction:column;align-items:center;gap:7px;padding:16px 0 4px;">
-    <a href="https://www.instagram.com/dr.ibrahimdashty" target="_blank" style="display:flex;align-items:center;gap:7px;text-decoration:none;opacity:0.6;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="#6b7a99"/></svg>
-      <span style="font-family:var(--fm);font-size:0.62rem;color:var(--mt);">@dr.ibrahimdashty</span>
-    </a>
-    <a href="https://www.instagram.com/dent.list" target="_blank" style="display:flex;align-items:center;gap:7px;text-decoration:none;opacity:0.6;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="#6b7a99"/></svg>
-      <span style="font-family:var(--fm);font-size:0.62rem;color:var(--mt);">@dent.list</span>
-    </a>
-  </div>
+    <div class="ig-bar"><a class="ig-link" href="https://www.instagram.com/dr.ibrahimdashty" target="_blank"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>@dr.ibrahimdashty</a><a class="ig-link" href="https://www.instagram.com/dent.list" target="_blank"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>@dent.list</a></div>
   </div>
 </div>
 
@@ -435,22 +397,10 @@ select option{background:var(--s2);}
     <div id="lb-start" style="display:none;width:100%;"><button class="btn btn-c" onclick="startOnline()">Start Battle! ⚔️</button></div>
     <div class="pulse" id="lb-wait"><div class="d"></div><div class="d"></div><div class="d"></div><span>Waiting...</span></div>
     <button class="btn btn-o" onclick="leaveRoom()">Leave</button>
-  <!-- Instagram -->
-  <div style="display:flex;flex-direction:column;align-items:center;gap:7px;padding:16px 0 4px;">
-    <a href="https://www.instagram.com/dr.ibrahimdashty" target="_blank" style="display:flex;align-items:center;gap:7px;text-decoration:none;opacity:0.6;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="#6b7a99"/></svg>
-      <span style="font-family:var(--fm);font-size:0.62rem;color:var(--mt);">@dr.ibrahimdashty</span>
-    </a>
-    <a href="https://www.instagram.com/dent.list" target="_blank" style="display:flex;align-items:center;gap:7px;text-decoration:none;opacity:0.6;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="#6b7a99"/></svg>
-      <span style="font-family:var(--fm);font-size:0.62rem;color:var(--mt);">@dent.list</span>
-    </a>
-  </div>
+    <div class="ig-bar"><a class="ig-link" href="https://www.instagram.com/dr.ibrahimdashty" target="_blank"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>@dr.ibrahimdashty</a><a class="ig-link" href="https://www.instagram.com/dent.list" target="_blank"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>@dent.list</a></div>
   </div>
 </div>
-
 <!-- ONLINE GAME -->
-
 <div id="sc-game" class="sc game-sc">
   <div class="ghdr">
     <div class="sbd">
@@ -461,13 +411,7 @@ select option{background:var(--s2);}
     <div class="qinf">Q<span id="g-qi">1</span>/<span id="g-qt">12</span></div>
   </div>
   <div class="tring-wrap">
-    <div class="tring">
-      <svg width="68" height="68" viewBox="0 0 68 68">
-        <circle class="tbg" cx="34" cy="34" r="30"/>
-        <circle class="tpg" id="tpg" cx="34" cy="34" r="30"/>
-      </svg>
-      <div class="tnum" id="tnum">10</div>
-    </div>
+    <div class="tring"><svg width="68" height="68" viewBox="0 0 68 68"><circle class="tbg" cx="34" cy="34" r="30"/><circle class="tpg" id="tpg" cx="34" cy="34" r="30"/></svg><div class="tnum" id="tnum">10</div></div>
   </div>
   <div class="qarea">
     <div class="qmeta"><span class="qcat" id="g-cat">Category</span><span class="qnum">Q<span id="g-qi2">1</span></span></div>
@@ -476,9 +420,6 @@ select option{background:var(--s2);}
     <div class="pulse" id="g-wait" style="display:none;"><div class="d"></div><div class="d"></div><div class="d"></div><span>Waiting for opponent...</span></div>
   </div>
 </div>
-
-<!-- ONLINE RESULT OVERLAY -->
-
 <div class="rovl" id="rovl">
   <div class="rcard">
     <div class="remj" id="r-emj">✅</div>
@@ -491,9 +432,7 @@ select option{background:var(--s2);}
   </div>
   <div class="nxt" id="r-nxt">Next in 3...</div>
 </div>
-
 <!-- ONLINE RESULTS -->
-
 <div id="sc-results" class="sc" style="gap:18px;max-width:420px;width:100%;">
   <div class="stl" style="font-size:1.7rem;">Battle <span>Over!</span> 🏆</div>
   <div class="fpod"><div class="wlbl">Winner 🥇</div><div class="wnam" id="f-win">—</div><div class="wsc" id="f-wsc"></div></div>
@@ -501,25 +440,10 @@ select option{background:var(--s2);}
     <div class="scol p1"><div class="cn" id="f-n1">P1</div><div class="cs" id="f-s1">0</div></div>
     <div class="scol p2"><div class="cn" id="f-n2">P2</div><div class="cs" id="f-s2">0</div></div>
   </div>
-  <div class="row2" style="max-width:420px;width:100%;">
-    <button class="btn btn-c" onclick="go('sc-land');resetOnline();">Play Again 🔄</button>
-    <button class="btn btn-o" onclick="go('sc-land');resetOnline();">← Menu</button>
-  </div>
-  <!-- Instagram -->
-  <div style="display:flex;flex-direction:column;align-items:center;gap:7px;padding:16px 0 4px;">
-    <a href="https://www.instagram.com/dr.ibrahimdashty" target="_blank" style="display:flex;align-items:center;gap:7px;text-decoration:none;opacity:0.6;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="#6b7a99"/></svg>
-      <span style="font-family:var(--fm);font-size:0.62rem;color:var(--mt);">@dr.ibrahimdashty</span>
-    </a>
-    <a href="https://www.instagram.com/dent.list" target="_blank" style="display:flex;align-items:center;gap:7px;text-decoration:none;opacity:0.6;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="#6b7a99"/></svg>
-      <span style="font-family:var(--fm);font-size:0.62rem;color:var(--mt);">@dent.list</span>
-    </a>
-  </div>
+  <div class="row2"><button class="btn btn-c" onclick="go('sc-land');resetOnline();">Play Again 🔄</button><button class="btn btn-o" onclick="go('sc-land');resetOnline();">← Menu</button></div>
+  <div class="ig-bar"><a class="ig-link" href="https://www.instagram.com/dr.ibrahimdashty" target="_blank"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>@dr.ibrahimdashty</a><a class="ig-link" href="https://www.instagram.com/dent.list" target="_blank"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>@dent.list</a></div>
 </div>
-
 <!-- LOCAL SETUP -->
-
 <div id="sc-local-setup" class="sc">
   <div class="fw" style="max-width:500px;">
     <div class="stl g">Local <span>Battle</span> 🎮</div>
@@ -531,22 +455,10 @@ select option{background:var(--s2);}
     </div>
     <button class="btn btn-g" id="lc-btn" onclick="startLocal()" disabled>Start Battle! 🎮</button>
     <button class="btn btn-o" onclick="go('sc-land')">← Back</button>
-  <!-- Instagram -->
-  <div style="display:flex;flex-direction:column;align-items:center;gap:7px;padding:16px 0 4px;">
-    <a href="https://www.instagram.com/dr.ibrahimdashty" target="_blank" style="display:flex;align-items:center;gap:7px;text-decoration:none;opacity:0.6;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="#6b7a99"/></svg>
-      <span style="font-family:var(--fm);font-size:0.62rem;color:var(--mt);">@dr.ibrahimdashty</span>
-    </a>
-    <a href="https://www.instagram.com/dent.list" target="_blank" style="display:flex;align-items:center;gap:7px;text-decoration:none;opacity:0.6;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="#6b7a99"/></svg>
-      <span style="font-family:var(--fm);font-size:0.62rem;color:var(--mt);">@dent.list</span>
-    </a>
-  </div>
+    <div class="ig-bar"><a class="ig-link" href="https://www.instagram.com/dr.ibrahimdashty" target="_blank"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>@dr.ibrahimdashty</a><a class="ig-link" href="https://www.instagram.com/dent.list" target="_blank"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>@dent.list</a></div>
   </div>
 </div>
-
 <!-- LOCAL GAME -->
-
 <div id="sc-local" class="sc game-sc" style="display:none;">
   <div class="lgame">
     <div class="lhdr">
@@ -554,25 +466,14 @@ select option{background:var(--s2);}
       <div class="lhdr-mid"><span>VS</span></div>
       <div class="lteam t2"><span class="ltn" id="lt2-n">T2</span><span class="lts" id="lt2-s">0</span></div>
     </div>
-    <div class="board-wrap">
-      <div class="board-title">🎯 SELECT A QUESTION</div>
-      <div id="l-board"></div>
-    </div>
-    <div style="padding:10px 14px;border-top:1px solid var(--b1);">
-      <button class="btn btn-o" style="font-size:0.78rem;padding:9px;" onclick="if(confirm('End game?'))showLRes();">🏁 End Game</button>
-    </div>
+    <div class="board-wrap"><div class="board-title">🎯 SELECT A QUESTION</div><div id="l-board"></div></div>
+    <div style="padding:10px 14px;border-top:1px solid var(--b1);"><button class="btn btn-o" style="font-size:0.78rem;padding:9px;" onclick="if(confirm('End game?'))showLRes();">🏁 End Game</button></div>
   </div>
 </div>
-
-<!-- LOCAL QUESTION MODAL -->
-
 <div class="lmodal" id="lmodal">
   <div class="lmcard">
     <div class="lm-hd"><span class="lm-cat" id="lm-cat">Category</span><span class="lm-pts" id="lm-pts">10 pts</span></div>
-    <div class="ltbar-wrap">
-      <div class="ltnum" id="lt-num">0:00</div>
-      <div class="ltbg"><div class="ltfg" id="lt-fg"></div></div>
-    </div>
+    <div class="ltbar-wrap"><div class="ltnum" id="lt-num">0:00</div><div class="ltbg"><div class="ltfg" id="lt-fg"></div></div></div>
     <div class="lqtxt" id="lm-q">Question</div>
     <div class="lopts" id="lm-opts"></div>
     <button class="show-ans-btn" id="show-ans-btn" onclick="revealLocalAns()">👁️ Show Answer</button>
@@ -588,9 +489,7 @@ select option{background:var(--s2);}
     <button class="btn btn-g" id="lm-next" onclick="closeLocalQ()" style="display:none;">Next →</button>
   </div>
 </div>
-
 <!-- LOCAL RESULTS -->
-
 <div id="sc-lres" class="sc" style="gap:18px;max-width:420px;width:100%;">
   <div class="stl g" style="font-size:1.7rem;">Game <span>Over!</span> 🏆</div>
   <div class="fpod"><div class="wlbl">Winner 🥇</div><div class="wnam" id="lf-win">—</div><div class="wsc" id="lf-wsc"></div></div>
@@ -598,34 +497,14 @@ select option{background:var(--s2);}
     <div class="scol p1"><div class="cn" id="lf-n1">T1</div><div class="cs" id="lf-s1">0</div></div>
     <div class="scol p2"><div class="cn" id="lf-n2">T2</div><div class="cs" id="lf-s2">0</div></div>
   </div>
-  <div class="row2" style="max-width:420px;width:100%;">
-    <button class="btn btn-g" onclick="go('sc-land');resetLocal();">Play Again 🔄</button>
-    <button class="btn btn-o" onclick="go('sc-land');resetLocal();">← Menu</button>
-  </div>
-  <!-- Instagram -->
-  <div style="display:flex;flex-direction:column;align-items:center;gap:7px;padding:16px 0 4px;">
-    <a href="https://www.instagram.com/dr.ibrahimdashty" target="_blank" style="display:flex;align-items:center;gap:7px;text-decoration:none;opacity:0.6;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="#6b7a99"/></svg>
-      <span style="font-family:var(--fm);font-size:0.62rem;color:var(--mt);">@dr.ibrahimdashty</span>
-    </a>
-    <a href="https://www.instagram.com/dent.list" target="_blank" style="display:flex;align-items:center;gap:7px;text-decoration:none;opacity:0.6;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="#6b7a99"/></svg>
-      <span style="font-family:var(--fm);font-size:0.62rem;color:var(--mt);">@dent.list</span>
-    </a>
-  </div>
+  <div class="row2"><button class="btn btn-g" onclick="go('sc-land');resetLocal();">Play Again 🔄</button><button class="btn btn-o" onclick="go('sc-land');resetLocal();">← Menu</button></div>
+  <div class="ig-bar"><a class="ig-link" href="https://www.instagram.com/dr.ibrahimdashty" target="_blank"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>@dr.ibrahimdashty</a><a class="ig-link" href="https://www.instagram.com/dent.list" target="_blank"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>@dent.list</a></div>
 </div>
-
 <!-- GO FAST SETUP -->
-
 <div id="sc-gf-setup" class="sc">
   <div class="fw" style="max-width:460px;">
     <div class="stl o">Go <span>Fast</span> ⚡</div>
-    <div style="font-family:var(--fm);font-size:0.68rem;color:var(--mt);text-align:center;line-height:1.8;background:var(--s2);border:1px solid var(--b1);border-radius:10px;padding:12px;">
-      🏠 Create a room → Share the code<br>
-      📱 Each player joins from their own device<br>
-      ⚡ Everyone plays 60 seconds simultaneously<br>
-      🏆 Most correct answers wins!
-    </div>
+    <div style="font-family:var(--fm);font-size:0.68rem;color:var(--mt);text-align:center;line-height:1.8;background:var(--s2);border:1px solid var(--b1);border-radius:10px;padding:12px;">🏠 Create a room → Share the code<br>📱 Each player joins from their own device<br>⚡ Everyone plays 60 seconds simultaneously<br>🏆 Most correct answers wins!</div>
     <div class="fg"><label>Your Name (Host)</label><input type="text" id="gf-host-name" placeholder="Host name" maxlength="14"></div>
     <div class="fg"><label>Select exactly 2 categories</label>
       <div class="cgrid" id="gf-cats"></div>
@@ -633,47 +512,21 @@ select option{background:var(--s2);}
     </div>
     <button class="btn btn-y" id="gf-create-btn" onclick="createGFRoom()" disabled>Create Room ⚡</button>
     <button class="btn btn-o" onclick="go('sc-land')">← Back</button>
-  <!-- Instagram -->
-  <div style="display:flex;flex-direction:column;align-items:center;gap:7px;padding:16px 0 4px;">
-    <a href="https://www.instagram.com/dr.ibrahimdashty" target="_blank" style="display:flex;align-items:center;gap:7px;text-decoration:none;opacity:0.6;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="#6b7a99"/></svg>
-      <span style="font-family:var(--fm);font-size:0.62rem;color:var(--mt);">@dr.ibrahimdashty</span>
-    </a>
-    <a href="https://www.instagram.com/dent.list" target="_blank" style="display:flex;align-items:center;gap:7px;text-decoration:none;opacity:0.6;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="#6b7a99"/></svg>
-      <span style="font-family:var(--fm);font-size:0.62rem;color:var(--mt);">@dent.list</span>
-    </a>
-  </div>
+    <div class="ig-bar"><a class="ig-link" href="https://www.instagram.com/dr.ibrahimdashty" target="_blank"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>@dr.ibrahimdashty</a><a class="ig-link" href="https://www.instagram.com/dent.list" target="_blank"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>@dent.list</a></div>
   </div>
 </div>
-
 <!-- GO FAST JOIN -->
-
 <div id="sc-gf-join" class="sc">
   <div class="fw">
     <div class="stl o">Go <span>Fast</span> ⚡</div>
     <div class="fg"><label>Your Name</label><input type="text" id="gfj-name" placeholder="Your name" maxlength="14"></div>
-    <div class="fg"><label>Room Code</label>
-      <input type="text" id="gfj-code" placeholder="XXXX" maxlength="6" style="text-transform:uppercase;letter-spacing:8px;font-size:1.4rem;text-align:center;">
-    </div>
+    <div class="fg"><label>Room Code</label><input type="text" id="gfj-code" placeholder="XXXX" maxlength="6" style="text-transform:uppercase;letter-spacing:8px;font-size:1.4rem;text-align:center;"></div>
     <button class="btn btn-y" onclick="joinGFRoom()">Join ⚡</button>
     <button class="btn btn-o" onclick="go('sc-land')">← Back</button>
-  <!-- Instagram -->
-  <div style="display:flex;flex-direction:column;align-items:center;gap:7px;padding:16px 0 4px;">
-    <a href="https://www.instagram.com/dr.ibrahimdashty" target="_blank" style="display:flex;align-items:center;gap:7px;text-decoration:none;opacity:0.6;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="#6b7a99"/></svg>
-      <span style="font-family:var(--fm);font-size:0.62rem;color:var(--mt);">@dr.ibrahimdashty</span>
-    </a>
-    <a href="https://www.instagram.com/dent.list" target="_blank" style="display:flex;align-items:center;gap:7px;text-decoration:none;opacity:0.6;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="#6b7a99"/></svg>
-      <span style="font-family:var(--fm);font-size:0.62rem;color:var(--mt);">@dent.list</span>
-    </a>
-  </div>
+    <div class="ig-bar"><a class="ig-link" href="https://www.instagram.com/dr.ibrahimdashty" target="_blank"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>@dr.ibrahimdashty</a><a class="ig-link" href="https://www.instagram.com/dent.list" target="_blank"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>@dent.list</a></div>
   </div>
 </div>
-
 <!-- GO FAST LOBBY -->
-
 <div id="sc-gf-lobby" class="sc">
   <div class="fw">
     <div class="stl o">Go Fast <span>Lobby</span> ⚡</div>
@@ -681,102 +534,37 @@ select option{background:var(--s2);}
       <div style="font-family:var(--fm);font-size:0.62rem;color:var(--mt);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Share this code</div>
       <div class="gf-rcode" id="gf-code-display">----</div>
     </div>
-    <div class="fg"><label>Players Joined (<span id="gf-pcount">1</span>)</label>
-      <div class="gf-plist" id="gf-plist"></div>
-    </div>
-    <div class="pulse" id="gf-lobby-wait"><div class="d" style="background:var(--c4);"></div><div class="d" style="background:var(--c4);"></div><div class="d" style="background:var(--c4);"></div><span>Waiting for players...</span></div>
+    <div class="fg"><label>Players Joined (<span id="gf-pcount">1</span>)</label><div class="gf-plist" id="gf-plist"></div></div>
+    <div class="pulse" id="gf-lobby-wait"><div class="d" style="background:var(--c4);"></div><div class="d" style="background:var(--c4);"></div><div class="d" style="background:var(--c4);"></div><span>Waiting...</span></div>
     <button class="btn btn-y" id="gf-start-btn" onclick="startGFGame()">Start Game ⚡ (<span id="gf-pcount2">1</span> players)</button>
     <button class="btn btn-o" onclick="leaveGFRoom()">Cancel</button>
-  <!-- Instagram -->
-  <div style="display:flex;flex-direction:column;align-items:center;gap:7px;padding:16px 0 4px;">
-    <a href="https://www.instagram.com/dr.ibrahimdashty" target="_blank" style="display:flex;align-items:center;gap:7px;text-decoration:none;opacity:0.6;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="#6b7a99"/></svg>
-      <span style="font-family:var(--fm);font-size:0.62rem;color:var(--mt);">@dr.ibrahimdashty</span>
-    </a>
-    <a href="https://www.instagram.com/dent.list" target="_blank" style="display:flex;align-items:center;gap:7px;text-decoration:none;opacity:0.6;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="#6b7a99"/></svg>
-      <span style="font-family:var(--fm);font-size:0.62rem;color:var(--mt);">@dent.list</span>
-    </a>
-  </div>
+    <div class="ig-bar"><a class="ig-link" href="https://www.instagram.com/dr.ibrahimdashty" target="_blank"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>@dr.ibrahimdashty</a><a class="ig-link" href="https://www.instagram.com/dent.list" target="_blank"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>@dent.list</a></div>
   </div>
 </div>
-
-<!-- GO FAST WAITING -->
-
-<div id="sc-gf-waiting" class="sc">
-  <div class="fw" style="align-items:center;gap:24px;">
-    <div class="stl o">Go <span>Fast</span> ⚡</div>
-    <div style="text-align:center;">
-      <div style="font-size:2rem;margin-bottom:8px;">✅</div>
-      <div style="font-weight:700;font-size:1.1rem;" id="gf-joined-name">You joined!</div>
-      <div style="font-family:var(--fm);font-size:0.68rem;color:var(--mt);margin-top:6px;">Waiting for host to start...</div>
-    </div>
-    <div class="pulse"><div class="d" style="background:var(--c4);"></div><div class="d" style="background:var(--c4);"></div><div class="d" style="background:var(--c4);"></div></div>
-  </div>
-</div>
-
-<!-- GO FAST COUNTDOWN -->
-
-<div class="gf-countdown" id="gf-countdown">
-  <div class="gf-cd-txt">Get ready!</div>
-  <div class="gf-cd-num" id="gf-cd-num">3</div>
-  <div class="gf-cd-txt" id="gf-cd-name">Player</div>
-</div>
-
-<!-- GO FAST GAME -->
-
-<div id="sc-gf-game" class="sc game-sc" style="display:none;">
-  <div class="gf-hdr">
-    <div class="gf-name-badge" id="gf-my-name-badge">Player</div>
-    <div class="gf-score-live">✅ <span id="gf-live-score">0</span></div>
-    <div style="font-family:var(--fm);font-size:0.66rem;color:var(--mt);">Q<span id="gf-qnum">1</span></div>
-  </div>
-  <div class="gf-tbar-wrap">
-    <div class="gf-tbar"><div class="gf-tfill" id="gf-tfill"></div></div>
-    <div class="gf-tsec" id="gf-tsec">60s</div>
-  </div>
-  <div class="qarea">
-    <div class="qmeta"><span class="qcat" id="gf-qcat">Category</span></div>
-    <div class="qtxt" id="gf-qtxt">Loading...</div>
-    <div class="mcqg" id="gf-qopts"></div>
-  </div>
-</div>
-
-<div class="gf-flash-ovl" id="gf-flash-ovl">
-  <div class="gf-flash-inner" id="gf-flash-inner">✅</div>
-</div>
-
-<div class="gf-waiting-screen" id="gf-waiting-res">
-  <div class="gf-wait-label">Your Score</div>
-  <div class="gf-wait-score" id="gf-wait-score">0</div>
-  <div class="gf-wait-label">Waiting for others to finish...</div>
+<div id="sc-gf-waiting" class="sc"><div class="fw" style="align-items:center;gap:24px;">
+  <div class="stl o">Go <span>Fast</span> ⚡</div>
+  <div style="text-align:center;"><div style="font-size:2rem;margin-bottom:8px;">✅</div><div style="font-weight:700;font-size:1.1rem;" id="gf-joined-name">You joined!</div><div style="font-family:var(--fm);font-size:0.68rem;color:var(--mt);margin-top:6px;">Waiting for host to start...</div></div>
   <div class="pulse"><div class="d" style="background:var(--c4);"></div><div class="d" style="background:var(--c4);"></div><div class="d" style="background:var(--c4);"></div></div>
+</div></div>
+<div class="gf-countdown" id="gf-countdown"><div class="gf-cd-txt">Get ready!</div><div class="gf-cd-num" id="gf-cd-num">3</div><div class="gf-cd-txt" id="gf-cd-name">Player</div></div>
+<div id="sc-gf-game" class="sc game-sc" style="display:none;">
+  <div class="gf-hdr"><div class="gf-name-badge" id="gf-my-name-badge">Player</div><div class="gf-score-live">✅ <span id="gf-live-score">0</span></div><div style="font-family:var(--fm);font-size:0.66rem;color:var(--mt);">Q<span id="gf-qnum">1</span></div></div>
+  <div class="gf-tbar-wrap"><div class="gf-tbar"><div class="gf-tfill" id="gf-tfill"></div></div><div class="gf-tsec" id="gf-tsec">60s</div></div>
+  <div class="qarea"><div class="qmeta"><span class="qcat" id="gf-qcat">Category</span></div><div class="qtxt" id="gf-qtxt">Loading...</div><div class="mcqg" id="gf-qopts"></div></div>
+  <div class="ig-bar" style="padding:12px 16px;"><a class="ig-link" href="https://www.instagram.com/dr.ibrahimdashty" target="_blank"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>@dr.ibrahimdashty</a><a class="ig-link" href="https://www.instagram.com/dent.list" target="_blank"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>@dent.list</a></div>
 </div>
-
-<!-- GO FAST RESULTS -->
-
+<div class="gf-flash-ovl" id="gf-flash-ovl"><div class="gf-flash-inner" id="gf-flash-inner">✅</div></div>
+<div class="gf-waiting-screen" id="gf-waiting-res"><div class="gf-wait-label">Your Score</div><div class="gf-wait-score" id="gf-wait-score">0</div><div class="gf-wait-label">Waiting for others...</div><div class="pulse"><div class="d" style="background:var(--c4);"></div><div class="d" style="background:var(--c4);"></div><div class="d" style="background:var(--c4);"></div></div></div>
 <div id="sc-gf-results" class="sc">
   <div class="stl o" style="font-size:1.7rem;">Go Fast <span>Results!</span> ⚡</div>
   <div class="gf-podium" id="gf-podium"></div>
   <div style="max-width:400px;width:100%;display:flex;flex-direction:column;gap:9px;">
-    <button class="btn btn-y" id="gf-play-again-btn" onclick="playAgainGF()">🔄 Play Again (same room)</button>
+    <button class="btn btn-y" id="gf-play-again-btn" onclick="playAgainGF()">🔄 Play Again</button>
     <button class="btn btn-o" onclick="go('sc-land');resetGF();">← Back to Menu</button>
   </div>
-  <!-- Instagram -->
-  <div style="display:flex;flex-direction:column;align-items:center;gap:7px;padding:16px 0 4px;">
-    <a href="https://www.instagram.com/dr.ibrahimdashty" target="_blank" style="display:flex;align-items:center;gap:7px;text-decoration:none;opacity:0.6;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="#6b7a99"/></svg>
-      <span style="font-family:var(--fm);font-size:0.62rem;color:var(--mt);">@dr.ibrahimdashty</span>
-    </a>
-    <a href="https://www.instagram.com/dent.list" target="_blank" style="display:flex;align-items:center;gap:7px;text-decoration:none;opacity:0.6;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="#6b7a99"/></svg>
-      <span style="font-family:var(--fm);font-size:0.62rem;color:var(--mt);">@dent.list</span>
-    </a>
-  </div>
+  <div class="ig-bar"><a class="ig-link" href="https://www.instagram.com/dr.ibrahimdashty" target="_blank"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>@dr.ibrahimdashty</a><a class="ig-link" href="https://www.instagram.com/dent.list" target="_blank"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>@dent.list</a></div>
 </div>
-
 <div class="toast" id="toast"></div>
-
 <script>
 const CATS={"General Dentistry":"🦷","Oral Surgery":"🔪","Endodontics":"🦠","Periodontics":"🩸","Orthodontics":"😬","Prosthodontics":"🦾","Pediatric Dentistry":"👶","Oral Pathology":"🔬","Oral Pharmacology":"💊","General Medicine":"🩺","Anatomy":"🧬","Microbiology":"🧫"};
 const QB=[
@@ -789,12 +577,12 @@ const QB=[
 {c:"General Dentistry",q:"Number of primary teeth?",a:"20",w:["24","16","28"]},
 {c:"General Dentistry",q:"Critical pH for enamel dissolution?",a:"5.5",w:["6.5","7.0","4.0"]},
 {c:"General Dentistry",q:"Tooth wear from tooth-to-tooth contact?",a:"Attrition",w:["Abrasion","Erosion","Abfraction"]},
-{c:"General Dentistry",q:"Tooth wear from acid?",a:"Erosion",w:["Attrition","Abrasion","Abfraction"]},
 {c:"General Dentistry",q:"First permanent tooth to erupt?",a:"Mandibular first molar",w:["Max central incisor","Mand canine","First premolar"]},
 {c:"General Dentistry",q:"Tooth with the longest root?",a:"Maxillary canine",w:["Mandibular molar","Max central","Mand canine"]},
 {c:"General Dentistry",q:"Main buffer in saliva?",a:"Bicarbonate",w:["Phosphate","Protein","Carbonate"]},
 {c:"General Dentistry",q:"DMFT measures?",a:"Caries experience",w:["Periodontal status","Fluorosis","Occlusion"]},
 {c:"General Dentistry",q:"Ideal overjet value?",a:"2-4 mm",w:["0 mm","6-8 mm","8-10 mm"]},
+{c:"General Dentistry",q:"What is bruxism?",a:"Teeth grinding",w:["Jaw dislocation","TMJ click","Trismus"]},
 {c:"Oral Surgery",q:"Dry socket clinical term?",a:"Alveolar osteitis",w:["Pericoronitis","Cellulitis","Osteomyelitis"]},
 {c:"Oral Surgery",q:"Nerve at risk in lower 3rd molar?",a:"Inferior alveolar nerve",w:["Lingual nerve","Buccal nerve","Mental nerve"]},
 {c:"Oral Surgery",q:"Primary danger of Ludwig angina?",a:"Airway obstruction",w:["Facial swelling","Trismus","Pain"]},
@@ -809,12 +597,10 @@ const QB=[
 {c:"Periodontics",q:"Furcation Grade III?",a:"Through-and-through",w:["Initial","Partial","No furcation"]},
 {c:"Periodontics",q:"Subgingival calculus color?",a:"Dark brown to black",w:["White","Yellow","Clear"]},
 {c:"Periodontics",q:"Drug causing gingival enlargement?",a:"Phenytoin, cyclosporine, CCBs",w:["Antibiotics","NSAIDs","Antihistamines"]},
-{c:"Periodontics",q:"GTR membrane purpose?",a:"Allow PDL regeneration",w:["Gingival graft","Bone removal","Antibiotic delivery"]},
 {c:"Orthodontics",q:"ANB normal value?",a:"1-3 degrees",w:["0 degrees","8-10 degrees","-5 degrees"]},
 {c:"Orthodontics",q:"Increased ANB = skeletal?",a:"Class II",w:["Class III","Class I","Normal"]},
 {c:"Orthodontics",q:"Palatal expander corrects?",a:"Posterior crossbite",w:["Deep bite","Proclination","Class III"]},
 {c:"Orthodontics",q:"First wire material?",a:"NiTi round",w:["Stainless steel","TMA","Cobalt chrome"]},
-{c:"Orthodontics",q:"Rectangular wire controls?",a:"Root torque",w:["Alignment","Space closure","Retention"]},
 {c:"Oral Pharmacology",q:"Amoxicillin mechanism?",a:"Cell wall inhibition",w:["Protein inhibition","Membrane disruption","DNA damage"]},
 {c:"Oral Pharmacology",q:"Max dose lidocaine with epi?",a:"7 mg/kg",w:["3 mg/kg","10 mg/kg","1 mg/kg"]},
 {c:"Oral Pharmacology",q:"Penicillin allergy alternative?",a:"Clindamycin",w:["Amoxicillin","Ampicillin","Cefalexin"]},
@@ -823,117 +609,88 @@ const QB=[
 {c:"General Medicine",q:"Normal fasting glucose?",a:"70-100 mg/dL",w:["120-140 mg/dL","50-70 mg/dL","150-200 mg/dL"]},
 {c:"General Medicine",q:"Anaphylaxis first-line?",a:"Epinephrine 0.5mg IM",w:["Antihistamine","Steroids","Oxygen only"]},
 {c:"General Medicine",q:"HbA1c diabetes threshold?",a:"6.5% or higher",w:["5.0%","8.0%","10%"]},
-{c:"General Medicine",q:"Normal male hemoglobin?",a:"13.5-17.5 g/dL",w:["8-10 g/dL","20-22 g/dL","10-11 g/dL"]},
 {c:"General Medicine",q:"Hypoglycemia symptoms?",a:"Sweating and tremor",w:["Polyuria","Bradycardia","Flushing"]},
 {c:"Anatomy",q:"Maxillary sinus drains into?",a:"Middle meatus",w:["Inferior meatus","Superior meatus","Nasopharynx"]},
 {c:"Anatomy",q:"Parotid duct opens opposite?",a:"Upper second molar",w:["Upper first molar","Lower molar","Canine"]},
 {c:"Anatomy",q:"Lingual nerve supplies?",a:"Anterior 2/3 tongue sensation",w:["Posterior 1/3 taste","Motor to tongue","Cheek"]},
 {c:"Anatomy",q:"Masseter function?",a:"Jaw closure",w:["Jaw opening","Lateral deviation","Tongue protrusion"]},
-{c:"Anatomy",q:"Lateral pterygoid function?",a:"Jaw opening and protrusion",w:["Jaw closing","Retraction","Elevation"]},
 {c:"Prosthodontics",q:"Kennedy Class I?",a:"Bilateral free-end saddles",w:["Unilateral free-end","Single bounded","Anterior space"]},
 {c:"Prosthodontics",q:"Kennedy Class II?",a:"Unilateral free-end saddle",w:["Bilateral free-end","Anterior space","Multiple spaces"]},
 {c:"Prosthodontics",q:"VDO stands for?",a:"Vertical dimension of occlusion",w:["Variable dental occlusion","Vertical distance orbit","Vertical degree offset"]},
 {c:"Prosthodontics",q:"Freeway space normal?",a:"2-4 mm",w:["0 mm","6-8 mm","1 mm"]},
-{c:"Prosthodontics",q:"FPD components?",a:"Abutment, connector, pontic",w:["Rest, clasp, connector","Crown, post, core","Base, framework, teeth"]},
 {c:"Pediatric Dentistry",q:"First primary tooth to erupt?",a:"Mandibular central incisor",w:["Max central","First molar","Canine"]},
-{c:"Pediatric Dentistry",q:"Nursing caries most affects?",a:"Upper anteriors",w:["Lower anteriors","Lower molars","All equally"]},
-{c:"Pediatric Dentistry",q:"Vital primary pulp therapy?",a:"Pulpotomy",w:["Pulpectomy","Extraction","Observation"]},
 {c:"Pediatric Dentistry",q:"Primary avulsion: replant?",a:"No",w:["Yes immediately","Yes within 2h","Yes with splint"]},
 {c:"Pediatric Dentistry",q:"Permanent avulsion storage?",a:"HBSS or milk",w:["Tap water","Dry","Saline only"]},
 {c:"Oral Pathology",q:"Most common odontogenic cyst?",a:"Radicular cyst",w:["Dentigerous","OKC","Lateral periodontal"]},
-{c:"Oral Pathology",q:"Dentigerous cyst attaches at?",a:"CEJ of unerupted tooth",w:["Root apex","Root surface","Gingival crest"]},
 {c:"Oral Pathology",q:"OKC recurrence rate?",a:"Up to 60%",w:["Less than 5%","10-15%","Zero"]},
-{c:"Oral Pathology",q:"Ameloblastoma most common location?",a:"Posterior mandible",w:["Anterior maxilla","Hard palate","Anterior mandible"]},
 {c:"Oral Pathology",q:"Higher malignant potential?",a:"Erythroplakia",w:["Leukoplakia","Same risk","Neither"]},
 {c:"Microbiology",q:"Most cariogenic bacterium?",a:"Streptococcus mutans",w:["Lactobacillus","Actinomyces","P. gingivalis"]},
 {c:"Microbiology",q:"Primary periodontitis pathogen?",a:"Porphyromonas gingivalis",w:["S. mutans","Actinomyces","T. denticola"]},
-{c:"Microbiology",q:"Oral thrush reveals?",a:"Erythematous base",w:["Normal mucosa","Ulcer","Bone"]},
-{c:"Microbiology",q:"Autoclave: 134°C for?",a:"3 minutes",w:["30 minutes","1 hour","10 minutes"]},
-{c:"Microbiology",q:"Post-extraction bacteremia organism?",a:"Streptococcus viridans",w:["S. aureus","E. coli","Enterococcus"]}
+{c:"Microbiology",q:"Autoclave: 134°C for?",a:"3 minutes",w:["30 minutes","1 hour","10 minutes"]}
 ];
 
-function go(id){
-  document.querySelectorAll('.sc').forEach(s=>{s.classList.remove('on');s.style.display='';});
-  const el=document.getElementById(id);if(!el)return;
-  if(['sc-local','sc-gf-game'].includes(id)){el.style.display='flex';}
-  else{el.classList.add('on');}
-}
-function toast(msg,d=2500){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),d);}
+function go(id){document.querySelectorAll(’.sc’).forEach(s=>{s.classList.remove(‘on’);s.style.display=’’;});const el=document.getElementById(id);if(!el)return;if([‘sc-local’,‘sc-gf-game’].includes(id)){el.style.display=‘flex’;}else{el.classList.add(‘on’);}}
+function toast(msg,d=2500){const t=document.getElementById(‘toast’);t.textContent=msg;t.classList.add(‘on’);setTimeout(()=>t.classList.remove(‘on’),d);}
 function genCode(){return Math.random().toString(36).substring(2,6).toUpperCase();}
-function rnd(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
-function mkOpts(q){return rnd([q.a,...(q.w||[]).slice(0,3)]);}
-function mkCatGrid(elId,sel,cls,max,cb){
-  const el=document.getElementById(elId);if(!el)return;el.innerHTML='';
-  Object.entries(CATS).forEach(([n,i])=>{
-    const c=document.createElement('div');c.className='chip'+(sel.includes(n)?' '+cls:'');
-    c.textContent=i+' '+n;
-    c.onclick=()=>{
-      const idx=sel.indexOf(n);
-      if(idx>-1){sel.splice(idx,1);c.className='chip';}
-      else{if(sel.length>=max){toast('Max '+max+' categories!');return;}sel.push(n);c.className='chip '+cls;}
-      if(cb)cb();
-    };
-    el.appendChild(c);
-  });
-}
+function rnd(arr){const a=[…arr];for(let i=a.length-1;i>0;i–){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function mkOpts(q){return rnd([q.a,…(q.w||[]).slice(0,3)]);}
+function mkCatGrid(elId,sel,cls,max,cb){const el=document.getElementById(elId);if(!el)return;el.innerHTML=’’;Object.entries(CATS).forEach(([n,i])=>{const c=document.createElement(‘div’);c.className=‘chip’+(sel.includes(n)?’ ‘+cls:’’);c.textContent=i+’ ’+n;c.onclick=()=>{const idx=sel.indexOf(n);if(idx>-1){sel.splice(idx,1);c.className=‘chip’;}else{if(sel.length>=max){toast(‘Max ‘+max+’ categories!’);return;}sel.push(n);c.className=’chip ’+cls;}if(cb)cb();};el.appendChild(c);});}
 
-// ── ONLINE ──
-let O={isHost:false,code:null,role:null,name:null,timerSecs:10,qCount:12,selCats:[],qs:[],qi:0,scores:{host:0,guest:0},timer:null,tLeft:0,myDone:false,oppDone:false,hName:'',gName:'',subs:[]};
-function updOnlineCatInfo(){const n=O.selCats.length,el=document.getElementById('cn-cinfo'),btn=document.getElementById('cn-btn');if(n===4){el.className='cinfo ok';el.textContent='✅ 4 categories selected!';btn.disabled=false;}else{el.className='cinfo bad';el.textContent='Select exactly 4 ('+n+'/4)';btn.disabled=true;}}
-function selQ(el){document.querySelectorAll('.qb').forEach(e=>e.classList.remove('on'));el.classList.add('on');O.qCount=parseInt(el.dataset.v);document.getElementById('cn-tinfo').textContent='10s per question × '+O.qCount;}
-async function createRoom(){if(!window._fbReady){toast('Firebase not ready!');return;}const name=document.getElementById('cn-name').value.trim();if(!name){toast('Enter team name!');return;}if(O.selCats.length!==4){toast('Select exactly 4!');return;}const pool=QB.filter(q=>O.selCats.includes(q.c));if(pool.length<O.qCount){toast('Not enough questions!');return;}O.qs=rnd(pool).slice(0,O.qCount).map(q=>({...q,opts:mkOpts(q)}));const code=genCode();O.code=code;O.isHost=true;O.role='host';O.name=name;O.hName=name;await window._set(window._ref(window._db,'rooms/'+code),{host:name,guest:null,status:'waiting',timerSecs:10,qCount:O.qCount,qs:O.qs,qi:0,scores:{host:0,guest:0},answers:{},created:Date.now()});showLobby(code);listenRoom(code);}
-async function joinRoom(){if(!window._fbReady){toast('Firebase not ready!');return;}const name=document.getElementById('jn-name').value.trim();const code=document.getElementById('jn-code').value.trim().toUpperCase();if(!name){toast('Enter name!');return;}if(!code){toast('Enter room code!');return;}const snap=await window._get(window._ref(window._db,'rooms/'+code));if(!snap.exists()){toast('Room not found!');return;}const d=snap.val();if(d.status!=='waiting'){toast('Game already started!');return;}if(d.guest){toast('Room is full!');return;}O.code=code;O.isHost=false;O.role='guest';O.name=name;O.hName=d.host;O.gName=name;O.timerSecs=d.timerSecs;O.qCount=d.qCount;O.qs=d.qs;await window._update(window._ref(window._db,'rooms/'+code),{guest:name});showLobby(code);listenRoom(code);}
-function showLobby(code){go('sc-lobby');document.getElementById('lb-code').textContent=code;document.getElementById('lb-h').textContent=O.hName||O.name;if(O.role==='guest'){document.getElementById('lb-g').textContent=O.name;document.getElementById('lb-gslot').classList.add('on');}}
-function listenRoom(code){const r=window._ref(window._db,'rooms/'+code);const u=window._onValue(r,snap=>{if(!snap.exists())return;const d=snap.val();if(d.guest&&d.guest!==O.gName){document.getElementById('lb-g').textContent=d.guest;document.getElementById('lb-gslot').classList.add('on');document.getElementById('lb-wait').style.display='none';O.gName=d.guest;if(O.isHost){document.getElementById('lb-start').style.display='block';}}if(d.status==='playing'){O.qs=d.qs;O.timerSecs=d.timerSecs;O.qCount=d.qCount;O.scores=d.scores||{host:0,guest:0};const qi=d.qi||0;if(qi!==O.qi||!document.getElementById('sc-game').classList.contains('on')){O.qi=qi;showGameScreen(d);}}if(d.status==='finished'){showOnlineEnd(d);return;}if(d.status==='playing'&&d.answers&&d.answers[O.qi]){const opp=O.role==='host'?'guest':'host';if(d.answers[O.qi][opp]&&!O.oppDone){O.oppDone=true;if(O.myDone)evalRound();}}});O.subs.push(u);}
-async function startOnline(){await window._update(window._ref(window._db,'rooms/'+O.code),{status:'playing',qi:0});}
-function leaveRoom(){O.subs.forEach(u=>u&&u());O.subs=[];go('sc-land');resetOnline();}
-function showGameScreen(d){go('sc-game');O.scores=d.scores||{host:0,guest:0};document.getElementById('g-n1').textContent=d.host;document.getElementById('g-n2').textContent=d.guest||'Guest';document.getElementById('g-s1').textContent=O.scores.host||0;document.getElementById('g-s2').textContent=O.scores.guest||0;loadQ(d.qi||0);}
-function loadQ(idx){O.qi=idx;O.myDone=false;O.oppDone=false;const q=O.qs[idx];if(!q)return;document.getElementById('g-qi').textContent=idx+1;document.getElementById('g-qi2').textContent=idx+1;document.getElementById('g-qt').textContent=O.qs.length;document.getElementById('g-cat').textContent=(CATS[q.c]||'')+' '+q.c;document.getElementById('g-q').textContent=q.q;const opts=q.opts||mkOpts(q);document.getElementById('g-opts').innerHTML=opts.map((o,i)=>`<button class="mopt" id="mo${i}" onclick="pickOpt(${i},this,'${encodeURIComponent(o)}','${encodeURIComponent(q.a)}')"><span class="ol">${'ABCD'[i]}</span>${o}</button>`).join('');document.getElementById('g-wait').style.display='none';document.getElementById('rovl').classList.remove('on');clearInterval(O.timer);startTimer(O.timerSecs);}
-function startTimer(secs){clearInterval(O.timer);O.tLeft=secs;const C=2*Math.PI*30;const upd=()=>{document.getElementById('tnum').textContent=O.tLeft;const p=O.tLeft/secs;const pg=document.getElementById('tpg');pg.style.strokeDasharray=C;pg.style.strokeDashoffset=C*(1-p);pg.className='tpg'+(p<=0.25?' dng':p<=0.5?' warn':'');};upd();O.timer=setInterval(()=>{O.tLeft--;upd();if(O.tLeft<=0){clearInterval(O.timer);if(!O.myDone)submitAns('__timeout__',false);}},1000);}
-function pickOpt(idx,btn,oEnc,aEnc){if(O.myDone)return;const o=decodeURIComponent(oEnc),a=decodeURIComponent(aEnc);document.querySelectorAll('.mopt').forEach(b=>b.disabled=true);btn.classList.add('picked');clearInterval(O.timer);submitAns(o,o===a);}
-async function submitAns(txt,correct){if(O.myDone)return;O.myDone=true;document.querySelectorAll('.mopt').forEach(b=>b.disabled=true);document.getElementById('g-wait').style.display='flex';await window._set(window._ref(window._db,'rooms/'+O.code+'/answers/'+O.qi+'/'+O.role),{txt,correct,time:O.timerSecs-O.tLeft});const snap=await window._get(window._ref(window._db,'rooms/'+O.code+'/answers/'+O.qi));if(snap.exists()){const opp=O.role==='host'?'guest':'host';if(snap.val()[opp])O.oppDone=true;}if(O.myDone&&O.oppDone)await evalRound();}
-async function evalRound(){const snap=await window._get(window._ref(window._db,'rooms/'+O.code));if(!snap.exists())return;const d=snap.val();const q=O.qs[O.qi];const opts=q.opts||mkOpts(q);document.querySelectorAll('.mopt').forEach((btn,i)=>{if(opts[i]===q.a)btn.classList.add('ok');else if(btn.classList.contains('picked'))btn.classList.add('bad');});const myD=d.answers?.[O.qi]?.[O.role];if(O.isHost){const ns={...d.scores};const hd=d.answers?.[O.qi]?.host;const gd=d.answers?.[O.qi]?.guest;let hp=0,gp=0;if(hd?.correct)hp=2;if(gd?.correct)gp=2;if(hd?.correct&&gd?.correct){if((hd.time||99)<(gd.time||99))hp++;else if((gd.time||99)<(hd.time||99))gp++;}ns.host=(ns.host||0)+hp;ns.guest=(ns.guest||0)+gp;const nxi=O.qi+1,done=nxi>=O.qs.length;setTimeout(async()=>{await window._update(window._ref(window._db,'rooms/'+O.code),{scores:ns,qi:nxi,status:done?'finished':'playing'});},3500);}const sc=d.scores||{host:0,guest:0};showResultOverlay(myD?.correct||false,q.a,O.role==='host'?sc.host:sc.guest,O.role==='host'?sc.guest:sc.host);}
-function showResultOverlay(correct,ans,my,opp){document.getElementById('r-emj').textContent=correct?'✅':'❌';document.getElementById('r-vrd').textContent=correct?'Correct! 🎉':'Wrong!';document.getElementById('r-vrd').className='rvrd '+(correct?'ok':'bad');document.getElementById('r-ans').textContent=' '+ans;document.getElementById('r-ms').textContent=my;document.getElementById('r-os').textContent=opp;document.getElementById('rovl').classList.add('on');let c=3;const nx=document.getElementById('r-nxt');const t=setInterval(()=>{c--;nx.textContent='Next in '+c+'...';if(c<=0){clearInterval(t);document.getElementById('rovl').classList.remove('on');}},1000);}
-function showOnlineEnd(d){clearInterval(O.timer);document.getElementById('rovl').classList.remove('on');go('sc-results');const hs=d.scores?.host||0,gs=d.scores?.guest||0;const w=hs>gs?d.host:gs>hs?(d.guest||'Guest'):'🤝 Tie!';document.getElementById('f-win').textContent=w;document.getElementById('f-wsc').textContent=w==='🤝 Tie!'?'Equal scores!':'Score: '+Math.max(hs,gs);document.getElementById('f-n1').textContent=d.host;document.getElementById('f-n2').textContent=d.guest||'Guest';document.getElementById('f-s1').textContent=hs;document.getElementById('f-s2').textContent=gs;}
+let O={isHost:false,code:null,role:null,name:null,timerSecs:10,qCount:12,selCats:[],qs:[],qi:0,scores:{host:0,guest:0},timer:null,tLeft:0,myDone:false,oppDone:false,hName:’’,gName:’’,subs:[]};
+function updOnlineCatInfo(){const n=O.selCats.length,el=document.getElementById(‘cn-cinfo’),btn=document.getElementById(‘cn-btn’);if(n===4){el.className=‘cinfo ok’;el.textContent=‘✅ 4 categories selected!’;btn.disabled=false;}else{el.className=‘cinfo bad’;el.textContent=‘Select exactly 4 (’+n+’/4)’;btn.disabled=true;}}
+function selQ(el){document.querySelectorAll(’.qb’).forEach(e=>e.classList.remove(‘on’));el.classList.add(‘on’);O.qCount=parseInt(el.dataset.v);document.getElementById(‘cn-tinfo’).textContent=‘10s per question × ‘+O.qCount;}
+async function createRoom(){if(!window._fbReady){toast(‘Firebase not ready!’);return;}const name=document.getElementById(‘cn-name’).value.trim();if(!name){toast(‘Enter team name!’);return;}if(O.selCats.length!==4){toast(‘Select exactly 4!’);return;}const pool=QB.filter(q=>O.selCats.includes(q.c));if(pool.length<O.qCount){toast(‘Not enough questions!’);return;}O.qs=rnd(pool).slice(0,O.qCount).map(q=>({…q,opts:mkOpts(q)}));const code=genCode();O.code=code;O.isHost=true;O.role=‘host’;O.name=name;O.hName=name;await window._set(window._ref(window._db,‘rooms/’+code),{host:name,guest:null,status:‘waiting’,timerSecs:10,qCount:O.qCount,qs:O.qs,qi:0,scores:{host:0,guest:0},answers:{},created:Date.now()});showLobby(code);listenRoom(code);}
+async function joinRoom(){if(!window._fbReady){toast(‘Firebase not ready!’);return;}const name=document.getElementById(‘jn-name’).value.trim();const code=document.getElementById(‘jn-code’).value.trim().toUpperCase();if(!name){toast(‘Enter name!’);return;}if(!code){toast(‘Enter code!’);return;}const snap=await window._get(window._ref(window._db,‘rooms/’+code));if(!snap.exists()){toast(‘Room not found!’);return;}const d=snap.val();if(d.status!==‘waiting’){toast(‘Game already started!’);return;}if(d.guest){toast(‘Room is full!’);return;}O.code=code;O.isHost=false;O.role=‘guest’;O.name=name;O.hName=d.host;O.gName=name;O.timerSecs=d.timerSecs;O.qCount=d.qCount;O.qs=d.qs;await window._update(window._ref(window._db,‘rooms/’+code),{guest:name});showLobby(code);listenRoom(code);}
+function showLobby(code){go(‘sc-lobby’);document.getElementById(‘lb-code’).textContent=code;document.getElementById(‘lb-h’).textContent=O.hName||O.name;if(O.role===‘guest’){document.getElementById(‘lb-g’).textContent=O.name;document.getElementById(‘lb-gslot’).classList.add(‘on’);}}
+function listenRoom(code){const r=window._ref(window._db,‘rooms/’+code);const u=window._onValue(r,snap=>{if(!snap.exists())return;const d=snap.val();if(d.guest&&d.guest!==O.gName){document.getElementById(‘lb-g’).textContent=d.guest;document.getElementById(‘lb-gslot’).classList.add(‘on’);document.getElementById(‘lb-wait’).style.display=‘none’;O.gName=d.guest;if(O.isHost){document.getElementById(‘lb-start’).style.display=‘block’;}}if(d.status===‘playing’){O.qs=d.qs;O.timerSecs=d.timerSecs;O.qCount=d.qCount;O.scores=d.scores||{host:0,guest:0};const qi=d.qi||0;if(qi!==O.qi||!document.getElementById(‘sc-game’).classList.contains(‘on’)){O.qi=qi;showGameScreen(d);}}if(d.status===‘finished’){showOnlineEnd(d);return;}if(d.status===‘playing’&&d.answers&&d.answers[O.qi]){const opp=O.role===‘host’?‘guest’:‘host’;if(d.answers[O.qi][opp]&&!O.oppDone){O.oppDone=true;if(O.myDone)evalRound();}}});O.subs.push(u);}
+async function startOnline(){await window._update(window._ref(window._db,‘rooms/’+O.code),{status:‘playing’,qi:0});}
+function leaveRoom(){O.subs.forEach(u=>u&&u());O.subs=[];go(‘sc-land’);resetOnline();}
+function showGameScreen(d){go(‘sc-game’);O.scores=d.scores||{host:0,guest:0};document.getElementById(‘g-n1’).textContent=d.host;document.getElementById(‘g-n2’).textContent=d.guest||‘Guest’;document.getElementById(‘g-s1’).textContent=O.scores.host||0;document.getElementById(‘g-s2’).textContent=O.scores.guest||0;loadQ(d.qi||0);}
+function loadQ(idx){O.qi=idx;O.myDone=false;O.oppDone=false;const q=O.qs[idx];if(!q)return;document.getElementById(‘g-qi’).textContent=idx+1;document.getElementById(‘g-qi2’).textContent=idx+1;document.getElementById(‘g-qt’).textContent=O.qs.length;document.getElementById(‘g-cat’).textContent=(CATS[q.c]||’’)+’ ‘+q.c;document.getElementById(‘g-q’).textContent=q.q;const opts=q.opts||mkOpts(q);document.getElementById(‘g-opts’).innerHTML=opts.map((o,i)=>`<button class="mopt" id="mo${i}" onclick="pickOpt(${i},this,'${encodeURIComponent(o)}','${encodeURIComponent(q.a)}')"><span class="ol">${'ABCD'[i]}</span>${o}</button>`).join(’’);document.getElementById(‘g-wait’).style.display=‘none’;document.getElementById(‘rovl’).classList.remove(‘on’);clearInterval(O.timer);startTimer(O.timerSecs);}
+function startTimer(secs){clearInterval(O.timer);O.tLeft=secs;const C=2*Math.PI*30;const upd=()=>{document.getElementById(‘tnum’).textContent=O.tLeft;const p=O.tLeft/secs;const pg=document.getElementById(‘tpg’);pg.style.strokeDasharray=C;pg.style.strokeDashoffset=C*(1-p);pg.className=‘tpg’+(p<=0.25?’ dng’:p<=0.5?’ warn’:’’);};upd();O.timer=setInterval(()=>{O.tLeft–;upd();if(O.tLeft<=0){clearInterval(O.timer);if(!O.myDone)submitAns(’**timeout**’,false);}},1000);}
+function pickOpt(idx,btn,oEnc,aEnc){if(O.myDone)return;const o=decodeURIComponent(oEnc),a=decodeURIComponent(aEnc);document.querySelectorAll(’.mopt’).forEach(b=>b.disabled=true);btn.classList.add(‘picked’);clearInterval(O.timer);submitAns(o,o===a);}
+async function submitAns(txt,correct){if(O.myDone)return;O.myDone=true;document.querySelectorAll(’.mopt’).forEach(b=>b.disabled=true);document.getElementById(‘g-wait’).style.display=‘flex’;await window._set(window._ref(window._db,‘rooms/’+O.code+’/answers/’+O.qi+’/’+O.role),{txt,correct,time:O.timerSecs-O.tLeft});const snap=await window._get(window._ref(window._db,‘rooms/’+O.code+’/answers/’+O.qi));if(snap.exists()){const opp=O.role===‘host’?‘guest’:‘host’;if(snap.val()[opp])O.oppDone=true;}if(O.myDone&&O.oppDone)await evalRound();}
+async function evalRound(){const snap=await window._get(window._ref(window._db,‘rooms/’+O.code));if(!snap.exists())return;const d=snap.val();const q=O.qs[O.qi];const opts=q.opts||mkOpts(q);document.querySelectorAll(’.mopt’).forEach((btn,i)=>{if(opts[i]===q.a)btn.classList.add(‘ok’);else if(btn.classList.contains(‘picked’))btn.classList.add(‘bad’);});const myD=d.answers?.[O.qi]?.[O.role];if(O.isHost){const ns={…d.scores};const hd=d.answers?.[O.qi]?.host;const gd=d.answers?.[O.qi]?.guest;let hp=0,gp=0;if(hd?.correct)hp=2;if(gd?.correct)gp=2;if(hd?.correct&&gd?.correct){if((hd.time||99)<(gd.time||99))hp++;else if((gd.time||99)<(hd.time||99))gp++;}ns.host=(ns.host||0)+hp;ns.guest=(ns.guest||0)+gp;const nxi=O.qi+1,done=nxi>=O.qs.length;setTimeout(async()=>{await window._update(window._ref(window._db,‘rooms/’+O.code),{scores:ns,qi:nxi,status:done?‘finished’:‘playing’});},3500);}const sc=d.scores||{host:0,guest:0};showResultOverlay(myD?.correct||false,q.a,O.role===‘host’?sc.host:sc.guest,O.role===‘host’?sc.guest:sc.host);}
+function showResultOverlay(correct,ans,my,opp){document.getElementById(‘r-emj’).textContent=correct?‘✅’:‘❌’;document.getElementById(‘r-vrd’).textContent=correct?‘Correct! 🎉’:‘Wrong!’;document.getElementById(‘r-vrd’).className=’rvrd ‘+(correct?‘ok’:‘bad’);document.getElementById(‘r-ans’).textContent=’ ’+ans;document.getElementById(‘r-ms’).textContent=my;document.getElementById(‘r-os’).textContent=opp;document.getElementById(‘rovl’).classList.add(‘on’);let c=3;const nx=document.getElementById(‘r-nxt’);const t=setInterval(()=>{c–;nx.textContent=‘Next in ‘+c+’…’;if(c<=0){clearInterval(t);document.getElementById(‘rovl’).classList.remove(‘on’);}},1000);}
+function showOnlineEnd(d){clearInterval(O.timer);document.getElementById(‘rovl’).classList.remove(‘on’);go(‘sc-results’);const hs=d.scores?.host||0,gs=d.scores?.guest||0;const w=hs>gs?d.host:gs>hs?(d.guest||‘Guest’):‘🤝 Tie!’;document.getElementById(‘f-win’).textContent=w;document.getElementById(‘f-wsc’).textContent=w===‘🤝 Tie!’?‘Equal scores!’:’Score: ’+Math.max(hs,gs);document.getElementById(‘f-n1’).textContent=d.host;document.getElementById(‘f-n2’).textContent=d.guest||‘Guest’;document.getElementById(‘f-s1’).textContent=hs;document.getElementById(‘f-s2’).textContent=gs;}
 function resetOnline(){O.subs.forEach(u=>u&&u());O.subs=[];clearInterval(O.timer);O.code=null;O.isHost=false;O.role=null;O.qi=0;O.scores={host:0,guest:0};O.myDone=false;O.oppDone=false;O.selCats=[];}
 
-// ── LOCAL ──
-let L={t1:'',t2:'',s:{t1:0,t2:0},selCats:[],board:{},curQ:null,timer:null,secs:0,awarded:false,ansRevealed:false};
-function updLocalCatInfo(){const n=L.selCats.length,el=document.getElementById('lc-cinfo'),btn=document.getElementById('lc-btn');if(n===6){el.className='cinfo ok';el.textContent='✅ 6 categories selected!';btn.disabled=false;}else{el.className='cinfo bad';el.textContent='Select exactly 6 ('+n+'/6)';btn.disabled=true;}}
-function startLocal(){L.t1=document.getElementById('lt1').value.trim()||'Team 1';L.t2=document.getElementById('lt2').value.trim()||'Team 2';if(L.selCats.length!==6){toast('Select exactly 6!');return;}L.s={t1:0,t2:0};L.board={};L.selCats.forEach(cat=>{const pool=rnd(QB.filter(q=>q.c===cat));L.board[cat]=pool.slice(0,4).map((q,i)=>({...q,opts:mkOpts(q),used:false,usedBy:null,pts:10*(i+1)}));});go('sc-local');updLBoard();updLHdr();}
-function updLBoard(){const el=document.getElementById('l-board');el.innerHTML='';L.selCats.forEach(cat=>{const qs=L.board[cat];const sec=document.createElement('div');sec.className='cat-sec';const tiles=qs.map((q,i)=>{const u=q.used,by=q.usedBy;const cls=u?(by==='t1'?' u1':by==='t2'?' u2':' un'):'';const lbl=u?(by==='t1'?'✅':by==='t2'?'❌':'—'):'Q'+(i+1);const click=u?'':`onclick="openLQ('${encodeURIComponent(cat)}',${i})"`;return`<div class="tile${u?' used'+cls:''}" ${click}><span>${lbl}</span><span class="tpts">${q.pts}pts</span></div>`;}).join('');sec.innerHTML=`<div class="cat-hd">${CATS[cat]||'📋'} ${cat}</div><div class="tiles">${tiles}</div>`;el.appendChild(sec);});}
-function updLHdr(){document.getElementById('lt1-n').textContent=L.t1;document.getElementById('lt2-n').textContent=L.t2;document.getElementById('lt1-s').textContent=L.s.t1;document.getElementById('lt2-s').textContent=L.s.t2;document.getElementById('aw-t1').textContent='🏆 '+L.t1;document.getElementById('aw-t2').textContent='🏆 '+L.t2;if(document.getElementById('lf-n1')){document.getElementById('lf-n1').textContent=L.t1;document.getElementById('lf-n2').textContent=L.t2;}}
-function openLQ(catEnc,idx){const cat=decodeURIComponent(catEnc);const q=L.board[cat][idx];if(q.used)return;L.curQ={cat,idx,q};L.awarded=false;L.ansRevealed=false;document.getElementById('lm-cat').textContent=(CATS[cat]||'')+' '+cat;document.getElementById('lm-pts').textContent=q.pts+' pts';document.getElementById('lm-q').textContent=q.q;document.getElementById('lm-opts').innerHTML=q.opts.map((o,i)=>`<div class="lopt" id="lo${i}"><span class="lo">${'ABCD'[i]}</span>${o}</div>`).join('');document.getElementById('show-ans-btn').style.display='block';document.getElementById('award-sec').style.display='none';document.getElementById('aw-badge').style.display='none';document.getElementById('lm-next').style.display='none';updLHdr();clearInterval(L.timer);L.secs=0;document.getElementById('lt-num').textContent='0:00';document.getElementById('lt-fg').style.width='0%';document.getElementById('lt-fg').className='ltfg';L.timer=setInterval(()=>{L.secs++;const m=Math.floor(L.secs/60),s=L.secs%60;document.getElementById('lt-num').textContent=m+':'+(s<10?'0':'')+s;const pct=Math.min((L.secs/120)*100,100);document.getElementById('lt-fg').style.width=pct+'%';document.getElementById('lt-fg').className='ltfg'+(pct>=100?' full':pct>=60?' mid':'');if(L.secs>=120)clearInterval(L.timer);},1000);document.getElementById('lmodal').classList.add('on');}
-function revealLocalAns(){const q=L.curQ.q;document.querySelectorAll('#lm-opts .lopt').forEach((btn,i)=>{if(q.opts[i]===q.a)btn.classList.add('ok');});L.ansRevealed=true;document.getElementById('show-ans-btn').style.display='none';document.getElementById('award-sec').style.display='flex';}
-function awardPts(team){if(L.awarded)return;L.awarded=true;clearInterval(L.timer);const q=L.curQ.q;const badge=document.getElementById('aw-badge');if(team==='t1'){L.s.t1+=q.pts;L.board[L.curQ.cat][L.curQ.idx].usedBy='t1';badge.className='aw-badge t1';badge.textContent='🏆 '+L.t1+' +'+q.pts+' pts!';}else if(team==='t2'){L.s.t2+=q.pts;L.board[L.curQ.cat][L.curQ.idx].usedBy='t2';badge.className='aw-badge t2';badge.textContent='🏆 '+L.t2+' +'+q.pts+' pts!';}else{L.board[L.curQ.cat][L.curQ.idx].usedBy='none';badge.className='aw-badge none';badge.textContent='⏭️ No answer — 0 pts';}L.board[L.curQ.cat][L.curQ.idx].used=true;if(!L.ansRevealed){document.querySelectorAll('#lm-opts .lopt').forEach((b,i)=>{if(L.curQ.q.opts[i]===L.curQ.q.a)b.classList.add('ok');});}document.getElementById('award-sec').style.display='none';badge.style.display='block';document.getElementById('lm-next').style.display='block';updLHdr();updLBoard();}
-function closeLocalQ(){clearInterval(L.timer);document.getElementById('lmodal').classList.remove('on');const all=L.selCats.every(c=>L.board[c].every(q=>q.used));if(all)showLRes();}
-function showLRes(){go('sc-lres');const s1=L.s.t1,s2=L.s.t2;const w=s1>s2?L.t1:s2>s1?L.t2:'🤝 Tie!';document.getElementById('lf-win').textContent=w;document.getElementById('lf-wsc').textContent=w==='🤝 Tie!'?'Equal scores!':'Total: '+Math.max(s1,s2)+' pts';document.getElementById('lf-s1').textContent=s1;document.getElementById('lf-s2').textContent=s2;}
+let L={t1:’’,t2:’’,s:{t1:0,t2:0},selCats:[],board:{},curQ:null,timer:null,secs:0,awarded:false,ansRevealed:false};
+function updLocalCatInfo(){const n=L.selCats.length,el=document.getElementById(‘lc-cinfo’),btn=document.getElementById(‘lc-btn’);if(n===6){el.className=‘cinfo ok’;el.textContent=‘✅ 6 categories selected!’;btn.disabled=false;}else{el.className=‘cinfo bad’;el.textContent=‘Select exactly 6 (’+n+’/6)’;btn.disabled=true;}}
+function startLocal(){L.t1=document.getElementById(‘lt1’).value.trim()||‘Team 1’;L.t2=document.getElementById(‘lt2’).value.trim()||‘Team 2’;if(L.selCats.length!==6){toast(‘Select exactly 6!’);return;}L.s={t1:0,t2:0};L.board={};L.selCats.forEach(cat=>{const pool=rnd(QB.filter(q=>q.c===cat));L.board[cat]=pool.slice(0,4).map((q,i)=>({…q,opts:mkOpts(q),used:false,usedBy:null,pts:10*(i+1)}));});go(‘sc-local’);updLBoard();updLHdr();}
+function updLBoard(){const el=document.getElementById(‘l-board’);el.innerHTML=’’;L.selCats.forEach(cat=>{const qs=L.board[cat];const sec=document.createElement(‘div’);sec.className=‘cat-sec’;const tiles=qs.map((q,i)=>{const u=q.used,by=q.usedBy;const cls=u?(by===‘t1’?’ u1’:by===‘t2’?’ u2’:’ un’):’’;const lbl=u?(by===‘t1’?‘✅’:by===‘t2’?‘❌’:’—’):‘Q’+(i+1);const click=u?’’:`onclick="openLQ('${encodeURIComponent(cat)}',${i})"`;return`<div class="tile${u?' used'+cls:''}" ${click}><span>${lbl}</span><span class="tpts">${q.pts}pts</span></div>`;}).join(’’);sec.innerHTML=`<div class="cat-hd">${CATS[cat]||'📋'} ${cat}</div><div class="tiles">${tiles}</div>`;el.appendChild(sec);});}
+function updLHdr(){document.getElementById(‘lt1-n’).textContent=L.t1;document.getElementById(‘lt2-n’).textContent=L.t2;document.getElementById(‘lt1-s’).textContent=L.s.t1;document.getElementById(‘lt2-s’).textContent=L.s.t2;document.getElementById(‘aw-t1’).textContent=‘🏆 ‘+L.t1;document.getElementById(‘aw-t2’).textContent=‘🏆 ‘+L.t2;if(document.getElementById(‘lf-n1’)){document.getElementById(‘lf-n1’).textContent=L.t1;document.getElementById(‘lf-n2’).textContent=L.t2;}}
+function openLQ(catEnc,idx){const cat=decodeURIComponent(catEnc);const q=L.board[cat][idx];if(q.used)return;L.curQ={cat,idx,q};L.awarded=false;L.ansRevealed=false;document.getElementById(‘lm-cat’).textContent=(CATS[cat]||’’)+’ ‘+cat;document.getElementById(‘lm-pts’).textContent=q.pts+’ pts’;document.getElementById(‘lm-q’).textContent=q.q;document.getElementById(‘lm-opts’).innerHTML=q.opts.map((o,i)=>`<div class="lopt" id="lo${i}"><span class="lo">${'ABCD'[i]}</span>${o}</div>`).join(’’);document.getElementById(‘show-ans-btn’).style.display=‘block’;document.getElementById(‘award-sec’).style.display=‘none’;document.getElementById(‘aw-badge’).style.display=‘none’;document.getElementById(‘lm-next’).style.display=‘none’;updLHdr();clearInterval(L.timer);L.secs=0;document.getElementById(‘lt-num’).textContent=‘0:00’;document.getElementById(‘lt-fg’).style.width=‘0%’;document.getElementById(‘lt-fg’).className=‘ltfg’;L.timer=setInterval(()=>{L.secs++;const m=Math.floor(L.secs/60),s=L.secs%60;document.getElementById(‘lt-num’).textContent=m+’:’+(s<10?‘0’:’’)+s;const pct=Math.min((L.secs/120)*100,100);document.getElementById(‘lt-fg’).style.width=pct+’%’;document.getElementById(‘lt-fg’).className=‘ltfg’+(pct>=100?’ full’:pct>=60?’ mid’:’’);if(L.secs>=120)clearInterval(L.timer);},1000);document.getElementById(‘lmodal’).classList.add(‘on’);}
+function revealLocalAns(){const q=L.curQ.q;document.querySelectorAll(’#lm-opts .lopt’).forEach((btn,i)=>{if(q.opts[i]===q.a)btn.classList.add(‘ok’);});L.ansRevealed=true;document.getElementById(‘show-ans-btn’).style.display=‘none’;document.getElementById(‘award-sec’).style.display=‘flex’;}
+function awardPts(team){if(L.awarded)return;L.awarded=true;clearInterval(L.timer);const q=L.curQ.q;const badge=document.getElementById(‘aw-badge’);if(team===‘t1’){L.s.t1+=q.pts;L.board[L.curQ.cat][L.curQ.idx].usedBy=‘t1’;badge.className=‘aw-badge t1’;badge.textContent=‘🏆 ‘+L.t1+’ +’+q.pts+’ pts!’;}else if(team===‘t2’){L.s.t2+=q.pts;L.board[L.curQ.cat][L.curQ.idx].usedBy=‘t2’;badge.className=‘aw-badge t2’;badge.textContent=‘🏆 ‘+L.t2+’ +’+q.pts+’ pts!’;}else{L.board[L.curQ.cat][L.curQ.idx].usedBy=‘none’;badge.className=‘aw-badge none’;badge.textContent=‘⏭️ No answer — 0 pts’;}L.board[L.curQ.cat][L.curQ.idx].used=true;if(!L.ansRevealed){document.querySelectorAll(’#lm-opts .lopt’).forEach((b,i)=>{if(L.curQ.q.opts[i]===L.curQ.q.a)b.classList.add(‘ok’);});}document.getElementById(‘award-sec’).style.display=‘none’;badge.style.display=‘block’;document.getElementById(‘lm-next’).style.display=‘block’;updLHdr();updLBoard();}
+function closeLocalQ(){clearInterval(L.timer);document.getElementById(‘lmodal’).classList.remove(‘on’);const all=L.selCats.every(c=>L.board[c].every(q=>q.used));if(all)showLRes();}
+function showLRes(){go(‘sc-lres’);const s1=L.s.t1,s2=L.s.t2;const w=s1>s2?L.t1:s2>s1?L.t2:‘🤝 Tie!’;document.getElementById(‘lf-win’).textContent=w;document.getElementById(‘lf-wsc’).textContent=w===‘🤝 Tie!’?‘Equal scores!’:‘Total: ‘+Math.max(s1,s2)+’ pts’;document.getElementById(‘lf-s1’).textContent=s1;document.getElementById(‘lf-s2’).textContent=s2;}
 function resetLocal(){L.selCats=[];L.s={t1:0,t2:0};L.board={};L.curQ=null;clearInterval(L.timer);L.awarded=false;L.ansRevealed=false;}
 
-// ── GO FAST ──
 let GF={code:null,isHost:false,myName:null,myId:null,selCats:[],qs:[],subs:[],qi:0,score:0,answered:0,timer:null,timeLeft:60,done:false};
-function updGFCatInfo(){const n=GF.selCats.length,el=document.getElementById('gf-cinfo'),btn=document.getElementById('gf-create-btn');if(n===2){el.className='cinfo ok';el.textContent='✅ 2 categories selected!';btn.disabled=false;}else{el.className='cinfo bad';el.textContent='Select exactly 2 ('+n+'/2)';btn.disabled=true;}}
-async function createGFRoom(){if(!window._fbReady){toast('Firebase not ready!');return;}const name=document.getElementById('gf-host-name').value.trim();if(!name){toast('Enter your name!');return;}if(GF.selCats.length!==2){toast('Select exactly 2!');return;}const pool=rnd(QB.filter(q=>GF.selCats.includes(q.c)));GF.qs=pool.map(q=>({...q,opts:mkOpts(q)}));const code=genCode();GF.code=code;GF.isHost=true;GF.myName=name;GF.myId='p_'+Date.now()+'_'+Math.random().toString(36).slice(2,6);await window._set(window._ref(window._db,'gfrooms/'+code),{status:'waiting',cats:GF.selCats,qs:GF.qs,host:name,hostId:GF.myId,players:{},created:Date.now()});await window._set(window._ref(window._db,'gfrooms/'+code+'/players/'+GF.myId),{name,score:0,answered:0,done:false,joined:Date.now()});showGFLobby();listenGFRoom();}
-async function joinGFRoom(){if(!window._fbReady){toast('Firebase not ready!');return;}const name=document.getElementById('gfj-name').value.trim();const code=document.getElementById('gfj-code').value.trim().toUpperCase();if(!name){toast('Enter your name!');return;}if(!code){toast('Enter room code!');return;}const snap=await window._get(window._ref(window._db,'gfrooms/'+code));if(!snap.exists()){toast('Room not found!');return;}const d=snap.val();if(d.status==='playing'){toast('Game already started!');return;}if(d.status==='finished'){toast('Game is over!');return;}GF.code=code;GF.isHost=false;GF.myName=name;GF.qs=d.qs;GF.selCats=d.cats;GF.myId='p_'+Date.now()+'_'+Math.random().toString(36).slice(2,6);await window._set(window._ref(window._db,'gfrooms/'+code+'/players/'+GF.myId),{name,score:0,answered:0,done:false,joined:Date.now()});go('sc-gf-waiting');document.getElementById('gf-joined-name').textContent='✅ '+name+' — Ready!';listenGFRoom();}
-function showGFLobby(){go('sc-gf-lobby');document.getElementById('gf-code-display').textContent=GF.code;}
-function listenGFRoom(){const r=window._ref(window._db,'gfrooms/'+GF.code);const u=window._onValue(r,snap=>{if(!snap.exists())return;const d=snap.val();const players=d.players||{};const pList=Object.values(players);document.getElementById('gf-pcount').textContent=pList.length;document.getElementById('gf-pcount2').textContent=pList.length;const el=document.getElementById('gf-plist');if(el){el.innerHTML=pList.map(p=>`<div class="gf-pslot joined"><div class="pdot"></div><div>${p.name}</div></div>`).join('');}if(d.status==='playing'&&!GF.done){GF.qs=d.qs;startGFGameForMe();}if(d.status==='finished'){showGFResultsScreen(players);}if(d.status==='waiting'&&GF.done){GF.done=false;GF.qi=0;GF.score=0;GF.answered=0;go('sc-gf-waiting');document.getElementById('gf-joined-name').textContent='✅ '+GF.myName+' — Ready!';}});GF.subs.push(u);}
-async function startGFGame(){if(!GF.isHost){return;}await window._update(window._ref(window._db,'gfrooms/'+GF.code),{status:'playing'});}
-function startGFGameForMe(){GF.qi=0;GF.score=0;GF.answered=0;GF.done=false;GF.timeLeft=60;const cd=document.getElementById('gf-countdown');const cdNum=document.getElementById('gf-cd-num');const cdName=document.getElementById('gf-cd-name');cdName.textContent=GF.myName;cd.classList.add('on');let c=3;cdNum.textContent=c;const t=setInterval(()=>{c--;if(c<=0){clearInterval(t);cd.classList.remove('on');launchGFGame();}else{cdNum.textContent=c;}},1000);}
-function launchGFGame(){go('sc-gf-game');document.getElementById('gf-my-name-badge').textContent='⚡ '+GF.myName;document.getElementById('gf-live-score').textContent='0';document.getElementById('gf-qnum').textContent='1';renderGFQuestion();startGFTimer();}
-function startGFTimer(){clearInterval(GF.timer);const upd=()=>{const pct=(GF.timeLeft/60)*100;document.getElementById('gf-tfill').style.width=pct+'%';document.getElementById('gf-tfill').className='gf-tfill'+(pct<=30?' warn':'');document.getElementById('gf-tsec').textContent=GF.timeLeft+'s';};upd();GF.timer=setInterval(()=>{GF.timeLeft--;upd();if(GF.timeLeft<=0){clearInterval(GF.timer);endGFGame();}},1000);}
-function renderGFQuestion(){const q=GF.qs[GF.qi%GF.qs.length];document.getElementById('gf-qcat').textContent=(CATS[q.c]||'')+' '+q.c;document.getElementById('gf-qtxt').textContent=q.q;document.getElementById('gf-qnum').textContent=GF.qi+1;document.getElementById('gf-qopts').innerHTML=q.opts.map((o,i)=>`<button class="mopt" onclick="gfAnswer(this,'${encodeURIComponent(o)}','${encodeURIComponent(q.a)}')"><span class="ol">${'ABCD'[i]}</span>${o}</button>`).join('');}
-function gfAnswer(btn,oEnc,aEnc){const o=decodeURIComponent(oEnc),a=decodeURIComponent(aEnc);const correct=o===a;document.querySelectorAll('#gf-qopts .mopt').forEach(b=>b.disabled=true);const q=GF.qs[GF.qi%GF.qs.length];document.querySelectorAll('#gf-qopts .mopt').forEach((b,i)=>{if(q.opts[i]===a)b.classList.add('ok');else if(b===btn&&!correct)b.classList.add('bad');});GF.answered++;if(correct)GF.score++;document.getElementById('gf-live-score').textContent=GF.score;const fl=document.getElementById('gf-flash-ovl');const fi=document.getElementById('gf-flash-inner');fi.textContent=correct?'✅ +1':'❌';fi.style.color=correct?'var(--c3)':'var(--c2)';fl.classList.add('on');setTimeout(()=>{fl.classList.remove('on');GF.qi++;renderGFQuestion();},280);}
-async function endGFGame(){clearInterval(GF.timer);GF.done=true;if(GF.myId&&GF.code){await window._update(window._ref(window._db,'gfrooms/'+GF.code+'/players/'+GF.myId),{score:GF.score,answered:GF.answered,done:true});if(GF.isHost){setTimeout(async()=>await checkAllGFDone(),2000);}}document.getElementById('gf-waiting-res').classList.add('on');document.getElementById('gf-wait-score').textContent=GF.score;document.getElementById('sc-gf-game').style.display='none';}
-async function checkAllGFDone(){const snap=await window._get(window._ref(window._db,'gfrooms/'+GF.code+'/players'));if(!snap.exists())return;const players=snap.val();const allDone=Object.values(players).every(p=>p.done);if(allDone){await window._update(window._ref(window._db,'gfrooms/'+GF.code),{status:'finished'});}else{setTimeout(async()=>await checkAllGFDone(),3000);}}
-function showGFResultsScreen(players){document.getElementById('gf-waiting-res').classList.remove('on');go('sc-gf-results');const sorted=Object.values(players).sort((a,b)=>b.score-a.score||(a.answered-b.answered));const medals=['🥇','🥈','🥉'];const rankCls=['r1','r2','r3'];document.getElementById('gf-podium').innerHTML=sorted.map((p,i)=>`<div class="gf-place ${rankCls[i]||''}"><div class="gf-medal">${medals[i]||'🎖️'}</div><div class="gf-pname">${p.name}${p.name===GF.myName?' 👈':''}</div><div class="gf-pscore"><span>${p.score}</span>${p.answered} answered</div></div>`).join('');document.getElementById('gf-play-again-btn').style.display=GF.isHost?'block':'none';}
-async function playAgainGF(){if(!GF.isHost)return;const snap=await window._get(window._ref(window._db,'gfrooms/'+GF.code+'/players'));if(!snap.exists())return;const players=snap.val();const updates={};Object.keys(players).forEach(id=>{updates['players/'+id+'/score']=0;updates['players/'+id+'/answered']=0;updates['players/'+id+'/done']=false;});updates.status='waiting';const pool=rnd(QB.filter(q=>GF.selCats.includes(q.c)));GF.qs=pool.map(q=>({...q,opts:mkOpts(q)}));updates.qs=GF.qs;await window._update(window._ref(window._db,'gfrooms/'+GF.code),updates);go('sc-gf-lobby');showGFLobby();}
-function leaveGFRoom(){GF.subs.forEach(u=>u&&u());GF.subs=[];if(GF.code&&GF.myId){window._remove(window._ref(window._db,'gfrooms/'+GF.code+'/players/'+GF.myId)).catch(()=>{});}clearInterval(GF.timer);go('sc-land');resetGF();}
-function resetGF(){GF.subs.forEach(u=>u&&u());GF.subs=[];clearInterval(GF.timer);GF.code=null;GF.isHost=false;GF.myName=null;GF.myId=null;GF.selCats=[];GF.qs=[];GF.qi=0;GF.score=0;GF.answered=0;GF.done=false;GF.timeLeft=60;mkCatGrid('gf-cats',GF.selCats,'sc4',2,updGFCatInfo);updGFCatInfo();}
+function updGFCatInfo(){const n=GF.selCats.length,el=document.getElementById(‘gf-cinfo’),btn=document.getElementById(‘gf-create-btn’);if(n===2){el.className=‘cinfo ok’;el.textContent=‘✅ 2 categories selected!’;btn.disabled=false;}else{el.className=‘cinfo bad’;el.textContent=‘Select exactly 2 (’+n+’/2)’;btn.disabled=true;}}
+async function createGFRoom(){if(!window.*fbReady){toast(‘Firebase not ready!’);return;}const name=document.getElementById(‘gf-host-name’).value.trim();if(!name){toast(‘Enter your name!’);return;}if(GF.selCats.length!==2){toast(‘Select exactly 2!’);return;}const pool=rnd(QB.filter(q=>GF.selCats.includes(q.c)));GF.qs=pool.map(q=>({…q,opts:mkOpts(q)}));const code=genCode();GF.code=code;GF.isHost=true;GF.myName=name;GF.myId=’p*’+Date.now()+’_’+Math.random().toString(36).slice(2,6);await window._set(window._ref(window._db,‘gfrooms/’+code),{status:‘waiting’,cats:GF.selCats,qs:GF.qs,host:name,hostId:GF.myId,players:{},created:Date.now()});await window._set(window._ref(window._db,‘gfrooms/’+code+’/players/’+GF.myId),{name,score:0,answered:0,done:false,joined:Date.now()});showGFLobby();listenGFRoom();}
+async function joinGFRoom(){if(!window._fbReady){toast(‘Firebase not ready!’);return;}const name=document.getElementById(‘gfj-name’).value.trim();const code=document.getElementById(‘gfj-code’).value.trim().toUpperCase();if(!name){toast(‘Enter name!’);return;}if(!code){toast(‘Enter code!’);return;}const snap=await window._get(window.*ref(window.*db,‘gfrooms/’+code));if(!snap.exists()){toast(‘Room not found!’);return;}const d=snap.val();if(d.status===‘playing’){toast(‘Game already started!’);return;}GF.code=code;GF.isHost=false;GF.myName=name;GF.qs=d.qs;GF.selCats=d.cats;GF.myId=’p*’+Date.now()+’*’+Math.random().toString(36).slice(2,6);await window._set(window._ref(window._db,‘gfrooms/’+code+’/players/’+GF.myId),{name,score:0,answered:0,done:false,joined:Date.now()});go(‘sc-gf-waiting’);document.getElementById(‘gf-joined-name’).textContent=‘✅ ‘+name+’ — Ready!’;listenGFRoom();}
+function showGFLobby(){go(‘sc-gf-lobby’);document.getElementById(‘gf-code-display’).textContent=GF.code;}
+function listenGFRoom(){const r=window._ref(window._db,‘gfrooms/’+GF.code);const u=window._onValue(r,snap=>{if(!snap.exists())return;const d=snap.val();const players=d.players||{};const pList=Object.values(players);document.getElementById(‘gf-pcount’).textContent=pList.length;document.getElementById(‘gf-pcount2’).textContent=pList.length;const el=document.getElementById(‘gf-plist’);if(el){el.innerHTML=pList.map(p=>`<div class="gf-pslot joined"><div class="pdot"></div><div>${p.name}</div></div>`).join(’’);}if(d.status===‘playing’&&!GF.done){GF.qs=d.qs;startGFGameForMe();}if(d.status===‘finished’){showGFResultsScreen(players);}if(d.status===‘waiting’&&GF.done){GF.done=false;GF.qi=0;GF.score=0;GF.answered=0;go(‘sc-gf-waiting’);document.getElementById(‘gf-joined-name’).textContent=‘✅ ‘+GF.myName+’ — Ready!’;}});GF.subs.push(u);}
+async function startGFGame(){if(!GF.isHost)return;await window._update(window._ref(window._db,‘gfrooms/’+GF.code),{status:‘playing’});}
+function startGFGameForMe(){GF.qi=0;GF.score=0;GF.answered=0;GF.done=false;GF.timeLeft=60;const cd=document.getElementById(‘gf-countdown’);document.getElementById(‘gf-cd-name’).textContent=GF.myName;cd.classList.add(‘on’);let c=3;document.getElementById(‘gf-cd-num’).textContent=c;const t=setInterval(()=>{c–;if(c<=0){clearInterval(t);cd.classList.remove(‘on’);launchGFGame();}else{document.getElementById(‘gf-cd-num’).textContent=c;}},1000);}
+function launchGFGame(){go(‘sc-gf-game’);document.getElementById(‘gf-my-name-badge’).textContent=‘⚡ ‘+GF.myName;document.getElementById(‘gf-live-score’).textContent=‘0’;renderGFQuestion();startGFTimer();}
+function startGFTimer(){clearInterval(GF.timer);const upd=()=>{const pct=(GF.timeLeft/60)*100;document.getElementById(‘gf-tfill’).style.width=pct+’%’;document.getElementById(‘gf-tfill’).className=‘gf-tfill’+(pct<=30?’ warn’:’’);document.getElementById(‘gf-tsec’).textContent=GF.timeLeft+‘s’;};upd();GF.timer=setInterval(()=>{GF.timeLeft–;upd();if(GF.timeLeft<=0){clearInterval(GF.timer);endGFGame();}},1000);}
+function renderGFQuestion(){const q=GF.qs[GF.qi%GF.qs.length];document.getElementById(‘gf-qcat’).textContent=(CATS[q.c]||’’)+’ ‘+q.c;document.getElementById(‘gf-qtxt’).textContent=q.q;document.getElementById(‘gf-qnum’).textContent=GF.qi+1;document.getElementById(‘gf-qopts’).innerHTML=q.opts.map((o,i)=>`<button class="mopt" onclick="gfAnswer(this,'${encodeURIComponent(o)}','${encodeURIComponent(q.a)}')"><span class="ol">${'ABCD'[i]}</span>${o}</button>`).join(’’);}
+function gfAnswer(btn,oEnc,aEnc){const o=decodeURIComponent(oEnc),a=decodeURIComponent(aEnc);const correct=o===a;document.querySelectorAll(’#gf-qopts .mopt’).forEach(b=>b.disabled=true);const q=GF.qs[GF.qi%GF.qs.length];document.querySelectorAll(’#gf-qopts .mopt’).forEach((b,i)=>{if(q.opts[i]===a)b.classList.add(‘ok’);else if(b===btn&&!correct)b.classList.add(‘bad’);});GF.answered++;if(correct)GF.score++;document.getElementById(‘gf-live-score’).textContent=GF.score;const fl=document.getElementById(‘gf-flash-ovl’);const fi=document.getElementById(‘gf-flash-inner’);fi.textContent=correct?‘✅ +1’:‘❌’;fi.style.color=correct?‘var(–c3)’:‘var(–c2)’;fl.classList.add(‘on’);setTimeout(()=>{fl.classList.remove(‘on’);GF.qi++;renderGFQuestion();},280);}
+async function endGFGame(){clearInterval(GF.timer);GF.done=true;if(GF.myId&&GF.code){await window._update(window._ref(window._db,‘gfrooms/’+GF.code+’/players/’+GF.myId),{score:GF.score,answered:GF.answered,done:true});if(GF.isHost)setTimeout(async()=>await checkAllGFDone(),2000);}document.getElementById(‘gf-waiting-res’).classList.add(‘on’);document.getElementById(‘gf-wait-score’).textContent=GF.score;document.getElementById(‘sc-gf-game’).style.display=‘none’;}
+async function checkAllGFDone(){const snap=await window._get(window._ref(window._db,‘gfrooms/’+GF.code+’/players’));if(!snap.exists())return;const players=snap.val();if(Object.values(players).every(p=>p.done)){await window._update(window._ref(window._db,‘gfrooms/’+GF.code),{status:‘finished’});}else{setTimeout(async()=>await checkAllGFDone(),3000);}}
+function showGFResultsScreen(players){document.getElementById(‘gf-waiting-res’).classList.remove(‘on’);go(‘sc-gf-results’);const sorted=Object.values(players).sort((a,b)=>b.score-a.score||(a.answered-b.answered));const medals=[‘🥇’,‘🥈’,‘🥉’];const rankCls=[‘r1’,‘r2’,‘r3’];document.getElementById(‘gf-podium’).innerHTML=sorted.map((p,i)=>`<div class="gf-place ${rankCls[i]||''}"><div class="gf-medal">${medals[i]||'🎖️'}</div><div class="gf-pname">${p.name}${p.name===GF.myName?' 👈':''}</div><div class="gf-pscore"><span>${p.score}</span>${p.answered} answered</div></div>`).join(’’);document.getElementById(‘gf-play-again-btn’).style.display=GF.isHost?‘block’:‘none’;}
+async function playAgainGF(){if(!GF.isHost)return;const snap=await window._get(window._ref(window._db,‘gfrooms/’+GF.code+’/players’));if(!snap.exists())return;const players=snap.val();const updates={};Object.keys(players).forEach(id=>{updates[‘players/’+id+’/score’]=0;updates[‘players/’+id+’/answered’]=0;updates[‘players/’+id+’/done’]=false;});updates.status=‘waiting’;const pool=rnd(QB.filter(q=>GF.selCats.includes(q.c)));GF.qs=pool.map(q=>({…q,opts:mkOpts(q)}));updates.qs=GF.qs;await window._update(window._ref(window._db,‘gfrooms/’+GF.code),updates);go(‘sc-gf-lobby’);showGFLobby();}
+function leaveGFRoom(){GF.subs.forEach(u=>u&&u());GF.subs=[];if(GF.code&&GF.myId)window._remove(window._ref(window._db,‘gfrooms/’+GF.code+’/players/’+GF.myId)).catch(()=>{});clearInterval(GF.timer);go(‘sc-land’);resetGF();}
+function resetGF(){GF.subs.forEach(u=>u&&u());GF.subs=[];clearInterval(GF.timer);GF.code=null;GF.isHost=false;GF.myName=null;GF.myId=null;GF.selCats=[];GF.qs=[];GF.qi=0;GF.score=0;GF.answered=0;GF.done=false;GF.timeLeft=60;mkCatGrid(‘gf-cats’,GF.selCats,‘sc4’,2,updGFCatInfo);updGFCatInfo();}
 
-document.addEventListener('DOMContentLoaded',()=>{
-  mkCatGrid('cn-cats',O.selCats,'sc1',4,updOnlineCatInfo);
-  mkCatGrid('lc-cats',L.selCats,'sc3',6,updLocalCatInfo);
-  mkCatGrid('gf-cats',GF.selCats,'sc4',2,updGFCatInfo);
+document.addEventListener(‘DOMContentLoaded’,()=>{
+mkCatGrid(‘cn-cats’,O.selCats,‘sc1’,4,updOnlineCatInfo);
+mkCatGrid(‘lc-cats’,L.selCats,‘sc3’,6,updLocalCatInfo);
+mkCatGrid(‘gf-cats’,GF.selCats,‘sc4’,2,updGFCatInfo);
+examRenderHome();
 });
 </script>
 
@@ -942,28 +699,18 @@ document.addEventListener('DOMContentLoaded',()=>{
 <div id="sc-exam-home" class="sc" style="gap:24px;">
   <div style="text-align:center;">
     <div style="font-size:clamp(1.6rem,6vw,2.4rem);font-weight:800;letter-spacing:-1px;">General Dentistry<br><span style="background:linear-gradient(135deg,#f0c94d,#ffa657);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Exam Review</span></div>
-    <div style="font-family:var(--fm);font-size:0.68rem;color:var(--mt);letter-spacing:3px;text-transform:uppercase;margin-top:8px;">📚 Study Mode — Show Answer</div>
+    <div style="font-family:var(--fm);font-size:0.68rem;color:var(--mt);letter-spacing:3px;text-transform:uppercase;margin-top:8px;">📚 Study Mode</div>
   </div>
   <div id="exam-subject-list" style="display:flex;flex-direction:column;gap:10px;width:100%;max-width:500px;"></div>
   <button class="btn btn-o" onclick="go('sc-land')" style="max-width:500px;width:100%;">← Back</button>
-  <!-- Instagram -->
-  <div style="display:flex;flex-direction:column;align-items:center;gap:7px;padding:16px 0 4px;">
-    <a href="https://www.instagram.com/dr.ibrahimdashty" target="_blank" style="display:flex;align-items:center;gap:7px;text-decoration:none;opacity:0.6;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="#6b7a99"/></svg>
-      <span style="font-family:var(--fm);font-size:0.62rem;color:var(--mt);">@dr.ibrahimdashty</span>
-    </a>
-    <a href="https://www.instagram.com/dent.list" target="_blank" style="display:flex;align-items:center;gap:7px;text-decoration:none;opacity:0.6;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="#6b7a99"/></svg>
-      <span style="font-family:var(--fm);font-size:0.62rem;color:var(--mt);">@dent.list</span>
-    </a>
-  </div>
+  <div class="ig-bar" style="max-width:500px;"><a class="ig-link" href="https://www.instagram.com/dr.ibrahimdashty" target="_blank"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>@dr.ibrahimdashty</a><a class="ig-link" href="https://www.instagram.com/dent.list" target="_blank"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>@dent.list</a></div>
 </div>
 
 <!-- EXAM SUBJECT -->
 
 <div id="sc-exam-subject" class="sc" style="gap:0;justify-content:flex-start;padding:0;">
   <div style="background:var(--s1);border-bottom:1px solid var(--b1);padding:14px 18px;display:flex;align-items:center;gap:12px;width:100%;position:sticky;top:0;z-index:10;">
-    <button onclick="go('sc-exam-home')" style="background:none;border:none;color:var(--mt);cursor:pointer;font-size:1.1rem;padding:4px 8px;border-radius:7px;">←</button>
+    <button onclick="go('sc-exam-home')" style="background:none;border:none;color:var(--mt);cursor:pointer;font-size:1.1rem;padding:4px 8px;">←</button>
     <div style="flex:1;"><div style="font-size:0.95rem;font-weight:700;" id="exam-subj-title">Subject</div><div style="font-family:var(--fm);font-size:0.62rem;color:var(--mt);margin-top:2px;" id="exam-subj-sub"></div></div>
   </div>
   <div style="padding:10px 18px 0;width:100%;">
@@ -977,7 +724,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 
 <div id="sc-exam-card" class="sc" style="gap:0;justify-content:flex-start;padding:0;">
   <div style="background:var(--s1);border-bottom:1px solid var(--b1);padding:12px 16px;display:flex;align-items:center;gap:10px;width:100%;position:sticky;top:0;z-index:10;">
-    <button onclick="go('sc-exam-subject');examRenderSubject();" style="background:none;border:none;color:var(--mt);cursor:pointer;font-size:1.1rem;padding:4px 8px;border-radius:7px;">←</button>
+    <button onclick="go('sc-exam-subject');examRenderSubject();" style="background:none;border:none;color:var(--mt);cursor:pointer;font-size:1.1rem;padding:4px 8px;">←</button>
     <span style="font-family:var(--fm);font-size:0.65rem;color:var(--c1);background:rgba(0,240,255,0.1);border:1px solid rgba(0,240,255,0.2);padding:3px 10px;border-radius:50px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:55%;" id="exam-card-chapter">Chapter</span>
     <span style="flex:1;"></span>
     <span style="font-family:var(--fm);font-size:0.7rem;color:var(--mt);background:var(--s2);padding:4px 10px;border-radius:50px;border:1px solid var(--b1);" id="exam-card-counter">1/10</span>
@@ -1015,28 +762,75 @@ document.addEventListener('DOMContentLoaded',()=>{
 
 <script>
 const EXAM_SUBJECTS=[
-{id:"kbr-entry",name:"KBR Entry Exam",icon:"🏆",desc:"Kuwait Board R1 · 256 Questions · 2023-2025",chapters:[{title:"KBR Practice — All Years",color:"#b06eff",questions:[{q:"Click to open the full KBR exam",a:"This will open the dedicated KBR Entry Exam page with all 256 questions, year filters, and performance analytics."}]}],isExternal:true,externalUrl:"exam-kbr-entry.html"},
-{id:"dental-material-ext",name:"Dental Material",icon:"🔬",desc:"Adhesive · Liners · Composite · GIC · Properties",chapters:[{title:"Dental Material Study",color:"#58a6ff",questions:[{q:"Click to open Dental Material study mode",a:"This will open the dedicated Dental Material page."}]}],isExternal:true,externalUrl:"exam-dental-material.html"},
-{id:"dental-material",name:"Dental Material",icon:"🦷",desc:"Adhesive · Liners · Composite · GIC · Properties",chapters:[{title:"L1 — Amalgam & Dental Adhesive",color:"#3ddc84",questions:[{q:"When was amalgam first introduced in the US and by whom?",a:"By <strong>Edward Crawcour in 1833</strong>. Gained full ADA support in 1859 due to low cost and ease of handling."},{q:"What is the Minamata Convention and its effect in Kuwait?",a:"Kuwait signed it in <strong>2013</strong>; treaty went into force <strong>2017</strong>. Amalgam was <strong>banned without exceptions</strong> by law."},{q:"What are the three types of adhesion forces?",a:"<ul><li><strong>Physical</strong> — Van der Waals, dipole, H-bond</li><li><strong>Chemical</strong> — ionic, covalent, metallic</li><li><strong>Mechanical interlocking</strong> — most common in dentistry</li></ul>"},{q:"What are the three requirements for adhesion?",a:"<ul><li><strong>Clean surfaces</strong></li><li><strong>Surface microroughness</strong></li><li><strong>Acute contact angle</strong> — high surface energy → better wetting</li></ul>"},{q:"What is the primary objective of dental adhesives?",a:"<strong>Primary:</strong> Seal tooth structure, prevent marginal leakage, stop bacterial ingress.<br><strong>Secondary:</strong> Preserve tooth structure, reduce sensitivity, reinforce tooth."},{q:"Why is dentin harder to bond to than enamel?",a:"Dentin: ~45% mineral, ~33% collagen, ~22% water. Deep dentin is less mineralized and wet — bond strength <strong>30–40% lower</strong> than superficial dentin."},{q:"What is the smear layer?",a:"Tooth preparation debris ~0.5–7 µm. Contains hydroxyapatite, denatured collagen, bacteria. Smear plugs reduce dentin permeability by <strong>86%</strong>."},{q:"What are the dental adhesive generations?",a:"<ul><li><strong>4th:</strong> 3-step total-etch</li><li><strong>5th:</strong> 2-step total-etch</li><li><strong>6th:</strong> 2-step self-etch</li><li><strong>7th:</strong> 1-step self-etch</li><li><strong>8th:</strong> Universal</li></ul>"},{q:"What is 10-MDP?",a:"Adhesion monomer. Phosphate group bonds ionically to calcium in HAp. Forms stable nano-layer Ca salt. Has <strong>MMP inhibitory activity</strong> → improves bond longevity."},{q:"What is the Oxygen Inhibited Layer (OIL)?",a:"~20–40 µm free resin that cannot polymerize in presence of oxygen. Apply <strong>0.5 mm flowable composite</strong> over adhesive to ensure full cure."}]},{title:"L2 — Dental Liners and Bases",color:"#58a6ff",questions:[{q:"What are the 5 types of pulpal irritation?",a:"<ol><li>Microbial</li><li>Chemical</li><li>Electrical (galvanism)</li><li>Thermal</li><li>Mechanical</li></ol>"},{q:"What are the key RDT thresholds?",a:"<ul><li><strong>≥2 mm</strong> → little reaction</li><li><strong>1 mm</strong> → reduces toxins 90%</li><li><strong>0.5 mm</strong> → reduces toxins 75%</li><li><strong>≤0.25 mm</strong> → greatest pulpal impact</li></ul>"},{q:"Liner vs Base — what is the difference?",a:"<strong>Liner:</strong> ≤0.5 mm — bacterial barrier, therapeutic.<br><strong>Base:</strong> Thick layer — thermal/chemical protection + supports restoration."},{q:"Properties of Zinc Phosphate cement?",a:"Compressive strength ~70 MPa. Type I = fine (perm cement); Type II = medium (insulating base). Exothermic setting — mix on cool slab."},{q:"Properties and classification of GIC?",a:"Fluoride release, self-adhesive. Types: I=luting, II=restorative, III=liner/base, IV=sealant, V=ortho, VI=core buildup."},{q:"Properties and indications of MTA?",a:"Biocompatible, pH→12.5, radiopaque, long setting time.<br>Indications: root-end filling, apexification, perforation, pulp capping, pulpotomy."},{q:"What is Bioceramic Putty?",a:"Biocompatible, hydrophilic, dimensionally stable, insoluble, pH 12.<br>Uses: liner/base, pulp cap, pulpotomy, perforation, resorption, obturation."}]},{title:"L3 — Composite Resin",color:"#f0c94d",questions:[{q:"Composition of composite resin?",a:"<ul><li><strong>Resin matrix</strong> — Bis-GMA, UDMA, TEG-DMA</li><li><strong>Filler particles</strong> — determine strength and polishability</li><li><strong>Silane coupling agent</strong> — bonds filler to matrix</li></ul>"},{q:"Classification of composites by filler size?",a:"<ul><li><strong>Macrofilled:</strong> Strong, poor polish</li><li><strong>Microfilled:</strong> Weaker, excellent polish</li><li><strong>Hybrid (minifill):</strong> Best balance</li><li><strong>Nanofill:</strong> Most recent</li></ul>"},{q:"What is polymerization shrinkage and its consequences?",a:"1.5–5% volumetric reduction → internal stress → gaps → marginal failure → post-op sensitivity."},{q:"Light curing protocol for Class II?",a:"3 curing cycles — occlusal + buccal + lingual after matrix removal (10s each at ≥1000 mW/cm²)."},{q:"Causes of post-operative sensitivity?",a:"Over-etching dentin, no incremental build-up, polymerization shrinkage, incomplete cure, microleakage."}]},{title:"L4 — Glass Ionomer",color:"#bc8cff",questions:[{q:"When was GIC introduced and what is its composition?",a:"<strong>Wilson & Kent, early 1970s.</strong><br>Powder: calcium-fluoro-alumino-silicate glass.<br>Liquid: polyalkenoic acids. Setting = <strong>acid-base reaction.</strong>"},{q:"Advantages of GIC?",a:"Biocompatible, fluoride release, self-adhesive, minimal shrinkage, well tolerated by pulp."},{q:"Disadvantages of GIC?",a:"Tensile strength = <strong>only 40% of composite</strong>. Poor aesthetics. Moisture sensitive during setting."},{q:"Indications for GIC?",a:"Class V, caries control, primary teeth, ART technique, ortho band cementation, undercut block-out."}]},{title:"L5 — Material Properties",color:"#ffa657",questions:[{q:"Define stress and strain.",a:"<strong>Stress</strong> = force per unit area (MPa).<br><strong>Strain</strong> = change in dimension per unit original length (%)."},{q:"Ductility vs Malleability, Resilience vs Toughness?",a:"<strong>Ductility:</strong> Plastic deformation under tension.<br><strong>Malleability:</strong> Under compression.<br><strong>Resilience:</strong> Elastic energy absorbed and released.<br><strong>Toughness:</strong> Total energy before fracture."},{q:"Tarnish vs Corrosion?",a:"<strong>Tarnish:</strong> Surface dulling from sulfide/oxide film.<br><strong>Corrosion:</strong> Chemical/electrochemical attack → dissolution."},{q:"Munsell color system?",a:"3 dimensions: <strong>Hue, Value, Chroma.</strong><br>VITA hues: A=red-brown, B=red-yellow, C=gray, D=red-gray. Select shade in <strong>natural daylight.</strong>"}]}]}];
+{id:"kbr-entry",name:"KBR Entry Exam",icon:"🏆",desc:"Kuwait Board R1 · 256 Questions · 2023–2025",isExternal:true,externalUrl:"exam-kbr-entry.html",chapters:[{title:"KBR",questions:[{q:"",a:""}]}]},
+{id:"dental-material-ext",name:"Dental Material",icon:"🔬",desc:"Adhesive · Liners · Composite · GIC · Properties",isExternal:true,externalUrl:"exam-dental-material.html",chapters:[{title:"DM",questions:[{q:"",a:""}]}]},
+{id:"dental-material",name:"Dental Material Study",icon:"🦷",desc:"Adhesive · Liners · Composite · GIC · Properties",chapters:[
+{title:"L1 — Amalgam & Dental Adhesive",color:"#3ddc84",questions:[
+{q:"When was amalgam first introduced and banned in Kuwait?",a:"Introduced in US by <strong>Edward Crawcour in 1833</strong>. Kuwait banned it after signing <strong>Minamata Convention 2013</strong>, in force 2017."},
+{q:"What are the 3 requirements for adhesion?",a:"<ol><li><strong>Clean surfaces</strong> — free of debris and moisture</li><li><strong>Surface microroughness</strong> — enhances wettability</li><li><strong>Acute contact angle</strong> — high surface energy → better wetting</li></ol>"},
+{q:"What are the dental adhesive generations?",a:"<ul><li><strong>4th:</strong> 3-step total-etch (2 bottles)</li><li><strong>5th:</strong> 2-step total-etch (1 bottle)</li><li><strong>6th:</strong> 2-step self-etch</li><li><strong>7th:</strong> 1-step self-etch</li><li><strong>8th:</strong> Universal</li></ul>"},
+{q:"What is the smear layer?",a:"Tooth preparation debris ~0.5–7 µm. Contains hydroxyapatite, denatured collagen, bacteria. Reduces dentin permeability by <strong>86%</strong>. Must be removed or modified for bonding."},
+{q:"What is 10-MDP?",a:"Adhesion monomer. Phosphate group bonds ionically to calcium in HAp. Forms stable nano-layer. Has <strong>MMP inhibitory activity</strong> → improves bond longevity."},
+{q:"What is the C-factor?",a:"Ratio of bonded to unbonded surfaces (Carl Davidson 1984). High C-factor → more polymerization shrinkage stress → debonding risk. Class I cavities have highest C-factor."}
+]},
+{title:"L2 — Dental Liners and Bases",color:"#58a6ff",questions:[
+{q:"What are the key RDT thresholds?",a:"<ul><li><strong>≥2 mm</strong> → little pulpal reaction</li><li><strong>1 mm</strong> → reduces toxins 90%</li><li><strong>0.5 mm</strong> → reduces toxins 75%</li><li><strong>≤0.25 mm</strong> → greatest pulpal impact</li></ul>"},
+{q:"Liner vs Base — difference?",a:"<strong>Liner:</strong> ≤0.5 mm — bacterial barrier, therapeutic, electrical insulation.<br><strong>Base:</strong> Thick layer — thermal/chemical protection + structural support under restoration."},
+{q:"Properties and indications of MTA?",a:"Biocompatible, pH→12.5 (antibacterial), radiopaque, long setting time, compressive strength 67 MPa.<br>Indications: root-end filling, apexification, perforation repair, pulp capping, pulpotomy."},
+{q:"Properties of GIC (Types)?",a:"Fluoride release, self-adhesive (ionic bond to Ca), minimal shrinkage.<br>I=luting, II=restorative, III=liner/base, IV=sealant, V=ortho, VI=core buildup."},
+{q:"What is Bioceramic Putty?",a:"Biocompatible, hydrophilic, dimensionally stable (expands slightly), insoluble, pH 12.<br>Uses: liner/base, pulp cap, pulpotomy, perforation, resorption, obturation."}
+]},
+{title:"L3 — Composite Resin",color:"#f0c94d",questions:[
+{q:"Composition of composite resin?",a:"<ul><li><strong>Resin matrix:</strong> Bis-GMA, UDMA, TEG-DMA</li><li><strong>Filler particles:</strong> determine strength and polishability</li><li><strong>Silane coupling agent:</strong> bonds filler to matrix</li><li>Photo-initiators, stabilizers, pigments</li></ul>"},
+{q:"Classification by filler size?",a:"<ul><li><strong>Macrofilled:</strong> Strong, poor polish</li><li><strong>Microfilled:</strong> Weaker, excellent polish</li><li><strong>Hybrid (minifill/midifill):</strong> Best balance — anterior + posterior</li><li><strong>Nanofill:</strong> Most recent generation</li></ul>"},
+{q:"What is polymerization shrinkage?",a:"1.5–5% volumetric reduction during setting. Causes internal stress → gaps → marginal failure → post-op sensitivity. Minimised by incremental layering technique."},
+{q:"Curing protocol for Class II?",a:"3 curing cycles after matrix removal:<br>Occlusal + buccal + lingual (10s each at ≥1000 mW/cm²). Intensity drops 10% per 1mm distance from tip."},
+{q:"Causes of post-op sensitivity?",a:"Over-etching dentin, no incremental build-up, polymerization shrinkage stressing cusps, incomplete cure, microleakage from poor moisture control."}
+]},
+{title:"L4 — Glass Ionomer",color:"#bc8cff",questions:[
+{q:"GIC composition and setting reaction?",a:"<strong>Wilson & Kent, early 1970s.</strong><br>Powder: calcium-fluoro-alumino-silicate glass.<br>Liquid: polyalkenoic acids (polyacrylic acid).<br>Setting = <strong>acid-base reaction.</strong>"},
+{q:"Advantages and disadvantages of GIC?",a:"<strong>Advantages:</strong> Fluoride release, self-adhesive, minimal shrinkage, biocompatible.<br><strong>Disadvantages:</strong> Tensile strength only 40% of composite. Poor aesthetics. Moisture sensitive during setting."},
+{q:"Indications for GIC?",a:"Class V restorations, caries control, primary posterior teeth, ART technique, undercut block-out, dentin substitute, ortho band cementation, core build-up (≥50% tooth remaining)."}
+]},
+{title:"L5 — Material Properties",color:"#ffa657",questions:[
+{q:"Define stress, strain and Young's modulus?",a:"<strong>Stress:</strong> Force per unit area (MPa) = F/A.<br><strong>Strain:</strong> Change in dimension per unit original length (%) = ΔL/L₀.<br><strong>Young's Modulus:</strong> Stress/Strain ratio in elastic range."},
+{q:"Ductility vs Malleability; Resilience vs Toughness?",a:"<strong>Ductility:</strong> Plastic deformation under tension.<br><strong>Malleability:</strong> Under compression.<br><strong>Resilience:</strong> Elastic energy absorbed and released (spring).<br><strong>Toughness:</strong> Total energy to fracture (elastic + plastic)."},
+{q:"Tarnish vs Corrosion?",a:"<strong>Tarnish:</strong> Surface dulling from thin sulfide/oxide film — reversible.<br><strong>Corrosion:</strong> Chemical/electrochemical attack → partial dissolution — irreversible. Galvanic: two dissimilar metals in liquid → pain then subsides."},
+{q:"Munsell color system and shade selection?",a:"3 dimensions: <strong>Hue</strong> (color family), <strong>Value</strong> (brightness), <strong>Chroma</strong> (saturation).<br>VITA: A=red-brown, B=red-yellow, C=gray, D=red-gray.<br>Always select shade in <strong>natural daylight</strong>, hydrated tooth."}
+]}
+]}
+];
 
 let EX={subj:null,chIdx:0,qIdx:0,reviewed:{}};
 function exKey(s,c,q){return s+'-'+c+'-'+q;}
 function exLoad(){try{EX.reviewed=JSON.parse(localStorage.getItem('ex_rev')||'{}')}catch(e){EX.reviewed={}}}
 function exSave(){localStorage.setItem('ex_rev',JSON.stringify(EX.reviewed))}
+
 function examRenderHome(){
   const el=document.getElementById('exam-subject-list');
+  if(!el)return;
   el.innerHTML=EXAM_SUBJECTS.map(s=>{
-    const tot=s.chapters.reduce((a,c)=>a+c.questions.length,0);
-    const done=s.chapters.reduce((a,c,ci)=>a+c.questions.filter((q,qi)=>EX.reviewed[exKey(s.id,ci,qi)]).length,0);
-    return`<div style="background:var(--s2);border:1px solid var(--b1);border-radius:14px;padding:18px 20px;cursor:pointer;transition:all 0.22s;display:flex;align-items:center;justify-content:space-between;gap:12px;" onclick="examSelectSubject('${s.id}')" onmouseover="this.style.borderColor='#f0c94d'" onmouseout="this.style.borderColor='var(--b1)'">
-      <div style="display:flex;align-items:center;gap:12px;"><span style="font-size:1.6rem;">${s.icon}</span><div><div style="font-size:0.95rem;font-weight:700;margin-bottom:3px;">${s.name}</div><div style="font-family:var(--fm);font-size:0.65rem;color:var(--mt);">${s.desc} • ${done}/${tot} reviewed</div></div></div>
+    const tot=s.isExternal?'—':s.chapters.reduce((a,c)=>a+c.questions.length,0);
+    const done=s.isExternal?'':s.chapters.reduce((a,c,ci)=>a+c.questions.filter((q,qi)=>EX.reviewed[exKey(s.id,ci,qi)]).length,0);
+    const prog=s.isExternal?'Tap to open →':`${done}/${tot} reviewed`;
+    const color=s.isExternal?(s.id==='kbr-entry'?'#b06eff':'#58a6ff'):'#f0c94d';
+    return`<div style="background:var(--s2);border:1px solid var(--b1);border-radius:14px;padding:18px 20px;cursor:pointer;transition:all 0.22s;display:flex;align-items:center;justify-content:space-between;gap:12px;" onclick="examSelectSubject('${s.id}')" onmouseover="this.style.borderColor='${color}'" onmouseout="this.style.borderColor='var(--b1)'">
+      <div style="display:flex;align-items:center;gap:12px;"><span style="font-size:1.6rem;">${s.icon}</span><div><div style="font-size:0.95rem;font-weight:700;margin-bottom:3px;">${s.name}</div><div style="font-family:var(--fm);font-size:0.65rem;color:var(--mt);">${s.desc} · ${prog}</div></div></div>
       <span style="color:var(--mt);">→</span>
     </div>`;
   }).join('');
 }
-function examSelectSubject(id){const s=EXAM_SUBJECTS.find(x=>x.id===id);if(s&&s.isExternal){window.location.href=s.externalUrl;return;}EX.subj=s;go('sc-exam-subject');examRenderSubject();}
+
+function examSelectSubject(id){
+  const s=EXAM_SUBJECTS.find(x=>x.id===id);
+  if(!s)return;
+  if(s.isExternal){window.location.href=s.externalUrl;return;}
+  EX.subj=s;go('sc-exam-subject');examRenderSubject();
+}
+
 function examRenderSubject(){
-  if(!EX.subj)return;const s=EX.subj;
+  if(!EX.subj)return;
+  const s=EX.subj;
   document.getElementById('exam-subj-title').textContent=s.name;
   const tot=s.chapters.reduce((a,c)=>a+c.questions.length,0);
   const done=s.chapters.reduce((a,c,ci)=>a+c.questions.filter((q,qi)=>EX.reviewed[exKey(s.id,ci,qi)]).length,0);
@@ -1046,30 +840,54 @@ function examRenderSubject(){
   const el=document.getElementById('exam-chapter-list');
   el.innerHTML=s.chapters.map((ch,ci)=>{
     const chDone=ch.questions.filter((q,qi)=>EX.reviewed[exKey(s.id,ci,qi)]).length;
-    const qItems=ch.questions.map((q,qi)=>{const isDone=EX.reviewed[exKey(s.id,ci,qi)];return`<div style="background:var(--s2);border:1px solid ${isDone?'rgba(61,220,132,0.3)':'var(--b1)'};border-radius:10px;padding:12px 14px;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:space-between;gap:10px;${isDone?'background:rgba(61,220,132,0.04);':''}" onclick="examGoCard(${ci},${qi})"><span style="font-size:0.84rem;font-weight:600;flex:1;line-height:1.4;">${q.q}</span><span>${isDone?'✅':'›'}</span></div>`;}).join('');
-    return`<div style="margin-bottom:20px;"><div style="font-family:var(--fm);font-size:0.65rem;color:${ch.color};letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--b1);">${ch.title} (${chDone}/${ch.questions.length})</div><div style="display:flex;flex-direction:column;gap:7px;">${qItems}</div></div>`;
+    const qItems=ch.questions.map((q,qi)=>{
+      const isDone=EX.reviewed[exKey(s.id,ci,qi)];
+      return`<div style="background:var(--s2);border:1px solid ${isDone?'rgba(61,220,132,0.3)':'var(--b1)'};border-radius:10px;padding:12px 14px;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:space-between;gap:10px;${isDone?'background:rgba(61,220,132,0.04);':''}" onclick="examGoCard(${ci},${qi})">
+        <span style="font-size:0.84rem;font-weight:600;flex:1;line-height:1.4;">${q.q}</span>
+        <span>${isDone?'✅':'›'}</span>
+      </div>`;
+    }).join('');
+    return`<div style="margin-bottom:20px;"><div style="font-family:var(--fm);font-size:0.65rem;color:${ch.color||'#f0c94d'};letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--b1);">${ch.title} (${chDone}/${ch.questions.length})</div><div style="display:flex;flex-direction:column;gap:7px;">${qItems}</div></div>`;
   }).join('');
 }
+
 function examGoCard(ci,qi){EX.chIdx=ci;EX.qIdx=qi;go('sc-exam-card');examRenderCard();}
 function examRenderCard(){
-  if(!EX.subj)return;const ch=EX.subj.chapters[EX.chIdx];const q=ch.questions[EX.qIdx];const key=exKey(EX.subj.id,EX.chIdx,EX.qIdx);const isDone=!!EX.reviewed[key];
+  if(!EX.subj)return;
+  const ch=EX.subj.chapters[EX.chIdx];const q=ch.questions[EX.qIdx];
+  const key=exKey(EX.subj.id,EX.chIdx,EX.qIdx);const isDone=!!EX.reviewed[key];
   document.getElementById('exam-card-chapter').textContent=ch.title;
   document.getElementById('exam-card-counter').textContent=(EX.qIdx+1)+'/'+ch.questions.length;
   document.getElementById('exam-card-q').textContent=q.q;
   document.getElementById('exam-card-a').innerHTML=q.a;
   document.getElementById('exam-answer-box').style.display='none';
   document.getElementById('exam-show-btn').style.display='block';
-  const mb=document.getElementById('exam-mark-btn');mb.textContent=isDone?'✅ Reviewed':'☑ Mark as reviewed';mb.style.color=isDone?'var(--c3)':'var(--mt)';mb.style.borderColor=isDone?'var(--c3)':'var(--b2)';
-  const nb=document.getElementById('exam-next-btn');if(EX.qIdx>=ch.questions.length-1){nb.textContent='Finish ✓';nb.style.background='var(--c3)';}else{nb.textContent='Next →';nb.style.background='var(--c1)';}
+  const mb=document.getElementById('exam-mark-btn');
+  mb.textContent=isDone?'✅ Reviewed':'☑ Mark as reviewed';
+  mb.style.color=isDone?'var(--c3)':'var(--mt)';
+  mb.style.borderColor=isDone?'var(--c3)':'var(--b2)';
+  const nb=document.getElementById('exam-next-btn');
+  if(EX.qIdx>=ch.questions.length-1){nb.textContent='Finish ✓';nb.style.background='var(--c3)';}
+  else{nb.textContent='Next →';nb.style.background='var(--c1)';}
 }
 function examShowAnswer(){document.getElementById('exam-answer-box').style.display='block';document.getElementById('exam-show-btn').style.display='none';}
-function examNext(){const ch=EX.subj.chapters[EX.chIdx];if(EX.qIdx<ch.questions.length-1){EX.qIdx++;examRenderCard();}else{const done=ch.questions.filter((q,qi)=>EX.reviewed[exKey(EX.subj.id,EX.chIdx,qi)]).length;document.getElementById('exam-done-n').textContent=done;document.getElementById('exam-done-t').textContent=ch.questions.length;go('sc-exam-done');}}
+function examNext(){
+  const ch=EX.subj.chapters[EX.chIdx];
+  if(EX.qIdx<ch.questions.length-1){EX.qIdx++;examRenderCard();}
+  else{
+    const done=ch.questions.filter((q,qi)=>EX.reviewed[exKey(EX.subj.id,EX.chIdx,qi)]).length;
+    document.getElementById('exam-done-n').textContent=done;
+    document.getElementById('exam-done-t').textContent=ch.questions.length;
+    go('sc-exam-done');
+  }
+}
 function examPrev(){if(EX.qIdx>0){EX.qIdx--;examRenderCard();}}
-function examToggleMark(){const key=exKey(EX.subj.id,EX.chIdx,EX.qIdx);EX.reviewed[key]=!EX.reviewed[key];exSave();examRenderCard();}
+function examToggleMark(){
+  const key=exKey(EX.subj.id,EX.chIdx,EX.qIdx);
+  EX.reviewed[key]=!EX.reviewed[key];
+  exSave();examRenderCard();
+}
 exLoad();
-document.addEventListener('DOMContentLoaded',()=>{examRenderHome();});
-const _origGo=go;
-window.go=function(id){_origGo(id);if(id==='sc-exam-home')examRenderHome();};
 </script>
 
 </body>
