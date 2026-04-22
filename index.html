@@ -1,4 +1,4 @@
-من<!DOCTYPE html>
+<!DOCTYPE html>
 
 <html lang="en">
 <head>
@@ -299,6 +299,15 @@ select option{background:var(--s2);}
       <div style="display:flex;align-items:center;justify-content:center;gap:10px;">
         <span style="font-size:1.3rem;">🔗</span>
         <div style="text-align:left;"><h3>Join Online Battle</h3><p style="font-family:var(--fm);font-size:0.6rem;color:var(--mt);">Enter a code to join online battle</p></div>
+      </div>
+    </div>
+    <div class="lcard full" onclick="go('sc-exam-home')" style="padding:18px;border-color:rgba(240,201,77,0.3);background:rgba(240,201,77,0.04);">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span style="font-size:2rem;">📚</span>
+        <div style="text-align:left;">
+          <h3 style="color:#f0c94d;font-size:1rem;">General Dentistry Exam</h3>
+          <p style="font-family:var(--fm);font-size:0.6rem;color:var(--mt);">Study Mode — Show Answer flashcards</p>
+        </div>
       </div>
     </div>
   </div>
@@ -1454,6 +1463,188 @@ document.addEventListener('DOMContentLoaded',()=>{
   mkCatGrid('lc-cats',L.selCats,'sc3',6,updLocalCatInfo);
   mkCatGrid('gf-cats',GF.selCats,'sc4',2,updGFCatInfo);
 });
+</script>
+
+<!-- ══ EXAM REVIEW HOME ══ -->
+
+<div id="sc-exam-home" class="sc" style="gap:24px;">
+  <div style="text-align:center;">
+    <div style="font-size:clamp(1.6rem,6vw,2.4rem);font-weight:800;letter-spacing:-1px;">General Dentistry<br><span style="background:linear-gradient(135deg,#f0c94d,#ffa657);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Exam Review</span></div>
+    <div style="font-family:var(--fm);font-size:0.68rem;color:var(--mt);letter-spacing:3px;text-transform:uppercase;margin-top:8px;">📚 Study Mode — Show Answer</div>
+  </div>
+  <div id="exam-subject-list" style="display:flex;flex-direction:column;gap:10px;width:100%;max-width:500px;"></div>
+  <button class="btn btn-o" onclick="go('sc-land')" style="max-width:500px;width:100%;">← Back</button>
+</div>
+
+<!-- ══ EXAM SUBJECT ══ -->
+
+<div id="sc-exam-subject" class="sc" style="gap:0;justify-content:flex-start;padding:0;">
+  <div style="background:var(--s1);border-bottom:1px solid var(--b1);padding:14px 18px;display:flex;align-items:center;gap:12px;width:100%;position:sticky;top:0;z-index:10;">
+    <button class="btn-o" onclick="go('sc-exam-home')" style="background:none;border:none;color:var(--mt);cursor:pointer;font-size:1.1rem;padding:4px 8px;border-radius:7px;">←</button>
+    <div style="flex:1;"><div style="font-size:0.95rem;font-weight:700;" id="exam-subj-title">Subject</div><div style="font-family:var(--fm);font-size:0.62rem;color:var(--mt);margin-top:2px;" id="exam-subj-sub"></div></div>
+  </div>
+  <div style="padding:10px 18px 0;width:100%;">
+    <div style="height:4px;background:var(--b1);border-radius:2px;overflow:hidden;"><div style="height:100%;background:linear-gradient(90deg,#f0c94d,#ffa657);border-radius:2px;transition:width 0.4s;" id="exam-progress-fill"></div></div>
+    <div style="font-family:var(--fm);font-size:0.62rem;color:var(--mt);margin-top:5px;text-align:right;" id="exam-progress-lbl">0 / 0</div>
+  </div>
+  <div id="exam-chapter-list" style="flex:1;overflow-y:auto;padding:14px 18px;width:100%;"></div>
+</div>
+
+<!-- ══ EXAM CARD ══ -->
+
+<div id="sc-exam-card" class="sc" style="gap:0;justify-content:flex-start;padding:0;">
+  <div style="background:var(--s1);border-bottom:1px solid var(--b1);padding:12px 16px;display:flex;align-items:center;gap:10px;width:100%;position:sticky;top:0;z-index:10;">
+    <button class="btn-o" onclick="go('sc-exam-subject');examRenderSubject();" style="background:none;border:none;color:var(--mt);cursor:pointer;font-size:1.1rem;padding:4px 8px;border-radius:7px;">←</button>
+    <span style="font-family:var(--fm);font-size:0.65rem;color:var(--c1);background:rgba(0,240,255,0.1);border:1px solid rgba(0,240,255,0.2);padding:3px 10px;border-radius:50px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:55%;" id="exam-card-chapter">Chapter</span>
+    <span style="flex:1;"></span>
+    <span style="font-family:var(--fm);font-size:0.7rem;color:var(--mt);background:var(--s2);padding:4px 10px;border-radius:50px;border:1px solid var(--b1);" id="exam-card-counter">1/10</span>
+  </div>
+  <div style="flex:1;width:100%;max-width:600px;margin:0 auto;padding:18px;display:flex;flex-direction:column;gap:14px;">
+    <div style="background:var(--s2);border:1px solid var(--b1);border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:8px;">
+      <div style="font-family:var(--fm);font-size:0.62rem;color:#f0c94d;letter-spacing:2px;text-transform:uppercase;">Question</div>
+      <div style="font-size:clamp(1rem,3vw,1.15rem);font-weight:700;line-height:1.6;" id="exam-card-q">Loading...</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <button id="exam-show-btn" onclick="examShowAnswer()" style="background:rgba(240,201,77,0.1);border:1.5px solid #f0c94d;color:#f0c94d;border-radius:12px;padding:14px;font-family:var(--fh);font-size:0.9rem;font-weight:700;cursor:pointer;width:100%;transition:all 0.25s;">👁️ Show Answer</button>
+      <div id="exam-answer-box" style="background:var(--s3);border:1px solid rgba(240,201,77,0.25);border-radius:14px;padding:18px;display:none;">
+        <div style="font-family:var(--fm);font-size:0.62rem;color:#f0c94d;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;">Answer</div>
+        <div style="font-size:0.92rem;line-height:1.7;" id="exam-card-a">Loading...</div>
+      </div>
+    </div>
+    <button id="exam-mark-btn" onclick="examToggleMark()" style="background:transparent;border:1px dashed var(--b2);color:var(--mt);border-radius:10px;padding:10px;font-family:var(--fh);font-size:0.8rem;cursor:pointer;width:100%;transition:all 0.2s;">☑ Mark as reviewed</button>
+    <div style="display:flex;gap:10px;">
+      <button onclick="examPrev()" style="flex:1;background:var(--s2);color:var(--mt);border:1px solid var(--b1);border-radius:11px;padding:13px;font-family:var(--fh);font-size:0.88rem;font-weight:700;cursor:pointer;">← Prev</button>
+      <button id="exam-next-btn" onclick="examNext()" style="flex:1;background:var(--c1);color:var(--bg);border:none;border-radius:11px;padding:13px;font-family:var(--fh);font-size:0.88rem;font-weight:700;cursor:pointer;">Next →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ EXAM DONE ══ -->
+
+<div id="sc-exam-done" class="sc" style="gap:20px;max-width:420px;width:100%;">
+  <div style="font-size:3.5rem;">🎉</div>
+  <div style="font-size:1.6rem;font-weight:800;text-align:center;">Session <span style="color:#f0c94d;">Complete!</span></div>
+  <div style="display:flex;gap:10px;width:100%;">
+    <div style="flex:1;background:var(--s2);border:1px solid var(--b1);border-radius:12px;padding:16px;text-align:center;"><div style="font-size:1.8rem;font-weight:800;color:#f0c94d;" id="exam-done-n">0</div><div style="font-family:var(--fm);font-size:0.62rem;color:var(--mt);margin-top:3px;">Reviewed</div></div>
+    <div style="flex:1;background:var(--s2);border:1px solid var(--b1);border-radius:12px;padding:16px;text-align:center;"><div style="font-size:1.8rem;font-weight:800;color:var(--mt);" id="exam-done-t">0</div><div style="font-family:var(--fm);font-size:0.62rem;color:var(--mt);margin-top:3px;">Total</div></div>
+  </div>
+  <button onclick="go('sc-exam-subject');examRenderSubject();" style="width:100%;max-width:420px;background:#f0c94d;color:var(--bg);border:none;border-radius:11px;padding:13px;font-family:var(--fh);font-size:0.9rem;font-weight:700;cursor:pointer;">← Back to List</button>
+  <button onclick="go('sc-exam-home');" style="width:100%;max-width:420px;background:transparent;color:var(--mt);border:1px solid var(--b1);border-radius:11px;padding:13px;font-family:var(--fh);font-size:0.9rem;font-weight:700;cursor:pointer;">🏠 Home</button>
+</div>
+
+<script>
+// ══ EXAM DATA ══
+const EXAM_SUBJECTS=[{id:"dental-material",name:"Dental Material",icon:"🦷",desc:"Adhesive · Liners · Composite · GIC · Properties",chapters:[{title:"L1 — Amalgam & Dental Adhesive",color:"#3ddc84",questions:[{q:"When was amalgam first introduced in the US and by whom?",a:"By <strong>Edward Crawcour in 1833</strong>. Gained full ADA support in 1859 due to low cost and ease of handling."},{q:"What is the Minamata Convention and its effect in Kuwait?",a:"Kuwait signed it in <strong>2013</strong>; treaty went into force <strong>2017</strong>. Amalgam was <strong>banned without exceptions</strong> by law."},{q:"What are the three types of adhesion forces?",a:"<ul><li><strong>Physical</strong> — Van der Waals, dipole, H-bond (weaker)</li><li><strong>Chemical</strong> — ionic, covalent, metallic (stronger)</li><li><strong>Mechanical interlocking</strong> — most common in dentistry</li></ul>"},{q:"What are the three requirements for adhesion?",a:"<ul><li><strong>Clean surfaces</strong> — free of debris, biofilm, moisture</li><li><strong>Surface microroughness</strong> — enhances wettability</li><li><strong>Acute contact angle</strong> — high surface energy → lower surface tension → better wetting</li></ul>"},{q:"What is the primary objective of dental adhesives?",a:"<strong>Primary:</strong> Seal tooth structure, prevent marginal leakage, stop bacterial ingress, retain restorations.<br><strong>Secondary:</strong> Preserve tooth structure, reduce post-op sensitivity, reinforce tooth."},{q:"Why is dentin harder to bond to than enamel?",a:"Dentin contains ~45% mineral, ~33% collagen, ~22% water. Deep dentin is less mineralized and wet — bond strength <strong>30–40% lower</strong> than superficial dentin. Dentinal tubules vary by depth."},{q:"What is the smear layer?",a:"Discovered by <strong>JD Eick 1970</strong>. Tooth preparation debris ~0.5–7 µm. Contains hydroxyapatite, denatured collagen, bacteria. Smear plugs reduce dentin permeability by <strong>86%</strong>."},{q:"What are the dental adhesive generations?",a:"<ul><li><strong>4th:</strong> 3-step total-etch (2 bottles)</li><li><strong>5th:</strong> 2-step total-etch (1 bottle)</li><li><strong>6th:</strong> 2-step self-etch (selective etch recommended)</li><li><strong>7th:</strong> 1-step self-etch (1 bottle)</li><li><strong>8th:</strong> Universal (total/selective/self-etch)</li></ul>"},{q:"What is 10-MDP?",a:"Adhesion monomer by Kuraray. Phosphate group bonds <strong>ionically to calcium</strong> in HAp; methacrylate binds to resin. Forms stable nano-layer Ca salt. Has <strong>MMP inhibitory activity</strong> → improves bond longevity."},{q:"What is the primer and what does it do?",a:"Contains hydrophilic monomers (HEMA), solvents (alcohol/acetone), water. Enhances dentin wettability, displaces water, binds to dentin. Must be <strong>air thinned</strong>. <strong>Not light cured.</strong>"},{q:"What is the hybrid layer (3-step total etch)?",a:"Total etch creates <strong>5–8 µm demineralized zone</strong>. Primer infiltrates and traps collagen → hybrid layer (Nakabayashi). Adhesive creates resin tags. 3-step produces <strong>60–80 µm thick</strong> layer."},{q:"What is the Oxygen Inhibited Layer (OIL)?",a:"~20–40 µm free resin that cannot polymerize in presence of oxygen. Important for bonding subsequent layers. Apply <strong>0.5 mm flowable composite</strong> over adhesive to ensure full cure of thin hybrid layers."},{q:"What is microleakage and its causes?",a:"Micro-gaps at restoration-tooth interface allowing bacterial/fluid ingress. Caused by: polymerization shrinkage, thermal changes, cyclic loading, poor moisture control, contamination."},{q:"What is the C-factor?",a:"Introduced by <strong>Carl Davidson 1984</strong>. Ratio of bonded to unbonded surfaces. High C-factor → more shrinkage stress → debonding. <strong>2-bottle systems</strong> provide more uniform bond than 1-bottle."},{q:"What technical problems compromise adhesive performance?",a:"Bottle not shaken, cap left open, contamination, expired products, no selective acid etch, defective light cure, recent fluoride treatment, freshly bleached teeth, eugenol contamination, poor moisture control."}]},{title:"L2 — Dental Liners and Bases",color:"#58a6ff",questions:[{q:"What are the 5 types of pulpal irritation?",a:"<ol><li><strong>Microbial</strong> — bacteria under restorations</li><li><strong>Chemical</strong> — reactants from materials</li><li><strong>Electrical</strong> — galvanism from metals</li><li><strong>Thermal</strong> — thermal shock theory</li><li><strong>Mechanical</strong> — cavity preparation speed/bur</li></ol>"},{q:"What are the key RDT thresholds?",a:"RDT = most important pulp protection factor.<ul><li><strong>≥2 mm</strong> → little reaction</li><li><strong>1 mm</strong> → reduces toxins <strong>90%</strong></li><li><strong>0.5 mm</strong> → reduces toxins <strong>75%</strong></li><li><strong>≤0.25–0.30 mm</strong> → greatest pulpal impact</li></ul>"},{q:"Liner vs Base — what is the difference?",a:"<strong>Liner:</strong> ≤0.5 mm coating — bacterial barrier, therapeutic, electrical insulation.<br><strong>Base:</strong> Thick insulating layer in deep cavity — thermal/chemical protection + supports restoration."},{q:"Properties and types of ZOE cement?",a:"Low strength, <strong>least irritant to pulp</strong>, sedative effect on dentin, high solubility (0.4%), eugenol <strong>inhibits resin polymerization</strong>.<br>Types: I=temp cement, II=perm cement, III=temp resto/base, IV=cavity liner."},{q:"Properties of Zinc Phosphate cement?",a:"Powder: ZnO 90%+MgO 10%; Liquid: H₃PO₄ 38%+water 35%.<br>Compressive strength ~70 MPa, modulus ~13 GPa, slight shrinkage 0.04–0.06%.<br>Type I=fine (perm cement); Type II=medium (insulating base)."},{q:"Properties and classification of GIC?",a:"Low compressive/tensile/fracture strength, high opacity, long-term fluoride release.<br>Types: I=luting, II=restorative, III=liner/base, IV=sealant, V=ortho, VI=core buildup."},{q:"Properties and indications of MTA?",a:"Biocompatible, pH→12.5 (antibacterial), radiopaque, long setting time, compressive strength 67 MPa, insoluble.<br>Indications: root-end filling, apexification, internal resorption, perforation, pulp capping, pulpotomy."},{q:"MTA vs Calcium Hydroxide — what does evidence show?",a:"MTA has <strong>higher success rate</strong>: less pulpal inflammation, more hard dentine bridge formation. Evidence argues <strong>against CH as gold standard</strong> for direct pulp capping."},{q:"What is Bioceramic Putty?",a:"Biocompatible, hydrophilic, dimensionally stable (expands), insoluble, binds dentine, pH 12 (antibacterial).<br>Uses: liner/base, pulp cap, pulpotomy, perforation, resorption, obturation, root-end filling."},{q:"What is Varnish and its limitations?",a:"Natural/synthetic resin in solvent. Applied 2–5 µm thin. Used under amalgam to seal tubules and reduce microleakage.<br><strong>NOT thick enough for thermal insulation.</strong>"}]},{title:"L3 — Composite Resin",color:"#f0c94d",questions:[{q:"Composition of enamel and its key characteristics?",a:"96% hydroxyapatite, 3% water, 1% organic. Formed by ameloblasts (lost after eruption — <strong>cannot regenerate</strong>). Thickest over cusps. Basic unit = enamel prism + interprismatic enamel."},{q:"Composition of dentin?",a:"70% inorganic, 20% organic (collagen), 10% water. Tubules run DEJ→pulp (wider at pulp). Odontoblasts line pulp → secondary dentine laid down with age. Tertiary dentine = response to stimuli."},{q:"Composition of composite resin?",a:"<ul><li><strong>Resin matrix</strong> — Bis-GMA, UDMA, TEG-DMA</li><li><strong>Filler particles</strong> — determine strength and polishability</li><li><strong>Silane coupling agent</strong> — bonds filler to matrix</li><li>Photo-initiators (CQ, Lucirin TPO), stabilizers, pigments</li></ul>"},{q:"Classification of composites by filler size?",a:"<ul><li><strong>Macrofilled:</strong> Strong, poor polish</li><li><strong>Microfilled:</strong> Weaker, excellent polish</li><li><strong>Small particle hybrid (minifill/midifill):</strong> Best balance — anterior + posterior</li><li><strong>Nanofill:</strong> Most recent</li></ul>"},{q:"What is polymerization shrinkage and its consequences?",a:"1.5–5% volumetric reduction. Causes internal stress → gaps → marginal failure → post-op sensitivity. Low C-factor cavities generate least stress."},{q:"Ideal composite case selection vs contraindications?",a:"<strong>Ideal:</strong> Good hygiene, small-moderate cavities, good enamel, low caries risk.<br><strong>Contra:</strong> Poor hygiene, large cavities, deep proximal boxes, insufficient enamel, parafunction, resin allergy."},{q:"Light curing protocol for Class I and Class II?",a:"<strong>Class I</strong> ≤4mm: single occlusal cure (20s at ≥1000, 40s at 550-1000 mW/cm²).<br><strong>Class II</strong> ≤5mm: 3 curing cycles — occlusal + buccal + lingual after matrix removal (10s each)."},{q:"Minimum recommended light intensity for curing?",a:"<strong>550–1000 mW/cm²</strong>. ~50% of units in practice emit less than required. Intensity drops <strong>10% per 1mm</strong> distance from tip to surface."},{q:"Causes of post-operative sensitivity?",a:"Over-etching dentin, no incremental build-up, polymerization shrinkage warping cusps, incomplete cure, microleakage."},{q:"What is USPHS criteria?",a:"Objective evaluation of restorations: <strong>Aesthetic</strong> (lustre, staining, colour match), <strong>Functional</strong> (fracture, adaptation, wear, secondary caries), <strong>Biological</strong> (sensitivity, pulp vitality, perio response)."}]},{title:"L4 — Glass Ionomer",color:"#bc8cff",questions:[{q:"When was GIC introduced and what is its composition?",a:"<strong>Wilson & Kent, early 1970s.</strong><br>Powder: calcium-fluoro-alumino-silicate glass.<br>Liquid: polyalkenoic acids (mainly polyacrylic acid).<br>Setting = <strong>acid-base reaction.</strong>"},{q:"Advantages of GIC?",a:"Biocompatible, <strong>fluoride release</strong>, self-adhesive (ionic bond to Ca), true bulk fill (minimal shrinkage), well tolerated by pulp, tooth-colored, thermal compatibility with dentine."},{q:"Disadvantages of GIC?",a:"Tensile strength = <strong>only 40% of composite</strong>. Poor aesthetics (no translucency). Moisture sensitive during setting — protect from desiccation and excess moisture."},{q:"GIC types by classification?",a:"I=luting (crowns, bridges, ortho), II=restorative (ART), III=liners/bases, IV=sealants, V=ortho cements, VI=core buildup."},{q:"Indications for GIC?",a:"Class V, caries control, undercut block-out, dentin substitute, small core build-ups (≥50% tooth remaining), primary posterior teeth, temp endo access, ortho band cementation, ART technique."},{q:"What is RMGI and its advantages?",a:"Resin-Modified GI — reduces moisture sensitivity and dehydration cracking, increases early strength.<br>Advantages: fluoride release, potential to recharge, better esthetics, easier handling."},{q:"What is ZIRCONOMER?",a:"Zirconia Reinforced GIC by Shofu Inc. ZrO₂ powder incorporated in glass powder → <strong>enhanced durability and increased occlusal load tolerance.</strong>"}]},{title:"L5 — Material Properties",color:"#ffa657",questions:[{q:"Define stress and strain.",a:"<strong>Stress</strong> = force per unit area within material (MPa).<br><strong>Strain</strong> = change in dimension per unit original length (%).<br>Stress = F/A; Strain = ΔL/L₀"},{q:"What are the stress-strain properties?",a:"<ol><li><strong>Young's Modulus:</strong> Elastic stress/strain ratio</li><li><strong>Proportional limit:</strong> Max stress where Hooke's law applies</li><li><strong>Elastic limit:</strong> Stress above which plastic deformation occurs</li><li><strong>Yield strength:</strong> Stress at specific plastic strain</li><li><strong>Ultimate strength:</strong> Max force before fracture / area</li></ol>"},{q:"Ductility vs Malleability, Resilience vs Toughness?",a:"<strong>Ductility:</strong> Plastic deformation under tension before fracture.<br><strong>Malleability:</strong> Under compression (hammering/rolling).<br><strong>Resilience:</strong> Elastic energy absorbed and released.<br><strong>Toughness:</strong> Total energy before fracture (elastic + plastic)."},{q:"What is rheology and its 4 properties?",a:"Study of flow and deformation under stress.<ul><li><strong>Viscosity:</strong> Resistance to flow</li><li><strong>Dilatant/Pseudoplastic:</strong> Flow behavior under shear</li><li><strong>Thixotropy:</strong> Less viscous with shaking, recovers at rest</li><li><strong>Creep/Flow:</strong> Time-dependent deformation under constant stress</li></ul>"},{q:"Thermal properties of dental materials?",a:"<ul><li><strong>Thermal conductivity (k):</strong> Metals>Ceramics>Polymers</li><li><strong>Thermal diffusivity (h):</strong> Speed of temp change = k/(ρ×Cp)</li><li><strong>Coefficient of thermal expansion (α):</strong> Length change per 1K — mismatch causes microleakage</li></ul>"},{q:"Tarnish vs Corrosion?",a:"<strong>Tarnish:</strong> Surface dulling from sulfide/oxide/chloride → thin oxidized film.<br><strong>Corrosion:</strong> Chemical or electrochemical attack → partial/complete dissolution.<br>Types: Chemical (dry) vs Electrochemical (wet — galvanic)."},{q:"What is galvanic corrosion?",a:"Accelerated attack on less noble metal when <strong>dissimilar metals contact in liquid environment</strong>. Occurs immediately after restoration insertion → pain. <strong>Subsides in days</strong> as tooth recovers physiologically."},{q:"Munsell color system and VITA shade guide?",a:"3 dimensions: <strong>Hue, Value, Chroma.</strong><br>VITA hues: A=red-brown, B=red-yellow, C=gray, D=red-gray.<br>Value numerals 1(lightest)→4(darkest). Select shade in <strong>natural daylight.</strong>"},{q:"What is fluorescence in teeth?",a:"Teeth absorb near-UV (300–400nm) → emit <strong>blue-white light (400–450nm)</strong> = tooth becomes light source. Contributes to <strong>brightness and vital appearance.</strong> Restorations without fluorescent agent appear dark under UV light."},{q:"Radiopacity requirements for composites?",a:"Depends on density, thickness, atomic number. Polymers = inherently radiolucent. ADA requires composites to have <strong>radiopacity ≥ aluminum.</strong> Enamel radiopacity = 2× dentin/aluminum."}]}]}];
+
+// ══ EXAM STATE ══
+let EX={subj:null,chIdx:0,qIdx:0,reviewed:{}};
+function exKey(s,c,q){return s+'-'+c+'-'+q;}
+function exLoad(){try{EX.reviewed=JSON.parse(localStorage.getItem('ex_rev')||'{}')}catch(e){EX.reviewed={}}}
+function exSave(){localStorage.setItem('ex_rev',JSON.stringify(EX.reviewed))}
+
+function examRenderHome(){
+  const el=document.getElementById('exam-subject-list');
+  el.innerHTML=EXAM_SUBJECTS.map(s=>{
+    const tot=s.chapters.reduce((a,c)=>a+c.questions.length,0);
+    const done=s.chapters.reduce((a,c,ci)=>a+c.questions.filter((q,qi)=>EX.reviewed[exKey(s.id,ci,qi)]).length,0);
+    const sico=s.icon||s.ico||'📚';
+    return`<div style="background:var(--s2);border:1px solid var(--b1);border-radius:14px;padding:18px 20px;cursor:pointer;transition:all 0.22s;display:flex;align-items:center;justify-content:space-between;gap:12px;" onclick="examSelectSubject('${s.id}')" onmouseover="this.style.borderColor='#f0c94d'" onmouseout="this.style.borderColor='var(--b1)'">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span style="font-size:1.6rem;">${sico}</span>
+        <div><div style="font-size:0.95rem;font-weight:700;margin-bottom:3px;">${s.name}</div><div style="font-family:var(--fm);font-size:0.65rem;color:var(--mt);">${s.desc} • ${done}/${tot} reviewed</div></div>
+      </div>
+      <span style="color:var(--mt);">→</span>
+    </div>`;
+  }).join('');
+}
+
+function examSelectSubject(id){
+  EX.subj=EXAM_SUBJECTS.find(s=>s.id===id);
+  go('sc-exam-subject');examRenderSubject();
+}
+
+function examRenderSubject(){
+  if(!EX.subj)return;
+  const s=EX.subj;
+  document.getElementById('exam-subj-title').textContent=s.name;
+  const tot=s.chapters.reduce((a,c)=>a+c.questions.length,0);
+  const done=s.chapters.reduce((a,c,ci)=>a+c.questions.filter((q,qi)=>EX.reviewed[exKey(s.id,ci,qi)]).length,0);
+  document.getElementById('exam-subj-sub').textContent=s.chapters.length+' chapters · '+tot+' questions';
+  document.getElementById('exam-progress-fill').style.width=(tot>0?done/tot*100:0)+'%';
+  document.getElementById('exam-progress-lbl').textContent=done+' / '+tot+' reviewed';
+  const el=document.getElementById('exam-chapter-list');
+  el.innerHTML=s.chapters.map((ch,ci)=>{
+    const chDone=ch.questions.filter((q,qi)=>EX.reviewed[exKey(s.id,ci,qi)]).length;
+    const qItems=ch.questions.map((q,qi)=>{
+      const isDone=EX.reviewed[exKey(s.id,ci,qi)];
+      return`<div style="background:var(--s2);border:1px solid ${isDone?'rgba(61,220,132,0.3)':'var(--b1)'};border-radius:10px;padding:12px 14px;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:space-between;gap:10px;${isDone?'background:rgba(61,220,132,0.04);':''}" onclick="examGoCard(${ci},${qi})">
+        <span style="font-size:0.84rem;font-weight:600;flex:1;line-height:1.4;">${q.q}</span>
+        <span>${isDone?'✅':'›'}</span>
+      </div>`;
+    }).join('');
+    return`<div style="margin-bottom:20px;">
+      <div style="font-family:var(--fm);font-size:0.65rem;color:${ch.color};letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--b1);">${ch.title} (${chDone}/${ch.questions.length})</div>
+      <div style="display:flex;flex-direction:column;gap:7px;">${qItems}</div>
+    </div>`;
+  }).join('');
+}
+
+function examGoCard(ci,qi){
+  EX.chIdx=ci;EX.qIdx=qi;
+  go('sc-exam-card');examRenderCard();
+}
+
+function examRenderCard(){
+  if(!EX.subj)return;
+  const ch=EX.subj.chapters[EX.chIdx];
+  const q=ch.questions[EX.qIdx];
+  const key=exKey(EX.subj.id,EX.chIdx,EX.qIdx);
+  const isDone=!!EX.reviewed[key];
+  document.getElementById('exam-card-chapter').textContent=ch.title;
+  document.getElementById('exam-card-counter').textContent=(EX.qIdx+1)+'/'+ch.questions.length;
+  document.getElementById('exam-card-q').textContent=q.q;
+  document.getElementById('exam-card-a').innerHTML=q.a;
+  document.getElementById('exam-answer-box').style.display='none';
+  document.getElementById('exam-show-btn').style.display='block';
+  const mb=document.getElementById('exam-mark-btn');
+  mb.textContent=isDone?'✅ Reviewed':'☑ Mark as reviewed';
+  mb.style.color=isDone?'var(--c3)':'var(--mt)';
+  mb.style.borderColor=isDone?'var(--c3)':'var(--b2)';
+  const nb=document.getElementById('exam-next-btn');
+  if(EX.qIdx>=ch.questions.length-1){nb.textContent='Finish ✓';nb.style.background='var(--c3)';}
+  else{nb.textContent='Next →';nb.style.background='var(--c1)';}
+}
+
+function examShowAnswer(){
+  document.getElementById('exam-answer-box').style.display='block';
+  document.getElementById('exam-show-btn').style.display='none';
+}
+
+function examNext(){
+  const ch=EX.subj.chapters[EX.chIdx];
+  if(EX.qIdx<ch.questions.length-1){EX.qIdx++;examRenderCard();}
+  else{
+    const done=ch.questions.filter((q,qi)=>EX.reviewed[exKey(EX.subj.id,EX.chIdx,qi)]).length;
+    document.getElementById('exam-done-n').textContent=done;
+    document.getElementById('exam-done-t').textContent=ch.questions.length;
+    go('sc-exam-done');
+  }
+}
+
+function examPrev(){if(EX.qIdx>0){EX.qIdx--;examRenderCard();}}
+
+function examToggleMark(){
+  const key=exKey(EX.subj.id,EX.chIdx,EX.qIdx);
+  EX.reviewed[key]=!EX.reviewed[key];
+  exSave();examRenderCard();
+}
+
+// Init exam
+exLoad();
+document.addEventListener('DOMContentLoaded',()=>{examRenderHome();});
+// Also call on go() to exam home
+const _origGo=go;
+window.go=function(id){_origGo(id);if(id==='sc-exam-home')examRenderHome();};
 </script>
 
 </body>
