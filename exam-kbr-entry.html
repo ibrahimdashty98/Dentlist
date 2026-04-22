@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>KBR Entry Exam Practice</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#07090d;--s1:#0e1117;--s2:#141820;--s3:#1a2030;
+  --b1:#1e2738;--b2:#263047;
+  --c1:#00f0ff;--c2:#ff3d6b;--c3:#aaff00;--c4:#ffaa00;--c5:#b06eff;
+  --tx:#eef2ff;--mt:#6b7a99;
+  --fh:'Syne',sans-serif;--fm:'DM Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+body{font-family:var(--fh);background:var(--bg);color:var(--tx);min-height:100dvh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 70% 40% at 10% 0%,rgba(0,240,255,0.05),transparent),radial-gradient(ellipse 50% 40% at 90% 100%,rgba(176,110,255,0.05),transparent);pointer-events:none;z-index:0;}
+.sc{display:none;position:relative;z-index:1;min-height:100dvh;flex-direction:column;align-items:center;justify-content:center;padding:20px;}
+.sc.on{display:flex;}
+.sc.top{justify-content:flex-start;padding:0;}
+
+/* HOME */
+#sc-home{gap:28px;}
+.logo-wrap{text-align:center;}
+.logo-wrap h1{font-size:clamp(1.6rem,5vw,2.6rem);font-weight:800;letter-spacing:-1.5px;line-height:1.15;}
+.logo-wrap h1 span{background:linear-gradient(135deg,var(–c1),var(–c5));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.logo-wrap p{font-family:var(–fm);font-size:0.68rem;color:var(–mt);letter-spacing:3px;text-transform:uppercase;margin-top:8px;}
+.home-card{background:var(–s2);border:1px solid rgba(0,240,255,0.25);border-radius:18px;padding:28px 24px;width:100%;max-width:480px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:14px;}
+.home-card .total{font-size:4rem;font-weight:800;background:linear-gradient(135deg,var(–c1),var(–c5));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;}
+.home-card .total-lbl{font-family:var(–fm);font-size:0.7rem;color:var(–mt);letter-spacing:2px;text-transform:uppercase;}
+.home-card .years{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;}
+.year-tag{font-family:var(–fm);font-size:0.68rem;padding:5px 12px;border-radius:50px;border:1px solid var(–b1);color:var(–mt);}
+.year-tag.y23{border-color:rgba(255,170,0,0.4);color:var(–c4);background:rgba(255,170,0,0.08);}
+.year-tag.y24{border-color:rgba(0,240,255,0.4);color:var(–c1);background:rgba(0,240,255,0.08);}
+.year-tag.y25{border-color:rgba(176,110,255,0.4);color:var(–c5);background:rgba(176,110,255,0.08);}
+.start-btn{background:linear-gradient(135deg,var(–c1),var(–c5));color:var(–bg);border:none;border-radius:12px;padding:16px;font-family:var(–fh);font-size:1rem;font-weight:800;cursor:pointer;width:100%;max-width:480px;transition:all 0.2s;letter-spacing:0.5px;}
+.start-btn:hover{filter:brightness(1.1);transform:translateY(-2px);box-shadow:0 12px 30px rgba(0,240,255,0.2);}
+.mode-row{display:flex;gap:10px;width:100%;max-width:480px;}
+.mode-btn{flex:1;background:var(–s2);border:1px solid var(–b1);border-radius:11px;padding:12px;font-family:var(–fh);font-size:0.82rem;font-weight:700;cursor:pointer;color:var(–mt);transition:all 0.2s;}
+.mode-btn:hover{color:var(–tx);border-color:var(–mt);}
+.mode-btn.active{background:rgba(170,255,0,0.08);border-color:var(–c3);color:var(–c3);}
+
+/* QUIZ */
+#sc-quiz{gap:0;}
+.quiz-hdr{background:var(–s1);border-bottom:1px solid var(–b1);padding:12px 16px;display:flex;align-items:center;gap:10px;width:100%;position:sticky;top:0;z-index:10;}
+.back-btn{background:none;border:none;color:var(–mt);cursor:pointer;font-size:1.1rem;padding:4px 10px;border-radius:7px;font-family:var(–fh);transition:all 0.2s;}
+.back-btn:hover{color:var(–tx);background:var(–s2);}
+.quiz-title-badge{font-family:var(–fm);font-size:0.65rem;color:var(–c1);background:rgba(0,240,255,0.1);border:1px solid rgba(0,240,255,0.2);padding:3px 10px;border-radius:50px;}
+.quiz-counter{font-family:var(–fm);font-size:0.7rem;color:var(–mt);margin-left:auto;background:var(–s2);padding:4px 10px;border-radius:50px;border:1px solid var(–b1);flex-shrink:0;}
+
+/* PROGRESS BAR */
+.prog-wrap{width:100%;padding:10px 16px 0;max-width:600px;margin:0 auto;}
+.prog-bar{height:5px;background:var(–b1);border-radius:3px;overflow:hidden;}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(–c1),var(–c5));border-radius:3px;transition:width 0.4s ease;}
+.prog-stats{display:flex;gap:14px;font-family:var(–fm);font-size:0.62rem;padding:5px 0 8px;}
+.prog-stats .pc{color:var(–c3);}
+.prog-stats .pw{color:var(–c2);}
+.prog-stats .ps{color:var(–mt);}
+
+/* QUESTION */
+.quiz-body{flex:1;width:100%;max-width:600px;margin:0 auto;padding:14px 16px;display:flex;flex-direction:column;gap:12px;overflow-y:auto;}
+.q-box{background:var(–s2);border:1px solid var(–b1);border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:6px;}
+.q-num{font-family:var(–fm);font-size:0.62rem;color:var(–c1);letter-spacing:2px;text-transform:uppercase;}
+.q-text{font-size:clamp(0.95rem,2.8vw,1.1rem);font-weight:700;line-height:1.65;}
+.opts{display:flex;flex-direction:column;gap:8px;}
+.opt{background:var(–s2);border:1.5px solid var(–b1);border-radius:11px;padding:12px 14px;cursor:pointer;font-family:var(–fh);font-size:0.86rem;color:var(–tx);transition:all 0.18s;display:flex;align-items:center;gap:10px;width:100%;text-align:left;}
+.opt:hover:not(:disabled){border-color:var(–c1);background:rgba(0,240,255,0.05);}
+.opt:disabled{cursor:default;}
+.opt .ol{width:28px;height:28px;min-width:28px;border-radius:50%;background:var(–s1);border:1.5px solid var(–b1);display:flex;align-items:center;justify-content:center;font-family:var(–fm);font-size:0.65rem;transition:all 0.18s;}
+.opt.correct{border-color:var(–c3)!important;background:rgba(170,255,0,0.07)!important;}
+.opt.correct .ol{background:var(–c3)!important;border-color:var(–c3)!important;color:var(–bg)!important;}
+.opt.wrong{border-color:var(–c2)!important;background:rgba(255,61,107,0.06)!important;}
+.opt.wrong .ol{background:var(–c2)!important;border-color:var(–c2)!important;color:#fff!important;}
+
+/* RESULT BANNER */
+.res-banner{border-radius:12px;padding:13px 15px;display:none;align-items:center;gap:10px;}
+.res-banner.show{display:flex;}
+.res-banner.ok{background:rgba(170,255,0,0.07);border:1px solid rgba(170,255,0,0.25);}
+.res-banner.bad{background:rgba(255,61,107,0.07);border:1px solid rgba(255,61,107,0.2);}
+.res-banner .ri{font-size:1.3rem;flex-shrink:0;}
+.res-banner .rt{font-family:var(–fm);font-size:0.73rem;line-height:1.55;}
+.res-banner.ok .rt{color:var(–c3);}
+.res-banner.bad .rt{color:var(–c2);}
+
+/* NAV */
+.nav-row{display:flex;gap:10px;}
+.nav-btn{flex:1;border:none;border-radius:10px;padding:13px;font-family:var(–fh);font-size:0.88rem;font-weight:700;cursor:pointer;transition:all 0.2s;}
+.nav-skip{background:var(–s2);color:var(–mt);border:1px solid var(–b1);}
+.nav-skip:hover{color:var(–tx);border-color:var(–mt);}
+.nav-next{background:var(–c1);color:var(–bg);}
+.nav-next:hover{filter:brightness(1.1);}
+.nav-finish{background:var(–c3);color:var(–bg);}
+.nav-finish:hover{filter:brightness(1.1);}
+
+/* RESULTS */
+#sc-results{gap:18px;max-width:480px;width:100%;}
+.res-score-big{text-align:center;}
+.res-score-big .score{font-size:4.5rem;font-weight:800;line-height:1;background:linear-gradient(135deg,var(–c3),var(–c1));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.res-score-big .score-lbl{font-family:var(–fm);font-size:0.68rem;color:var(–mt);letter-spacing:2px;text-transform:uppercase;margin-top:4px;}
+.res-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;width:100%;}
+.rg{background:var(–s2);border:1px solid var(–b1);border-radius:12px;padding:14px;text-align:center;}
+.rg .rv{font-size:1.7rem;font-weight:800;}
+.rg .rl{font-family:var(–fm);font-size:0.6rem;color:var(–mt);margin-top:3px;}
+.rg.ok .rv{color:var(–c3);}
+.rg.bad .rv{color:var(–c2);}
+.rg.sk .rv{color:var(–mt);}
+.grade-box{background:var(–s2);border:1px solid var(–b1);border-radius:14px;padding:18px;text-align:center;width:100%;}
+.grade-box .gv{font-size:1.3rem;font-weight:800;margin-bottom:4px;}
+.grade-box .gl{font-family:var(–fm);font-size:0.68rem;color:var(–mt);}
+.act-col{display:flex;flex-direction:column;gap:9px;width:100%;}
+.act-btn{border:none;border-radius:10px;padding:13px;font-family:var(–fh);font-size:0.9rem;font-weight:700;cursor:pointer;transition:all 0.2s;width:100%;}
+.act-btn.g{background:var(–c3);color:var(–bg);}
+.act-btn.b{background:var(–c1);color:var(–bg);}
+.act-btn.o{background:transparent;color:var(–mt);border:1px solid var(–b1);}
+.act-btn.o:hover{color:var(–tx);border-color:var(–mt);}
+
+/* REVIEW */
+#sc-review{gap:0;}
+.rev-body{flex:1;overflow-y:auto;padding:14px 16px;width:100%;max-width:600px;margin:0 auto;display:flex;flex-direction:column;gap:14px;}
+.rev-item{background:var(–s2);border:1px solid var(–b1);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px;}
+.rev-q{font-size:0.9rem;font-weight:700;line-height:1.6;}
+.rev-opts{display:flex;flex-direction:column;gap:5px;}
+.rev-opt{font-family:var(–fm);font-size:0.74rem;padding:7px 11px;border-radius:8px;display:flex;align-items:center;gap:7px;line-height:1.4;}
+.rev-opt.c{background:rgba(170,255,0,0.08);border:1px solid rgba(170,255,0,0.25);color:var(–c3);}
+.rev-opt.w{background:rgba(255,61,107,0.07);border:1px solid rgba(255,61,107,0.22);color:var(–c2);}
+.rev-opt.n{background:var(–s1);border:1px solid var(–b1);color:var(–mt);}
+
+::-webkit-scrollbar{width:3px;}::-webkit-scrollbar-track{background:var(–s1);}::-webkit-scrollbar-thumb{background:var(–b1);border-radius:2px;}
+</style>
+
+</head>
+<body>
+
+<!-- HOME -->
+
+<div id="sc-home" class="sc on">
+  <div class="logo-wrap">
+    <h1>KBR Entry Exam<br><span>Practice Questions</span></h1>
+    <p>📋 R1 / R2 Preparation</p>
+  </div>
+  <div class="home-card">
+    <div class="total">256</div>
+    <div class="total-lbl">Total Questions</div>
+    <div class="years">
+      <span class="year-tag y23">2023 — 100 Qs</span>
+      <span class="year-tag y24">2024 — 68 Qs</span>
+      <span class="year-tag y25">2025 — 88 Qs</span>
+    </div>
+    <div style="font-family:var(--fm);font-size:0.65rem;color:var(--mt);text-align:center;line-height:1.7;">All questions randomised each session.<br>Review wrong answers at the end.</div>
+  </div>
+  <div class="mode-row">
+    <button class="mode-btn active" id="mode-all" onclick="setMode('all')">🔀 Random Order</button>
+    <button class="mode-btn" id="mode-seq" onclick="setMode('seq')">📋 In Order</button>
+  </div>
+  <button class="start-btn" onclick="startExam()">Start Practice ⚡</button>
+</div>
+
+<!-- QUIZ -->
+
+<div id="sc-quiz" class="sc top">
+  <div class="quiz-hdr">
+    <button class="back-btn" onclick="confirmBack()">←</button>
+    <span class="quiz-title-badge">KBR Entry Exam</span>
+    <span class="quiz-counter" id="quiz-counter">1 / 256</span>
+  </div>
+  <div class="prog-wrap" style="width:100%;">
+    <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+    <div class="prog-stats">
+      <span class="pc">✅ <span id="stat-c">0</span></span>
+      <span class="pw">❌ <span id="stat-w">0</span></span>
+      <span class="ps">⏭ <span id="stat-s">0</span></span>
+    </div>
+  </div>
+  <div class="quiz-body">
+    <div class="q-box">
+      <div class="q-num" id="q-num">Question 1</div>
+      <div class="q-text" id="q-text">Loading...</div>
+    </div>
+    <div class="opts" id="opts"></div>
+    <div class="res-banner" id="res-banner">
+      <span class="ri" id="rb-ico">✅</span>
+      <span class="rt" id="rb-txt"></span>
+    </div>
+    <div class="nav-row">
+      <button class="nav-btn nav-skip" id="skip-btn" onclick="skipQ()">Skip ⏭</button>
+      <button class="nav-btn nav-next" id="next-btn" onclick="nextQ()" style="display:none;">Next →</button>
+    </div>
+  </div>
+</div>
+
+<!-- RESULTS -->
+
+<div id="sc-results" class="sc">
+  <div class="res-score-big">
+    <div class="score" id="res-pct">0%</div>
+    <div class="score-lbl" id="res-lbl">Score</div>
+  </div>
+  <div class="res-grid">
+    <div class="rg ok"><div class="rv" id="rc">0</div><div class="rl">Correct ✅</div></div>
+    <div class="rg bad"><div class="rv" id="rw">0</div><div class="rl">Wrong ❌</div></div>
+    <div class="rg sk"><div class="rv" id="rs">0</div><div class="rl">Skipped ⏭</div></div>
+  </div>
+  <div class="grade-box">
+    <div class="gv" id="grade-v">—</div>
+    <div class="gl" id="grade-l">Performance</div>
+  </div>
+  <div class="act-col">
+    <button class="act-btn g" onclick="reviewWrong()">📋 Review Wrong Answers</button>
+    <button class="act-btn b" onclick="startExam()">🔄 New Session</button>
+    <button class="act-btn o" onclick="showScreen('sc-home')">← Back to Home</button>
+  </div>
+</div>
+
+<!-- REVIEW -->
+
+<div id="sc-review" class="sc top">
+  <div class="quiz-hdr">
+    <button class="back-btn" onclick="showScreen('sc-results')">←</button>
+    <span class="quiz-title-badge">Wrong Answers Review</span>
+    <span class="quiz-counter" id="rev-count">0</span>
+  </div>
+  <div class="rev-body" id="rev-body"></div>
+</div>
+
+<script>
+// ══════════════════════════════════════
+// ALL QUESTIONS — 2023 + 2024 + 2025
+// ══════════════════════════════════════
+const ALL_QS = [
+  // ── 2023 ──
+  {q:"A patient on long-term bisphosphonate therapy is at increased risk of which complication following dental extractions?",opts:["Trigeminal neuralgia","Osteonecrosis of the jaws","Osteomyelitis of long bones only","Acute necrotising ulcerative gingivitis"],ans:1},
+  {q:"Which is the best initial routine clinical indicator of periodontal health?",opts:["Calculus deposits","Plaque accumulation","Bleeding on probing","Radiographic bone loss"],ans:2},
+  {q:"Which extrinsic muscle primarily retracts the tongue?",opts:["Hyoglossus","Styloglossus","Genioglossus","Palatoglossus"],ans:0},
+  {q:"NUG is classically associated with which microorganisms?",opts:["Actinomyces israelii and S. mutans","Spirochetes and fusiform bacilli (Borrelia vincentii and Fusiformis)","Mycobacterium tuberculosis and Candida","Staphylococcus aureus and Pseudomonas"],ans:1},
+  {q:"Oral hairy leukoplakia is most strongly associated with which virus?",opts:["HSV-1","CMV","HHV-8","Epstein-Barr virus (EBV)"],ans:3},
+  {q:"The main aim of obturating a root canal system is to:",opts:["Provide mechanical support only","Completely seal the canal to entomb bacteria and prevent reinfection","Permit leakage to allow drainage","Strengthen the tooth more than a crown"],ans:1},
+  {q:"To minimise image distortion in intra-oral radiography, the X-ray beam should be directed:",opts:["Parallel to the long axis of the tooth","At a 45° angle to the tooth","From the apex towards the crown","From the crown towards the apex"],ans:0},
+  {q:"The epithelial root sheath of Hertwig gives rise to:",opts:["Ameloblasts","Odontoblasts","Epithelial rests of Malassez","Cementoblasts"],ans:2},
+  {q:"When the mandible moves to the left side, which muscle is mainly responsible?",opts:["Left lateral pterygoid","Right lateral pterygoid","Left medial pterygoid","Right medial pterygoid"],ans:1},
+  {q:"If the image receptor is incorrectly positioned with respect to the tooth, which error is most likely?",opts:["Foreshortening","Elongation","Magnification","Cone-cutting"],ans:3},
+  {q:"The Frankfort plane is defined as a horizontal line drawn:",opts:["From nasion to anterior nasal spine","From glabella to pogonion","From porion to orbitale","From condylion to gnathion"],ans:2},
+  {q:"The acquired pellicle on tooth surfaces:",opts:["Prevents bacterial adhesion","Enhances adhesion of bacteria to tooth surface","Is composed entirely of bacteria","Is visible clinically as calculus"],ans:1},
+  {q:"A solitary erythroplakic lesion on lateral border of tongue of a smoker. Most appropriate management?",opts:["Prescribe antifungal and review","Reassure and review in one year","Perform a biopsy and address aetiological factors","Record only and monitor without intervention"],ans:2},
+  {q:"A convex facial profile with moderate-to-severe maxillary overjet is most consistent with:",opts:["Class I malocclusion","Class II malocclusion","Class III malocclusion","Anterior open bite"],ans:1},
+  {q:"In a Class III molar relationship, the mesiobuccal cusp of the upper first molar:",opts:["Occludes in the buccal groove","Occludes mesial to the buccal groove","Occludes distal to the buccal groove","Does not occlude with the lower first molar"],ans:2},
+  {q:"Which tooth is most commonly used for autotransplantation?",opts:["Maxillary canine","Mandibular first premolar","Mandibular second premolar","Maxillary second premolar"],ans:2},
+  {q:"Restoring a primary molar with deep Class II cavity is technically difficult mainly because:",opts:["Pulp horns are lower","Roots are fused","Tooth is bulbous with marked cervical constriction","Occlusal surface is flat"],ans:2},
+  {q:"A child with fever, small ulcers on tongue, mild malaise and bilateral lymphadenopathy. Most likely diagnosis?",opts:["Primary herpetic gingivostomatitis","Major aphthous ulceration","Erythema multiforme","Oral candidiasis"],ans:0},
+  {q:"A solitary, painful ulcer on dorsal tongue persisting several weeks is most likely:",opts:["Minor aphthous ulcer","Major aphthous ulcer","Traumatic ulcer","Herpetic ulcer"],ans:1},
+  {q:"Sensation from buccal mucosa adjacent to mandibular premolar region is carried mainly by:",opts:["Lingual nerve","Inferior alveolar nerve","Mental nerve","Buccal nerve"],ans:3},
+  {q:"A patient with mitral valve prolapse (no previous IE, no prosthetic valve) requires dental extraction. You should:",opts:["Always give antibiotic prophylaxis","Never treat in primary care","Provide treatment with no antibiotic prophylaxis","Give prophylaxis only for scaling"],ans:2},
+  {q:"Which primary tooth has a pronounced buccal bulge on the mesiobuccal cusp in the maxilla?",opts:["Maxillary primary central incisor","Maxillary primary canine","Maxillary primary first molar (tooth D)","Maxillary primary second molar"],ans:2},
+  {q:"Standard schedule for hepatitis B vaccination in adults:",opts:["0, 3 and 12 months","0, 1 and 6 months","0, 2 and 9 months","1, 6 and 12 months"],ans:1},
+  {q:"The region where frontal, parietal, temporal and sphenoid bones meet is called:",opts:["Nasion","Pterion","Bregma","Lambda"],ans:1},
+  {q:"A periodontal probe partially enters the furcation, extending ~1/3 width but cannot pass through. This represents:",opts:["Class I furcation","Class II furcation","Class III furcation","Class IV furcation"],ans:1},
+  {q:"Persistently raised serum calcium and raised phosphate. Which condition best explains this?",opts:["Hyperparathyroidism","Hypothyroidism","Hyperthyroidism","Hypopituitarism"],ans:0},
+  {q:"A radiolucent lesion with multiple scattered radiopacities (speckled appearance). Most likely diagnosis?",opts:["Radicular cyst","Dentigerous cyst","Calcifying epithelial odontogenic tumour (Pindborg)","Lateral periodontal cyst"],ans:2},
+  {q:"A 10-year-old with grey, opalescent teeth and flame-shaped pulp chambers. Most likely diagnosis?",opts:["Dentinogenesis imperfecta","Amelogenesis imperfecta","Dental fluorosis","Tetracycline staining"],ans:0},
+  {q:"Which muscle forming the floor of mouth is innervated by the mylohyoid branch of the mandibular nerve?",opts:["Geniohyoid","Mylohyoid","Stylohyoid","Posterior belly of digastric"],ans:1},
+  {q:"An 8-year-old high caries risk child in area with water fluoride <0.3 ppm. Which fluoride regimen?",opts:["1000 ppm fluoride toothpaste","1350–1500 ppm fluoride toothpaste","Weekly mouthrinse 0.05% NaF only","Daily mouthrinse 0.5% NaF"],ans:1},
+  {q:"Which imaging modality provides cross-sectional images of jaws with relatively low radiation dose?",opts:["Conventional CT","MRI","Cone beam CT (CBCT)","Panoramic radiography"],ans:2},
+  {q:"Multiple OKCs, calcification of falx cerebri, basal cell carcinomas and bifid ribs are features of:",opts:["Gardner syndrome","Gorlin–Goltz syndrome","Peutz–Jeghers syndrome","Sturge–Weber syndrome"],ans:1},
+  {q:"DiGeorge syndrome is most commonly associated with which craniofacial feature?",opts:["Cleft lip only","Unilateral cleft lip and palate","Bilateral cleft lip and palate","Isolated cleft of the uvula"],ans:1},
+  {q:"A single tooth bud partially divides, resulting in two crowns but one root. This is called:",opts:["Fusion","Gemination","Concrescence","Dens invaginatus"],ans:1},
+  {q:"The ideal crown-to-root ratio for a fixed prosthodontic abutment tooth is:",opts:["1:2","1:1","2:3","3:2"],ans:2},
+  {q:"A functional cusp bevel on a full coverage crown primarily improves:",opts:["Marginal integrity only","Structural durability of the restoration","Retention form","Resistance to caries"],ans:1},
+  {q:"A complete denture produces a loud clicking sound on occlusion. Most likely cause:",opts:["Decreased vertical dimension","Increased vertical dimension","Inadequate freeway space","Absence of canine guidance"],ans:1},
+  {q:"Which dental material has a pH around 11–12 when set?",opts:["Zinc phosphate cement","Zinc oxide–eugenol cement","Calcium hydroxide","Polycarboxylate cement"],ans:2},
+  {q:"Which statement about calcium hydroxide liners is TRUE?",opts:["They have high compressive strength","They stimulate secondary dentine formation and have antibacterial properties","They are radiolucent on radiographs","They bond strongly to composite without adhesive"],ans:1},
+  {q:"Which embryological cell layer produces enamel?",opts:["Outer enamel epithelium","Inner enamel epithelium","Stellate reticulum","Dental papilla"],ans:1},
+  {q:"In periodontal flap surgery, widening the base of a flap is primarily intended to:",opts:["Improve aesthetics only","Increase perfusion of blood to the flap","Reduce postoperative pain","Promote tissue healing"],ans:1},
+  {q:"Wickham's striae on the buccal mucosa are characteristic of:",opts:["Atrophic lichen planus","Papular lichen planus","Reticular lichen planus","Oral candidiasis"],ans:2},
+  {q:"Only canines and first molars, fine sparse hair, inability to sweat, appears older. Most likely diagnosis?",opts:["Inherited ectodermal dysplasia","Incontinentia pigmenti","Cleidocranial dysplasia","Chondroectodermal dysplasia"],ans:0},
+  {q:"A butterfly-shaped erythematous rash over cheeks and bridge of nose is typical of:",opts:["Dermatomyositis","Systemic lupus erythematosus (SLE)","Sarcoidosis","Sjögren's syndrome"],ans:1},
+  {q:"An elderly denture wearer with soreness at mouth angles, drooping commissures and fissuring. Most likely diagnosis?",opts:["Erythema multiforme","Angular cheilitis","Oral carcinoma","Herpes labialis"],ans:1},
+  {q:"The earliest clinical sign of enamel caries (non-cavitated) is usually:",opts:["Brown, soft cavitation","White, chalky spot lesion visible on drying","Spontaneous pain at night","Pain on biting"],ans:1},
+  {q:"Which cells in the dental pulp are responsible for formation of dentine?",opts:["Ameloblasts","Odontoblasts","Cementoblasts","Fibroblasts"],ans:1},
+  {q:"Cyclical swelling and pain of a major salivary gland at mealtimes is most suggestive of:",opts:["Acute viral sialadenitis","Sialolithiasis","Mumps","Sjögren's syndrome"],ans:1},
+  {q:"Ante's law in fixed prosthodontics primarily relates to the:",opts:["Occlusal scheme of denture teeth","Number of pontics per arch","Root surface area of abutment teeth supporting pontics","Crown-to-root ratio of all teeth"],ans:2},
+  {q:"Which muscle is derived from the third pharyngeal arch?",opts:["Stylopharyngeus","Masseter","Buccinator","Tensor veli palatini"],ans:0},
+  {q:"A common cause of failure of transplanted teeth is:",opts:["Internal root resorption","External root resorption","Root caries","Hypercementosis"],ans:1},
+  {q:"The middle cerebral artery is a direct branch of the:",opts:["External carotid artery","Internal carotid artery","Vertebral artery","Basilar artery"],ans:1},
+  {q:"The ideal time for removal of impacted third molars:",opts:["Before 21 years only","Exactly at 18 years","After complete root formation","Depends on clinical and radiographic factors"],ans:3},
+  {q:"Inflammation confined to soft tissues around a dental implant without bone loss is termed:",opts:["Peri-implantitis","Peri-implant mucositis","Peri-coronitis","Peri-apical periodontitis"],ans:1},
+  {q:"A root canal perforation near gingival level with poor prognosis is best managed by:",opts:["Immediate surgical repair only","Extraction of the tooth","Leaving it untreated and monitoring","Placing calcium hydroxide indefinitely"],ans:1},
+  {q:"Coronectomy is indicated when:",opts:["The tooth is carious but restorable","The roots are ankylosed","Roots are in close proximity to the inferior alveolar nerve","The patient refuses radiographs"],ans:2},
+  {q:"The anterior two-thirds of the tongue develops mainly from:",opts:["Hypobranchial eminence only","Lingual swellings and tuberculum impar","Copula only","Epiglottic swelling"],ans:1},
+  {q:"What best describes the difference between an abscess and cellulitis?",opts:["An abscess is diffuse; cellulitis is localised","Abscess is a fluid-filled pus collection; cellulitis is diffuse tissue infection","Both are localised infections with pus cavities","Cellulitis always contains a well-formed abscess cavity"],ans:1},
+  {q:"Local anaesthetic agents act primarily by:",opts:["Blocking potassium channels","Blocking sodium channels in nerve membranes","Enhancing sodium influx","Increasing potassium efflux"],ans:1},
+  {q:"The main mechanism of action of NSAIDs is:",opts:["Inhibition of phospholipase A2","Inhibition of cyclo-oxygenase (COX) enzymes","Inhibition of lipoxygenase","Stimulation of prostaglandin synthesis"],ans:1},
+  {q:"First-line pharmacological management of trigeminal neuralgia:",opts:["Diazepam","Amitriptyline","Carbamazepine","Ibuprofen"],ans:2},
+  {q:"Most important factor predisposing to fracture of the isthmus in Class II amalgam is excessive:",opts:["Depth of the isthmus","Width of the isthmus","Amalgam expansion","Moisture contamination"],ans:1},
+  {q:"G.V. Black's classification of carious lesions is based primarily on:",opts:["Aetiology of the caries","Colour of the lesion","Location and type of tooth surface involved","Age of the patient"],ans:2},
+  {q:"A cauliflower-like exophytic lesion on the tongue caused by HPV is most likely:",opts:["Squamous cell papilloma","Fibroma","Mucocele","Pyogenic granuloma"],ans:0},
+  {q:"A child with fever, maculopapular rash and painful bilateral parotid swelling. Most likely diagnosis?",opts:["Measles","Mumps","Rubella","Infectious mononucleosis"],ans:1},
+  {q:"A well-defined radiolucency surrounding crown of unerupted mandibular third molar is most likely:",opts:["Radicular cyst","Dentigerous cyst","Lateral periodontal cyst","Residual cyst"],ans:1},
+  {q:"The principal objective of an endodontic access cavity is to:",opts:["Remove all coronal tooth structure","Create straight-line access to the apical canal system","Preserve as much pulp tissue as possible","Avoid visual access to canals"],ans:1},
+  {q:"A patient requiring muscular effort to achieve lip seal at rest is described as having:",opts:["Competent lips","Incompetent lips","Short upper lip","Reduced vermilion border"],ans:1},
+  {q:"Which fixed orthodontic appliance is commonly used to expand and move buccal segments laterally?",opts:["Twin-block appliance","Quad helix appliance","Transpalatal arch","Headgear"],ans:1},
+  {q:"Which appliance achieves distal movement of maxillary molars in growing patients?",opts:["Quad helix","Nance appliance","Headgear","Hawley retainer"],ans:2},
+  {q:"On a prescription, which abbreviation is correctly matched?",opts:["BID: twice daily","OD: four times daily","TID: once daily","QID: three times daily"],ans:0},
+  {q:"The obturation technique using a master apical cone plus accessory cones is called:",opts:["Warm vertical compaction","Thermoplasticised obturation","Cold lateral condensation","Single-cone technique"],ans:2},
+  {q:"The upper lip develops from fusion of the:",opts:["Mandibular processes only","Maxillary and mandibular processes","Maxillary processes and frontonasal process","Frontonasal and mandibular processes"],ans:2},
+  {q:"With increasing age, the position of the apical constriction relative to the root apex:",opts:["Moves coronally","Moves apically","Varies unpredictably","Generally does not change significantly"],ans:3},
+  {q:"A periapical radiograph for RCT should ideally show:",opts:["Only crown and coronal third of root","Root apex only","Root apex with at least 1mm of periapical tissue","Root apex with at least 3mm of surrounding periapical tissues"],ans:3},
+  {q:"Hypocalcification/hypomineralisation of enamel typically presents as:",opts:["Hard, glossy white spots","Enamel pitting with yellow, thin enamel","Generalised brown staining with normal thickness","Loss of dentine only"],ans:1},
+  {q:"Injury to which cranial nerve is most likely to impair swallowing and palatal function?",opts:["Glossopharyngeal IX","Vagus nerve X","Hypoglossal XII","Trigeminal V"],ans:1},
+  {q:"In an edentulous maxilla, residual ridge resorption typically occurs in which direction?",opts:["Upward and outward","Downward and inward","Downward and outward","Upward and inward"],ans:3},
+  {q:"Most appropriate management of irreversible pulpitis with symptomatic apical periodontitis?",opts:["Pulp capping and review","Extraction without endodontic attempt","Pulpectomy with canal debridement and occlusal adjustment","Antibiotics alone"],ans:2},
+  {q:"Overhanging restoration margins contribute to periodontal disease primarily by:",opts:["Directly causing bone resorption","Exposing dentine","Increasing plaque retention","Reducing salivary flow"],ans:2},
+  {q:"Moisture contamination during amalgam placement leads to:",opts:["Decreased setting expansion","Delayed excessive expansion of the amalgam","Immediate setting shrinkage","No effect"],ans:1},
+  {q:"Persistent thumb sucking in a child is most likely to result in:",opts:["Deep overbite","Anterior open bite","Posterior crossbite only","Edge-to-edge incisor relationship"],ans:1},
+  {q:"Why is it important to flare the coronal part of a root canal before working length preparation?",opts:["To remove the need for irrigation","To make the canal more curved","To allow easier access to the apical third","To reduce the length of the canal"],ans:2},
+  {q:"A 1.8 mL cartridge of 2% lidocaine contains how many milligrams of lidocaine?",opts:["18 mg","24 mg","36 mg","40 mg"],ans:2},
+  {q:"A semi-adjustable articulator is used to simulate movements of the:",opts:["Maxilla relative to skull","Mandible relative to the maxilla","Glenoid fossa only","Condyles only"],ans:1},
+  {q:"Appropriate first-line topical treatment for angular cheilitis of fungal origin:",opts:["Chlorhexidine mouthrinse","Acyclovir cream","Miconazole oral gel or cream","Systemic antibiotics"],ans:2},
+  {q:"A patient with tingling/burning on lower lip followed by grouped vesicles. Which drug?",opts:["Fluconazole","Miconazole","Acyclovir","Metronidazole"],ans:2},
+  {q:"Which instrument is used to grasp and hold soft tissues during oral surgery?",opts:["Spencer Wells artery forceps","Gillies tissue forceps","Rampley sponge holding forceps","Bowdler Henry forceps"],ans:1},
+  {q:"On the non-working side during lateral mandibular movement, the condyle moves:",opts:["Upwards and medially","Downwards only","Downwards, forwards and medially","Downwards, forwards and laterally"],ans:2},
+  {q:"Secondary post-extraction haemorrhage typically occurs:",opts:["Within 2 hours","Within 24 hours","About 7 days after extraction","About 48 hours after extraction"],ans:2},
+  {q:"The main aim of anti-curvature filing during root canal preparation is to:",opts:["Avoid strip perforation","Avoid ledge formation","Avoid lateral perforation","Mitigate all errors"],ans:0},
+  {q:"Primary function of a finger spreader during cold lateral condensation:",opts:["To prepare the canal walls","To move the master cone apically","To laterally condense gutta-percha to create space for accessory cones","To compact sealer apically"],ans:2},
+  {q:"The dental follicle surrounding a developing tooth gives rise mainly to:",opts:["Enamel","Dentine","Pulp","Cementum and periodontal ligament"],ans:3},
+  {q:"An advantage of locally delivered antimicrobials in periodontal pockets:",opts:["They permanently replace mechanical debridement","They provide high concentration within the pocket","They eliminate all systemic side-effects","They are effective after a single application for life"],ans:1},
+  {q:"In BPE, a sextant shows probing depths 3.5–5.5mm (black band partly visible), no furcation. Most appropriate management?",opts:["OHI only, review in 12 months","OHI and supragingival scaling only","OHI, subgingival scaling/RSD and detailed 6-point charting in that sextant","Immediate referral for periodontal surgery"],ans:2},
+  {q:"In a combined perio-endo lesion, which problem is generally addressed first?",opts:["Periodontal problem first","Endodontic problem first","Both simultaneously","Extract the tooth"],ans:1},
+  {q:"The middle meningeal artery is a branch of the:",opts:["Internal carotid artery","Maxillary artery","Facial artery","Superficial temporal artery"],ans:1},
+  {q:"The main purpose of sodium hypochlorite in root canal therapy:",opts:["Lubricate endodontic files","Kill microorganisms and dissolve organic tissue","Remove the inorganic smear layer","Act as a chelating agent"],ans:1},
+  {q:"An elderly pipe/cigar smoker with diffuse red and white changes on hard palate. Most likely diagnosis?",opts:["Erythroplakia","Nicotine stomatitis","Squamous cell carcinoma","Leukoplakia"],ans:1},
+  {q:"Lateral cephalometric radiograph shows SNA = 76° (normal 81° ± 3°). This suggests:",opts:["Maxillary retrognathism","Maxillary prognathism","Mandibular prognathism","Mandibular retrognathism"],ans:0},
+  // ── 2024 ──
+  {q:"The oblique ridge is found on which tooth?",opts:["Maxillary first premolar","Maxillary first molar","Mandibular first molar","Mandibular second molar"],ans:1},
+  {q:"Which is the biggest cusp in permanent molars?",opts:["Mesiolingual cusp of maxillary first molar","Distobuccal cusp of mandibular first molar","Mesiobuccal cusp of mandibular first molar","Distolingual cusp of maxillary first molar"],ans:0},
+  {q:"Recommended daily fluoride dose (toothpaste) for a 3-year-old with high caries risk?",opts:["100 ppm","1450 ppm","5000 ppm","1200 ppm"],ans:1},
+  {q:"Do patients with pacemakers require antibiotic prophylaxis before dental treatment?",opts:["Always","Sometimes","Only for extractions","Not required"],ans:3},
+  {q:"Leeway space is best defined as:",opts:["Extra space from eruption of third molars","Difference between combined width of primary molars and permanent premolars","Space gained after exfoliation of incisors","Space for eruption of permanent canines"],ans:1},
+  {q:"Best medication for treating oral thrush in children?",opts:["Chlorhexidine","Nystatin","Ketoconazole","Acyclovir"],ans:1},
+  {q:"A patient with dysphagia — what should be avoided?",opts:["Nystatin oral suspension","Tablets or capsules","Intravenous fluids","Topical antifungal"],ans:1},
+  {q:"The lateral pterygoid muscle moves the mandible to which side?",opts:["Ipsilateral","Contralateral","Superior","Posterior"],ans:1},
+  {q:"Parameters for a Type B autoclave cycle?",opts:["121°C for 15–20 min at 2–3 Pascal","134–137°C for 3–3.5 min at 2–3 Pascal","134–137°C for 3–3.5 min at 4–5 Pascal","160°C for 60 min"],ans:1},
+  {q:"Standard schedule for hepatitis B vaccination in adults (2024):",opts:["0, 3 and 12 months","0, 1 and 6 months","0, 2 and 9 months","1, 6 and 12 months"],ans:1},
+  {q:"Local anaesthetic agents act primarily by (2024):",opts:["Blocking potassium channels","Blocking sodium channels","Enhancing sodium influx","Increasing potassium efflux"],ans:1},
+  {q:"After enamel formation, ameloblasts become part of which structure?",opts:["Enamel lamellae","Reduced enamel epithelium","Enamel spindle","Enamel cuticle"],ans:1},
+  {q:"Which best defines cleft lip?",opts:["Failure of fusion of medial nasal and maxillary processes","Failure of fusion of palatine shelves","Failure of fusion of primary and secondary palate","Failure of tongue descent"],ans:0},
+  {q:"Which drug class is associated with osteonecrosis of the jaw (ONJ)?",opts:["Calcium channel blockers","Intravenous bisphosphonates","Beta blockers","Antidepressants"],ans:1},
+  {q:"Which is the safest antibiotic during pregnancy?",opts:["Tetracycline","Amoxicillin","Metronidazole","Ciprofloxacin"],ans:1},
+  {q:"Ludwig's angina is:",opts:["Infection of periapical tissues of anterior teeth","Infection of submandibular, sublingual and submental spaces","Infection limited to buccal vestibule","Infection of retropharyngeal space"],ans:1},
+  {q:"The stomodeum is the primitive:",opts:["Mouth","Nose","Pharynx","Palate"],ans:0},
+  {q:"Sialolithiasis most commonly occurs in which salivary gland?",opts:["Sublingual","Submandibular","Parotid","Minor salivary glands"],ans:1},
+  {q:"What is the most common benign salivary gland tumour?",opts:["Pleomorphic adenoma","Adenoid cystic carcinoma","Mucoepidermoid carcinoma","Warthin's tumour"],ans:0},
+  {q:"Standard monthly quality control test for sterilisation?",opts:["Bowie-Dick test","Mechanical test","Biological spore test","Chemical indicator strip"],ans:2},
+  {q:"The buccinator muscle develops from which pharyngeal arch?",opts:["First","Second","Third","Fourth"],ans:1},
+  {q:"Peri-implantitis is characterised by:",opts:["Gingival inflammation only","Gingival inflammation and bone loss around the implant","Mobility without inflammation","Titanium corrosion"],ans:1},
+  {q:"A patient with tingling/burning on lower lip followed by grouped vesicles (2024). Which drug?",opts:["Fluconazole","Miconazole","Acyclovir","Metronidazole"],ans:2},
+  {q:"Multiple OKCs, calcification of falx cerebri, BCCs and bifid ribs (2024):",opts:["Gardner syndrome","Gorlin-Goltz syndrome","Peutz-Jeghers syndrome","Sturge-Weber syndrome"],ans:1},
+  {q:"A patient feels pain after irrigation during RCT. What should you do?",opts:["Stop and refer immediately","Delay treatment for a week","Complete the root canal treatment","Extract the tooth"],ans:2},
+  {q:"After IAN injection for extraction, patient still feels pain. Next step?",opts:["Immediately extract the tooth","Wait until anaesthesia sets in then proceed","Re-inject in correct position","Prescribe antibiotics"],ans:1},
+  {q:"Overdose of paracetamol primarily causes toxicity to which organ?",opts:["Kidney","Stomach","Liver","Heart"],ans:2},
+  {q:"Correct way to clean a handpiece before sterilisation?",opts:["Wipe only with alcohol","Ultrasonic cleaning","Manually wash and autoclave","Immerse in disinfectant"],ans:2},
+  {q:"Extraction of which tooth most often causes nerve injury?",opts:["Maxillary canine","Mandibular first molar","Mandibular third molar","Maxillary first molar"],ans:2},
+  {q:"A distinctive feature of the maxillary first premolar is:",opts:["Distal cusp ridge longer than mesial","Mesial curvature/developmental groove on crown and root","Larger distal cusp slope","Triangular pulp chamber"],ans:1},
+  {q:"Drug of choice for an acute asthmatic attack?",opts:["Fluticasone","Salbutamol (albuterol)","Montelukast","Prednisone"],ans:1},
+  {q:"Which structure is most superficial within the parotid gland?",opts:["Retromandibular vein","External carotid artery","Facial nerve","Maxillary artery"],ans:2},
+  {q:"In Kennedy classification, retention is mainly provided by:",opts:["Class I and II saddles","Class III only","Class IV only","All classes equally"],ans:0},
+  {q:"To assess tooth restorability, the first clinical step is to:",opts:["Check occlusion","Take radiographs","Remove all old restorations and caries","Perform vitality testing"],ans:2},
+  {q:"In Class III molar relationship, mesiobuccal cusp of upper first molar (2024):",opts:["Occludes in the buccal groove","Occludes mesial to the buccal groove","Occludes distal to the buccal groove","Does not occlude"],ans:2},
+  {q:"Which agent reduces dentine hypersensitivity by interfering with neural stimuli?",opts:["Fluoride varnish","Potassium nitrate","Calcium hydroxide","Chlorhexidine"],ans:1},
+  {q:"Which type of study provides the highest level of evidence in evidence-based dentistry?",opts:["Case report","Case-control study","Randomised controlled trial (RCT)","Cohort study"],ans:2},
+  {q:"Which index is best for assessing orthodontic treatment need?",opts:["DMFT index","CPITN index","IOTN","Plaque index"],ans:2},
+  {q:"First step in managing blood spillage in the dental clinic:",opts:["Cover with tissue","Mop with dry cloth","Disinfect with 1% sodium hypochlorite","Wash with alcohol"],ans:2},
+  {q:"Management of deep caries close to pulp exposure:",opts:["Place amalgam directly","Place calcium hydroxide liner then GIC base","Leave the cavity open for drainage","Immediate extraction"],ans:1},
+  {q:"A main function of the pulp:",opts:["Supports eruption","Provides nutrition and sensation to dentine","Produces fluoride","Maintains gingival health"],ans:1},
+  {q:"A patient with moderate caries confined to enamel and dentine, no pulp involvement. Best management?",opts:["Indirect pulp cap","Direct pulp cap","Preventive resin restoration","Extraction"],ans:2},
+  {q:"What is true regarding bitewing radiographs?",opts:["Lesion appears larger radiographically than clinically","Lesion appears smaller radiographically than clinically","Always shows true depth","Not useful for proximal caries"],ans:1},
+  {q:"Best management of 3mm intrusion of a permanent tooth in a young patient?",opts:["Immediate extraction","Allow spontaneous re-eruption","Orthodontic extrusion","Surgical repositioning"],ans:1},
+  {q:"Fibre optic transillumination (FOTI) is mainly used for detection of:",opts:["Dental calculus","Enamel cracks and proximal caries","Tooth vitality","Root fractures"],ans:1},
+  {q:"Apexification is defined as:",opts:["Formation of new cementum","Removal of apical root canal","Induction of a calcified barrier in a root with open apex","Placement of a retrograde filling"],ans:2},
+  {q:"Alveolar osteitis (dry socket) most commonly occurs after:",opts:["Amalgam filling","Endodontic treatment","Extraction of mandibular molars","Periodontal surgery"],ans:2},
+  {q:"A smoker of fewer than 10 cigarettes/day with periodontitis is classified as:",opts:["Grade A","Grade B","Grade C","Grade D"],ans:1},
+  {q:"Infection of mandibular premolar with root apex above mylohyoid spreads first into:",opts:["Sublingual space","Submandibular space","Buccal space","Submental space"],ans:0},
+  {q:"IAN block anaesthetises which nerves?",opts:["Only inferior alveolar","Inferior alveolar and lingual nerves","Inferior alveolar, lingual and long buccal","Inferior alveolar and mental nerves only"],ans:1},
+  {q:"Which agent is used to widen a narrow root canal?",opts:["Sodium hypochlorite","EDTA (chelating agent)","Hydrogen peroxide","Chlorhexidine"],ans:1},
+  {q:"Punched-out interdental papillae with a pseudomembrane are characteristic of:",opts:["Chronic periodontitis","Gingivitis","Necrotising ulcerative gingivitis (NUG)","Acute apical abscess"],ans:2},
+  {q:"Major risk factors for periodontitis include:",opts:["Diabetes mellitus and tobacco use","High sugar diet","Poor brushing technique","Malocclusion"],ans:0},
+  {q:"The facebow record represents the relationship between:",opts:["Mandible and maxilla","Maxilla and temporomandibular fossa","Mandible and condyle","Maxilla and mandibular occlusal plane"],ans:1},
+  {q:"A sinus tract associated with a tooth usually indicates:",opts:["Acute apical abscess","Chronic apical abscess","Gingivitis","Periodontitis"],ans:1},
+  {q:"An elderly pipe/cigar smoker with red and white changes on hard palate (2024). Most likely diagnosis?",opts:["Erythroplakia","Nicotine stomatitis","Squamous cell carcinoma","Leukoplakia"],ans:1},
+  {q:"An ANB angle of 2° indicates:",opts:["Skeletal Class I (normal)","Skeletal Class II","Skeletal Class III","Asymmetry"],ans:0},
+  {q:"Long-term use of opioids commonly causes:",opts:["Hypertension","Constipation","Gingival hyperplasia","Xerostomia"],ans:1},
+  {q:"A patient with penicillin hypersensitivity requires antibiotic. Best alternative?",opts:["Amoxicillin","Erythromycin","Clindamycin","Metronidazole only"],ans:2},
+  {q:"Which is a non-odontogenic cyst?",opts:["Radicular cyst","Dentigerous cyst","Nasopalatine duct cyst","Eruption cyst"],ans:2},
+  {q:"A patient taking low-dose aspirin requires an analgesic. What to prescribe?",opts:["Ibuprofen","Aspirin higher dose","Paracetamol (acetaminophen)","Diclofenac"],ans:2},
+  {q:"Infection from mandibular premolar near/above buccinator insertion spreads to:",opts:["Sublingual space","Submandibular space","Buccal space","Pterygomandibular space"],ans:2},
+  {q:"Starting point for access preparation in a mandibular premolar is:",opts:["Middle of central fossa","Middle groove between mesial and distal marginal ridges","Lingual inclination of buccal cusp","Midway between buccal and lingual cusps"],ans:2},
+  {q:"The succedaneous lamina develops at which position relative to the primary tooth bud?",opts:["Superior and buccal","Superior and lingual","Inferior and buccal","Inferior and lingual"],ans:1},
+  {q:"A 28-year-old with chronic odontogenic infection and acute flare-up. Best management?",opts:["Amoxicillin 500mg TID 5 days only","Incision and drainage plus definitive treatment","Extraction immediately without drainage","Observation only"],ans:1},
+  {q:"Most important etiologic factor in dry socket development after extraction?",opts:["Excessive antibiotics before extraction","Excessive formation of granulation tissue","Increased local fibrinolytic activity due to bacterial infection","Use of local anaesthetic with vasoconstrictor"],ans:2},
+  {q:"A facebow is used to record the relationship of:",opts:["Mandible to occlusal plane","Maxilla to condylar hinge axis","Mandible to temporalis muscle","Maxilla to mandibular arch"],ans:1},
+  {q:"A patient with tingling/burning on lower lip followed by grouped vesicles (2024 Q68). Which drug?",opts:["Fluconazole","Miconazole","Acyclovir","Metronidazole"],ans:2},
+  // ── 2025 ──
+  {q:"After scaling and root planing for chronic periodontitis (PD 4mm), most likely outcome at follow-up?",opts:["Increased gingival recession","Reduction in pocket depth by 3mm","Gain in clinical attachment level of 0.5mm","Increased bleeding on probing"],ans:2},
+  {q:"Which tooth surface is most difficult to perform root planing on?",opts:["Mesial surface of maxillary first molar","Distal surface of maxillary first molar","Mesial surface of mandibular second premolar","Distal surface of mandibular first molar"],ans:1},
+  {q:"A patient suddenly develops a seizure and becomes unconscious during dental treatment. Most appropriate immediate management?",opts:["Call emergency","Monitor and place pads/support to prevent head injury","Give 1:1000 epinephrine IM","Give 10mg benzodiazepine IV immediately"],ans:1},
+  {q:"A diabetic patient who took insulin but didn't eat becomes unconscious. Most appropriate drug?",opts:["1.5 mg glucagon IM","1 mg glucagon IM","10 ml of 50% dextrose solution","Oral glucose tablets"],ans:1},
+  {q:"A patient with gastric problems takes low-dose aspirin and you prescribe ibuprofen. Which statement is correct?",opts:["Ibuprofen reduces the cardioprotective effect of low-dose aspirin","Has no effect on gastric mucosa","Aspirin decreases analgesic effectiveness of ibuprofen","Ibuprofen is the safest analgesic for this patient"],ans:0},
+  {q:"During crown cementation, the crown slips into the patient's throat and he starts to choke. Most appropriate immediate management?",opts:["Call EMS","Reassure and encourage to vomit","Apply the Heimlich maneuver (abdominal thrusts)","Ask patient to drink water"],ans:2},
+  {q:"Which permanent tooth is most commonly associated with the Cusp of Carabelli?",opts:["Mesial cusps of maxillary first molar","Distal cusps of maxillary first molar","Mesial cusps of maxillary second molar","Distal cusps of maxillary second molar"],ans:0},
+  {q:"Laser fluorescence (DIAGNOdent) is primarily indicated for:",opts:["Detecting early occlusal caries","Measuring pulp vitality","Detecting subgingival calculus","Measuring periodontal pocket depth"],ans:0},
+  {q:"Which medication is contraindicated in infectious mononucleosis (may cause characteristic rash)?",opts:["Metronidazole","Ampicillin","Ibuprofen","Acyclovir"],ans:1},
+  {q:"An avulsed permanent tooth with extra-oral dry time of 50 minutes. Most appropriate management?",opts:["Gently clean and reimplant into socket","Replace with a dental implant immediately","Reassure no replacement needed","Discard and plan orthodontic space closure"],ans:0},
+  {q:"An avulsed primary tooth with extra-oral dry time of 45 minutes. Most appropriate management?",opts:["Gently clean and reimplant into socket","Replace with a dental implant immediately","Reassure patient, no replacement needed","Discard and plan orthodontic space closure"],ans:2},
+  {q:"Most critical factor affecting prognosis of an avulsed permanent tooth?",opts:["Patient age","Position of the tooth","Extra-oral dry time","Storage medium"],ans:2},
+  {q:"A patient develops gasping and difficulty breathing after amoxicillin premedication. Correct emergency management?",opts:["0.5 mL epinephrine 1:10 IM","0.5 mL epinephrine 1:100 IM","0.5 mL epinephrine 1:1000 IM","0.5 mL epinephrine 1:10000 IM"],ans:2},
+  {q:"A patient on warfarin has dry socket and you place Alvogyl (eugenol). Which best describes the drug interaction?",opts:["Warfarin increases antimicrobial effect of eugenol","Warfarin decreases antimicrobial effect of eugenol","Eugenol may increase the anticoagulant effect of warfarin","Eugenol decreases anticoagulant effect of warfarin"],ans:2},
+  {q:"Chronic vesiculobullous lesions on oral mucosa with suprabasal acantholysis on biopsy. Most likely diagnosis?",opts:["Pemphigus vulgaris","Mucous membrane pemphigoid","Bullous pemphigoid","Lichen planus"],ans:0},
+  {q:"A high-caries-risk child under 12 years. Which toothpaste recommendation is most appropriate?",opts:["1450 ppm, smear amount","1450 ppm, pea-sized amount","1000 ppm, smear amount","1000 ppm, pea-sized amount"],ans:1},
+  {q:"A 15-year-old in area with water fluoride 0.4 ppm. Most appropriate fluoride supplement?",opts:["0.5 mg fluoride daily","1.0 mg fluoride daily","10 mg fluoride daily","No fluoride supplement"],ans:0},
+  {q:"If internal jugular vein is compressed in the neck, most likely cause?",opts:["Thyroid gland enlargement (goitre)","Parotid gland","Submandibular gland","Hyoid bone"],ans:0},
+  {q:"A patient develops severe crushing chest pain radiating to left arm and mandible. Indicated medication?",opts:["Adrenaline 500 micrograms IM","Glucagon 1g IM","Glyceryl trinitrate (GTN) spray 400–800 micrograms sublingually","Glyceryl trinitrate (GTN) spray 1600 micrograms sublingually"],ans:2},
+  {q:"The maxillary artery is primarily a derivative of which pharyngeal arch artery?",opts:["First pharyngeal arch","Second pharyngeal arch","Third pharyngeal arch","Fourth pharyngeal arch"],ans:0},
+  {q:"The buccinator muscle develops from which pharyngeal arch (2025)?",opts:["First","Second","Third","Fourth"],ans:1},
+  {q:"Primary type of movement in the lower (inferior) compartment of the TMJ?",opts:["Translation only","Rotation (hinge movement) only","Rotation followed by translation","No movement occurs"],ans:1},
+  {q:"During lateral excursion, movement of condyle on the non-working (balancing) side?",opts:["Downward","Downward, forward, and medial","Downward, forward, and lateral","Only medial"],ans:1},
+  {q:"When mandible moves to the left, which muscle is mainly responsible (2025)?",opts:["Left lateral pterygoid","Right lateral pterygoid","Left medial pterygoid","Right medial pterygoid"],ans:1},
+  {q:"Correct sequence of histological zones in enamel carious lesion from surface inward?",opts:["Translucent → dark → body → surface","Surface → body → dark → translucent","Body → surface → dark → translucent","Dark → surface → body → translucent"],ans:1},
+  {q:"When a pontic lies outside the interabutment line, main biomechanical effect on abutment?",opts:["Pure compression","Intrusion","Torque (tipping/rotational forces)","Tension"],ans:2},
+  {q:"An HIV-positive patient with multiple red-purple exophytic lesions on oral mucosa. Most likely diagnosis?",opts:["Kaposi sarcoma","Non-Hodgkin lymphoma","Oral squamous cell carcinoma","Oral candidiasis"],ans:0},
+  {q:"Which fascial space: anteriorly buccinator, posteriorly parotid, superiorly zygomatic arch, inferiorly mandible border?",opts:["Masseteric space","Pterygomandibular space","Submandibular space","Sublingual space"],ans:0},
+  {q:"Panoramic radiograph shows impacted mandibular third molar. According to Pell and Gregory, how classified?",opts:["Class II, Position A","Class II, Position B","Class III, Position A","Class III, Position B"],ans:3},
+  {q:"A well-defined radiolucency near angle of mandible below the inferior alveolar canal, containing salivary gland tissue (incidental finding). Most likely diagnosis?",opts:["Stafne bone defect (static bone cyst)","Ameloblastoma","Dentigerous cyst","Odontogenic keratocyst"],ans:0},
+  {q:"Energy a material can absorb within the elastic range and release upon unloading?",opts:["Malleability","Hardness","Resilience","Toughness"],ans:2},
+  {q:"Total energy a material can absorb up to fracture?",opts:["Toughness","Resilience","Hardness","Elasticity"],ans:0},
+  {q:"What type of secretion is produced by the parotid gland even when its duct is obstructed?",opts:["Mucous secretion","Serous secretion","Mixed serous and mucous","No secretion"],ans:1},
+  {q:"Which bench-top autoclave is vacuum type designed for hollow and packaged loads?",opts:["Type N","Type S","Type B","Hot air oven"],ans:2},
+  {q:"Which correctly compares high-level and low-level disinfection?",opts:["High-level kills all except large numbers of spores; low-level kills most vegetative bacteria and some viruses but not TB or spores","High-level kills only vegetative bacteria; low-level kills all including spores","Both kill all including spores","Low-level kills TB and spores; high-level does not"],ans:0},
+  {q:"A distinguishing feature of the primary maxillary canine?",opts:["Distal cusp slope is longer than mesial","Mesial cusp slope is longer than distal","Cusp tip is rounded","Root is shorter than permanent canine"],ans:1},
+  {q:"A 9-year-old at first dental visit. How many primary teeth expected?",opts:["4 teeth","6 teeth","8 teeth","12 teeth"],ans:3},
+  {q:"Most important risk factor for caries in patients with fixed orthodontic appliances?",opts:["Plaque accumulation and biofilm retention around appliance","Occasional trauma to lips and cheeks","Mild temporary root resorption","Transient discomfort after activation"],ans:0},
+  {q:"Most important risk factor for future dental caries in a patient?",opts:["Does not brush teeth","Presence of dental plaque","Does not regularly visit dentist","Previous history of carious lesions"],ans:3},
+  {q:"OPG shows exaggerated 'smile' curve and mandibular anterior teeth appear flattened. Most likely cause?",opts:["Patient's chin was too high","Patient's chin was too low","Patient moved during exposure","Patient did not swallow properly"],ans:1},
+  {q:"Periapical radiograph shows crowns and proximal surfaces overlapping. Most likely cause?",opts:["Incorrect horizontal angulation of X-ray beam","Incorrect vertical angulation of X-ray beam","Patient's chin position was wrong","Film was placed too far posteriorly"],ans:0},
+  {q:"Which syndrome has developmental defects of thymus and parathyroid glands leading to immunodeficiency and hypocalcemia?",opts:["Down syndrome","DiGeorge syndrome","Turner syndrome","Crouzon syndrome"],ans:1},
+  {q:"Which muscle is primarily responsible for elevating the soft palate during swallowing?",opts:["Palatoglossus","Palatopharyngeus","Levator veli palatini","Tensor veli palatini"],ans:2},
+  {q:"During tooth movement, initial new bone formed in areas of apposition is mainly:",opts:["Compact lamellar bone","Cancellous lamellar bone","Woven bone","Cartilage"],ans:2},
+  {q:"Which test is used to assess tear production in suspected dry eye?",opts:["Snellen test","Schirmer test","Hess chart","Fluorescein staining test"],ans:1},
+  {q:"Which biocompatible liner/pulp repair material stimulates pulp cell proliferation?",opts:["Zinc oxide-eugenol","Glass ionomer cement","Biodentine","Zinc phosphate cement"],ans:2},
+  {q:"A 1cm pink broad-based mucosal lesion attached by a wide base without a stalk is described as:",opts:["Pedunculated","Sessile","Papillary","Nodular"],ans:1},
+  {q:"A small circumscribed fluid-filled elevation with 2cm diameter is called a:",opts:["Papule","Vesicle","Bulla","Pustule"],ans:2},
+  {q:"A flat, well-circumscribed area of colour change without elevation/depression with 0.5mm diameter is called:",opts:["Papule","Nodule","Macule","Plaque"],ans:2},
+  {q:"A large goitre compressing IJV and common carotid at neck could also affect which cranial nerve?",opts:["Glossopharyngeal IX","Vagus nerve X","Accessory nerve XI","Hypoglossal XII"],ans:1},
+  {q:"A deep lesion in the floor of mouth beneath tongue is most likely to endanger which nerves?",opts:["Lingual nerve only","Hypoglossal nerve only","Lingual and hypoglossal nerves","Trigeminal nerve main trunk"],ans:2},
+  {q:"A 10-year-old with traumatised permanent incisor — no response to pulp test, no periapical pathology, open apex. Best management?",opts:["Start root canal treatment immediately","Extract the tooth","Monitor and schedule follow-up appointments","Perform immediate apicoectomy"],ans:2},
+  {q:"In a 7-year-old, intruded immature permanent incisor with no root resorption. Best management?",opts:["Immediate extraction","Immediate orthodontic extrusion","Allowing spontaneous re-eruption and monitoring","Immediate surgical repositioning and rigid splint"],ans:2},
+  {q:"Primary function of von Willebrand factor (vWF) in hemostasis?",opts:["Binds to platelet GpIb to mediate platelet adhesion to damaged endothelium","Activates fibrinogen to form fibrin clot","Degrades fibrin to aid clot breakdown","Directly converts prothrombin to thrombin"],ans:0},
+  {q:"Very deep cavity with pinkish shadow of pulp visible through thin dentine. Best liner choice?",opts:["Calcium hydroxide","MTA","Zinc oxide-eugenol Type III","Zinc oxide-eugenol Type IV"],ans:0},
+  {q:"A 55-year-old: PD 6mm, CAL 4mm, bone loss to middle third, 4 teeth lost, smokes >10 cigs/day, HbA1c >7%. Classification?",opts:["Stage III, Grade B","Stage III, Grade C","Stage II, Grade B","Stage II, Grade C"],ans:1},
+  {q:"Which material is most appropriate as a temporary restoration and base material?",opts:["Calcium hydroxide","Zinc phosphate cement","Zinc oxide-eugenol Type III","Zinc oxide-eugenol Type IV"],ans:2},
+  {q:"Which generation of dentin bonding agent generally contains the minimal amount of solvent?",opts:["4th generation","5th generation","6th generation","7th generation"],ans:3},
+  {q:"Which generation of dentin bonding agent is self-etch supplied as a single component not requiring mixing?",opts:["4th generation","5th generation","6th generation","7th generation"],ans:3},
+  {q:"The ala of the nose develops primarily from which embryonic prominence?",opts:["Lateral nasal prominence","Medial nasal prominence","Fusion of lateral and medial nasal prominences","Frontonasal prominence"],ans:0},
+  {q:"A patient with impaired swallowing (dysphagia). Injury to which cranial nerve is most likely (2025)?",opts:["Glossopharyngeal IX","Vagus nerve X","Hypoglossal XII","Accessory XI"],ans:1},
+  {q:"Which nerve innervates the muscles of the lower lip?",opts:["Marginal mandibular branch of facial nerve (CN VII)","Buccal branch of trigeminal (CN V3)","Lingual nerve (CN V3)","Infraorbital nerve (CN V2)"],ans:0},
+  {q:"After scaling and root planing, patient has 3mm gingival recession. Most likely finding at next visit?",opts:["Less recession","More BOP","More keratinized tissue","Deeper pockets"],ans:2},
+  {q:"A patient bites cheek; buccal mucosa shows white shredded ragged areas along occlusal line. Most likely diagnosis?",opts:["Frictional keratosis","Leukoplakia","Morsicatio buccarum","Oral lichen planus"],ans:2},
+  {q:"First type of cell to appear in acute inflammatory phase after tissue injury?",opts:["Neutrophils","Lymphocytes","Macrophages","Fibroblasts"],ans:0},
+  {q:"During extraction of upper first molar, 2mm oroantral communication noted. Best management?",opts:["Place a figure-8 suture and prescribe medications","No treatment, reassure communication will close naturally","Buccal fat pad flap","Referral to ENT"],ans:1},
+  {q:"A patient with chronic alcoholic liver disease has prolonged PTT after extraction. Most likely cause?",opts:["Insufficient vitamin K","Increased platelet count","Excess production of fibrinogen","Iron deficiency anemia"],ans:0},
+  {q:"Patient in dental chair suddenly reports numbness of lips, one side of face, drooping of eye and facial asymmetry. Most likely diagnosis?",opts:["Stroke","Myocardial infarction","Angina","Hyperventilation attack"],ans:0},
+  {q:"Silver diamine fluoride (SDF) used in anxious child. Main concern to inform mother?",opts:["Metallic taste","Economic","Esthetic (black staining of carious lesions)","Invasive procedure"],ans:2},
+  {q:"Patient returns 3 days post-extraction with no feeling in lower lip on same side. Most likely cause?",opts:["Lingual nerve injury","Inferior alveolar nerve (IAN) injury","Did not follow postoperative instructions","Infection at extraction site"],ans:1},
+  {q:"Typical measurement error range for an electronic apex locator?",opts:["No error (0mm)","0–2 mm error","More than 4mm error","Completely unpredictable"],ans:1},
+  {q:"Which agent reduces dentin hypersensitivity by interfering with neural stimuli (2025)?",opts:["Fluoride varnish","Potassium nitrate","Calcium hydroxide","Chlorhexidine"],ans:1},
+  {q:"A characteristic clinical feature of Ludwig's angina?",opts:["Unilateral facial swelling","Raises the tip of the tongue","Localized swelling","Painless enlargement of parotid gland"],ans:1},
+  {q:"Most important etiologic factor in dry socket development after extraction (2025)?",opts:["Excessive antibiotics before extraction","Excessive formation of granulation tissue","Increased local fibrinolytic activity due to bacterial infection","Use of local anaesthetic with vasoconstrictor"],ans:2},
+  {q:"Correct order for processing reusable dental instruments in the sterilization room?",opts:["Cleaning → Disinfection → Sterilization","Disinfection → Cleaning → Packaging","Cleaning → Sterilization → Processing","Cleaning → Disinfection → Packaging"],ans:0},
+  {q:"An infectious cause of granulomatous disease?",opts:["Secondary syphilis","Orofacial granulomatosis","Tuberculosis (TB)","Herpes labialis"],ans:2},
+  {q:"Main advantage of Amoclan (amoxicillin-clavulanic acid) compared with amoxicillin alone?",opts:["Reduces risk of allergy to penicillin","Overcomes β-lactamase resistance","Eliminates gastrointestinal side effects","Has no effect on bacterial cell walls"],ans:1},
+  {q:"What covers the articular surfaces of the TMJ?",opts:["Hyaline cartilage","Synovial lining","Dense avascular fibrocartilage","Periosteum"],ans:2},
+  {q:"Most appropriate time to schedule reevaluation after non-surgical periodontal therapy?",opts:["2–4 weeks","4–8 weeks","8–12 weeks","After 6 months"],ans:1},
+  {q:"After completing a restoration, you ask the patient for opinion and satisfaction. This evaluation relates to:",opts:["Quantity","Quality","Cost","Time"],ans:1},
+  {q:"In Gorlin-Goltz syndrome, typical radiographic appearance of OKCs in the jaws?",opts:["Snow-like calcifications","Glass-like (ground-glass) appearance","Multiple radiolucent lesions","Single well-defined radiopaque lesion"],ans:2},
+  {q:"Patient has only canines and first molars, fine hair, no sweating, looks older at young age (2025). Most likely diagnosis?",opts:["Inherited ectodermal dysplasia","Incontinentia pigmenti","Cleidocranial dysplasia","Chondroectodermal dysplasia"],ans:0},
+  {q:"Which structure gives rise to the initial junctional epithelium around a newly erupted tooth?",opts:["Ameloblasts","Ectoderm","Reduced enamel epithelium","Dental follicle"],ans:2},
+  {q:"An orthodontic wire deflected during activation returns to original shape when force is removed. This property is called:",opts:["Ductility","Toughness","Brittleness","Elasticity"],ans:3},
+  {q:"A 55-year-old with a solitary oral ulcer on lateral tongue, present for 3 weeks, painless, not improved with antiseptic mouthrinse. Most appropriate management?",opts:["Prescribe topical corticosteroid","Reassure and do nothing","Prescribe antibiotics for 5 days","Refer for specialist assessment / biopsy"],ans:3},
+  {q:"A patient with recurrent swelling and pain in floor of mouth, worse during meals then subsides. Most likely diagnosis?",opts:["Acute viral sialadenitis","Sialolithiasis","Chronic sialadenitis","Ranula"],ans:1},
+  {q:"Which ligament prevents anterior dislocation, limits protrusion, restricts excessive opening and supports mandible?",opts:["Temporomandibular ligament","Sphenomandibular ligament","Stylomandibular ligament","Capsular ligament"],ans:2},
+  {q:"Most superficial structure within the parotid gland (2025)?",opts:["Retromandibular vein","External carotid artery","Facial nerve","Maxillary artery"],ans:2}
+];
+
+// ══ STATE ══
+let mode = 'all';
+let S = { qs:[], idx:0, correct:0, wrong:0, skip:0, answered:false, wrongList:[] };
+
+function setMode(m){
+  mode = m;
+  document.getElementById('mode-all').className = 'mode-btn' + (m==='all'?' active':'');
+  document.getElementById('mode-seq').className = 'mode-btn' + (m==='seq'?' active':'');
+}
+
+function showScreen(id){
+  document.querySelectorAll('.sc').forEach(s=>s.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+}
+
+function shuffle(arr){
+  const a=[...arr];
+  for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
+  return a;
+}
+
+function startExam(){
+  S.qs = mode==='all' ? shuffle([...ALL_QS]) : [...ALL_QS];
+  S.idx=0; S.correct=0; S.wrong=0; S.skip=0; S.answered=false; S.wrongList=[];
+  showScreen('sc-quiz');
+  renderQ();
+}
+
+function renderQ(){
+  S.answered=false;
+  const q=S.qs[S.idx], total=S.qs.length;
+  document.getElementById('quiz-counter').textContent=(S.idx+1)+' / '+total;
+  document.getElementById('q-num').textContent='Question '+(S.idx+1);
+  document.getElementById('q-text').textContent=q.q;
+  document.getElementById('prog-fill').style.width=(S.idx/total*100)+'%';
+  document.getElementById('stat-c').textContent=S.correct;
+  document.getElementById('stat-w').textContent=S.wrong;
+  document.getElementById('stat-s').textContent=S.skip;
+  const labels=['A','B','C','D'];
+  document.getElementById('opts').innerHTML=q.opts.map((o,i)=>`
+    <button class="opt" onclick="pickOpt(${i},this)" id="opt-${i}">
+      <span class="ol">${labels[i]}</span>${o}
+    </button>`).join('');
+  document.getElementById('res-banner').className='res-banner';
+  document.getElementById('skip-btn').style.display='block';
+  document.getElementById('next-btn').style.display='none';
+}
+
+function pickOpt(idx, btn){
+  if(S.answered) return;
+  S.answered=true;
+  const q=S.qs[S.idx], correct=q.ans;
+  document.querySelectorAll('.opt').forEach(b=>b.disabled=true);
+  document.getElementById('opt-'+correct).classList.add('correct');
+  const rb=document.getElementById('res-banner');
+  if(idx===correct){
+    S.correct++;
+    btn.classList.add('correct');
+    rb.className='res-banner ok show';
+    document.getElementById('rb-ico').textContent='✅';
+    document.getElementById('rb-txt').textContent='Correct! Well done.';
+  } else {
+    S.wrong++;
+    btn.classList.add('wrong');
+    rb.className='res-banner bad show';
+    document.getElementById('rb-ico').textContent='❌';
+    document.getElementById('rb-txt').textContent='Wrong. Correct answer: '+q.opts[correct];
+    S.wrongList.push({...q, picked:idx});
+  }
+  document.getElementById('skip-btn').style.display='none';
+  const nb=document.getElementById('next-btn');
+  nb.style.display='block';
+  if(S.idx>=S.qs.length-1){
+    nb.textContent='See Results ✓';
+    nb.className='nav-btn nav-finish';
+    nb.onclick=finishExam;
+  } else {
+    nb.textContent='Next →';
+    nb.className='nav-btn nav-next';
+    nb.onclick=nextQ;
+  }
+  document.getElementById('stat-c').textContent=S.correct;
+  document.getElementById('stat-w').textContent=S.wrong;
+}
+
+function skipQ(){
+  if(S.answered) return;
+  S.skip++;
+  S.wrongList.push({...S.qs[S.idx], picked:-1});
+  document.getElementById('stat-s').textContent=S.skip;
+  if(S.idx>=S.qs.length-1){finishExam();return;}
+  S.idx++; renderQ();
+}
+
+function nextQ(){
+  if(S.idx>=S.qs.length-1){finishExam();return;}
+  S.idx++; renderQ();
+}
+
+function finishExam(){
+  const total=S.qs.length, pct=Math.round(S.correct/total*100);
+  document.getElementById('res-pct').textContent=pct+'%';
+  document.getElementById('res-lbl').textContent=S.correct+' correct out of '+total;
+  document.getElementById('rc').textContent=S.correct;
+  document.getElementById('rw').textContent=S.wrong;
+  document.getElementById('rs').textContent=S.skip;
+  let gv,gl;
+  if(pct>=85){gv='🏆 Excellent';gl='Outstanding performance!';}
+  else if(pct>=70){gv='✅ Good';gl='Above average — keep going!';}
+  else if(pct>=55){gv='📈 Average';gl='Room for improvement.';}
+  else{gv='📚 Needs Work';gl='Review your weak areas.';}
+  document.getElementById('grade-v').textContent=gv;
+  document.getElementById('grade-l').textContent=gl;
+  showScreen('sc-results');
+}
+
+function reviewWrong(){
+  const labels=['A','B','C','D'];
+  document.getElementById('rev-count').textContent=S.wrongList.length+' questions';
+  document.getElementById('rev-body').innerHTML=S.wrongList.map((q,i)=>{
+    const opts=q.opts.map((o,oi)=>{
+      let cls='n', icon='';
+      if(oi===q.ans){cls='c';icon='✅ ';}
+      else if(oi===q.picked){cls='w';icon='❌ ';}
+      return`<div class="rev-opt ${cls}">${icon}${labels[oi]}. ${o}</div>`;
+    }).join('');
+    return`<div class="rev-item">
+      <div style="font-family:var(--fm);font-size:0.62rem;color:var(--mt);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">Q${i+1} ${q.picked===-1?'(Skipped)':'(Wrong)'}</div>
+      <div class="rev-q">${q.q}</div>
+      <div class="rev-opts">${opts}</div>
+    </div>`;
+  }).join('');
+  showScreen('sc-review');
+}
+
+function confirmBack(){
+  if(confirm('Exit exam? Your progress will be lost.')) showScreen('sc-home');
+}
+</script>
+
+</body>
+</html>
