@@ -9,10 +9,31 @@
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getDatabase, ref, set, get, onValue, update, remove } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 const fc={apiKey:"AIzaSyAjrjkgVD2YcBnS6i0qqDVN1zpdfCBKwb8",authDomain:"dent-list-5cb38.firebaseapp.com",databaseURL:"https://dent-list-5cb38-default-rtdb.europe-west1.firebasedatabase.app",projectId:"dent-list-5cb38",storageBucket:"dent-list-5cb38.firebasestorage.app",messagingSenderId:"778763660961",appId:"1:778763660961:web:d88a83e4066272f8500ae0"};
-const app=initializeApp(fc);const db=getDatabase(app);
+const app=initializeApp(fc);
+const db=getDatabase(app);
+const auth=getAuth(app);
 window._db=db;window._ref=ref;window._set=set;window._get=get;window._onValue=onValue;window._update=update;window._remove=remove;
 window._fbReady=true;window.dispatchEvent(new Event('fbReady'));
+// ── AUTH STATE ──
+onAuthStateChanged(auth,(user)=>{
+  const bar=document.getElementById('user-bar');
+  const nameEl=document.getElementById('user-name');
+  const loginBtn=document.getElementById('btn-login');
+  const logoutBtn=document.getElementById('btn-logout');
+  if(!bar)return;
+  bar.style.display='flex';
+  if(user){
+    const n=user.displayName||user.email.split('@')[0];
+    nameEl.textContent=n;nameEl.style.display='block';
+    loginBtn.style.display='none';logoutBtn.style.display='flex';
+  }else{
+    nameEl.textContent='';nameEl.style.display='none';
+    loginBtn.style.display='flex';logoutBtn.style.display='none';
+  }
+});
+window.doLogout=async function(){await signOut(auth);window.location.reload();};
 </script>
 <style>
 :root{
@@ -26,6 +47,16 @@ window._fbReady=true;window.dispatchEvent(new Event('fbReady'));
 html,body{height:100%;}
 body{font-family:var(--fh);background:var(--bg);color:var(--tx);overflow-x:hidden;}
 body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 50% at 20% -10%,rgba(0,240,255,0.06),transparent),radial-gradient(ellipse 60% 40% at 80% 110%,rgba(176,110,255,0.06),transparent);pointer-events:none;z-index:0;}
+/* ══ USER BAR ══ */
+#user-bar{display:none;align-items:center;justify-content:space-between;padding:9px 16px;background:var(--s1);border-bottom:1px solid var(--b1);position:sticky;top:0;z-index:100;width:100%;}
+.ub-logo{font-family:var(--fh);font-size:0.9rem;font-weight:800;background:linear-gradient(135deg,var(--c1),var(--c5));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-0.5px;}
+.ub-right{display:flex;align-items:center;gap:8px;}
+#user-name{font-family:var(--fm);font-size:0.7rem;color:var(--c3);background:rgba(170,255,0,0.08);border:1px solid rgba(170,255,0,0.2);padding:4px 11px;border-radius:50px;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:none;}
+#btn-login{display:none;align-items:center;gap:6px;background:var(--c1);color:var(--bg);border:none;border-radius:8px;padding:7px 14px;font-family:var(--fh);font-size:0.78rem;font-weight:700;cursor:pointer;transition:all 0.2s;text-decoration:none;}
+#btn-login:hover{filter:brightness(1.1);}
+#btn-logout{display:none;align-items:center;gap:5px;background:transparent;color:var(--mt);border:1px solid var(--b1);border-radius:8px;padding:6px 11px;font-family:var(--fh);font-size:0.72rem;cursor:pointer;transition:all 0.2s;}
+#btn-logout:hover{color:var(--c2);border-color:var(--c2);}
+/* ══ SCREENS ══ */
 .sc{display:none;position:relative;z-index:1;min-height:100dvh;flex-direction:column;align-items:center;justify-content:center;padding:20px;}
 .sc.on{display:flex;}
 .sc.game-sc{padding:0;align-items:stretch;justify-content:flex-start;}
@@ -89,7 +120,6 @@ select option{background:var(--s2);}
 .pslot .dot{width:10px;height:10px;border-radius:50%;background:var(--mt);flex-shrink:0;}
 .pslot.on .dot{background:var(--c3);box-shadow:0 0 8px var(--c3);}
 .pslot .role{font-family:var(--fm);font-size:0.62rem;color:var(--mt);margin-left:auto;}
-/* ONLINE GAME */
 .ghdr{display:flex;align-items:center;justify-content:space-between;padding:11px 16px;background:var(--s1);border-bottom:1px solid var(--b1);position:sticky;top:0;z-index:10;}
 .sbd{display:flex;gap:12px;align-items:center;}
 .stt{display:flex;flex-direction:column;align-items:center;gap:1px;}
@@ -154,7 +184,6 @@ select option{background:var(--s2);}
 .scol .cs{font-size:1.9rem;font-weight:800;}
 .scol.p1 .cs{color:var(--c1);}
 .scol.p2 .cs{color:var(--c2);}
-/* LOCAL */
 .lgame{display:flex;flex-direction:column;min-height:100dvh;}
 .lhdr{display:flex;background:var(--s1);border-bottom:1px solid var(--b1);}
 .lteam{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:12px;gap:2px;border-bottom:3px solid transparent;}
@@ -216,22 +245,18 @@ select option{background:var(--s2);}
 .aw-badge.t1{color:var(--c1);background:rgba(0,240,255,0.08);border:1px solid rgba(0,240,255,0.2);}
 .aw-badge.t2{color:var(--c2);background:rgba(255,61,107,0.08);border:1px solid rgba(255,61,107,0.2);}
 .aw-badge.none{color:var(--mt);background:rgba(90,100,117,0.06);border:1px solid var(--b1);}
-/* ══ GO FAST ══ */
 .gf-rbox{background:var(--s2);border:1px solid var(--c4);border-radius:14px;padding:20px;text-align:center;width:100%;}
 .gf-rcode{font-family:var(--fm);font-size:2.6rem;font-weight:500;color:var(--c4);letter-spacing:12px;}
-/* Player joined list */
 .gf-plist{width:100%;display:flex;flex-direction:column;gap:8px;max-height:220px;overflow-y:auto;}
 .gf-pslot{background:var(--s2);border:1px solid var(--b1);border-radius:10px;padding:10px 14px;display:flex;align-items:center;gap:10px;font-size:0.86rem;transition:all 0.3s;}
 .gf-pslot.joined{border-color:var(--c4);background:rgba(255,170,0,0.06);}
 .gf-pslot .pdot{width:9px;height:9px;border-radius:50%;background:var(--mt);flex-shrink:0;}
 .gf-pslot.joined .pdot{background:var(--c4);box-shadow:0 0 7px var(--c4);}
-/* GF countdown overlay */
 .gf-countdown{position:fixed;inset:0;z-index:500;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;opacity:0;pointer-events:none;transition:opacity 0.3s;}
 .gf-countdown.on{opacity:1;pointer-events:all;}
 .gf-cd-num{font-family:var(--fm);font-size:6rem;font-weight:800;color:var(--c4);line-height:1;animation:cdpop 1s ease infinite;}
 @keyframes cdpop{0%{transform:scale(1);}50%{transform:scale(1.15);}100%{transform:scale(1);}}
 .gf-cd-txt{font-family:var(--fm);font-size:0.72rem;color:var(--mt);letter-spacing:3px;text-transform:uppercase;}
-/* GF Game screen */
 .gf-hdr{background:var(--s1);border-bottom:1px solid var(--b1);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;position:sticky;top:0;z-index:10;}
 .gf-name-badge{font-family:var(--fm);font-size:0.72rem;color:var(--c4);background:rgba(255,170,0,0.1);border:1px solid rgba(255,170,0,0.3);border-radius:50px;padding:4px 14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:150px;}
 .gf-score-live{font-family:var(--fm);font-size:0.7rem;color:var(--mt);}
@@ -240,17 +265,14 @@ select option{background:var(--s2);}
 .gf-tfill{height:100%;background:linear-gradient(90deg,var(--c3),var(--c4));width:100%;transition:width 1s linear;}
 .gf-tfill.warn{background:linear-gradient(90deg,var(--c4),var(--c2));}
 .gf-tsec{position:absolute;right:12px;top:8px;font-family:var(--fm);font-size:0.68rem;color:var(--mt);}
-/* Answer flash */
 .gf-flash-ovl{position:fixed;inset:0;z-index:400;background:rgba(7,9,13,0.88);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.12s;}
 .gf-flash-ovl.on{opacity:1;}
 .gf-flash-inner{font-size:3rem;font-weight:800;text-align:center;transform:scale(0.8);transition:transform 0.12s;}
 .gf-flash-ovl.on .gf-flash-inner{transform:scale(1);}
-/* Waiting for results */
 .gf-waiting-screen{position:fixed;inset:0;z-index:450;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;padding:24px;opacity:0;pointer-events:none;transition:opacity 0.3s;}
 .gf-waiting-screen.on{opacity:1;pointer-events:all;}
 .gf-wait-score{font-size:3rem;font-weight:800;color:var(--c4);}
 .gf-wait-label{font-family:var(--fm);font-size:0.7rem;color:var(--mt);letter-spacing:2px;text-transform:uppercase;}
-/* GF Results */
 #sc-gf-results{gap:16px;max-width:480px;width:100%;}
 .gf-podium{width:100%;display:flex;flex-direction:column;gap:8px;}
 .gf-place{display:flex;align-items:center;gap:12px;background:var(--s2);border:1px solid var(--b1);border-radius:12px;padding:14px 16px;transition:all 0.3s;}
@@ -268,6 +290,20 @@ select option{background:var(--s2);}
 </style>
 </head>
 <body>
+
+<!-- USER BAR -->
+
+<div id="user-bar">
+  <div class="ub-logo">Dent.list</div>
+  <div class="ub-right">
+    <span id="user-name"></span>
+    <a id="btn-login" href="auth.html">Sign In →</a>
+    <button id="btn-logout" onclick="doLogout()">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-right:4px"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      Logout
+    </button>
+  </div>
+</div>
 
 <!-- LANDING -->
 
@@ -310,16 +346,17 @@ select option{background:var(--s2);}
         </div>
       </div>
     </div>
+  <!-- Instagram Bar -->
+  <div style="display:flex;flex-direction:column;align-items:center;gap:8px;margin-top:12px;padding-top:12px;border-top:1px solid var(--b1);width:100%;max-width:520px;">
+    <a href="https://www.instagram.com/dr.ibrahimdashty" target="_blank" style="display:flex;align-items:center;gap:9px;text-decoration:none;opacity:0.75;transition:opacity 0.2s;width:100%;justify-content:center;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.75'">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#e8edf5" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="#e8edf5" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="#e8edf5"/></svg>
+      <span style="font-family:var(--fm);font-size:0.7rem;color:var(--tx);letter-spacing:1px;">@dr.ibrahimdashty</span>
+    </a>
+    <a href="https://www.instagram.com/dent.list" target="_blank" style="display:flex;align-items:center;gap:9px;text-decoration:none;opacity:0.75;transition:opacity 0.2s;width:100%;justify-content:center;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.75'">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#e8edf5" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="#e8edf5" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="#e8edf5"/></svg>
+      <span style="font-family:var(--fm);font-size:0.7rem;color:var(--tx);letter-spacing:1px;">@dent.list</span>
+    </a>
   </div>
-  <!-- Instagram -->
-  <a href="https://www.instagram.com/dent.list" target="_blank" style="display:flex;align-items:center;gap:9px;text-decoration:none;margin-top:4px;opacity:0.7;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect x="2" y="2" width="20" height="20" rx="5" stroke="#e8edf5" stroke-width="1.8"/>
-      <circle cx="12" cy="12" r="4.5" stroke="#e8edf5" stroke-width="1.8"/>
-      <circle cx="17.5" cy="6.5" r="1" fill="#e8edf5"/>
-    </svg>
-    <span style="font-family:var(--fm);font-size:0.72rem;color:var(--tx);letter-spacing:1px;">@dent.list</span>
-  </a>
 </div>
 
 <!-- ONLINE CREATE -->
@@ -343,6 +380,17 @@ select option{background:var(--s2);}
     </div>
     <button class="btn btn-c" id="cn-btn" onclick="createRoom()" disabled>Create Room ⚔️</button>
     <button class="btn btn-o" onclick="go('sc-land')">← Back</button>
+  <!-- Instagram -->
+  <div style="display:flex;flex-direction:column;align-items:center;gap:7px;padding:16px 0 4px;">
+    <a href="https://www.instagram.com/dr.ibrahimdashty" target="_blank" style="display:flex;align-items:center;gap:7px;text-decoration:none;opacity:0.6;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="#6b7a99"/></svg>
+      <span style="font-family:var(--fm);font-size:0.62rem;color:var(--mt);">@dr.ibrahimdashty</span>
+    </a>
+    <a href="https://www.instagram.com/dent.list" target="_blank" style="display:flex;align-items:center;gap:7px;text-decoration:none;opacity:0.6;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="#6b7a99"/></svg>
+      <span style="font-family:var(--fm);font-size:0.62rem;color:var(--mt);">@dent.list</span>
+    </a>
+  </div>
   </div>
 </div>
 
@@ -357,6 +405,17 @@ select option{background:var(--s2);}
     </div>
     <button class="btn btn-c" onclick="joinRoom()">Join 🚀</button>
     <button class="btn btn-o" onclick="go('sc-land')">← Back</button>
+  <!-- Instagram -->
+  <div style="display:flex;flex-direction:column;align-items:center;gap:7px;padding:16px 0 4px;">
+    <a href="https://www.instagram.com/dr.ibrahimdashty" target="_blank" style="display:flex;align-items:center;gap:7px;text-decoration:none;opacity:0.6;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="#6b7a99"/></svg>
+      <span style="font-family:var(--fm);font-size:0.62rem;color:var(--mt);">@dr.ibrahimdashty</span>
+    </a>
+    <a href="https://www.instagram.com/dent.list" target="_blank" style="display:flex;align-items:center;gap:7px;text-decoration:none;opacity:0.6;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="#6b7a99"/></svg>
+      <span style="font-family:var(--fm);font-size:0.62rem;color:var(--mt);">@dent.list</span>
+    </a>
+  </div>
   </div>
 </div>
 
@@ -376,6 +435,17 @@ select option{background:var(--s2);}
     <div id="lb-start" style="display:none;width:100%;"><button class="btn btn-c" onclick="startOnline()">Start Battle! ⚔️</button></div>
     <div class="pulse" id="lb-wait"><div class="d"></div><div class="d"></div><div class="d"></div><span>Waiting...</span></div>
     <button class="btn btn-o" onclick="leaveRoom()">Leave</button>
+  <!-- Instagram -->
+  <div style="display:flex;flex-direction:column;align-items:center;gap:7px;padding:16px 0 4px;">
+    <a href="https://www.instagram.com/dr.ibrahimdashty" target="_blank" style="display:flex;align-items:center;gap:7px;text-decoration:none;opacity:0.6;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="#6b7a99"/></svg>
+      <span style="font-family:var(--fm);font-size:0.62rem;color:var(--mt);">@dr.ibrahimdashty</span>
+    </a>
+    <a href="https://www.instagram.com/dent.list" target="_blank" style="display:flex;align-items:center;gap:7px;text-decoration:none;opacity:0.6;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="#6b7a99"/></svg>
+      <span style="font-family:var(--fm);font-size:0.62rem;color:var(--mt);">@dent.list</span>
+    </a>
+  </div>
   </div>
 </div>
 
@@ -435,6 +505,17 @@ select option{background:var(--s2);}
     <button class="btn btn-c" onclick="go('sc-land');resetOnline();">Play Again 🔄</button>
     <button class="btn btn-o" onclick="go('sc-land');resetOnline();">← Menu</button>
   </div>
+  <!-- Instagram -->
+  <div style="display:flex;flex-direction:column;align-items:center;gap:7px;padding:16px 0 4px;">
+    <a href="https://www.instagram.com/dr.ibrahimdashty" target="_blank" style="display:flex;align-items:center;gap:7px;text-decoration:none;opacity:0.6;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="#6b7a99"/></svg>
+      <span style="font-family:var(--fm);font-size:0.62rem;color:var(--mt);">@dr.ibrahimdashty</span>
+    </a>
+    <a href="https://www.instagram.com/dent.list" target="_blank" style="display:flex;align-items:center;gap:7px;text-decoration:none;opacity:0.6;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="#6b7a99"/></svg>
+      <span style="font-family:var(--fm);font-size:0.62rem;color:var(--mt);">@dent.list</span>
+    </a>
+  </div>
 </div>
 
 <!-- LOCAL SETUP -->
@@ -450,6 +531,17 @@ select option{background:var(--s2);}
     </div>
     <button class="btn btn-g" id="lc-btn" onclick="startLocal()" disabled>Start Battle! 🎮</button>
     <button class="btn btn-o" onclick="go('sc-land')">← Back</button>
+  <!-- Instagram -->
+  <div style="display:flex;flex-direction:column;align-items:center;gap:7px;padding:16px 0 4px;">
+    <a href="https://www.instagram.com/dr.ibrahimdashty" target="_blank" style="display:flex;align-items:center;gap:7px;text-decoration:none;opacity:0.6;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="#6b7a99"/></svg>
+      <span style="font-family:var(--fm);font-size:0.62rem;color:var(--mt);">@dr.ibrahimdashty</span>
+    </a>
+    <a href="https://www.instagram.com/dent.list" target="_blank" style="display:flex;align-items:center;gap:7px;text-decoration:none;opacity:0.6;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="#6b7a99"/></svg>
+      <span style="font-family:var(--fm);font-size:0.62rem;color:var(--mt);">@dent.list</span>
+    </a>
+  </div>
   </div>
 </div>
 
@@ -510,11 +602,20 @@ select option{background:var(--s2);}
     <button class="btn btn-g" onclick="go('sc-land');resetLocal();">Play Again 🔄</button>
     <button class="btn btn-o" onclick="go('sc-land');resetLocal();">← Menu</button>
   </div>
+  <!-- Instagram -->
+  <div style="display:flex;flex-direction:column;align-items:center;gap:7px;padding:16px 0 4px;">
+    <a href="https://www.instagram.com/dr.ibrahimdashty" target="_blank" style="display:flex;align-items:center;gap:7px;text-decoration:none;opacity:0.6;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="#6b7a99"/></svg>
+      <span style="font-family:var(--fm);font-size:0.62rem;color:var(--mt);">@dr.ibrahimdashty</span>
+    </a>
+    <a href="https://www.instagram.com/dent.list" target="_blank" style="display:flex;align-items:center;gap:7px;text-decoration:none;opacity:0.6;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="#6b7a99"/></svg>
+      <span style="font-family:var(--fm);font-size:0.62rem;color:var(--mt);">@dent.list</span>
+    </a>
+  </div>
 </div>
 
-<!-- ══════════════════════════════
-     GO FAST SETUP (HOST)
-══════════════════════════════ -->
+<!-- GO FAST SETUP -->
 
 <div id="sc-gf-setup" class="sc">
   <div class="fw" style="max-width:460px;">
@@ -532,10 +633,21 @@ select option{background:var(--s2);}
     </div>
     <button class="btn btn-y" id="gf-create-btn" onclick="createGFRoom()" disabled>Create Room ⚡</button>
     <button class="btn btn-o" onclick="go('sc-land')">← Back</button>
+  <!-- Instagram -->
+  <div style="display:flex;flex-direction:column;align-items:center;gap:7px;padding:16px 0 4px;">
+    <a href="https://www.instagram.com/dr.ibrahimdashty" target="_blank" style="display:flex;align-items:center;gap:7px;text-decoration:none;opacity:0.6;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="#6b7a99"/></svg>
+      <span style="font-family:var(--fm);font-size:0.62rem;color:var(--mt);">@dr.ibrahimdashty</span>
+    </a>
+    <a href="https://www.instagram.com/dent.list" target="_blank" style="display:flex;align-items:center;gap:7px;text-decoration:none;opacity:0.6;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="#6b7a99"/></svg>
+      <span style="font-family:var(--fm);font-size:0.62rem;color:var(--mt);">@dent.list</span>
+    </a>
+  </div>
   </div>
 </div>
 
-<!-- GO FAST JOIN (for other players) -->
+<!-- GO FAST JOIN -->
 
 <div id="sc-gf-join" class="sc">
   <div class="fw">
@@ -546,10 +658,21 @@ select option{background:var(--s2);}
     </div>
     <button class="btn btn-y" onclick="joinGFRoom()">Join ⚡</button>
     <button class="btn btn-o" onclick="go('sc-land')">← Back</button>
+  <!-- Instagram -->
+  <div style="display:flex;flex-direction:column;align-items:center;gap:7px;padding:16px 0 4px;">
+    <a href="https://www.instagram.com/dr.ibrahimdashty" target="_blank" style="display:flex;align-items:center;gap:7px;text-decoration:none;opacity:0.6;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="#6b7a99"/></svg>
+      <span style="font-family:var(--fm);font-size:0.62rem;color:var(--mt);">@dr.ibrahimdashty</span>
+    </a>
+    <a href="https://www.instagram.com/dent.list" target="_blank" style="display:flex;align-items:center;gap:7px;text-decoration:none;opacity:0.6;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="#6b7a99"/></svg>
+      <span style="font-family:var(--fm);font-size:0.62rem;color:var(--mt);">@dent.list</span>
+    </a>
+  </div>
   </div>
 </div>
 
-<!-- GO FAST LOBBY (HOST) -->
+<!-- GO FAST LOBBY -->
 
 <div id="sc-gf-lobby" class="sc">
   <div class="fw">
@@ -557,7 +680,6 @@ select option{background:var(--s2);}
     <div class="gf-rbox">
       <div style="font-family:var(--fm);font-size:0.62rem;color:var(--mt);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Share this code</div>
       <div class="gf-rcode" id="gf-code-display">----</div>
-      <div style="font-family:var(--fm);font-size:0.65rem;color:var(--mt);margin-top:8px;">Others join at: <strong style="color:var(--c4);">jovial-sprinkles-d29126.netlify.app</strong></div>
     </div>
     <div class="fg"><label>Players Joined (<span id="gf-pcount">1</span>)</label>
       <div class="gf-plist" id="gf-plist"></div>
@@ -565,10 +687,21 @@ select option{background:var(--s2);}
     <div class="pulse" id="gf-lobby-wait"><div class="d" style="background:var(--c4);"></div><div class="d" style="background:var(--c4);"></div><div class="d" style="background:var(--c4);"></div><span>Waiting for players...</span></div>
     <button class="btn btn-y" id="gf-start-btn" onclick="startGFGame()">Start Game ⚡ (<span id="gf-pcount2">1</span> players)</button>
     <button class="btn btn-o" onclick="leaveGFRoom()">Cancel</button>
+  <!-- Instagram -->
+  <div style="display:flex;flex-direction:column;align-items:center;gap:7px;padding:16px 0 4px;">
+    <a href="https://www.instagram.com/dr.ibrahimdashty" target="_blank" style="display:flex;align-items:center;gap:7px;text-decoration:none;opacity:0.6;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="#6b7a99"/></svg>
+      <span style="font-family:var(--fm);font-size:0.62rem;color:var(--mt);">@dr.ibrahimdashty</span>
+    </a>
+    <a href="https://www.instagram.com/dent.list" target="_blank" style="display:flex;align-items:center;gap:7px;text-decoration:none;opacity:0.6;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="#6b7a99"/></svg>
+      <span style="font-family:var(--fm);font-size:0.62rem;color:var(--mt);">@dent.list</span>
+    </a>
+  </div>
   </div>
 </div>
 
-<!-- GO FAST WAITING (for joined players, waiting for host to start) -->
+<!-- GO FAST WAITING -->
 
 <div id="sc-gf-waiting" class="sc">
   <div class="fw" style="align-items:center;gap:24px;">
@@ -579,7 +712,6 @@ select option{background:var(--s2);}
       <div style="font-family:var(--fm);font-size:0.68rem;color:var(--mt);margin-top:6px;">Waiting for host to start...</div>
     </div>
     <div class="pulse"><div class="d" style="background:var(--c4);"></div><div class="d" style="background:var(--c4);"></div><div class="d" style="background:var(--c4);"></div></div>
-    <div style="font-family:var(--fm);font-size:0.68rem;color:var(--mt);text-align:center;line-height:1.7;">Get ready!<br>60 seconds — answer as many as possible</div>
   </div>
 </div>
 
@@ -591,7 +723,7 @@ select option{background:var(--s2);}
   <div class="gf-cd-txt" id="gf-cd-name">Player</div>
 </div>
 
-<!-- GO FAST GAME SCREEN -->
+<!-- GO FAST GAME -->
 
 <div id="sc-gf-game" class="sc game-sc" style="display:none;">
   <div class="gf-hdr">
@@ -610,13 +742,9 @@ select option{background:var(--s2);}
   </div>
 </div>
 
-<!-- GF Answer flash overlay -->
-
 <div class="gf-flash-ovl" id="gf-flash-ovl">
   <div class="gf-flash-inner" id="gf-flash-inner">✅</div>
 </div>
-
-<!-- GF Waiting for results -->
 
 <div class="gf-waiting-screen" id="gf-waiting-res">
   <div class="gf-wait-label">Your Score</div>
@@ -634,15 +762,23 @@ select option{background:var(--s2);}
     <button class="btn btn-y" id="gf-play-again-btn" onclick="playAgainGF()">🔄 Play Again (same room)</button>
     <button class="btn btn-o" onclick="go('sc-land');resetGF();">← Back to Menu</button>
   </div>
+  <!-- Instagram -->
+  <div style="display:flex;flex-direction:column;align-items:center;gap:7px;padding:16px 0 4px;">
+    <a href="https://www.instagram.com/dr.ibrahimdashty" target="_blank" style="display:flex;align-items:center;gap:7px;text-decoration:none;opacity:0.6;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="#6b7a99"/></svg>
+      <span style="font-family:var(--fm);font-size:0.62rem;color:var(--mt);">@dr.ibrahimdashty</span>
+    </a>
+    <a href="https://www.instagram.com/dent.list" target="_blank" style="display:flex;align-items:center;gap:7px;text-decoration:none;opacity:0.6;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="#6b7a99"/></svg>
+      <span style="font-family:var(--fm);font-size:0.62rem;color:var(--mt);">@dent.list</span>
+    </a>
+  </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-// ════════ CATEGORIES ════════
 const CATS={"General Dentistry":"🦷","Oral Surgery":"🔪","Endodontics":"🦠","Periodontics":"🩸","Orthodontics":"😬","Prosthodontics":"🦾","Pediatric Dentistry":"👶","Oral Pathology":"🔬","Oral Pharmacology":"💊","General Medicine":"🩺","Anatomy":"🧬","Microbiology":"🧫"};
-
-// ════════ QUESTION BANK ════════
 const QB=[
 {c:"General Dentistry",q:"Normal healthy sulcus depth?",a:"1-3 mm",w:["4-6 mm","7-9 mm","0 mm"]},
 {c:"General Dentistry",q:"Hardest tissue in the body?",a:"Enamel",w:["Dentin","Bone","Cementum"]},
@@ -659,239 +795,63 @@ const QB=[
 {c:"General Dentistry",q:"Main buffer in saliva?",a:"Bicarbonate",w:["Phosphate","Protein","Carbonate"]},
 {c:"General Dentistry",q:"DMFT measures?",a:"Caries experience",w:["Periodontal status","Fluorosis","Occlusion"]},
 {c:"General Dentistry",q:"Ideal overjet value?",a:"2-4 mm",w:["0 mm","6-8 mm","8-10 mm"]},
-{c:"General Dentistry",q:"What is bruxism?",a:"Teeth grinding",w:["Jaw dislocation","TMJ click","Trismus"]},
-{c:"General Dentistry",q:"Tooth fused to alveolar bone?",a:"Ankylosis",w:["Resorption","Pulpitis","Mobility"]},
-{c:"General Dentistry",q:"Most caries-prone surface?",a:"Occlusal pits and fissures",w:["Smooth buccal","Lingual","Proximal"]},
-{c:"General Dentistry",q:"Cavity liner protects?",a:"Pulp",w:["Enamel","PDL","Cementum"]},
-{c:"General Dentistry",q:"Class II cavity location?",a:"Posterior proximal",w:["Anterior proximal","Smooth surface","Pit and fissure"]},
-{c:"General Dentistry",q:"Apex locator measures?",a:"Working length",w:["Pocket depth","Bone density","Plaque index"]},
-{c:"General Dentistry",q:"No vertical overlap?",a:"Open bite",w:["Crossbite","Deep bite","Scissor bite"]},
-{c:"General Dentistry",q:"Enamel defect from excess fluoride?",a:"Fluorosis",w:["Hypoplasia","Caries","Abrasion"]},
-{c:"General Dentistry",q:"Pulp cap material?",a:"MTA",w:["Amalgam","Composite","ZOE"]},
-{c:"General Dentistry",q:"Trismus is?",a:"Limited mouth opening",w:["Jaw dislocation","Bruxism","Macroglossia"]},
-{c:"General Dentistry",q:"Upper teeth inside lower?",a:"Crossbite",w:["Open bite","Deep bite","End-to-end"]},
-{c:"General Dentistry",q:"Sinus tract from abscess?",a:"Fistula",w:["Cyst","Pocket","Ulcer"]},
-{c:"General Dentistry",q:"GIC releases?",a:"Fluoride",w:["Calcium","Phosphate","Sodium"]},
-{c:"General Dentistry",q:"Normal crown-to-root ratio?",a:"1:1.5 or better",w:["1:0.5","2:1","1:3"]},
-{c:"General Dentistry",q:"Ideal overbite value?",a:"2-4 mm",w:["0 mm","6-8 mm","1 mm"]},
 {c:"Oral Surgery",q:"Dry socket clinical term?",a:"Alveolar osteitis",w:["Pericoronitis","Cellulitis","Osteomyelitis"]},
 {c:"Oral Surgery",q:"Nerve at risk in lower 3rd molar?",a:"Inferior alveolar nerve",w:["Lingual nerve","Buccal nerve","Mental nerve"]},
 {c:"Oral Surgery",q:"Primary danger of Ludwig angina?",a:"Airway obstruction",w:["Facial swelling","Trismus","Pain"]},
 {c:"Oral Surgery",q:"Bisphosphonate jaw complication?",a:"MRONJ",w:["Cyst","Abscess","Fracture"]},
 {c:"Oral Surgery",q:"Implant bond to bone?",a:"Osseointegration",w:["Fibrous union","Soft tissue bond","Cement bond"]},
-{c:"Oral Surgery",q:"Most common gland with stones?",a:"Submandibular",w:["Parotid","Sublingual","Minor glands"]},
-{c:"Oral Surgery",q:"Le Fort I fracture level?",a:"Above tooth apices",w:["Through orbits","Craniofacial","Condyle"]},
-{c:"Oral Surgery",q:"Most common mandibular fracture?",a:"Condyle",w:["Body","Symphysis","Ramus"]},
-{c:"Oral Surgery",q:"Safe INR for extraction?",a:"Below 3.5",w:["Below 1","Above 4","Any value"]},
-{c:"Oral Surgery",q:"Air in soft tissues post-op?",a:"Surgical emphysema",w:["Hematoma","Edema","Abscess"]},
-{c:"Oral Surgery",q:"Mental foramen below?",a:"2nd premolar",w:["Canine","Midline","1st molar"]},
-{c:"Oral Surgery",q:"Post-extraction: avoid 24 hours?",a:"Rinsing and spitting",w:["Eating","Sleeping","Talking"]},
-{c:"Oral Surgery",q:"IAN block needle gauge?",a:"25 gauge long",w:["27 gauge short","30 gauge","19 gauge"]},
-{c:"Oral Surgery",q:"Dry socket treatment?",a:"Alvogyl dressing",w:["Antibiotics only","Re-extraction","Bone graft"]},
-{c:"Oral Surgery",q:"Intentional crown removal leaving roots?",a:"Coronectomy",w:["Apicectomy","Extraction","Hemisection"]},
-{c:"Oral Surgery",q:"Mucus cyst of salivary gland?",a:"Mucocele",w:["Ranula","Dermoid","Lymphocele"]},
-{c:"Oral Surgery",q:"Ranula treatment?",a:"Marsupialization",w:["Aspiration","Antibiotics","Observation"]},
-{c:"Oral Surgery",q:"IAN damage sign?",a:"Lip and chin numbness",w:["Tongue numbness","Taste loss","Upper lip numbness"]},
-{c:"Oral Surgery",q:"Instrument to luxate tooth?",a:"Elevator",w:["Curette","Periosteal elevator","Retractor"]},
-{c:"Oral Surgery",q:"Most common indication 3rd molar removal?",a:"Recurrent pericoronitis",w:["Cosmetic","Prophylaxis","Space"]},
 {c:"Endodontics",q:"Most common RCT irrigant?",a:"Sodium hypochlorite",w:["Saline","H2O2","Chlorhexidine"]},
 {c:"Endodontics",q:"Working length ends at?",a:"Apical constriction",w:["Radiographic apex","Crown tip","CEJ"]},
 {c:"Endodontics",q:"Irreversible pulpitis key feature?",a:"Spontaneous lingering pain",w:["Pain stops quickly","No pain","Cold only"]},
 {c:"Endodontics",q:"EDTA in RCT removes?",a:"Smear layer",w:["Bacteria","Pulp tissue","Calculus"]},
 {c:"Endodontics",q:"Standard RCT filling material?",a:"Gutta-percha + sealer",w:["Amalgam","Composite","ZOE only"]},
-{c:"Endodontics",q:"Roots in upper first molar?",a:"3 roots",w:["2 roots","1 root","4 roots"]},
-{c:"Endodontics",q:"Apexification purpose?",a:"Induce apical closure",w:["Obturate canal","Remove pulp","Extract"]},
-{c:"Endodontics",q:"False pathway in canal?",a:"Ledge",w:["Perforation","Step-back","Apical delta"]},
-{c:"Endodontics",q:"Cracked tooth pain occurs?",a:"On release of biting",w:["During biting","Spontaneously","Cold only"]},
-{c:"Endodontics",q:"Upper central incisor access shape?",a:"Triangular",w:["Oval","Round","Trapezoidal"]},
-{c:"Endodontics",q:"Coronal pulp removal only?",a:"Pulpotomy",w:["Pulpectomy","Pulp cap","Apexification"]},
-{c:"Endodontics",q:"Resorption from within pulp?",a:"Internal resorption",w:["External resorption","Erosion","Abrasion"]},
-{c:"Endodontics",q:"Acute flare of chronic lesion?",a:"Phoenix abscess",w:["New abscess","Lateral abscess","Gingival abscess"]},
-{c:"Endodontics",q:"Multiple foramina at apex?",a:"Apical delta",w:["Lateral canal","Perforation","Resorption"]},
-{c:"Endodontics",q:"Root-end filling material?",a:"MTA",w:["Amalgam","Composite","ZOE"]},
-{c:"Endodontics",q:"Periapical surgery to remove root tip?",a:"Apicectomy",w:["Pulpectomy","Coronectomy","Hemisection"]},
-{c:"Endodontics",q:"Condensing osteitis caused by?",a:"Low-grade infection",w:["Cyst","Tumor","Normal variant"]},
-{c:"Endodontics",q:"Calcium hydroxide dressing duration?",a:"1-4 weeks",w:["24 hours","6 months","1 year"]},
-{c:"Endodontics",q:"Hot tooth: anesthesia difficult because?",a:"Low pH reduces LA",w:["Wrong injection","Allergy","Dose too small"]},
-{c:"Endodontics",q:"Pulp necrosis vitality test?",a:"No response",w:["Normal","Exaggerated","Delayed"]},
 {c:"Periodontics",q:"BOP indicates?",a:"Gingival inflammation",w:["Healthy gingiva","Bone loss","Caries"]},
 {c:"Periodontics",q:"Furcation Grade III?",a:"Through-and-through",w:["Initial","Partial","No furcation"]},
 {c:"Periodontics",q:"Subgingival calculus color?",a:"Dark brown to black",w:["White","Yellow","Clear"]},
 {c:"Periodontics",q:"Drug causing gingival enlargement?",a:"Phenytoin, cyclosporine, CCBs",w:["Antibiotics","NSAIDs","Antihistamines"]},
 {c:"Periodontics",q:"GTR membrane purpose?",a:"Allow PDL regeneration",w:["Gingival graft","Bone removal","Antibiotic delivery"]},
-{c:"Periodontics",q:"Furcation probe name?",a:"Nabers probe",w:["Straight probe","Explorer","Scaler"]},
-{c:"Periodontics",q:"Smokers: bleeding in perio disease?",a:"Reduced",w:["Increased","Normal","Absent always"]},
-{c:"Periodontics",q:"Systemic disease most affecting perio?",a:"Diabetes mellitus",w:["Hypertension","Asthma","Hypothyroidism"]},
-{c:"Periodontics",q:"Root planing removes?",a:"Contaminated cementum",w:["Calculus only","Crown","PDL"]},
-{c:"Periodontics",q:"Maintenance post-periodontitis?",a:"Every 3-4 months",w:["Annually","Monthly","Every 6 months"]},
-{c:"Periodontics",q:"Grade III tooth mobility includes?",a:"Vertical movement",w:["Only horizontal","Only rotation","No movement"]},
-{c:"Periodontics",q:"CAL measured from?",a:"CEJ to pocket base",w:["Gingival margin","Bone crest","Apex"]},
-{c:"Periodontics",q:"Pus in periodontal tissues?",a:"Periodontal abscess",w:["Cyst","Normal pocket","Epulis"]},
-{c:"Periodontics",q:"Chlorhexidine mechanism?",a:"Cell membrane disruption",w:["Cell wall inhibition","DNA damage","Protein synthesis"]},
-{c:"Periodontics",q:"Tissue-destroying enzyme in perio?",a:"MMPs",w:["Amylase","Lipase","Lysozyme"]},
-{c:"Periodontics",q:"Normal attached gingiva width?",a:"1-9 mm",w:["Exactly 5 mm","10-15 mm","0.5 mm"]},
-{c:"Periodontics",q:"NUG papillae appearance?",a:"Punched-out necrotic",w:["Edematous","Normal","Fibrotic"]},
-{c:"Periodontics",q:"Rapid periodontitis = Grade?",a:"Grade C",w:["Grade A","Grade B","Grade D"]},
-{c:"Periodontics",q:"Biologic width components?",a:"JE + supracrestal CT",w:["Pocket depth","Crown height","Enamel"]},
-{c:"Periodontics",q:"Miller Class I recession prognosis?",a:"Complete coverage",w:["No coverage","Partial only","Extraction"]},
 {c:"Orthodontics",q:"ANB normal value?",a:"1-3 degrees",w:["0 degrees","8-10 degrees","-5 degrees"]},
 {c:"Orthodontics",q:"Increased ANB = skeletal?",a:"Class II",w:["Class III","Class I","Normal"]},
 {c:"Orthodontics",q:"Palatal expander corrects?",a:"Posterior crossbite",w:["Deep bite","Proclination","Class III"]},
 {c:"Orthodontics",q:"First wire material?",a:"NiTi round",w:["Stainless steel","TMA","Cobalt chrome"]},
 {c:"Orthodontics",q:"Rectangular wire controls?",a:"Root torque",w:["Alignment","Space closure","Retention"]},
-{c:"Orthodontics",q:"Hawley retainer contains?",a:"Adams clasp + labial bow",w:["Brackets only","Clear aligner","Spring only"]},
-{c:"Orthodontics",q:"Leeway space mandible each side?",a:"1.7 mm",w:["0.9 mm","3 mm","0.5 mm"]},
-{c:"Orthodontics",q:"Class II elastics from?",a:"Upper canine to lower molar",w:["Upper molar to lower canine","Vertical","Crossbite"]},
-{c:"Orthodontics",q:"Root resorption risk with?",a:"Heavy prolonged forces",w:["Light forces","Short treatment","Retention"]},
-{c:"Orthodontics",q:"Tipping: which part moves mainly?",a:"Crown",w:["Root","Both equally","Neither"]},
-{c:"Orthodontics",q:"TPA connects?",a:"Upper molars across palate",w:["Lower molars","Canines","Incisors"]},
-{c:"Orthodontics",q:"Moderate crowding?",a:"4-8 mm",w:["0-3 mm","9-12 mm","Over 12 mm"]},
-{c:"Orthodontics",q:"Best orthodontic force?",a:"Light continuous",w:["Heavy intermittent","No force","Heavy continuous"]},
-{c:"Orthodontics",q:"Power chain used for?",a:"Space closure",w:["Retention","Torque","Expansion"]},
-{c:"Orthodontics",q:"Class III surgery name?",a:"BSSO",w:["Le Fort I","SARPE","Genioplasty"]},
-{c:"Orthodontics",q:"Debonding means?",a:"Bracket removal",w:["Band removal","Wire change","Retainer"]},
-{c:"Orthodontics",q:"Bolton analysis measures?",a:"Tooth size discrepancy",w:["Arch length","Facial profile","Bone width"]},
-{c:"Orthodontics",q:"Hyalinization in PDL caused by?",a:"Heavy force",w:["Light force","No force","Retention"]},
-{c:"Orthodontics",q:"SNA measures?",a:"Maxillary position",w:["Mandibular position","Dental inclination","Facial height"]},
-{c:"Orthodontics",q:"Cervical headgear force on molars?",a:"Distal and extrusive",w:["Intrusive","Mesial","No effect"]},
-{c:"Orthodontics",q:"Angle Class III feature?",a:"Mandibular prognathism",w:["Maxillary prognathism","Deep bite","Proclined uppers"]},
 {c:"Oral Pharmacology",q:"Amoxicillin mechanism?",a:"Cell wall inhibition",w:["Protein inhibition","Membrane disruption","DNA damage"]},
 {c:"Oral Pharmacology",q:"Max dose lidocaine with epi?",a:"7 mg/kg",w:["3 mg/kg","10 mg/kg","1 mg/kg"]},
 {c:"Oral Pharmacology",q:"Penicillin allergy alternative?",a:"Clindamycin",w:["Amoxicillin","Ampicillin","Cefalexin"]},
 {c:"Oral Pharmacology",q:"Drug for oral anaerobes?",a:"Metronidazole",w:["Erythromycin","Tetracycline","Fluconazole"]},
 {c:"Oral Pharmacology",q:"Paracetamol overdose antidote?",a:"N-acetylcysteine",w:["Flumazenil","Naloxone","Atropine"]},
-{c:"Oral Pharmacology",q:"Opioid reversal?",a:"Naloxone",w:["Flumazenil","Atropine","Neostigmine"]},
-{c:"Oral Pharmacology",q:"Benzodiazepine reversal?",a:"Flumazenil",w:["Naloxone","Atropine","Physostigmine"]},
-{c:"Oral Pharmacology",q:"Metronidazole + alcohol?",a:"Disulfiram-like reaction",w:["Sedation","No effect","Reduced effect"]},
-{c:"Oral Pharmacology",q:"Tetracycline in children causes?",a:"Teeth discoloration",w:["Nerve damage","Bone loss","No effect"]},
-{c:"Oral Pharmacology",q:"Bupivacaine duration?",a:"8-12 hours",w:["30 minutes","2 hours","24 hours"]},
-{c:"Oral Pharmacology",q:"IE prophylaxis drug?",a:"Amoxicillin 2g oral",w:["Metro 400mg","Clindamycin 1g","Pen V 500mg"]},
-{c:"Oral Pharmacology",q:"Topical oral candidiasis?",a:"Nystatin",w:["Metronidazole","Amoxicillin","Acyclovir"]},
-{c:"Oral Pharmacology",q:"Aspirin platelet effect?",a:"Irreversible inhibition",w:["Reversible","Increases platelets","No effect"]},
-{c:"Oral Pharmacology",q:"Clindamycin serious side effect?",a:"C. difficile colitis",w:["Tooth discoloration","Rash","Kidney failure"]},
-{c:"Oral Pharmacology",q:"Dental sedation drug?",a:"Midazolam",w:["Metronidazole","Lidocaine","Fluconazole"]},
-{c:"Oral Pharmacology",q:"Drug causing dry mouth?",a:"Anticholinergics",w:["Metronidazole","Amoxicillin","NSAIDs"]},
-{c:"Oral Pharmacology",q:"Safe analgesic in pregnancy?",a:"Paracetamol",w:["Ibuprofen","Aspirin","Codeine"]},
-{c:"Oral Pharmacology",q:"Fluoride inhibits bacterial enzyme?",a:"Enolase",w:["Amylase","Lipase","Protease"]},
-{c:"Oral Pharmacology",q:"Most common LA class in dentistry?",a:"Amide",w:["Ester","Both equal","Neither"]},
-{c:"Oral Pharmacology",q:"Max dose lidocaine WITHOUT epi?",a:"4.4 mg/kg",w:["7 mg/kg","10 mg/kg","2 mg/kg"]},
 {c:"General Medicine",q:"Normal fasting glucose?",a:"70-100 mg/dL",w:["120-140 mg/dL","50-70 mg/dL","150-200 mg/dL"]},
 {c:"General Medicine",q:"Anaphylaxis first-line?",a:"Epinephrine 0.5mg IM",w:["Antihistamine","Steroids","Oxygen only"]},
 {c:"General Medicine",q:"HbA1c diabetes threshold?",a:"6.5% or higher",w:["5.0%","8.0%","10%"]},
 {c:"General Medicine",q:"Normal male hemoglobin?",a:"13.5-17.5 g/dL",w:["8-10 g/dL","20-22 g/dL","10-11 g/dL"]},
 {c:"General Medicine",q:"Hypoglycemia symptoms?",a:"Sweating and tremor",w:["Polyuria","Bradycardia","Flushing"]},
-{c:"General Medicine",q:"Therapeutic INR for AF?",a:"2.0-3.0",w:["1.0-1.5","4.0-5.0","0.5-1.0"]},
-{c:"General Medicine",q:"Hypothyroidism feature?",a:"Bradycardia and weight gain",w:["Tachycardia","Hypertension","Exophthalmos"]},
-{c:"General Medicine",q:"Hemophilia A deficient factor?",a:"Factor VIII",w:["Factor IX","Factor X","Factor XII"]},
-{c:"General Medicine",q:"Warfarin inhibits?",a:"Vitamin K-dependent factors",w:["Thrombin","Platelets","Fibrinogen"]},
-{c:"General Medicine",q:"Sjogren syndrome affects?",a:"Salivary and lacrimal glands",w:["Kidneys","Liver","Skin"]},
-{c:"General Medicine",q:"GERD oral sign?",a:"Palatal erosion",w:["Tooth fracture","Gingival hyperplasia","White patches"]},
-{c:"General Medicine",q:"Safe dental trimester?",a:"Second",w:["First","Third","All equal"]},
-{c:"General Medicine",q:"HPV-associated oral cancer?",a:"Oropharyngeal SCC",w:["Kaposi sarcoma","Ameloblastoma","Fibroma"]},
-{c:"General Medicine",q:"Normal platelet count?",a:"150,000-400,000/uL",w:["50,000-100,000","500,000-700,000","100,000-150,000"]},
-{c:"General Medicine",q:"MI dental contraindication?",a:"3-6 months",w:["5 years","1 year","Never"]},
-{c:"General Medicine",q:"Normal INR?",a:"0.9-1.2",w:["3-5","5-7","1.5-2.0"]},
-{c:"General Medicine",q:"Type 2 DM first-line drug?",a:"Metformin",w:["Insulin","Sulphonylurea","Pioglitazone"]},
-{c:"General Medicine",q:"Troponin elevated in?",a:"Myocardial infarction",w:["Stroke","Pulmonary embolism","Normal"]},
-{c:"General Medicine",q:"Addisonian crisis signs?",a:"Hypotension and collapse",w:["Hypertensive crisis","Hypoglycemia only","Stroke"]},
 {c:"Anatomy",q:"Maxillary sinus drains into?",a:"Middle meatus",w:["Inferior meatus","Superior meatus","Nasopharynx"]},
 {c:"Anatomy",q:"Parotid duct opens opposite?",a:"Upper second molar",w:["Upper first molar","Lower molar","Canine"]},
 {c:"Anatomy",q:"Lingual nerve supplies?",a:"Anterior 2/3 tongue sensation",w:["Posterior 1/3 taste","Motor to tongue","Cheek"]},
-{c:"Anatomy",q:"Chorda tympani carries?",a:"Anterior tongue taste + parasympathetics",w:["Pain from tongue","Motor to masseter","Cheek"]},
 {c:"Anatomy",q:"Masseter function?",a:"Jaw closure",w:["Jaw opening","Lateral deviation","Tongue protrusion"]},
 {c:"Anatomy",q:"Lateral pterygoid function?",a:"Jaw opening and protrusion",w:["Jaw closing","Retraction","Elevation"]},
-{c:"Anatomy",q:"Temporalis function?",a:"Elevation and retraction",w:["Protrusion","Jaw opening","Tongue"]},
-{c:"Anatomy",q:"CN XII controls?",a:"Tongue muscles",w:["Taste","Sensation","Salivary glands"]},
-{c:"Anatomy",q:"Posterior 1/3 tongue taste via?",a:"Glossopharyngeal IX",w:["Facial VII","Vagus X","Trigeminal V"]},
-{c:"Anatomy",q:"Foramen rotundum transmits?",a:"Maxillary nerve V2",w:["Mandibular V3","Ophthalmic V1","Facial VII"]},
-{c:"Anatomy",q:"Foramen ovale transmits?",a:"Mandibular nerve V3",w:["Maxillary V2","Ophthalmic V1","Abducens"]},
-{c:"Anatomy",q:"Stylomastoid foramen transmits?",a:"Facial nerve VII",w:["CN IX","CN XII","Vagus X"]},
-{c:"Anatomy",q:"TMJ disc made of?",a:"Fibrocartilage",w:["Hyaline cartilage","Elastic cartilage","Bone"]},
-{c:"Anatomy",q:"Superior TMJ movement?",a:"Translation",w:["Rotation","Elevation","Lateral deviation"]},
-{c:"Anatomy",q:"Inferior TMJ movement?",a:"Rotation",w:["Translation","Protrusion","Lateral glide"]},
-{c:"Anatomy",q:"Hard palate formed by?",a:"Maxilla + palatine bones",w:["Frontal","Temporal","Sphenoid"]},
-{c:"Anatomy",q:"Mylohyoid forms?",a:"Floor of mouth",w:["Roof of orbit","Pharyngeal wall","Tonsillar fossa"]},
-{c:"Anatomy",q:"Otic ganglion supplies?",a:"Parotid gland",w:["Submandibular","Sublingual","Lacrimal"]},
-{c:"Anatomy",q:"Jugular foramen contains?",a:"CN IX, X, XI + IJV",w:["CN VII","CN XII","CN V3"]},
-{c:"Anatomy",q:"Greater palatine nerve supplies?",a:"Hard palate posterior to canine",w:["Soft palate","Upper lip","Buccal gingiva"]},
-{c:"Microbiology",q:"Most cariogenic bacterium?",a:"Streptococcus mutans",w:["Lactobacillus","Actinomyces","P. gingivalis"]},
-{c:"Microbiology",q:"Primary periodontitis pathogen?",a:"Porphyromonas gingivalis",w:["S. mutans","Actinomyces","T. denticola"]},
-{c:"Microbiology",q:"Red complex bacteria?",a:"P. gingivalis, T. denticola, T. forsythia",w:["S. mutans group","Orange complex","Fusobacterium"]},
-{c:"Microbiology",q:"Oral thrush reveals?",a:"Erythematous base",w:["Normal mucosa","Ulcer","Bone"]},
-{c:"Microbiology",q:"Actinomycosis organism?",a:"Actinomyces israelii",w:["Candida","S. pyogenes","S. aureus"]},
-{c:"Microbiology",q:"Sulfur granules in pus?",a:"Actinomycosis",w:["TB","Syphilis","Candidiasis"]},
-{c:"Microbiology",q:"Primary herpes in children?",a:"Herpetic gingivostomatitis",w:["Cold sore","Herpes zoster","HFMD"]},
-{c:"Microbiology",q:"Hairy leukoplakia caused by?",a:"EBV",w:["Candida","HPV","HSV-1"]},
-{c:"Microbiology",q:"Dental plaque classified as?",a:"Biofilm",w:["Planktonic bacteria","Viral colony","Simple bacteria"]},
-{c:"Microbiology",q:"S. mutans virulence factor?",a:"GTF glucosyltransferase",w:["Collagenase","Hyaluronidase","Coagulase"]},
-{c:"Microbiology",q:"Autoclave: 134°C for?",a:"3 minutes",w:["30 minutes","1 hour","10 minutes"]},
-{c:"Microbiology",q:"Hepatitis A route?",a:"Fecal-oral",w:["Blood-borne","Sexual only","Respiratory"]},
-{c:"Microbiology",q:"Post-extraction bacteremia organism?",a:"Streptococcus viridans",w:["S. aureus","E. coli","Enterococcus"]},
-{c:"Microbiology",q:"Beta-lactamase breaks?",a:"Beta-lactam ring",w:["Peptide bond","Cell membrane","DNA"]},
-{c:"Microbiology",q:"MRSA resistant to?",a:"Methicillin",w:["Vancomycin","Tetracycline","Metronidazole"]},
-{c:"Microbiology",q:"Treponema pallidum causes?",a:"Syphilis",w:["Gonorrhea","Chlamydia","Candidiasis"]},
-{c:"Microbiology",q:"LPS of gram-negative?",a:"Endotoxin",w:["Exotoxin","Capsule","Pili"]},
-{c:"Microbiology",q:"Hand-foot-mouth caused by?",a:"Coxsackievirus A16",w:["HSV-1","EBV","HPV"]},
-{c:"Microbiology",q:"HBeAg indicates?",a:"High infectivity",w:["Past infection","Immunity","Carrier only"]},
-{c:"Microbiology",q:"HPV oral lesion?",a:"Squamous papilloma",w:["Hairy leukoplakia","Candidiasis","Herpes"]},
 {c:"Prosthodontics",q:"Kennedy Class I?",a:"Bilateral free-end saddles",w:["Unilateral free-end","Single bounded","Anterior space"]},
 {c:"Prosthodontics",q:"Kennedy Class II?",a:"Unilateral free-end saddle",w:["Bilateral free-end","Anterior space","Multiple spaces"]},
-{c:"Prosthodontics",q:"Kennedy Class III?",a:"Unilateral bounded posterior",w:["Bilateral free-end","Unilateral free-end","Anterior space"]},
-{c:"Prosthodontics",q:"Kennedy Class IV?",a:"Anterior crossing midline",w:["Bilateral free-end","Unilateral space","Multiple spaces"]},
-{c:"Prosthodontics",q:"Occlusal rest function?",a:"Transfer vertical forces",w:["Retention only","Support base","Connect connector"]},
-{c:"Prosthodontics",q:"Mandibular RPD major connector?",a:"Lingual bar",w:["Palatal bar","Horseshoe","AP bar"]},
 {c:"Prosthodontics",q:"VDO stands for?",a:"Vertical dimension of occlusion",w:["Variable dental occlusion","Vertical distance orbit","Vertical degree offset"]},
 {c:"Prosthodontics",q:"Freeway space normal?",a:"2-4 mm",w:["0 mm","6-8 mm","1 mm"]},
-{c:"Prosthodontics",q:"Post dam function?",a:"Posterior peripheral seal",w:["Aesthetic","Tooth support","Food trap"]},
-{c:"Prosthodontics",q:"Overdenture advantage?",a:"Bone preservation",w:["Easier construction","Cheaper","No maintenance"]},
 {c:"Prosthodontics",q:"FPD components?",a:"Abutment, connector, pontic",w:["Rest, clasp, connector","Crown, post, core","Base, framework, teeth"]},
-{c:"Prosthodontics",q:"All-ceramic crown: occlusal reduction?",a:"2 mm",w:["0.5 mm","4 mm","1 mm"]},
-{c:"Prosthodontics",q:"Surveyor identifies?",a:"Path of insertion and undercuts",w:["Pocket depth","Impressions","Occlusion"]},
-{c:"Prosthodontics",q:"Akers clasp type?",a:"Circumferential",w:["Bar clasp","I-bar","RPI"]},
-{c:"Prosthodontics",q:"Temporary crown purpose?",a:"Protect prep and maintain space",w:["Permanent restoration","Bleaching tray","Orthodontics"]},
-{c:"Prosthodontics",q:"Shade selection best light?",a:"Natural daylight",w:["Bright dental light","Dim room","Fluorescent"]},
-{c:"Prosthodontics",q:"Relining adds material to?",a:"Denture base",w:["Teeth","Framework","Clasps"]},
-{c:"Prosthodontics",q:"Cantilever bridge: pontic supported by?",a:"One side only",w:["Both sides","Implants only","Resin wings"]},
 {c:"Pediatric Dentistry",q:"First primary tooth to erupt?",a:"Mandibular central incisor",w:["Max central","First molar","Canine"]},
 {c:"Pediatric Dentistry",q:"Nursing caries most affects?",a:"Upper anteriors",w:["Lower anteriors","Lower molars","All equally"]},
 {c:"Pediatric Dentistry",q:"Vital primary pulp therapy?",a:"Pulpotomy",w:["Pulpectomy","Extraction","Observation"]},
-{c:"Pediatric Dentistry",q:"Turner's tooth caused by?",a:"Primary predecessor infection",w:["Fluorosis","Birth trauma","Genetics"]},
-{c:"Pediatric Dentistry",q:"Taurodontism feature?",a:"Enlarged pulp chamber",w:["Fused roots","Extra root","Small pulp"]},
-{c:"Pediatric Dentistry",q:"Single bud divides?",a:"Gemination",w:["Fusion","Concrescence","Dilaceration"]},
-{c:"Pediatric Dentistry",q:"Two buds unite?",a:"Fusion",w:["Gemination","Twinning","Concrescence"]},
-{c:"Pediatric Dentistry",q:"Supernumerary at midline?",a:"Mesiodens",w:["Paramolar","Distomolar","Peridens"]},
-{c:"Pediatric Dentistry",q:"Ankylosed primary tooth shows?",a:"Infraocclusion",w:["Supraocclusion","Normal occlusion","Mobility"]},
 {c:"Pediatric Dentistry",q:"Primary avulsion: replant?",a:"No",w:["Yes immediately","Yes within 2h","Yes with splint"]},
 {c:"Pediatric Dentistry",q:"Permanent avulsion storage?",a:"HBSS or milk",w:["Tap water","Dry","Saline only"]},
-{c:"Pediatric Dentistry",q:"Cvek pulpotomy material?",a:"MTA",w:["Formocresol","ZOE","Ca(OH)2 only"]},
-{c:"Pediatric Dentistry",q:"First dental visit at?",a:"Age 1 or first tooth",w:["Age 3","Age 5","First cavity"]},
-{c:"Pediatric Dentistry",q:"ECC: caries in child under?",a:"6 years",w:["3 years","10 years","12 years"]},
-{c:"Pediatric Dentistry",q:"Hall technique preparation?",a:"None",w:["Full prep","Minimal prep","Occlusal only"]},
-{c:"Pediatric Dentistry",q:"Dilaceration is?",a:"Root bend from trauma",w:["Taurodontism","Gemination","Fusion"]},
-{c:"Pediatric Dentistry",q:"Non-succedaneous teeth?",a:"Permanent molars",w:["Premolars","Incisors","Canines"]},
-{c:"Pediatric Dentistry",q:"Child abuse oral sign?",a:"Frenum bruising",w:["Normal caries","Gingival bleeding","Calculus"]},
-{c:"Pediatric Dentistry",q:"Fluoride toothpaste under 3?",a:"1000 ppm smear",w:["1450 ppm","500 ppm","No fluoride"]},
 {c:"Oral Pathology",q:"Most common odontogenic cyst?",a:"Radicular cyst",w:["Dentigerous","OKC","Lateral periodontal"]},
 {c:"Oral Pathology",q:"Dentigerous cyst attaches at?",a:"CEJ of unerupted tooth",w:["Root apex","Root surface","Gingival crest"]},
 {c:"Oral Pathology",q:"OKC recurrence rate?",a:"Up to 60%",w:["Less than 5%","10-15%","Zero"]},
 {c:"Oral Pathology",q:"Ameloblastoma most common location?",a:"Posterior mandible",w:["Anterior maxilla","Hard palate","Anterior mandible"]},
-{c:"Oral Pathology",q:"Leukoplakia: rubs off?",a:"No",w:["Yes easily","Partially","Always"]},
 {c:"Oral Pathology",q:"Higher malignant potential?",a:"Erythroplakia",w:["Leukoplakia","Same risk","Neither"]},
-{c:"Oral Pathology",q:"Lichen planus oral appearance?",a:"Bilateral Wickham striae",w:["Unilateral ulcer","Nodular","Red flat only"]},
-{c:"Oral Pathology",q:"Most common site of oral SCC?",a:"Lateral tongue",w:["Dorsum","Hard palate","Upper lip"]},
-{c:"Oral Pathology",q:"Most common benign salivary tumor?",a:"Pleomorphic adenoma",w:["Warthin","Mucoepidermoid","Monomorphic"]},
-{c:"Oral Pathology",q:"Adenoid cystic carcinoma feature?",a:"Perineural invasion",w:["Rapid spread","No nerve invasion","Always curable"]},
-{c:"Oral Pathology",q:"Fibrous dysplasia X-ray?",a:"Ground glass",w:["Sunburst","Punched-out","Dense sclerosis"]},
-{c:"Oral Pathology",q:"Fordyce spots are?",a:"Ectopic sebaceous glands",w:["Viral lesion","Candidiasis","Salivary obstruction"]},
-{c:"Oral Pathology",q:"Minor aphthous ulcer heals in?",a:"7-14 days",w:["24 hours","30 days","60 days"]},
-{c:"Oral Pathology",q:"Nikolsky sign positive in?",a:"Pemphigus vulgaris",w:["Pemphigoid","Lichen planus","Aphthous"]},
-{c:"Oral Pathology",q:"Highest recurrence rate cyst?",a:"OKC",w:["Radicular","Dentigerous","Nasopalatine"]},
-{c:"Oral Pathology",q:"Nasopalatine cyst location?",a:"Anterior midline hard palate",w:["Lateral premolar","Posterior palate","Floor of mouth"]},
-{c:"Oral Pathology",q:"Oral SCC risk factors?",a:"Tobacco, alcohol, HPV",w:["Sugar, poor brushing","Fluoride","Vitamin D"]},
-{c:"Oral Pathology",q:"Gorlin syndrome includes?",a:"Multiple OKCs + BCCs",w:["Radicular cysts","Fibrous dysplasia","Ameloblastomas"]},
+{c:"Microbiology",q:"Most cariogenic bacterium?",a:"Streptococcus mutans",w:["Lactobacillus","Actinomyces","P. gingivalis"]},
+{c:"Microbiology",q:"Primary periodontitis pathogen?",a:"Porphyromonas gingivalis",w:["S. mutans","Actinomyces","T. denticola"]},
+{c:"Microbiology",q:"Oral thrush reveals?",a:"Erythematous base",w:["Normal mucosa","Ulcer","Bone"]},
+{c:"Microbiology",q:"Autoclave: 134°C for?",a:"3 minutes",w:["30 minutes","1 hour","10 minutes"]},
+{c:"Microbiology",q:"Post-extraction bacteremia organism?",a:"Streptococcus viridans",w:["S. aureus","E. coli","Enterococcus"]}
 ];
 
-// ════════ UTILS ════════
 function go(id){
   document.querySelectorAll('.sc').forEach(s=>{s.classList.remove('on');s.style.display='';});
   const el=document.getElementById(id);if(!el)return;
@@ -902,8 +862,6 @@ function toast(msg,d=2500){const t=document.getElementById('toast');t.textConten
 function genCode(){return Math.random().toString(36).substring(2,6).toUpperCase();}
 function rnd(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
 function mkOpts(q){return rnd([q.a,...(q.w||[]).slice(0,3)]);}
-
-// ════════ CAT GRIDS ════════
 function mkCatGrid(elId,sel,cls,max,cb){
   const el=document.getElementById(elId);if(!el)return;el.innerHTML='';
   Object.entries(CATS).forEach(([n,i])=>{
@@ -919,545 +877,59 @@ function mkCatGrid(elId,sel,cls,max,cb){
   });
 }
 
-// ════════ ONLINE STATE ════════
+// ── ONLINE ──
 let O={isHost:false,code:null,role:null,name:null,timerSecs:10,qCount:12,selCats:[],qs:[],qi:0,scores:{host:0,guest:0},timer:null,tLeft:0,myDone:false,oppDone:false,hName:'',gName:'',subs:[]};
-
-function updOnlineCatInfo(){
-  const n=O.selCats.length,el=document.getElementById('cn-cinfo'),btn=document.getElementById('cn-btn');
-  if(n===4){el.className='cinfo ok';el.textContent='✅ 4 categories selected!';btn.disabled=false;}
-  else{el.className='cinfo bad';el.textContent='Select exactly 4 ('+n+'/4)';btn.disabled=true;}
-}
+function updOnlineCatInfo(){const n=O.selCats.length,el=document.getElementById('cn-cinfo'),btn=document.getElementById('cn-btn');if(n===4){el.className='cinfo ok';el.textContent='✅ 4 categories selected!';btn.disabled=false;}else{el.className='cinfo bad';el.textContent='Select exactly 4 ('+n+'/4)';btn.disabled=true;}}
 function selQ(el){document.querySelectorAll('.qb').forEach(e=>e.classList.remove('on'));el.classList.add('on');O.qCount=parseInt(el.dataset.v);document.getElementById('cn-tinfo').textContent='10s per question × '+O.qCount;}
-async function createRoom(){
-  if(!window._fbReady){toast('Firebase not ready!');return;}
-  const name=document.getElementById('cn-name').value.trim();
-  if(!name){toast('Enter team name!');return;}
-  if(O.selCats.length!==4){toast('Select exactly 4 categories!');return;}
-  const pool=QB.filter(q=>O.selCats.includes(q.c));
-  if(pool.length<O.qCount){toast('Not enough questions!');return;}
-  O.qs=rnd(pool).slice(0,O.qCount).map(q=>({...q,opts:mkOpts(q)}));
-  const code=genCode();
-  O.code=code;O.isHost=true;O.role='host';O.name=name;O.hName=name;
-  await window._set(window._ref(window._db,'rooms/'+code),{host:name,guest:null,status:'waiting',timerSecs:10,qCount:O.qCount,qs:O.qs,qi:0,scores:{host:0,guest:0},answers:{},created:Date.now()});
-  showLobby(code);listenRoom(code);
-}
-async function joinRoom(){
-  if(!window._fbReady){toast('Firebase not ready!');return;}
-  const name=document.getElementById('jn-name').value.trim();
-  const code=document.getElementById('jn-code').value.trim().toUpperCase();
-  if(!name){toast('Enter name!');return;}if(!code){toast('Enter room code!');return;}
-  const snap=await window._get(window._ref(window._db,'rooms/'+code));
-  if(!snap.exists()){toast('Room not found!');return;}
-  const d=snap.val();
-  if(d.status!=='waiting'){toast('Game already started!');return;}
-  if(d.guest){toast('Room is full!');return;}
-  O.code=code;O.isHost=false;O.role='guest';O.name=name;O.hName=d.host;O.gName=name;
-  O.timerSecs=d.timerSecs;O.qCount=d.qCount;O.qs=d.qs;
-  await window._update(window._ref(window._db,'rooms/'+code),{guest:name});
-  showLobby(code);listenRoom(code);
-}
-function showLobby(code){
-  go('sc-lobby');
-  document.getElementById('lb-code').textContent=code;
-  document.getElementById('lb-h').textContent=O.hName||O.name;
-  if(O.role==='guest'){document.getElementById('lb-g').textContent=O.name;document.getElementById('lb-gslot').classList.add('on');}
-}
-function listenRoom(code){
-  const r=window._ref(window._db,'rooms/'+code);
-  const u=window._onValue(r,snap=>{
-    if(!snap.exists())return;const d=snap.val();
-    if(d.guest&&d.guest!==O.gName){
-      document.getElementById('lb-g').textContent=d.guest;
-      document.getElementById('lb-gslot').classList.add('on');
-      document.getElementById('lb-wait').style.display='none';
-      O.gName=d.guest;
-      if(O.isHost){document.getElementById('lb-start').style.display='block';}
-    }
-    if(d.status==='playing'){
-      O.qs=d.qs;O.timerSecs=d.timerSecs;O.qCount=d.qCount;O.scores=d.scores||{host:0,guest:0};
-      const qi=d.qi||0;
-      if(qi!==O.qi||!document.getElementById('sc-game').classList.contains('on')){O.qi=qi;showGameScreen(d);}
-    }
-    if(d.status==='finished'){showOnlineEnd(d);return;}
-    if(d.status==='playing'&&d.answers&&d.answers[O.qi]){
-      const opp=O.role==='host'?'guest':'host';
-      if(d.answers[O.qi][opp]&&!O.oppDone){O.oppDone=true;if(O.myDone)evalRound();}
-    }
-  });
-  O.subs.push(u);
-}
+async function createRoom(){if(!window._fbReady){toast('Firebase not ready!');return;}const name=document.getElementById('cn-name').value.trim();if(!name){toast('Enter team name!');return;}if(O.selCats.length!==4){toast('Select exactly 4!');return;}const pool=QB.filter(q=>O.selCats.includes(q.c));if(pool.length<O.qCount){toast('Not enough questions!');return;}O.qs=rnd(pool).slice(0,O.qCount).map(q=>({...q,opts:mkOpts(q)}));const code=genCode();O.code=code;O.isHost=true;O.role='host';O.name=name;O.hName=name;await window._set(window._ref(window._db,'rooms/'+code),{host:name,guest:null,status:'waiting',timerSecs:10,qCount:O.qCount,qs:O.qs,qi:0,scores:{host:0,guest:0},answers:{},created:Date.now()});showLobby(code);listenRoom(code);}
+async function joinRoom(){if(!window._fbReady){toast('Firebase not ready!');return;}const name=document.getElementById('jn-name').value.trim();const code=document.getElementById('jn-code').value.trim().toUpperCase();if(!name){toast('Enter name!');return;}if(!code){toast('Enter room code!');return;}const snap=await window._get(window._ref(window._db,'rooms/'+code));if(!snap.exists()){toast('Room not found!');return;}const d=snap.val();if(d.status!=='waiting'){toast('Game already started!');return;}if(d.guest){toast('Room is full!');return;}O.code=code;O.isHost=false;O.role='guest';O.name=name;O.hName=d.host;O.gName=name;O.timerSecs=d.timerSecs;O.qCount=d.qCount;O.qs=d.qs;await window._update(window._ref(window._db,'rooms/'+code),{guest:name});showLobby(code);listenRoom(code);}
+function showLobby(code){go('sc-lobby');document.getElementById('lb-code').textContent=code;document.getElementById('lb-h').textContent=O.hName||O.name;if(O.role==='guest'){document.getElementById('lb-g').textContent=O.name;document.getElementById('lb-gslot').classList.add('on');}}
+function listenRoom(code){const r=window._ref(window._db,'rooms/'+code);const u=window._onValue(r,snap=>{if(!snap.exists())return;const d=snap.val();if(d.guest&&d.guest!==O.gName){document.getElementById('lb-g').textContent=d.guest;document.getElementById('lb-gslot').classList.add('on');document.getElementById('lb-wait').style.display='none';O.gName=d.guest;if(O.isHost){document.getElementById('lb-start').style.display='block';}}if(d.status==='playing'){O.qs=d.qs;O.timerSecs=d.timerSecs;O.qCount=d.qCount;O.scores=d.scores||{host:0,guest:0};const qi=d.qi||0;if(qi!==O.qi||!document.getElementById('sc-game').classList.contains('on')){O.qi=qi;showGameScreen(d);}}if(d.status==='finished'){showOnlineEnd(d);return;}if(d.status==='playing'&&d.answers&&d.answers[O.qi]){const opp=O.role==='host'?'guest':'host';if(d.answers[O.qi][opp]&&!O.oppDone){O.oppDone=true;if(O.myDone)evalRound();}}});O.subs.push(u);}
 async function startOnline(){await window._update(window._ref(window._db,'rooms/'+O.code),{status:'playing',qi:0});}
 function leaveRoom(){O.subs.forEach(u=>u&&u());O.subs=[];go('sc-land');resetOnline();}
-function showGameScreen(d){
-  go('sc-game');O.scores=d.scores||{host:0,guest:0};
-  document.getElementById('g-n1').textContent=d.host;
-  document.getElementById('g-n2').textContent=d.guest||'Guest';
-  document.getElementById('g-s1').textContent=O.scores.host||0;
-  document.getElementById('g-s2').textContent=O.scores.guest||0;
-  loadQ(d.qi||0);
-}
-function loadQ(idx){
-  O.qi=idx;O.myDone=false;O.oppDone=false;
-  const q=O.qs[idx];if(!q)return;
-  document.getElementById('g-qi').textContent=idx+1;document.getElementById('g-qi2').textContent=idx+1;
-  document.getElementById('g-qt').textContent=O.qs.length;
-  document.getElementById('g-cat').textContent=(CATS[q.c]||'')+' '+q.c;
-  document.getElementById('g-q').textContent=q.q;
-  const opts=q.opts||mkOpts(q);
-  document.getElementById('g-opts').innerHTML=opts.map((o,i)=>`<button class="mopt" id="mo${i}" onclick="pickOpt(${i},this,'${encodeURIComponent(o)}','${encodeURIComponent(q.a)}')"><span class="ol">${'ABCD'[i]}</span>${o}</button>`).join('');
-  document.getElementById('g-wait').style.display='none';
-  document.getElementById('rovl').classList.remove('on');
-  clearInterval(O.timer);startTimer(O.timerSecs);
-}
-function startTimer(secs){
-  clearInterval(O.timer);O.tLeft=secs;
-  const C=2*Math.PI*30;
-  const upd=()=>{
-    document.getElementById('tnum').textContent=O.tLeft;
-    const p=O.tLeft/secs;const pg=document.getElementById('tpg');
-    pg.style.strokeDasharray=C;pg.style.strokeDashoffset=C*(1-p);
-    pg.className='tpg'+(p<=0.25?' dng':p<=0.5?' warn':'');
-  };
-  upd();
-  O.timer=setInterval(()=>{O.tLeft--;upd();if(O.tLeft<=0){clearInterval(O.timer);if(!O.myDone)submitAns('__timeout__',false);}},1000);
-}
-function pickOpt(idx,btn,oEnc,aEnc){
-  if(O.myDone)return;
-  const o=decodeURIComponent(oEnc),a=decodeURIComponent(aEnc);
-  document.querySelectorAll('.mopt').forEach(b=>b.disabled=true);
-  btn.classList.add('picked');clearInterval(O.timer);submitAns(o,o===a);
-}
-async function submitAns(txt,correct){
-  if(O.myDone)return;O.myDone=true;
-  document.querySelectorAll('.mopt').forEach(b=>b.disabled=true);
-  document.getElementById('g-wait').style.display='flex';
-  await window._set(window._ref(window._db,'rooms/'+O.code+'/answers/'+O.qi+'/'+O.role),{txt,correct,time:O.timerSecs-O.tLeft});
-  const snap=await window._get(window._ref(window._db,'rooms/'+O.code+'/answers/'+O.qi));
-  if(snap.exists()){const opp=O.role==='host'?'guest':'host';if(snap.val()[opp])O.oppDone=true;}
-  if(O.myDone&&O.oppDone)await evalRound();
-}
-async function evalRound(){
-  const snap=await window._get(window._ref(window._db,'rooms/'+O.code));
-  if(!snap.exists())return;const d=snap.val();const q=O.qs[O.qi];
-  const opts=q.opts||mkOpts(q);
-  document.querySelectorAll('.mopt').forEach((btn,i)=>{if(opts[i]===q.a)btn.classList.add('ok');else if(btn.classList.contains('picked'))btn.classList.add('bad');});
-  const myD=d.answers?.[O.qi]?.[O.role];
-  if(O.isHost){
-    const ns={...d.scores};
-    const hd=d.answers?.[O.qi]?.host;const gd=d.answers?.[O.qi]?.guest;
-    let hp=0,gp=0;if(hd?.correct)hp=2;if(gd?.correct)gp=2;
-    if(hd?.correct&&gd?.correct){if((hd.time||99)<(gd.time||99))hp++;else if((gd.time||99)<(hd.time||99))gp++;}
-    ns.host=(ns.host||0)+hp;ns.guest=(ns.guest||0)+gp;
-    const nxi=O.qi+1,done=nxi>=O.qs.length;
-    setTimeout(async()=>{await window._update(window._ref(window._db,'rooms/'+O.code),{scores:ns,qi:nxi,status:done?'finished':'playing'});},3500);
-  }
-  const sc=d.scores||{host:0,guest:0};
-  showResultOverlay(myD?.correct||false,q.a,O.role==='host'?sc.host:sc.guest,O.role==='host'?sc.guest:sc.host);
-}
-function showResultOverlay(correct,ans,my,opp){
-  document.getElementById('r-emj').textContent=correct?'✅':'❌';
-  document.getElementById('r-vrd').textContent=correct?'Correct! 🎉':'Wrong!';
-  document.getElementById('r-vrd').className='rvrd '+(correct?'ok':'bad');
-  document.getElementById('r-ans').textContent=' '+ans;
-  document.getElementById('r-ms').textContent=my;document.getElementById('r-os').textContent=opp;
-  document.getElementById('rovl').classList.add('on');
-  let c=3;const nx=document.getElementById('r-nxt');
-  const t=setInterval(()=>{c--;nx.textContent='Next in '+c+'...';if(c<=0){clearInterval(t);document.getElementById('rovl').classList.remove('on');}},1000);
-}
-function showOnlineEnd(d){
-  clearInterval(O.timer);document.getElementById('rovl').classList.remove('on');go('sc-results');
-  const hs=d.scores?.host||0,gs=d.scores?.guest||0;
-  const w=hs>gs?d.host:gs>hs?(d.guest||'Guest'):'🤝 Tie!';
-  document.getElementById('f-win').textContent=w;
-  document.getElementById('f-wsc').textContent=w==='🤝 Tie!'?'Equal scores!':'Score: '+Math.max(hs,gs);
-  document.getElementById('f-n1').textContent=d.host;document.getElementById('f-n2').textContent=d.guest||'Guest';
-  document.getElementById('f-s1').textContent=hs;document.getElementById('f-s2').textContent=gs;
-}
+function showGameScreen(d){go('sc-game');O.scores=d.scores||{host:0,guest:0};document.getElementById('g-n1').textContent=d.host;document.getElementById('g-n2').textContent=d.guest||'Guest';document.getElementById('g-s1').textContent=O.scores.host||0;document.getElementById('g-s2').textContent=O.scores.guest||0;loadQ(d.qi||0);}
+function loadQ(idx){O.qi=idx;O.myDone=false;O.oppDone=false;const q=O.qs[idx];if(!q)return;document.getElementById('g-qi').textContent=idx+1;document.getElementById('g-qi2').textContent=idx+1;document.getElementById('g-qt').textContent=O.qs.length;document.getElementById('g-cat').textContent=(CATS[q.c]||'')+' '+q.c;document.getElementById('g-q').textContent=q.q;const opts=q.opts||mkOpts(q);document.getElementById('g-opts').innerHTML=opts.map((o,i)=>`<button class="mopt" id="mo${i}" onclick="pickOpt(${i},this,'${encodeURIComponent(o)}','${encodeURIComponent(q.a)}')"><span class="ol">${'ABCD'[i]}</span>${o}</button>`).join('');document.getElementById('g-wait').style.display='none';document.getElementById('rovl').classList.remove('on');clearInterval(O.timer);startTimer(O.timerSecs);}
+function startTimer(secs){clearInterval(O.timer);O.tLeft=secs;const C=2*Math.PI*30;const upd=()=>{document.getElementById('tnum').textContent=O.tLeft;const p=O.tLeft/secs;const pg=document.getElementById('tpg');pg.style.strokeDasharray=C;pg.style.strokeDashoffset=C*(1-p);pg.className='tpg'+(p<=0.25?' dng':p<=0.5?' warn':'');};upd();O.timer=setInterval(()=>{O.tLeft--;upd();if(O.tLeft<=0){clearInterval(O.timer);if(!O.myDone)submitAns('__timeout__',false);}},1000);}
+function pickOpt(idx,btn,oEnc,aEnc){if(O.myDone)return;const o=decodeURIComponent(oEnc),a=decodeURIComponent(aEnc);document.querySelectorAll('.mopt').forEach(b=>b.disabled=true);btn.classList.add('picked');clearInterval(O.timer);submitAns(o,o===a);}
+async function submitAns(txt,correct){if(O.myDone)return;O.myDone=true;document.querySelectorAll('.mopt').forEach(b=>b.disabled=true);document.getElementById('g-wait').style.display='flex';await window._set(window._ref(window._db,'rooms/'+O.code+'/answers/'+O.qi+'/'+O.role),{txt,correct,time:O.timerSecs-O.tLeft});const snap=await window._get(window._ref(window._db,'rooms/'+O.code+'/answers/'+O.qi));if(snap.exists()){const opp=O.role==='host'?'guest':'host';if(snap.val()[opp])O.oppDone=true;}if(O.myDone&&O.oppDone)await evalRound();}
+async function evalRound(){const snap=await window._get(window._ref(window._db,'rooms/'+O.code));if(!snap.exists())return;const d=snap.val();const q=O.qs[O.qi];const opts=q.opts||mkOpts(q);document.querySelectorAll('.mopt').forEach((btn,i)=>{if(opts[i]===q.a)btn.classList.add('ok');else if(btn.classList.contains('picked'))btn.classList.add('bad');});const myD=d.answers?.[O.qi]?.[O.role];if(O.isHost){const ns={...d.scores};const hd=d.answers?.[O.qi]?.host;const gd=d.answers?.[O.qi]?.guest;let hp=0,gp=0;if(hd?.correct)hp=2;if(gd?.correct)gp=2;if(hd?.correct&&gd?.correct){if((hd.time||99)<(gd.time||99))hp++;else if((gd.time||99)<(hd.time||99))gp++;}ns.host=(ns.host||0)+hp;ns.guest=(ns.guest||0)+gp;const nxi=O.qi+1,done=nxi>=O.qs.length;setTimeout(async()=>{await window._update(window._ref(window._db,'rooms/'+O.code),{scores:ns,qi:nxi,status:done?'finished':'playing'});},3500);}const sc=d.scores||{host:0,guest:0};showResultOverlay(myD?.correct||false,q.a,O.role==='host'?sc.host:sc.guest,O.role==='host'?sc.guest:sc.host);}
+function showResultOverlay(correct,ans,my,opp){document.getElementById('r-emj').textContent=correct?'✅':'❌';document.getElementById('r-vrd').textContent=correct?'Correct! 🎉':'Wrong!';document.getElementById('r-vrd').className='rvrd '+(correct?'ok':'bad');document.getElementById('r-ans').textContent=' '+ans;document.getElementById('r-ms').textContent=my;document.getElementById('r-os').textContent=opp;document.getElementById('rovl').classList.add('on');let c=3;const nx=document.getElementById('r-nxt');const t=setInterval(()=>{c--;nx.textContent='Next in '+c+'...';if(c<=0){clearInterval(t);document.getElementById('rovl').classList.remove('on');}},1000);}
+function showOnlineEnd(d){clearInterval(O.timer);document.getElementById('rovl').classList.remove('on');go('sc-results');const hs=d.scores?.host||0,gs=d.scores?.guest||0;const w=hs>gs?d.host:gs>hs?(d.guest||'Guest'):'🤝 Tie!';document.getElementById('f-win').textContent=w;document.getElementById('f-wsc').textContent=w==='🤝 Tie!'?'Equal scores!':'Score: '+Math.max(hs,gs);document.getElementById('f-n1').textContent=d.host;document.getElementById('f-n2').textContent=d.guest||'Guest';document.getElementById('f-s1').textContent=hs;document.getElementById('f-s2').textContent=gs;}
 function resetOnline(){O.subs.forEach(u=>u&&u());O.subs=[];clearInterval(O.timer);O.code=null;O.isHost=false;O.role=null;O.qi=0;O.scores={host:0,guest:0};O.myDone=false;O.oppDone=false;O.selCats=[];}
 
-// ════════ LOCAL MODE ════════
+// ── LOCAL ──
 let L={t1:'',t2:'',s:{t1:0,t2:0},selCats:[],board:{},curQ:null,timer:null,secs:0,awarded:false,ansRevealed:false};
-function updLocalCatInfo(){
-  const n=L.selCats.length,el=document.getElementById('lc-cinfo'),btn=document.getElementById('lc-btn');
-  if(n===6){el.className='cinfo ok';el.textContent='✅ 6 categories selected!';btn.disabled=false;}
-  else{el.className='cinfo bad';el.textContent='Select exactly 6 ('+n+'/6)';btn.disabled=true;}
-}
-function startLocal(){
-  L.t1=document.getElementById('lt1').value.trim()||'Team 1';
-  L.t2=document.getElementById('lt2').value.trim()||'Team 2';
-  if(L.selCats.length!==6){toast('Select exactly 6!');return;}
-  L.s={t1:0,t2:0};L.board={};
-  L.selCats.forEach(cat=>{
-    const pool=rnd(QB.filter(q=>q.c===cat));
-    L.board[cat]=pool.slice(0,4).map((q,i)=>({...q,opts:mkOpts(q),used:false,usedBy:null,pts:10*(i+1)}));
-  });
-  go('sc-local');updLBoard();updLHdr();
-}
-function updLBoard(){
-  const el=document.getElementById('l-board');el.innerHTML='';
-  L.selCats.forEach(cat=>{
-    const qs=L.board[cat];const sec=document.createElement('div');sec.className='cat-sec';
-    const tiles=qs.map((q,i)=>{
-      const u=q.used,by=q.usedBy;
-      const cls=u?(by==='t1'?' u1':by==='t2'?' u2':' un'):'';
-      const lbl=u?(by==='t1'?'✅':by==='t2'?'❌':'—'):'Q'+(i+1);
-      const click=u?'':`onclick="openLQ('${encodeURIComponent(cat)}',${i})"`;
-      return `<div class="tile${u?' used'+cls:''}" ${click}><span>${lbl}</span><span class="tpts">${q.pts}pts</span></div>`;
-    }).join('');
-    sec.innerHTML=`<div class="cat-hd">${CATS[cat]||'📋'} ${cat}</div><div class="tiles">${tiles}</div>`;
-    el.appendChild(sec);
-  });
-}
-function updLHdr(){
-  document.getElementById('lt1-n').textContent=L.t1;document.getElementById('lt2-n').textContent=L.t2;
-  document.getElementById('lt1-s').textContent=L.s.t1;document.getElementById('lt2-s').textContent=L.s.t2;
-  document.getElementById('aw-t1').textContent='🏆 '+L.t1;document.getElementById('aw-t2').textContent='🏆 '+L.t2;
-  if(document.getElementById('lf-n1')){document.getElementById('lf-n1').textContent=L.t1;document.getElementById('lf-n2').textContent=L.t2;}
-}
-function openLQ(catEnc,idx){
-  const cat=decodeURIComponent(catEnc);const q=L.board[cat][idx];if(q.used)return;
-  L.curQ={cat,idx,q};L.awarded=false;L.ansRevealed=false;
-  document.getElementById('lm-cat').textContent=(CATS[cat]||'')+' '+cat;
-  document.getElementById('lm-pts').textContent=q.pts+' pts';
-  document.getElementById('lm-q').textContent=q.q;
-  document.getElementById('lm-opts').innerHTML=q.opts.map((o,i)=>`<div class="lopt" id="lo${i}"><span class="lo">${'ABCD'[i]}</span>${o}</div>`).join('');
-  document.getElementById('show-ans-btn').style.display='block';
-  document.getElementById('award-sec').style.display='none';
-  document.getElementById('aw-badge').style.display='none';
-  document.getElementById('lm-next').style.display='none';
-  updLHdr();
-  clearInterval(L.timer);L.secs=0;
-  document.getElementById('lt-num').textContent='0:00';
-  document.getElementById('lt-fg').style.width='0%';
-  document.getElementById('lt-fg').className='ltfg';
-  L.timer=setInterval(()=>{
-    L.secs++;const m=Math.floor(L.secs/60),s=L.secs%60;
-    document.getElementById('lt-num').textContent=m+':'+(s<10?'0':'')+s;
-    const pct=Math.min((L.secs/120)*100,100);
-    document.getElementById('lt-fg').style.width=pct+'%';
-    document.getElementById('lt-fg').className='ltfg'+(pct>=100?' full':pct>=60?' mid':'');
-    if(L.secs>=120)clearInterval(L.timer);
-  },1000);
-  document.getElementById('lmodal').classList.add('on');
-}
-function revealLocalAns(){
-  const q=L.curQ.q;
-  document.querySelectorAll('#lm-opts .lopt').forEach((btn,i)=>{if(q.opts[i]===q.a)btn.classList.add('ok');});
-  L.ansRevealed=true;
-  document.getElementById('show-ans-btn').style.display='none';
-  document.getElementById('award-sec').style.display='flex';
-}
-function awardPts(team){
-  if(L.awarded)return;L.awarded=true;clearInterval(L.timer);
-  const q=L.curQ.q;const badge=document.getElementById('aw-badge');
-  if(team==='t1'){L.s.t1+=q.pts;L.board[L.curQ.cat][L.curQ.idx].usedBy='t1';badge.className='aw-badge t1';badge.textContent='🏆 '+L.t1+' +'+q.pts+' pts!';}
-  else if(team==='t2'){L.s.t2+=q.pts;L.board[L.curQ.cat][L.curQ.idx].usedBy='t2';badge.className='aw-badge t2';badge.textContent='🏆 '+L.t2+' +'+q.pts+' pts!';}
-  else{L.board[L.curQ.cat][L.curQ.idx].usedBy='none';badge.className='aw-badge none';badge.textContent='⏭️ No answer — 0 pts';}
-  L.board[L.curQ.cat][L.curQ.idx].used=true;
-  if(!L.ansRevealed){document.querySelectorAll('#lm-opts .lopt').forEach((b,i)=>{if(L.curQ.q.opts[i]===L.curQ.q.a)b.classList.add('ok');});}
-  document.getElementById('award-sec').style.display='none';badge.style.display='block';
-  document.getElementById('lm-next').style.display='block';
-  updLHdr();updLBoard();
-}
-function closeLocalQ(){
-  clearInterval(L.timer);document.getElementById('lmodal').classList.remove('on');
-  const all=L.selCats.every(c=>L.board[c].every(q=>q.used));if(all)showLRes();
-}
-function showLRes(){
-  go('sc-lres');
-  const s1=L.s.t1,s2=L.s.t2;const w=s1>s2?L.t1:s2>s1?L.t2:'🤝 Tie!';
-  document.getElementById('lf-win').textContent=w;
-  document.getElementById('lf-wsc').textContent=w==='🤝 Tie!'?'Equal scores!':'Total: '+Math.max(s1,s2)+' pts';
-  document.getElementById('lf-s1').textContent=s1;document.getElementById('lf-s2').textContent=s2;
-}
+function updLocalCatInfo(){const n=L.selCats.length,el=document.getElementById('lc-cinfo'),btn=document.getElementById('lc-btn');if(n===6){el.className='cinfo ok';el.textContent='✅ 6 categories selected!';btn.disabled=false;}else{el.className='cinfo bad';el.textContent='Select exactly 6 ('+n+'/6)';btn.disabled=true;}}
+function startLocal(){L.t1=document.getElementById('lt1').value.trim()||'Team 1';L.t2=document.getElementById('lt2').value.trim()||'Team 2';if(L.selCats.length!==6){toast('Select exactly 6!');return;}L.s={t1:0,t2:0};L.board={};L.selCats.forEach(cat=>{const pool=rnd(QB.filter(q=>q.c===cat));L.board[cat]=pool.slice(0,4).map((q,i)=>({...q,opts:mkOpts(q),used:false,usedBy:null,pts:10*(i+1)}));});go('sc-local');updLBoard();updLHdr();}
+function updLBoard(){const el=document.getElementById('l-board');el.innerHTML='';L.selCats.forEach(cat=>{const qs=L.board[cat];const sec=document.createElement('div');sec.className='cat-sec';const tiles=qs.map((q,i)=>{const u=q.used,by=q.usedBy;const cls=u?(by==='t1'?' u1':by==='t2'?' u2':' un'):'';const lbl=u?(by==='t1'?'✅':by==='t2'?'❌':'—'):'Q'+(i+1);const click=u?'':`onclick="openLQ('${encodeURIComponent(cat)}',${i})"`;return`<div class="tile${u?' used'+cls:''}" ${click}><span>${lbl}</span><span class="tpts">${q.pts}pts</span></div>`;}).join('');sec.innerHTML=`<div class="cat-hd">${CATS[cat]||'📋'} ${cat}</div><div class="tiles">${tiles}</div>`;el.appendChild(sec);});}
+function updLHdr(){document.getElementById('lt1-n').textContent=L.t1;document.getElementById('lt2-n').textContent=L.t2;document.getElementById('lt1-s').textContent=L.s.t1;document.getElementById('lt2-s').textContent=L.s.t2;document.getElementById('aw-t1').textContent='🏆 '+L.t1;document.getElementById('aw-t2').textContent='🏆 '+L.t2;if(document.getElementById('lf-n1')){document.getElementById('lf-n1').textContent=L.t1;document.getElementById('lf-n2').textContent=L.t2;}}
+function openLQ(catEnc,idx){const cat=decodeURIComponent(catEnc);const q=L.board[cat][idx];if(q.used)return;L.curQ={cat,idx,q};L.awarded=false;L.ansRevealed=false;document.getElementById('lm-cat').textContent=(CATS[cat]||'')+' '+cat;document.getElementById('lm-pts').textContent=q.pts+' pts';document.getElementById('lm-q').textContent=q.q;document.getElementById('lm-opts').innerHTML=q.opts.map((o,i)=>`<div class="lopt" id="lo${i}"><span class="lo">${'ABCD'[i]}</span>${o}</div>`).join('');document.getElementById('show-ans-btn').style.display='block';document.getElementById('award-sec').style.display='none';document.getElementById('aw-badge').style.display='none';document.getElementById('lm-next').style.display='none';updLHdr();clearInterval(L.timer);L.secs=0;document.getElementById('lt-num').textContent='0:00';document.getElementById('lt-fg').style.width='0%';document.getElementById('lt-fg').className='ltfg';L.timer=setInterval(()=>{L.secs++;const m=Math.floor(L.secs/60),s=L.secs%60;document.getElementById('lt-num').textContent=m+':'+(s<10?'0':'')+s;const pct=Math.min((L.secs/120)*100,100);document.getElementById('lt-fg').style.width=pct+'%';document.getElementById('lt-fg').className='ltfg'+(pct>=100?' full':pct>=60?' mid':'');if(L.secs>=120)clearInterval(L.timer);},1000);document.getElementById('lmodal').classList.add('on');}
+function revealLocalAns(){const q=L.curQ.q;document.querySelectorAll('#lm-opts .lopt').forEach((btn,i)=>{if(q.opts[i]===q.a)btn.classList.add('ok');});L.ansRevealed=true;document.getElementById('show-ans-btn').style.display='none';document.getElementById('award-sec').style.display='flex';}
+function awardPts(team){if(L.awarded)return;L.awarded=true;clearInterval(L.timer);const q=L.curQ.q;const badge=document.getElementById('aw-badge');if(team==='t1'){L.s.t1+=q.pts;L.board[L.curQ.cat][L.curQ.idx].usedBy='t1';badge.className='aw-badge t1';badge.textContent='🏆 '+L.t1+' +'+q.pts+' pts!';}else if(team==='t2'){L.s.t2+=q.pts;L.board[L.curQ.cat][L.curQ.idx].usedBy='t2';badge.className='aw-badge t2';badge.textContent='🏆 '+L.t2+' +'+q.pts+' pts!';}else{L.board[L.curQ.cat][L.curQ.idx].usedBy='none';badge.className='aw-badge none';badge.textContent='⏭️ No answer — 0 pts';}L.board[L.curQ.cat][L.curQ.idx].used=true;if(!L.ansRevealed){document.querySelectorAll('#lm-opts .lopt').forEach((b,i)=>{if(L.curQ.q.opts[i]===L.curQ.q.a)b.classList.add('ok');});}document.getElementById('award-sec').style.display='none';badge.style.display='block';document.getElementById('lm-next').style.display='block';updLHdr();updLBoard();}
+function closeLocalQ(){clearInterval(L.timer);document.getElementById('lmodal').classList.remove('on');const all=L.selCats.every(c=>L.board[c].every(q=>q.used));if(all)showLRes();}
+function showLRes(){go('sc-lres');const s1=L.s.t1,s2=L.s.t2;const w=s1>s2?L.t1:s2>s1?L.t2:'🤝 Tie!';document.getElementById('lf-win').textContent=w;document.getElementById('lf-wsc').textContent=w==='🤝 Tie!'?'Equal scores!':'Total: '+Math.max(s1,s2)+' pts';document.getElementById('lf-s1').textContent=s1;document.getElementById('lf-s2').textContent=s2;}
 function resetLocal(){L.selCats=[];L.s={t1:0,t2:0};L.board={};L.curQ=null;clearInterval(L.timer);L.awarded=false;L.ansRevealed=false;}
 
-// ══════════════════════════════════════════
-// GO FAST MODE — Multiplayer via Firebase
-// Each player joins with code, plays 60s simultaneously
-// ══════════════════════════════════════════
-let GF = {
-  // Shared
-  code: null,
-  isHost: false,
-  myName: null,
-  myId: null,        // unique player ID
-  selCats: [],
-  qs: [],            // question pool (same for all, stored in Firebase)
-  subs: [],
-  // Per-player game state
-  qi: 0,
-  score: 0,
-  answered: 0,
-  timer: null,
-  timeLeft: 60,
-  done: false
-};
+// ── GO FAST ──
+let GF={code:null,isHost:false,myName:null,myId:null,selCats:[],qs:[],subs:[],qi:0,score:0,answered:0,timer:null,timeLeft:60,done:false};
+function updGFCatInfo(){const n=GF.selCats.length,el=document.getElementById('gf-cinfo'),btn=document.getElementById('gf-create-btn');if(n===2){el.className='cinfo ok';el.textContent='✅ 2 categories selected!';btn.disabled=false;}else{el.className='cinfo bad';el.textContent='Select exactly 2 ('+n+'/2)';btn.disabled=true;}}
+async function createGFRoom(){if(!window._fbReady){toast('Firebase not ready!');return;}const name=document.getElementById('gf-host-name').value.trim();if(!name){toast('Enter your name!');return;}if(GF.selCats.length!==2){toast('Select exactly 2!');return;}const pool=rnd(QB.filter(q=>GF.selCats.includes(q.c)));GF.qs=pool.map(q=>({...q,opts:mkOpts(q)}));const code=genCode();GF.code=code;GF.isHost=true;GF.myName=name;GF.myId='p_'+Date.now()+'_'+Math.random().toString(36).slice(2,6);await window._set(window._ref(window._db,'gfrooms/'+code),{status:'waiting',cats:GF.selCats,qs:GF.qs,host:name,hostId:GF.myId,players:{},created:Date.now()});await window._set(window._ref(window._db,'gfrooms/'+code+'/players/'+GF.myId),{name,score:0,answered:0,done:false,joined:Date.now()});showGFLobby();listenGFRoom();}
+async function joinGFRoom(){if(!window._fbReady){toast('Firebase not ready!');return;}const name=document.getElementById('gfj-name').value.trim();const code=document.getElementById('gfj-code').value.trim().toUpperCase();if(!name){toast('Enter your name!');return;}if(!code){toast('Enter room code!');return;}const snap=await window._get(window._ref(window._db,'gfrooms/'+code));if(!snap.exists()){toast('Room not found!');return;}const d=snap.val();if(d.status==='playing'){toast('Game already started!');return;}if(d.status==='finished'){toast('Game is over!');return;}GF.code=code;GF.isHost=false;GF.myName=name;GF.qs=d.qs;GF.selCats=d.cats;GF.myId='p_'+Date.now()+'_'+Math.random().toString(36).slice(2,6);await window._set(window._ref(window._db,'gfrooms/'+code+'/players/'+GF.myId),{name,score:0,answered:0,done:false,joined:Date.now()});go('sc-gf-waiting');document.getElementById('gf-joined-name').textContent='✅ '+name+' — Ready!';listenGFRoom();}
+function showGFLobby(){go('sc-gf-lobby');document.getElementById('gf-code-display').textContent=GF.code;}
+function listenGFRoom(){const r=window._ref(window._db,'gfrooms/'+GF.code);const u=window._onValue(r,snap=>{if(!snap.exists())return;const d=snap.val();const players=d.players||{};const pList=Object.values(players);document.getElementById('gf-pcount').textContent=pList.length;document.getElementById('gf-pcount2').textContent=pList.length;const el=document.getElementById('gf-plist');if(el){el.innerHTML=pList.map(p=>`<div class="gf-pslot joined"><div class="pdot"></div><div>${p.name}</div></div>`).join('');}if(d.status==='playing'&&!GF.done){GF.qs=d.qs;startGFGameForMe();}if(d.status==='finished'){showGFResultsScreen(players);}if(d.status==='waiting'&&GF.done){GF.done=false;GF.qi=0;GF.score=0;GF.answered=0;go('sc-gf-waiting');document.getElementById('gf-joined-name').textContent='✅ '+GF.myName+' — Ready!';}});GF.subs.push(u);}
+async function startGFGame(){if(!GF.isHost){return;}await window._update(window._ref(window._db,'gfrooms/'+GF.code),{status:'playing'});}
+function startGFGameForMe(){GF.qi=0;GF.score=0;GF.answered=0;GF.done=false;GF.timeLeft=60;const cd=document.getElementById('gf-countdown');const cdNum=document.getElementById('gf-cd-num');const cdName=document.getElementById('gf-cd-name');cdName.textContent=GF.myName;cd.classList.add('on');let c=3;cdNum.textContent=c;const t=setInterval(()=>{c--;if(c<=0){clearInterval(t);cd.classList.remove('on');launchGFGame();}else{cdNum.textContent=c;}},1000);}
+function launchGFGame(){go('sc-gf-game');document.getElementById('gf-my-name-badge').textContent='⚡ '+GF.myName;document.getElementById('gf-live-score').textContent='0';document.getElementById('gf-qnum').textContent='1';renderGFQuestion();startGFTimer();}
+function startGFTimer(){clearInterval(GF.timer);const upd=()=>{const pct=(GF.timeLeft/60)*100;document.getElementById('gf-tfill').style.width=pct+'%';document.getElementById('gf-tfill').className='gf-tfill'+(pct<=30?' warn':'');document.getElementById('gf-tsec').textContent=GF.timeLeft+'s';};upd();GF.timer=setInterval(()=>{GF.timeLeft--;upd();if(GF.timeLeft<=0){clearInterval(GF.timer);endGFGame();}},1000);}
+function renderGFQuestion(){const q=GF.qs[GF.qi%GF.qs.length];document.getElementById('gf-qcat').textContent=(CATS[q.c]||'')+' '+q.c;document.getElementById('gf-qtxt').textContent=q.q;document.getElementById('gf-qnum').textContent=GF.qi+1;document.getElementById('gf-qopts').innerHTML=q.opts.map((o,i)=>`<button class="mopt" onclick="gfAnswer(this,'${encodeURIComponent(o)}','${encodeURIComponent(q.a)}')"><span class="ol">${'ABCD'[i]}</span>${o}</button>`).join('');}
+function gfAnswer(btn,oEnc,aEnc){const o=decodeURIComponent(oEnc),a=decodeURIComponent(aEnc);const correct=o===a;document.querySelectorAll('#gf-qopts .mopt').forEach(b=>b.disabled=true);const q=GF.qs[GF.qi%GF.qs.length];document.querySelectorAll('#gf-qopts .mopt').forEach((b,i)=>{if(q.opts[i]===a)b.classList.add('ok');else if(b===btn&&!correct)b.classList.add('bad');});GF.answered++;if(correct)GF.score++;document.getElementById('gf-live-score').textContent=GF.score;const fl=document.getElementById('gf-flash-ovl');const fi=document.getElementById('gf-flash-inner');fi.textContent=correct?'✅ +1':'❌';fi.style.color=correct?'var(--c3)':'var(--c2)';fl.classList.add('on');setTimeout(()=>{fl.classList.remove('on');GF.qi++;renderGFQuestion();},280);}
+async function endGFGame(){clearInterval(GF.timer);GF.done=true;if(GF.myId&&GF.code){await window._update(window._ref(window._db,'gfrooms/'+GF.code+'/players/'+GF.myId),{score:GF.score,answered:GF.answered,done:true});if(GF.isHost){setTimeout(async()=>await checkAllGFDone(),2000);}}document.getElementById('gf-waiting-res').classList.add('on');document.getElementById('gf-wait-score').textContent=GF.score;document.getElementById('sc-gf-game').style.display='none';}
+async function checkAllGFDone(){const snap=await window._get(window._ref(window._db,'gfrooms/'+GF.code+'/players'));if(!snap.exists())return;const players=snap.val();const allDone=Object.values(players).every(p=>p.done);if(allDone){await window._update(window._ref(window._db,'gfrooms/'+GF.code),{status:'finished'});}else{setTimeout(async()=>await checkAllGFDone(),3000);}}
+function showGFResultsScreen(players){document.getElementById('gf-waiting-res').classList.remove('on');go('sc-gf-results');const sorted=Object.values(players).sort((a,b)=>b.score-a.score||(a.answered-b.answered));const medals=['🥇','🥈','🥉'];const rankCls=['r1','r2','r3'];document.getElementById('gf-podium').innerHTML=sorted.map((p,i)=>`<div class="gf-place ${rankCls[i]||''}"><div class="gf-medal">${medals[i]||'🎖️'}</div><div class="gf-pname">${p.name}${p.name===GF.myName?' 👈':''}</div><div class="gf-pscore"><span>${p.score}</span>${p.answered} answered</div></div>`).join('');document.getElementById('gf-play-again-btn').style.display=GF.isHost?'block':'none';}
+async function playAgainGF(){if(!GF.isHost)return;const snap=await window._get(window._ref(window._db,'gfrooms/'+GF.code+'/players'));if(!snap.exists())return;const players=snap.val();const updates={};Object.keys(players).forEach(id=>{updates['players/'+id+'/score']=0;updates['players/'+id+'/answered']=0;updates['players/'+id+'/done']=false;});updates.status='waiting';const pool=rnd(QB.filter(q=>GF.selCats.includes(q.c)));GF.qs=pool.map(q=>({...q,opts:mkOpts(q)}));updates.qs=GF.qs;await window._update(window._ref(window._db,'gfrooms/'+GF.code),updates);go('sc-gf-lobby');showGFLobby();}
+function leaveGFRoom(){GF.subs.forEach(u=>u&&u());GF.subs=[];if(GF.code&&GF.myId){window._remove(window._ref(window._db,'gfrooms/'+GF.code+'/players/'+GF.myId)).catch(()=>{});}clearInterval(GF.timer);go('sc-land');resetGF();}
+function resetGF(){GF.subs.forEach(u=>u&&u());GF.subs=[];clearInterval(GF.timer);GF.code=null;GF.isHost=false;GF.myName=null;GF.myId=null;GF.selCats=[];GF.qs=[];GF.qi=0;GF.score=0;GF.answered=0;GF.done=false;GF.timeLeft=60;mkCatGrid('gf-cats',GF.selCats,'sc4',2,updGFCatInfo);updGFCatInfo();}
 
-function updGFCatInfo(){
-  const n=GF.selCats.length,el=document.getElementById('gf-cinfo'),btn=document.getElementById('gf-create-btn');
-  if(n===2){el.className='cinfo ok';el.textContent='✅ 2 categories selected!';btn.disabled=false;}
-  else{el.className='cinfo bad';el.textContent='Select exactly 2 ('+n+'/2)';btn.disabled=true;}
-}
-
-async function createGFRoom(){
-  if(!window._fbReady){toast('Firebase not ready!');return;}
-  const name=document.getElementById('gf-host-name').value.trim();
-  if(!name){toast('Enter your name!');return;}
-  if(GF.selCats.length!==2){toast('Select exactly 2 categories!');return;}
-  const pool=rnd(QB.filter(q=>GF.selCats.includes(q.c)));
-  // Prepare large pool with options pre-generated
-  GF.qs=pool.map(q=>({...q,opts:mkOpts(q)}));
-  const code=genCode();
-  GF.code=code;GF.isHost=true;GF.myName=name;
-  GF.myId='p_'+Date.now()+'_'+Math.random().toString(36).slice(2,6);
-  await window._set(window._ref(window._db,'gfrooms/'+code),{
-    status:'waiting',
-    cats:GF.selCats,
-    qs:GF.qs,
-    host:name,
-    hostId:GF.myId,
-    players:{},
-    created:Date.now()
-  });
-  // Register host as player
-  await window._set(window._ref(window._db,'gfrooms/'+code+'/players/'+GF.myId),{name,score:0,answered:0,done:false,joined:Date.now()});
-  showGFLobby();
-  listenGFRoom();
-}
-
-async function joinGFRoom(){
-  if(!window._fbReady){toast('Firebase not ready!');return;}
-  const name=document.getElementById('gfj-name').value.trim();
-  const code=document.getElementById('gfj-code').value.trim().toUpperCase();
-  if(!name){toast('Enter your name!');return;}
-  if(!code){toast('Enter room code!');return;}
-  const snap=await window._get(window._ref(window._db,'gfrooms/'+code));
-  if(!snap.exists()){toast('Room not found!');return;}
-  const d=snap.val();
-  if(d.status==='playing'){toast('Game already started!');return;}
-  if(d.status==='finished'){toast('Game is over!');return;}
-  GF.code=code;GF.isHost=false;GF.myName=name;
-  GF.qs=d.qs;GF.selCats=d.cats;
-  GF.myId='p_'+Date.now()+'_'+Math.random().toString(36).slice(2,6);
-  // Register player
-  await window._set(window._ref(window._db,'gfrooms/'+code+'/players/'+GF.myId),{name,score:0,answered:0,done:false,joined:Date.now()});
-  go('sc-gf-waiting');
-  document.getElementById('gf-joined-name').textContent='✅ '+name+' — Ready!';
-  listenGFRoom();
-}
-
-function showGFLobby(){
-  go('sc-gf-lobby');
-  document.getElementById('gf-code-display').textContent=GF.code;
-  updGFLobbyPlayers();
-}
-
-function updGFLobbyPlayers(){
-  // Will be updated by listener
-}
-
-function listenGFRoom(){
-  const r=window._ref(window._db,'gfrooms/'+GF.code);
-  const u=window._onValue(r,snap=>{
-    if(!snap.exists())return;
-    const d=snap.val();
-    const players=d.players||{};
-    const pList=Object.values(players);
-    // Update lobby UI
-    if(document.getElementById('sc-gf-lobby').classList.contains('on')||document.getElementById('gf-lobby-wait')){
-      document.getElementById('gf-pcount').textContent=pList.length;
-      document.getElementById('gf-pcount2').textContent=pList.length;
-      const el=document.getElementById('gf-plist');
-      if(el){el.innerHTML=pList.map(p=>`<div class="gf-pslot joined"><div class="pdot"></div><div>${p.name}</div></div>`).join('');}
-    }
-    // Start game for everyone when host triggers
-    if(d.status==='playing'&&!GF.done){
-      GF.qs=d.qs;
-      startGFGameForMe();
-    }
-    // Show results when all done
-    if(d.status==='finished'){
-      showGFResultsScreen(players);
-    }
-    // Play again
-    if(d.status==='waiting'&&GF.done){
-      GF.done=false;GF.qi=0;GF.score=0;GF.answered=0;
-      go('sc-gf-waiting');
-      document.getElementById('gf-joined-name').textContent='✅ '+GF.myName+' — Ready!';
-    }
-  });
-  GF.subs.push(u);
-}
-
-async function startGFGame(){
-  if(!GF.isHost){return;}
-  // Trigger game start in Firebase
-  await window._update(window._ref(window._db,'gfrooms/'+GF.code),{status:'playing'});
-}
-
-function startGFGameForMe(){
-  // Show countdown then start
-  GF.qi=0;GF.score=0;GF.answered=0;GF.done=false;
-  GF.timeLeft=60;
-  const cd=document.getElementById('gf-countdown');
-  const cdNum=document.getElementById('gf-cd-num');
-  const cdName=document.getElementById('gf-cd-name');
-  cdName.textContent=GF.myName;
-  cd.classList.add('on');
-  let c=3;cdNum.textContent=c;
-  const t=setInterval(()=>{
-    c--;
-    if(c<=0){clearInterval(t);cd.classList.remove('on');launchGFGame();}
-    else{cdNum.textContent=c;}
-  },1000);
-}
-
-function launchGFGame(){
-  go('sc-gf-game');
-  document.getElementById('gf-my-name-badge').textContent='⚡ '+GF.myName;
-  document.getElementById('gf-live-score').textContent='0';
-  document.getElementById('gf-qnum').textContent='1';
-  renderGFQuestion();
-  startGFTimer();
-}
-
-function startGFTimer(){
-  clearInterval(GF.timer);
-  const upd=()=>{
-    const pct=(GF.timeLeft/60)*100;
-    document.getElementById('gf-tfill').style.width=pct+'%';
-    document.getElementById('gf-tfill').className='gf-tfill'+(pct<=30?' warn':'');
-    document.getElementById('gf-tsec').textContent=GF.timeLeft+'s';
-  };
-  upd();
-  GF.timer=setInterval(()=>{
-    GF.timeLeft--;upd();
-    if(GF.timeLeft<=0){clearInterval(GF.timer);endGFGame();}
-  },1000);
-}
-
-function renderGFQuestion(){
-  const q=GF.qs[GF.qi%GF.qs.length];
-  document.getElementById('gf-qcat').textContent=(CATS[q.c]||'')+' '+q.c;
-  document.getElementById('gf-qtxt').textContent=q.q;
-  document.getElementById('gf-qnum').textContent=GF.qi+1;
-  document.getElementById('gf-qopts').innerHTML=q.opts.map((o,i)=>`
-    <button class="mopt" onclick="gfAnswer(this,'${encodeURIComponent(o)}','${encodeURIComponent(q.a)}')">
-      <span class="ol">${'ABCD'[i]}</span>${o}
-    </button>`).join('');
-}
-
-function gfAnswer(btn,oEnc,aEnc){
-  const o=decodeURIComponent(oEnc),a=decodeURIComponent(aEnc);
-  const correct=o===a;
-  document.querySelectorAll('#gf-qopts .mopt').forEach(b=>b.disabled=true);
-  const q=GF.qs[GF.qi%GF.qs.length];
-  document.querySelectorAll('#gf-qopts .mopt').forEach((b,i)=>{
-    if(q.opts[i]===a)b.classList.add('ok');
-    else if(b===btn&&!correct)b.classList.add('bad');
-  });
-  GF.answered++;
-  if(correct)GF.score++;
-  document.getElementById('gf-live-score').textContent=GF.score;
-  // Flash
-  const fl=document.getElementById('gf-flash-ovl');
-  const fi=document.getElementById('gf-flash-inner');
-  fi.textContent=correct?'✅ +1':'❌';
-  fi.className='gf-flash-inner'+(correct?' ok':' bad');
-  // Color
-  fi.style.color=correct?'var(--c3)':'var(--c2)';
-  fl.classList.add('on');
-  setTimeout(()=>{
-    fl.classList.remove('on');
-    GF.qi++;
-    renderGFQuestion();
-  },280);
-}
-
-async function endGFGame(){
-  clearInterval(GF.timer);GF.done=true;
-  // Save score to Firebase
-  if(GF.myId&&GF.code){
-    await window._update(window._ref(window._db,'gfrooms/'+GF.code+'/players/'+GF.myId),{score:GF.score,answered:GF.answered,done:true});
-    // Check if all players done — host checks
-    if(GF.isHost){
-      // Wait a moment then check all players
-      setTimeout(async()=>await checkAllGFDone(),2000);
-    }
-  }
-  // Show waiting screen
-  document.getElementById('gf-waiting-res').classList.add('on');
-  document.getElementById('gf-wait-score').textContent=GF.score;
-  // Hide game
-  document.getElementById('sc-gf-game').style.display='none';
-}
-
-async function checkAllGFDone(){
-  const snap=await window._get(window._ref(window._db,'gfrooms/'+GF.code+'/players'));
-  if(!snap.exists())return;
-  const players=snap.val();
-  const allDone=Object.values(players).every(p=>p.done);
-  if(allDone){
-    await window._update(window._ref(window._db,'gfrooms/'+GF.code),{status:'finished'});
-  } else {
-    // Keep checking every 3 seconds
-    setTimeout(async()=>await checkAllGFDone(),3000);
-  }
-}
-
-function showGFResultsScreen(players){
-  document.getElementById('gf-waiting-res').classList.remove('on');
-  go('sc-gf-results');
-  const sorted=Object.values(players).sort((a,b)=>b.score-a.score||(a.answered-b.answered));
-  const medals=['🥇','🥈','🥉'];
-  const rankCls=['r1','r2','r3'];
-  document.getElementById('gf-podium').innerHTML=sorted.map((p,i)=>`
-    <div class="gf-place ${rankCls[i]||''}">
-      <div class="gf-medal">${medals[i]||'🎖️'}</div>
-      <div class="gf-pname">${p.name}${p.name===GF.myName?' 👈':''}</div>
-      <div class="gf-pscore"><span>${p.score}</span>${p.answered} answered</div>
-    </div>`).join('');
-  // Show play again only for host
-  document.getElementById('gf-play-again-btn').style.display=GF.isHost?'block':'none';
-}
-
-async function playAgainGF(){
-  if(!GF.isHost)return;
-  // Reset all players and restart waiting
-  const snap=await window._get(window._ref(window._db,'gfrooms/'+GF.code+'/players'));
-  if(!snap.exists())return;
-  const players=snap.val();
-  const updates={};
-  Object.keys(players).forEach(id=>{updates['players/'+id+'/score']=0;updates['players/'+id+'/answered']=0;updates['players/'+id+'/done']=false;});
-  updates.status='waiting';
-  // New question pool
-  const pool=rnd(QB.filter(q=>GF.selCats.includes(q.c)));
-  GF.qs=pool.map(q=>({...q,opts:mkOpts(q)}));
-  updates.qs=GF.qs;
-  await window._update(window._ref(window._db,'gfrooms/'+GF.code),updates);
-  go('sc-gf-lobby');showGFLobby();
-}
-
-function leaveGFRoom(){
-  GF.subs.forEach(u=>u&&u());GF.subs=[];
-  if(GF.code&&GF.myId){window._remove(window._ref(window._db,'gfrooms/'+GF.code+'/players/'+GF.myId)).catch(()=>{});}
-  clearInterval(GF.timer);
-  go('sc-land');resetGF();
-}
-
-function resetGF(){
-  GF.subs.forEach(u=>u&&u());GF.subs=[];clearInterval(GF.timer);
-  GF.code=null;GF.isHost=false;GF.myName=null;GF.myId=null;
-  GF.selCats=[];GF.qs=[];GF.qi=0;GF.score=0;GF.answered=0;GF.done=false;GF.timeLeft=60;
-  // Rebuild cat grid
-  mkCatGrid('gf-cats',GF.selCats,'sc4',2,updGFCatInfo);updGFCatInfo();
-}
-
-// Also add "Join Go Fast Room" entry from landing
-function goToGFJoin(){go('sc-gf-join');}
-
-// ════════ INIT ════════
 document.addEventListener('DOMContentLoaded',()=>{
   mkCatGrid('cn-cats',O.selCats,'sc1',4,updOnlineCatInfo);
   mkCatGrid('lc-cats',L.selCats,'sc3',6,updLocalCatInfo);
@@ -1465,7 +937,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 });
 </script>
 
-<!-- ══ EXAM REVIEW HOME ══ -->
+<!-- EXAM HOME -->
 
 <div id="sc-exam-home" class="sc" style="gap:24px;">
   <div style="text-align:center;">
@@ -1474,13 +946,24 @@ document.addEventListener('DOMContentLoaded',()=>{
   </div>
   <div id="exam-subject-list" style="display:flex;flex-direction:column;gap:10px;width:100%;max-width:500px;"></div>
   <button class="btn btn-o" onclick="go('sc-land')" style="max-width:500px;width:100%;">← Back</button>
+  <!-- Instagram -->
+  <div style="display:flex;flex-direction:column;align-items:center;gap:7px;padding:16px 0 4px;">
+    <a href="https://www.instagram.com/dr.ibrahimdashty" target="_blank" style="display:flex;align-items:center;gap:7px;text-decoration:none;opacity:0.6;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="#6b7a99"/></svg>
+      <span style="font-family:var(--fm);font-size:0.62rem;color:var(--mt);">@dr.ibrahimdashty</span>
+    </a>
+    <a href="https://www.instagram.com/dent.list" target="_blank" style="display:flex;align-items:center;gap:7px;text-decoration:none;opacity:0.6;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="#6b7a99" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="#6b7a99"/></svg>
+      <span style="font-family:var(--fm);font-size:0.62rem;color:var(--mt);">@dent.list</span>
+    </a>
+  </div>
 </div>
 
-<!-- ══ EXAM SUBJECT ══ -->
+<!-- EXAM SUBJECT -->
 
 <div id="sc-exam-subject" class="sc" style="gap:0;justify-content:flex-start;padding:0;">
   <div style="background:var(--s1);border-bottom:1px solid var(--b1);padding:14px 18px;display:flex;align-items:center;gap:12px;width:100%;position:sticky;top:0;z-index:10;">
-    <button class="btn-o" onclick="go('sc-exam-home')" style="background:none;border:none;color:var(--mt);cursor:pointer;font-size:1.1rem;padding:4px 8px;border-radius:7px;">←</button>
+    <button onclick="go('sc-exam-home')" style="background:none;border:none;color:var(--mt);cursor:pointer;font-size:1.1rem;padding:4px 8px;border-radius:7px;">←</button>
     <div style="flex:1;"><div style="font-size:0.95rem;font-weight:700;" id="exam-subj-title">Subject</div><div style="font-family:var(--fm);font-size:0.62rem;color:var(--mt);margin-top:2px;" id="exam-subj-sub"></div></div>
   </div>
   <div style="padding:10px 18px 0;width:100%;">
@@ -1490,11 +973,11 @@ document.addEventListener('DOMContentLoaded',()=>{
   <div id="exam-chapter-list" style="flex:1;overflow-y:auto;padding:14px 18px;width:100%;"></div>
 </div>
 
-<!-- ══ EXAM CARD ══ -->
+<!-- EXAM CARD -->
 
 <div id="sc-exam-card" class="sc" style="gap:0;justify-content:flex-start;padding:0;">
   <div style="background:var(--s1);border-bottom:1px solid var(--b1);padding:12px 16px;display:flex;align-items:center;gap:10px;width:100%;position:sticky;top:0;z-index:10;">
-    <button class="btn-o" onclick="go('sc-exam-subject');examRenderSubject();" style="background:none;border:none;color:var(--mt);cursor:pointer;font-size:1.1rem;padding:4px 8px;border-radius:7px;">←</button>
+    <button onclick="go('sc-exam-subject');examRenderSubject();" style="background:none;border:none;color:var(--mt);cursor:pointer;font-size:1.1rem;padding:4px 8px;border-radius:7px;">←</button>
     <span style="font-family:var(--fm);font-size:0.65rem;color:var(--c1);background:rgba(0,240,255,0.1);border:1px solid rgba(0,240,255,0.2);padding:3px 10px;border-radius:50px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:55%;" id="exam-card-chapter">Chapter</span>
     <span style="flex:1;"></span>
     <span style="font-family:var(--fm);font-size:0.7rem;color:var(--mt);background:var(--s2);padding:4px 10px;border-radius:50px;border:1px solid var(--b1);" id="exam-card-counter">1/10</span>
@@ -1504,14 +987,12 @@ document.addEventListener('DOMContentLoaded',()=>{
       <div style="font-family:var(--fm);font-size:0.62rem;color:#f0c94d;letter-spacing:2px;text-transform:uppercase;">Question</div>
       <div style="font-size:clamp(1rem,3vw,1.15rem);font-weight:700;line-height:1.6;" id="exam-card-q">Loading...</div>
     </div>
-    <div style="display:flex;flex-direction:column;gap:10px;">
-      <button id="exam-show-btn" onclick="examShowAnswer()" style="background:rgba(240,201,77,0.1);border:1.5px solid #f0c94d;color:#f0c94d;border-radius:12px;padding:14px;font-family:var(--fh);font-size:0.9rem;font-weight:700;cursor:pointer;width:100%;transition:all 0.25s;">👁️ Show Answer</button>
-      <div id="exam-answer-box" style="background:var(--s3);border:1px solid rgba(240,201,77,0.25);border-radius:14px;padding:18px;display:none;">
-        <div style="font-family:var(--fm);font-size:0.62rem;color:#f0c94d;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;">Answer</div>
-        <div style="font-size:0.92rem;line-height:1.7;" id="exam-card-a">Loading...</div>
-      </div>
+    <button id="exam-show-btn" onclick="examShowAnswer()" style="background:rgba(240,201,77,0.1);border:1.5px solid #f0c94d;color:#f0c94d;border-radius:12px;padding:14px;font-family:var(--fh);font-size:0.9rem;font-weight:700;cursor:pointer;width:100%;">👁️ Show Answer</button>
+    <div id="exam-answer-box" style="background:var(--s3);border:1px solid rgba(240,201,77,0.25);border-radius:14px;padding:18px;display:none;">
+      <div style="font-family:var(--fm);font-size:0.62rem;color:#f0c94d;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;">Answer</div>
+      <div style="font-size:0.92rem;line-height:1.7;" id="exam-card-a">Loading...</div>
     </div>
-    <button id="exam-mark-btn" onclick="examToggleMark()" style="background:transparent;border:1px dashed var(--b2);color:var(--mt);border-radius:10px;padding:10px;font-family:var(--fh);font-size:0.8rem;cursor:pointer;width:100%;transition:all 0.2s;">☑ Mark as reviewed</button>
+    <button id="exam-mark-btn" onclick="examToggleMark()" style="background:transparent;border:1px dashed var(--b2);color:var(--mt);border-radius:10px;padding:10px;font-family:var(--fh);font-size:0.8rem;cursor:pointer;width:100%;">☑ Mark as reviewed</button>
     <div style="display:flex;gap:10px;">
       <button onclick="examPrev()" style="flex:1;background:var(--s2);color:var(--mt);border:1px solid var(--b1);border-radius:11px;padding:13px;font-family:var(--fh);font-size:0.88rem;font-weight:700;cursor:pointer;">← Prev</button>
       <button id="exam-next-btn" onclick="examNext()" style="flex:1;background:var(--c1);color:var(--bg);border:none;border-radius:11px;padding:13px;font-family:var(--fh);font-size:0.88rem;font-weight:700;cursor:pointer;">Next →</button>
@@ -1519,7 +1000,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   </div>
 </div>
 
-<!-- ══ EXAM DONE ══ -->
+<!-- EXAM DONE -->
 
 <div id="sc-exam-done" class="sc" style="gap:20px;max-width:420px;width:100%;">
   <div style="font-size:3.5rem;">🎉</div>
@@ -1528,44 +1009,34 @@ document.addEventListener('DOMContentLoaded',()=>{
     <div style="flex:1;background:var(--s2);border:1px solid var(--b1);border-radius:12px;padding:16px;text-align:center;"><div style="font-size:1.8rem;font-weight:800;color:#f0c94d;" id="exam-done-n">0</div><div style="font-family:var(--fm);font-size:0.62rem;color:var(--mt);margin-top:3px;">Reviewed</div></div>
     <div style="flex:1;background:var(--s2);border:1px solid var(--b1);border-radius:12px;padding:16px;text-align:center;"><div style="font-size:1.8rem;font-weight:800;color:var(--mt);" id="exam-done-t">0</div><div style="font-family:var(--fm);font-size:0.62rem;color:var(--mt);margin-top:3px;">Total</div></div>
   </div>
-  <button onclick="go('sc-exam-subject');examRenderSubject();" style="width:100%;max-width:420px;background:#f0c94d;color:var(--bg);border:none;border-radius:11px;padding:13px;font-family:var(--fh);font-size:0.9rem;font-weight:700;cursor:pointer;">← Back to List</button>
-  <button onclick="go('sc-exam-home');" style="width:100%;max-width:420px;background:transparent;color:var(--mt);border:1px solid var(--b1);border-radius:11px;padding:13px;font-family:var(--fh);font-size:0.9rem;font-weight:700;cursor:pointer;">🏠 Home</button>
+  <button onclick="go('sc-exam-subject');examRenderSubject();" style="width:100%;background:#f0c94d;color:var(--bg);border:none;border-radius:11px;padding:13px;font-family:var(--fh);font-size:0.9rem;font-weight:700;cursor:pointer;">← Back to List</button>
+  <button onclick="go('sc-exam-home');" style="width:100%;background:transparent;color:var(--mt);border:1px solid var(--b1);border-radius:11px;padding:13px;font-family:var(--fh);font-size:0.9rem;font-weight:700;cursor:pointer;">🏠 Home</button>
 </div>
 
 <script>
-// ══ EXAM DATA ══
-const EXAM_SUBJECTS=[{id:"dental-material",name:"Dental Material",icon:"🦷",desc:"Adhesive · Liners · Composite · GIC · Properties",chapters:[{title:"L1 — Amalgam & Dental Adhesive",color:"#3ddc84",questions:[{q:"When was amalgam first introduced in the US and by whom?",a:"By <strong>Edward Crawcour in 1833</strong>. Gained full ADA support in 1859 due to low cost and ease of handling."},{q:"What is the Minamata Convention and its effect in Kuwait?",a:"Kuwait signed it in <strong>2013</strong>; treaty went into force <strong>2017</strong>. Amalgam was <strong>banned without exceptions</strong> by law."},{q:"What are the three types of adhesion forces?",a:"<ul><li><strong>Physical</strong> — Van der Waals, dipole, H-bond (weaker)</li><li><strong>Chemical</strong> — ionic, covalent, metallic (stronger)</li><li><strong>Mechanical interlocking</strong> — most common in dentistry</li></ul>"},{q:"What are the three requirements for adhesion?",a:"<ul><li><strong>Clean surfaces</strong> — free of debris, biofilm, moisture</li><li><strong>Surface microroughness</strong> — enhances wettability</li><li><strong>Acute contact angle</strong> — high surface energy → lower surface tension → better wetting</li></ul>"},{q:"What is the primary objective of dental adhesives?",a:"<strong>Primary:</strong> Seal tooth structure, prevent marginal leakage, stop bacterial ingress, retain restorations.<br><strong>Secondary:</strong> Preserve tooth structure, reduce post-op sensitivity, reinforce tooth."},{q:"Why is dentin harder to bond to than enamel?",a:"Dentin contains ~45% mineral, ~33% collagen, ~22% water. Deep dentin is less mineralized and wet — bond strength <strong>30–40% lower</strong> than superficial dentin. Dentinal tubules vary by depth."},{q:"What is the smear layer?",a:"Discovered by <strong>JD Eick 1970</strong>. Tooth preparation debris ~0.5–7 µm. Contains hydroxyapatite, denatured collagen, bacteria. Smear plugs reduce dentin permeability by <strong>86%</strong>."},{q:"What are the dental adhesive generations?",a:"<ul><li><strong>4th:</strong> 3-step total-etch (2 bottles)</li><li><strong>5th:</strong> 2-step total-etch (1 bottle)</li><li><strong>6th:</strong> 2-step self-etch (selective etch recommended)</li><li><strong>7th:</strong> 1-step self-etch (1 bottle)</li><li><strong>8th:</strong> Universal (total/selective/self-etch)</li></ul>"},{q:"What is 10-MDP?",a:"Adhesion monomer by Kuraray. Phosphate group bonds <strong>ionically to calcium</strong> in HAp; methacrylate binds to resin. Forms stable nano-layer Ca salt. Has <strong>MMP inhibitory activity</strong> → improves bond longevity."},{q:"What is the primer and what does it do?",a:"Contains hydrophilic monomers (HEMA), solvents (alcohol/acetone), water. Enhances dentin wettability, displaces water, binds to dentin. Must be <strong>air thinned</strong>. <strong>Not light cured.</strong>"},{q:"What is the hybrid layer (3-step total etch)?",a:"Total etch creates <strong>5–8 µm demineralized zone</strong>. Primer infiltrates and traps collagen → hybrid layer (Nakabayashi). Adhesive creates resin tags. 3-step produces <strong>60–80 µm thick</strong> layer."},{q:"What is the Oxygen Inhibited Layer (OIL)?",a:"~20–40 µm free resin that cannot polymerize in presence of oxygen. Important for bonding subsequent layers. Apply <strong>0.5 mm flowable composite</strong> over adhesive to ensure full cure of thin hybrid layers."},{q:"What is microleakage and its causes?",a:"Micro-gaps at restoration-tooth interface allowing bacterial/fluid ingress. Caused by: polymerization shrinkage, thermal changes, cyclic loading, poor moisture control, contamination."},{q:"What is the C-factor?",a:"Introduced by <strong>Carl Davidson 1984</strong>. Ratio of bonded to unbonded surfaces. High C-factor → more shrinkage stress → debonding. <strong>2-bottle systems</strong> provide more uniform bond than 1-bottle."},{q:"What technical problems compromise adhesive performance?",a:"Bottle not shaken, cap left open, contamination, expired products, no selective acid etch, defective light cure, recent fluoride treatment, freshly bleached teeth, eugenol contamination, poor moisture control."}]},{title:"L2 — Dental Liners and Bases",color:"#58a6ff",questions:[{q:"What are the 5 types of pulpal irritation?",a:"<ol><li><strong>Microbial</strong> — bacteria under restorations</li><li><strong>Chemical</strong> — reactants from materials</li><li><strong>Electrical</strong> — galvanism from metals</li><li><strong>Thermal</strong> — thermal shock theory</li><li><strong>Mechanical</strong> — cavity preparation speed/bur</li></ol>"},{q:"What are the key RDT thresholds?",a:"RDT = most important pulp protection factor.<ul><li><strong>≥2 mm</strong> → little reaction</li><li><strong>1 mm</strong> → reduces toxins <strong>90%</strong></li><li><strong>0.5 mm</strong> → reduces toxins <strong>75%</strong></li><li><strong>≤0.25–0.30 mm</strong> → greatest pulpal impact</li></ul>"},{q:"Liner vs Base — what is the difference?",a:"<strong>Liner:</strong> ≤0.5 mm coating — bacterial barrier, therapeutic, electrical insulation.<br><strong>Base:</strong> Thick insulating layer in deep cavity — thermal/chemical protection + supports restoration."},{q:"Properties and types of ZOE cement?",a:"Low strength, <strong>least irritant to pulp</strong>, sedative effect on dentin, high solubility (0.4%), eugenol <strong>inhibits resin polymerization</strong>.<br>Types: I=temp cement, II=perm cement, III=temp resto/base, IV=cavity liner."},{q:"Properties of Zinc Phosphate cement?",a:"Powder: ZnO 90%+MgO 10%; Liquid: H₃PO₄ 38%+water 35%.<br>Compressive strength ~70 MPa, modulus ~13 GPa, slight shrinkage 0.04–0.06%.<br>Type I=fine (perm cement); Type II=medium (insulating base)."},{q:"Properties and classification of GIC?",a:"Low compressive/tensile/fracture strength, high opacity, long-term fluoride release.<br>Types: I=luting, II=restorative, III=liner/base, IV=sealant, V=ortho, VI=core buildup."},{q:"Properties and indications of MTA?",a:"Biocompatible, pH→12.5 (antibacterial), radiopaque, long setting time, compressive strength 67 MPa, insoluble.<br>Indications: root-end filling, apexification, internal resorption, perforation, pulp capping, pulpotomy."},{q:"MTA vs Calcium Hydroxide — what does evidence show?",a:"MTA has <strong>higher success rate</strong>: less pulpal inflammation, more hard dentine bridge formation. Evidence argues <strong>against CH as gold standard</strong> for direct pulp capping."},{q:"What is Bioceramic Putty?",a:"Biocompatible, hydrophilic, dimensionally stable (expands), insoluble, binds dentine, pH 12 (antibacterial).<br>Uses: liner/base, pulp cap, pulpotomy, perforation, resorption, obturation, root-end filling."},{q:"What is Varnish and its limitations?",a:"Natural/synthetic resin in solvent. Applied 2–5 µm thin. Used under amalgam to seal tubules and reduce microleakage.<br><strong>NOT thick enough for thermal insulation.</strong>"}]},{title:"L3 — Composite Resin",color:"#f0c94d",questions:[{q:"Composition of enamel and its key characteristics?",a:"96% hydroxyapatite, 3% water, 1% organic. Formed by ameloblasts (lost after eruption — <strong>cannot regenerate</strong>). Thickest over cusps. Basic unit = enamel prism + interprismatic enamel."},{q:"Composition of dentin?",a:"70% inorganic, 20% organic (collagen), 10% water. Tubules run DEJ→pulp (wider at pulp). Odontoblasts line pulp → secondary dentine laid down with age. Tertiary dentine = response to stimuli."},{q:"Composition of composite resin?",a:"<ul><li><strong>Resin matrix</strong> — Bis-GMA, UDMA, TEG-DMA</li><li><strong>Filler particles</strong> — determine strength and polishability</li><li><strong>Silane coupling agent</strong> — bonds filler to matrix</li><li>Photo-initiators (CQ, Lucirin TPO), stabilizers, pigments</li></ul>"},{q:"Classification of composites by filler size?",a:"<ul><li><strong>Macrofilled:</strong> Strong, poor polish</li><li><strong>Microfilled:</strong> Weaker, excellent polish</li><li><strong>Small particle hybrid (minifill/midifill):</strong> Best balance — anterior + posterior</li><li><strong>Nanofill:</strong> Most recent</li></ul>"},{q:"What is polymerization shrinkage and its consequences?",a:"1.5–5% volumetric reduction. Causes internal stress → gaps → marginal failure → post-op sensitivity. Low C-factor cavities generate least stress."},{q:"Ideal composite case selection vs contraindications?",a:"<strong>Ideal:</strong> Good hygiene, small-moderate cavities, good enamel, low caries risk.<br><strong>Contra:</strong> Poor hygiene, large cavities, deep proximal boxes, insufficient enamel, parafunction, resin allergy."},{q:"Light curing protocol for Class I and Class II?",a:"<strong>Class I</strong> ≤4mm: single occlusal cure (20s at ≥1000, 40s at 550-1000 mW/cm²).<br><strong>Class II</strong> ≤5mm: 3 curing cycles — occlusal + buccal + lingual after matrix removal (10s each)."},{q:"Minimum recommended light intensity for curing?",a:"<strong>550–1000 mW/cm²</strong>. ~50% of units in practice emit less than required. Intensity drops <strong>10% per 1mm</strong> distance from tip to surface."},{q:"Causes of post-operative sensitivity?",a:"Over-etching dentin, no incremental build-up, polymerization shrinkage warping cusps, incomplete cure, microleakage."},{q:"What is USPHS criteria?",a:"Objective evaluation of restorations: <strong>Aesthetic</strong> (lustre, staining, colour match), <strong>Functional</strong> (fracture, adaptation, wear, secondary caries), <strong>Biological</strong> (sensitivity, pulp vitality, perio response)."}]},{title:"L4 — Glass Ionomer",color:"#bc8cff",questions:[{q:"When was GIC introduced and what is its composition?",a:"<strong>Wilson & Kent, early 1970s.</strong><br>Powder: calcium-fluoro-alumino-silicate glass.<br>Liquid: polyalkenoic acids (mainly polyacrylic acid).<br>Setting = <strong>acid-base reaction.</strong>"},{q:"Advantages of GIC?",a:"Biocompatible, <strong>fluoride release</strong>, self-adhesive (ionic bond to Ca), true bulk fill (minimal shrinkage), well tolerated by pulp, tooth-colored, thermal compatibility with dentine."},{q:"Disadvantages of GIC?",a:"Tensile strength = <strong>only 40% of composite</strong>. Poor aesthetics (no translucency). Moisture sensitive during setting — protect from desiccation and excess moisture."},{q:"GIC types by classification?",a:"I=luting (crowns, bridges, ortho), II=restorative (ART), III=liners/bases, IV=sealants, V=ortho cements, VI=core buildup."},{q:"Indications for GIC?",a:"Class V, caries control, undercut block-out, dentin substitute, small core build-ups (≥50% tooth remaining), primary posterior teeth, temp endo access, ortho band cementation, ART technique."},{q:"What is RMGI and its advantages?",a:"Resin-Modified GI — reduces moisture sensitivity and dehydration cracking, increases early strength.<br>Advantages: fluoride release, potential to recharge, better esthetics, easier handling."},{q:"What is ZIRCONOMER?",a:"Zirconia Reinforced GIC by Shofu Inc. ZrO₂ powder incorporated in glass powder → <strong>enhanced durability and increased occlusal load tolerance.</strong>"}]},{title:"L5 — Material Properties",color:"#ffa657",questions:[{q:"Define stress and strain.",a:"<strong>Stress</strong> = force per unit area within material (MPa).<br><strong>Strain</strong> = change in dimension per unit original length (%).<br>Stress = F/A; Strain = ΔL/L₀"},{q:"What are the stress-strain properties?",a:"<ol><li><strong>Young's Modulus:</strong> Elastic stress/strain ratio</li><li><strong>Proportional limit:</strong> Max stress where Hooke's law applies</li><li><strong>Elastic limit:</strong> Stress above which plastic deformation occurs</li><li><strong>Yield strength:</strong> Stress at specific plastic strain</li><li><strong>Ultimate strength:</strong> Max force before fracture / area</li></ol>"},{q:"Ductility vs Malleability, Resilience vs Toughness?",a:"<strong>Ductility:</strong> Plastic deformation under tension before fracture.<br><strong>Malleability:</strong> Under compression (hammering/rolling).<br><strong>Resilience:</strong> Elastic energy absorbed and released.<br><strong>Toughness:</strong> Total energy before fracture (elastic + plastic)."},{q:"What is rheology and its 4 properties?",a:"Study of flow and deformation under stress.<ul><li><strong>Viscosity:</strong> Resistance to flow</li><li><strong>Dilatant/Pseudoplastic:</strong> Flow behavior under shear</li><li><strong>Thixotropy:</strong> Less viscous with shaking, recovers at rest</li><li><strong>Creep/Flow:</strong> Time-dependent deformation under constant stress</li></ul>"},{q:"Thermal properties of dental materials?",a:"<ul><li><strong>Thermal conductivity (k):</strong> Metals>Ceramics>Polymers</li><li><strong>Thermal diffusivity (h):</strong> Speed of temp change = k/(ρ×Cp)</li><li><strong>Coefficient of thermal expansion (α):</strong> Length change per 1K — mismatch causes microleakage</li></ul>"},{q:"Tarnish vs Corrosion?",a:"<strong>Tarnish:</strong> Surface dulling from sulfide/oxide/chloride → thin oxidized film.<br><strong>Corrosion:</strong> Chemical or electrochemical attack → partial/complete dissolution.<br>Types: Chemical (dry) vs Electrochemical (wet — galvanic)."},{q:"What is galvanic corrosion?",a:"Accelerated attack on less noble metal when <strong>dissimilar metals contact in liquid environment</strong>. Occurs immediately after restoration insertion → pain. <strong>Subsides in days</strong> as tooth recovers physiologically."},{q:"Munsell color system and VITA shade guide?",a:"3 dimensions: <strong>Hue, Value, Chroma.</strong><br>VITA hues: A=red-brown, B=red-yellow, C=gray, D=red-gray.<br>Value numerals 1(lightest)→4(darkest). Select shade in <strong>natural daylight.</strong>"},{q:"What is fluorescence in teeth?",a:"Teeth absorb near-UV (300–400nm) → emit <strong>blue-white light (400–450nm)</strong> = tooth becomes light source. Contributes to <strong>brightness and vital appearance.</strong> Restorations without fluorescent agent appear dark under UV light."},{q:"Radiopacity requirements for composites?",a:"Depends on density, thickness, atomic number. Polymers = inherently radiolucent. ADA requires composites to have <strong>radiopacity ≥ aluminum.</strong> Enamel radiopacity = 2× dentin/aluminum."}]}]}];
+const EXAM_SUBJECTS=[
+{id:"kbr-entry",name:"KBR Entry Exam",icon:"🏆",desc:"Kuwait Board R1 · 256 Questions · 2023-2025",chapters:[{title:"KBR Practice — All Years",color:"#b06eff",questions:[{q:"Click to open the full KBR exam",a:"This will open the dedicated KBR Entry Exam page with all 256 questions, year filters, and performance analytics."}]}],isExternal:true,externalUrl:"exam-kbr-entry.html"},
+{id:"dental-material-ext",name:"Dental Material",icon:"🔬",desc:"Adhesive · Liners · Composite · GIC · Properties",chapters:[{title:"Dental Material Study",color:"#58a6ff",questions:[{q:"Click to open Dental Material study mode",a:"This will open the dedicated Dental Material page."}]}],isExternal:true,externalUrl:"exam-dental-material.html"},
+{id:"dental-material",name:"Dental Material",icon:"🦷",desc:"Adhesive · Liners · Composite · GIC · Properties",chapters:[{title:"L1 — Amalgam & Dental Adhesive",color:"#3ddc84",questions:[{q:"When was amalgam first introduced in the US and by whom?",a:"By <strong>Edward Crawcour in 1833</strong>. Gained full ADA support in 1859 due to low cost and ease of handling."},{q:"What is the Minamata Convention and its effect in Kuwait?",a:"Kuwait signed it in <strong>2013</strong>; treaty went into force <strong>2017</strong>. Amalgam was <strong>banned without exceptions</strong> by law."},{q:"What are the three types of adhesion forces?",a:"<ul><li><strong>Physical</strong> — Van der Waals, dipole, H-bond</li><li><strong>Chemical</strong> — ionic, covalent, metallic</li><li><strong>Mechanical interlocking</strong> — most common in dentistry</li></ul>"},{q:"What are the three requirements for adhesion?",a:"<ul><li><strong>Clean surfaces</strong></li><li><strong>Surface microroughness</strong></li><li><strong>Acute contact angle</strong> — high surface energy → better wetting</li></ul>"},{q:"What is the primary objective of dental adhesives?",a:"<strong>Primary:</strong> Seal tooth structure, prevent marginal leakage, stop bacterial ingress.<br><strong>Secondary:</strong> Preserve tooth structure, reduce sensitivity, reinforce tooth."},{q:"Why is dentin harder to bond to than enamel?",a:"Dentin: ~45% mineral, ~33% collagen, ~22% water. Deep dentin is less mineralized and wet — bond strength <strong>30–40% lower</strong> than superficial dentin."},{q:"What is the smear layer?",a:"Tooth preparation debris ~0.5–7 µm. Contains hydroxyapatite, denatured collagen, bacteria. Smear plugs reduce dentin permeability by <strong>86%</strong>."},{q:"What are the dental adhesive generations?",a:"<ul><li><strong>4th:</strong> 3-step total-etch</li><li><strong>5th:</strong> 2-step total-etch</li><li><strong>6th:</strong> 2-step self-etch</li><li><strong>7th:</strong> 1-step self-etch</li><li><strong>8th:</strong> Universal</li></ul>"},{q:"What is 10-MDP?",a:"Adhesion monomer. Phosphate group bonds ionically to calcium in HAp. Forms stable nano-layer Ca salt. Has <strong>MMP inhibitory activity</strong> → improves bond longevity."},{q:"What is the Oxygen Inhibited Layer (OIL)?",a:"~20–40 µm free resin that cannot polymerize in presence of oxygen. Apply <strong>0.5 mm flowable composite</strong> over adhesive to ensure full cure."}]},{title:"L2 — Dental Liners and Bases",color:"#58a6ff",questions:[{q:"What are the 5 types of pulpal irritation?",a:"<ol><li>Microbial</li><li>Chemical</li><li>Electrical (galvanism)</li><li>Thermal</li><li>Mechanical</li></ol>"},{q:"What are the key RDT thresholds?",a:"<ul><li><strong>≥2 mm</strong> → little reaction</li><li><strong>1 mm</strong> → reduces toxins 90%</li><li><strong>0.5 mm</strong> → reduces toxins 75%</li><li><strong>≤0.25 mm</strong> → greatest pulpal impact</li></ul>"},{q:"Liner vs Base — what is the difference?",a:"<strong>Liner:</strong> ≤0.5 mm — bacterial barrier, therapeutic.<br><strong>Base:</strong> Thick layer — thermal/chemical protection + supports restoration."},{q:"Properties of Zinc Phosphate cement?",a:"Compressive strength ~70 MPa. Type I = fine (perm cement); Type II = medium (insulating base). Exothermic setting — mix on cool slab."},{q:"Properties and classification of GIC?",a:"Fluoride release, self-adhesive. Types: I=luting, II=restorative, III=liner/base, IV=sealant, V=ortho, VI=core buildup."},{q:"Properties and indications of MTA?",a:"Biocompatible, pH→12.5, radiopaque, long setting time.<br>Indications: root-end filling, apexification, perforation, pulp capping, pulpotomy."},{q:"What is Bioceramic Putty?",a:"Biocompatible, hydrophilic, dimensionally stable, insoluble, pH 12.<br>Uses: liner/base, pulp cap, pulpotomy, perforation, resorption, obturation."}]},{title:"L3 — Composite Resin",color:"#f0c94d",questions:[{q:"Composition of composite resin?",a:"<ul><li><strong>Resin matrix</strong> — Bis-GMA, UDMA, TEG-DMA</li><li><strong>Filler particles</strong> — determine strength and polishability</li><li><strong>Silane coupling agent</strong> — bonds filler to matrix</li></ul>"},{q:"Classification of composites by filler size?",a:"<ul><li><strong>Macrofilled:</strong> Strong, poor polish</li><li><strong>Microfilled:</strong> Weaker, excellent polish</li><li><strong>Hybrid (minifill):</strong> Best balance</li><li><strong>Nanofill:</strong> Most recent</li></ul>"},{q:"What is polymerization shrinkage and its consequences?",a:"1.5–5% volumetric reduction → internal stress → gaps → marginal failure → post-op sensitivity."},{q:"Light curing protocol for Class II?",a:"3 curing cycles — occlusal + buccal + lingual after matrix removal (10s each at ≥1000 mW/cm²)."},{q:"Causes of post-operative sensitivity?",a:"Over-etching dentin, no incremental build-up, polymerization shrinkage, incomplete cure, microleakage."}]},{title:"L4 — Glass Ionomer",color:"#bc8cff",questions:[{q:"When was GIC introduced and what is its composition?",a:"<strong>Wilson & Kent, early 1970s.</strong><br>Powder: calcium-fluoro-alumino-silicate glass.<br>Liquid: polyalkenoic acids. Setting = <strong>acid-base reaction.</strong>"},{q:"Advantages of GIC?",a:"Biocompatible, fluoride release, self-adhesive, minimal shrinkage, well tolerated by pulp."},{q:"Disadvantages of GIC?",a:"Tensile strength = <strong>only 40% of composite</strong>. Poor aesthetics. Moisture sensitive during setting."},{q:"Indications for GIC?",a:"Class V, caries control, primary teeth, ART technique, ortho band cementation, undercut block-out."}]},{title:"L5 — Material Properties",color:"#ffa657",questions:[{q:"Define stress and strain.",a:"<strong>Stress</strong> = force per unit area (MPa).<br><strong>Strain</strong> = change in dimension per unit original length (%)."},{q:"Ductility vs Malleability, Resilience vs Toughness?",a:"<strong>Ductility:</strong> Plastic deformation under tension.<br><strong>Malleability:</strong> Under compression.<br><strong>Resilience:</strong> Elastic energy absorbed and released.<br><strong>Toughness:</strong> Total energy before fracture."},{q:"Tarnish vs Corrosion?",a:"<strong>Tarnish:</strong> Surface dulling from sulfide/oxide film.<br><strong>Corrosion:</strong> Chemical/electrochemical attack → dissolution."},{q:"Munsell color system?",a:"3 dimensions: <strong>Hue, Value, Chroma.</strong><br>VITA hues: A=red-brown, B=red-yellow, C=gray, D=red-gray. Select shade in <strong>natural daylight.</strong>"}]}]}];
 
-// ══ EXAM STATE ══
 let EX={subj:null,chIdx:0,qIdx:0,reviewed:{}};
 function exKey(s,c,q){return s+'-'+c+'-'+q;}
 function exLoad(){try{EX.reviewed=JSON.parse(localStorage.getItem('ex_rev')||'{}')}catch(e){EX.reviewed={}}}
 function exSave(){localStorage.setItem('ex_rev',JSON.stringify(EX.reviewed))}
-
 function examRenderHome(){
   const el=document.getElementById('exam-subject-list');
   el.innerHTML=EXAM_SUBJECTS.map(s=>{
     const tot=s.chapters.reduce((a,c)=>a+c.questions.length,0);
     const done=s.chapters.reduce((a,c,ci)=>a+c.questions.filter((q,qi)=>EX.reviewed[exKey(s.id,ci,qi)]).length,0);
-    const sico=s.icon||s.ico||'📚';
     return`<div style="background:var(--s2);border:1px solid var(--b1);border-radius:14px;padding:18px 20px;cursor:pointer;transition:all 0.22s;display:flex;align-items:center;justify-content:space-between;gap:12px;" onclick="examSelectSubject('${s.id}')" onmouseover="this.style.borderColor='#f0c94d'" onmouseout="this.style.borderColor='var(--b1)'">
-      <div style="display:flex;align-items:center;gap:12px;">
-        <span style="font-size:1.6rem;">${sico}</span>
-        <div><div style="font-size:0.95rem;font-weight:700;margin-bottom:3px;">${s.name}</div><div style="font-family:var(--fm);font-size:0.65rem;color:var(--mt);">${s.desc} • ${done}/${tot} reviewed</div></div>
-      </div>
+      <div style="display:flex;align-items:center;gap:12px;"><span style="font-size:1.6rem;">${s.icon}</span><div><div style="font-size:0.95rem;font-weight:700;margin-bottom:3px;">${s.name}</div><div style="font-family:var(--fm);font-size:0.65rem;color:var(--mt);">${s.desc} • ${done}/${tot} reviewed</div></div></div>
       <span style="color:var(--mt);">→</span>
     </div>`;
   }).join('');
 }
-
-function examSelectSubject(id){
-  EX.subj=EXAM_SUBJECTS.find(s=>s.id===id);
-  go('sc-exam-subject');examRenderSubject();
-}
-
+function examSelectSubject(id){const s=EXAM_SUBJECTS.find(x=>x.id===id);if(s&&s.isExternal){window.location.href=s.externalUrl;return;}EX.subj=s;go('sc-exam-subject');examRenderSubject();}
 function examRenderSubject(){
-  if(!EX.subj)return;
-  const s=EX.subj;
+  if(!EX.subj)return;const s=EX.subj;
   document.getElementById('exam-subj-title').textContent=s.name;
   const tot=s.chapters.reduce((a,c)=>a+c.questions.length,0);
   const done=s.chapters.reduce((a,c,ci)=>a+c.questions.filter((q,qi)=>EX.reviewed[exKey(s.id,ci,qi)]).length,0);
@@ -1575,74 +1046,28 @@ function examRenderSubject(){
   const el=document.getElementById('exam-chapter-list');
   el.innerHTML=s.chapters.map((ch,ci)=>{
     const chDone=ch.questions.filter((q,qi)=>EX.reviewed[exKey(s.id,ci,qi)]).length;
-    const qItems=ch.questions.map((q,qi)=>{
-      const isDone=EX.reviewed[exKey(s.id,ci,qi)];
-      return`<div style="background:var(--s2);border:1px solid ${isDone?'rgba(61,220,132,0.3)':'var(--b1)'};border-radius:10px;padding:12px 14px;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:space-between;gap:10px;${isDone?'background:rgba(61,220,132,0.04);':''}" onclick="examGoCard(${ci},${qi})">
-        <span style="font-size:0.84rem;font-weight:600;flex:1;line-height:1.4;">${q.q}</span>
-        <span>${isDone?'✅':'›'}</span>
-      </div>`;
-    }).join('');
-    return`<div style="margin-bottom:20px;">
-      <div style="font-family:var(--fm);font-size:0.65rem;color:${ch.color};letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--b1);">${ch.title} (${chDone}/${ch.questions.length})</div>
-      <div style="display:flex;flex-direction:column;gap:7px;">${qItems}</div>
-    </div>`;
+    const qItems=ch.questions.map((q,qi)=>{const isDone=EX.reviewed[exKey(s.id,ci,qi)];return`<div style="background:var(--s2);border:1px solid ${isDone?'rgba(61,220,132,0.3)':'var(--b1)'};border-radius:10px;padding:12px 14px;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:space-between;gap:10px;${isDone?'background:rgba(61,220,132,0.04);':''}" onclick="examGoCard(${ci},${qi})"><span style="font-size:0.84rem;font-weight:600;flex:1;line-height:1.4;">${q.q}</span><span>${isDone?'✅':'›'}</span></div>`;}).join('');
+    return`<div style="margin-bottom:20px;"><div style="font-family:var(--fm);font-size:0.65rem;color:${ch.color};letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--b1);">${ch.title} (${chDone}/${ch.questions.length})</div><div style="display:flex;flex-direction:column;gap:7px;">${qItems}</div></div>`;
   }).join('');
 }
-
-function examGoCard(ci,qi){
-  EX.chIdx=ci;EX.qIdx=qi;
-  go('sc-exam-card');examRenderCard();
-}
-
+function examGoCard(ci,qi){EX.chIdx=ci;EX.qIdx=qi;go('sc-exam-card');examRenderCard();}
 function examRenderCard(){
-  if(!EX.subj)return;
-  const ch=EX.subj.chapters[EX.chIdx];
-  const q=ch.questions[EX.qIdx];
-  const key=exKey(EX.subj.id,EX.chIdx,EX.qIdx);
-  const isDone=!!EX.reviewed[key];
+  if(!EX.subj)return;const ch=EX.subj.chapters[EX.chIdx];const q=ch.questions[EX.qIdx];const key=exKey(EX.subj.id,EX.chIdx,EX.qIdx);const isDone=!!EX.reviewed[key];
   document.getElementById('exam-card-chapter').textContent=ch.title;
   document.getElementById('exam-card-counter').textContent=(EX.qIdx+1)+'/'+ch.questions.length;
   document.getElementById('exam-card-q').textContent=q.q;
   document.getElementById('exam-card-a').innerHTML=q.a;
   document.getElementById('exam-answer-box').style.display='none';
   document.getElementById('exam-show-btn').style.display='block';
-  const mb=document.getElementById('exam-mark-btn');
-  mb.textContent=isDone?'✅ Reviewed':'☑ Mark as reviewed';
-  mb.style.color=isDone?'var(--c3)':'var(--mt)';
-  mb.style.borderColor=isDone?'var(--c3)':'var(--b2)';
-  const nb=document.getElementById('exam-next-btn');
-  if(EX.qIdx>=ch.questions.length-1){nb.textContent='Finish ✓';nb.style.background='var(--c3)';}
-  else{nb.textContent='Next →';nb.style.background='var(--c1)';}
+  const mb=document.getElementById('exam-mark-btn');mb.textContent=isDone?'✅ Reviewed':'☑ Mark as reviewed';mb.style.color=isDone?'var(--c3)':'var(--mt)';mb.style.borderColor=isDone?'var(--c3)':'var(--b2)';
+  const nb=document.getElementById('exam-next-btn');if(EX.qIdx>=ch.questions.length-1){nb.textContent='Finish ✓';nb.style.background='var(--c3)';}else{nb.textContent='Next →';nb.style.background='var(--c1)';}
 }
-
-function examShowAnswer(){
-  document.getElementById('exam-answer-box').style.display='block';
-  document.getElementById('exam-show-btn').style.display='none';
-}
-
-function examNext(){
-  const ch=EX.subj.chapters[EX.chIdx];
-  if(EX.qIdx<ch.questions.length-1){EX.qIdx++;examRenderCard();}
-  else{
-    const done=ch.questions.filter((q,qi)=>EX.reviewed[exKey(EX.subj.id,EX.chIdx,qi)]).length;
-    document.getElementById('exam-done-n').textContent=done;
-    document.getElementById('exam-done-t').textContent=ch.questions.length;
-    go('sc-exam-done');
-  }
-}
-
+function examShowAnswer(){document.getElementById('exam-answer-box').style.display='block';document.getElementById('exam-show-btn').style.display='none';}
+function examNext(){const ch=EX.subj.chapters[EX.chIdx];if(EX.qIdx<ch.questions.length-1){EX.qIdx++;examRenderCard();}else{const done=ch.questions.filter((q,qi)=>EX.reviewed[exKey(EX.subj.id,EX.chIdx,qi)]).length;document.getElementById('exam-done-n').textContent=done;document.getElementById('exam-done-t').textContent=ch.questions.length;go('sc-exam-done');}}
 function examPrev(){if(EX.qIdx>0){EX.qIdx--;examRenderCard();}}
-
-function examToggleMark(){
-  const key=exKey(EX.subj.id,EX.chIdx,EX.qIdx);
-  EX.reviewed[key]=!EX.reviewed[key];
-  exSave();examRenderCard();
-}
-
-// Init exam
+function examToggleMark(){const key=exKey(EX.subj.id,EX.chIdx,EX.qIdx);EX.reviewed[key]=!EX.reviewed[key];exSave();examRenderCard();}
 exLoad();
 document.addEventListener('DOMContentLoaded',()=>{examRenderHome();});
-// Also call on go() to exam home
 const _origGo=go;
 window.go=function(id){_origGo(id);if(id==='sc-exam-home')examRenderHome();};
 </script>
