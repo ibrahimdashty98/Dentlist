@@ -539,14 +539,17 @@ window.handleLogin = async function() {
     showSuccess('Welcome back, ' + (cred.user.displayName || 'Doctor') + '!', 'Signed in successfully. Redirecting...');
   } catch (err) {
     resetBtn('login-btn', 'Sign In →');
+    console.error('Login error:', err.code, err.message);
     const msgs = {
       'auth/user-not-found': 'No account found with this email.',
       'auth/wrong-password': 'Incorrect password. Try again.',
       'auth/invalid-email': 'Please enter a valid email.',
-      'auth/too-many-requests': 'Too many attempts. Try again later.',
-      'auth/invalid-credential': 'Invalid email or password.'
+      'auth/too-many-requests': 'Too many attempts. Please wait a few minutes.',
+      'auth/invalid-credential': 'Email or password is incorrect. Please check and try again.',
+      'auth/network-request-failed': 'Network error. Check your internet connection.',
+      'auth/user-disabled': 'This account has been disabled.'
     };
-    showMsg(msgs[err.code] || 'Sign in failed. Please try again.', 'error');
+    showMsg(msgs[err.code] || ('Error: ' + err.code + ' — Please try again.'), 'error');
   }
 };
 
@@ -621,11 +624,17 @@ window.handleReset = async function() {
 
   try {
     await sendPasswordResetEmail(auth, email);
-    showMsg('Reset link sent! Check your email.', 'success');
+    showMsg('✅ Reset link sent! Check your inbox and spam folder.', 'success');
     resetBtn('reset-btn', 'Send Reset Link →');
   } catch (err) {
     resetBtn('reset-btn', 'Send Reset Link →');
-    showMsg('Email not found or invalid.', 'error');
+    console.error('Reset error:', err.code);
+    const msgs = {
+      'auth/user-not-found': 'No account found with this email address.',
+      'auth/invalid-email': 'Please enter a valid email address.',
+      'auth/too-many-requests': 'Too many attempts. Please wait.'
+    };
+    showMsg(msgs[err.code] || 'Could not send reset email. Try again.', 'error');
   }
 };
 
