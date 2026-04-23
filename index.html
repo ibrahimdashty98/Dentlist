@@ -696,8 +696,13 @@ document.addEventListener(‘DOMContentLoaded’,()=>{
 mkCatGrid(‘cn-cats’,O.selCats,‘sc1’,4,updOnlineCatInfo);
 mkCatGrid(‘lc-cats’,L.selCats,‘sc3’,6,updLocalCatInfo);
 mkCatGrid(‘gf-cats’,GF.selCats,‘sc4’,2,updGFCatInfo);
-examRenderHome();
 });
+// Also run immediately in case DOMContentLoaded already fired
+if(document.readyState===‘complete’||document.readyState===‘interactive’){
+mkCatGrid(‘cn-cats’,O.selCats,‘sc1’,4,updOnlineCatInfo);
+mkCatGrid(‘lc-cats’,L.selCats,‘sc3’,6,updLocalCatInfo);
+mkCatGrid(‘gf-cats’,GF.selCats,‘sc4’,2,updGFCatInfo);
+}
 </script>
 
 <!-- EXAM HOME -->
@@ -894,6 +899,12 @@ function examToggleMark(){
   exSave();examRenderCard();
 }
 exLoad();
+// Render exam home when DOM ready
+if(document.readyState==='loading'){
+  document.addEventListener('DOMContentLoaded', examRenderHome);
+} else {
+  examRenderHome();
+}
 </script>
 
 </body>
