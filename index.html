@@ -8,7 +8,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <script>
 // go() defined early so onclick handlers work immediately
-function go(id){document.querySelectorAll('.sc').forEach(s=>{s.classList.remove('on');s.style.display='';});const el=document.getElementById(id);if(!el)return;if(['sc-local','sc-gf-game'].includes(id)){el.style.display='flex';}else{el.classList.add('on');}}
+function go(id){
+  document.querySelectorAll('.sc').forEach(s=>{s.classList.remove('on');s.style.display='';});
+  const el=document.getElementById(id);if(!el)return;
+  if(['sc-local','sc-gf-game'].includes(id)){el.style.display='flex';}else{el.classList.add('on');}
+  // Rebuild cat grids when navigating to setup screens
+  if(id==='sc-create'&&typeof mkCatGrid!=='undefined'){mkCatGrid('cn-cats',O.selCats,'sc1',4,updOnlineCatInfo);}
+  if(id==='sc-local-setup'&&typeof mkCatGrid!=='undefined'){mkCatGrid('lc-cats',L.selCats,'sc3',6,updLocalCatInfo);}
+  if(id==='sc-gf-setup'&&typeof mkCatGrid!=='undefined'){mkCatGrid('gf-cats',GF.selCats,'sc4',2,updGFCatInfo);}
+}
 window.go=go;
 </script>
 <script type="module">
@@ -634,7 +642,15 @@ const QB=[
 {c:"Microbiology",q:"Autoclave: 134°C for?",a:"3 minutes",w:["30 minutes","1 hour","10 minutes"]}
 ];
 
-function go(id){document.querySelectorAll(’.sc’).forEach(s=>{s.classList.remove(‘on’);s.style.display=’’;});const el=document.getElementById(id);if(!el)return;if([‘sc-local’,‘sc-gf-game’].includes(id)){el.style.display=‘flex’;}else{el.classList.add(‘on’);}}
+function go(id){
+document.querySelectorAll(’.sc’).forEach(s=>{s.classList.remove(‘on’);s.style.display=’’;});
+const el=document.getElementById(id);if(!el)return;
+if([‘sc-local’,‘sc-gf-game’].includes(id)){el.style.display=‘flex’;}else{el.classList.add(‘on’);}
+// Rebuild cat grids when navigating to setup screens
+if(id===‘sc-create’&&typeof mkCatGrid!==‘undefined’){mkCatGrid(‘cn-cats’,O.selCats,‘sc1’,4,updOnlineCatInfo);}
+if(id===‘sc-local-setup’&&typeof mkCatGrid!==‘undefined’){mkCatGrid(‘lc-cats’,L.selCats,‘sc3’,6,updLocalCatInfo);}
+if(id===‘sc-gf-setup’&&typeof mkCatGrid!==‘undefined’){mkCatGrid(‘gf-cats’,GF.selCats,‘sc4’,2,updGFCatInfo);}
+}
 window.go=go;
 function toast(msg,d=2500){const t=document.getElementById(‘toast’);t.textContent=msg;t.classList.add(‘on’);setTimeout(()=>t.classList.remove(‘on’),d);}
 function genCode(){return Math.random().toString(36).substring(2,6).toUpperCase();}
