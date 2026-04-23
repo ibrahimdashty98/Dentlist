@@ -8,17 +8,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <script>
 // go() defined early so onclick handlers work immediately
+// Cat grids are rebuilt by a separate listener defined after all JS loads
 function go(id){
   document.querySelectorAll('.sc').forEach(s=>{s.classList.remove('on');s.style.display='';});
   const el=document.getElementById(id);if(!el)return;
   if(['sc-local','sc-gf-game'].includes(id)){el.style.display='flex';}else{el.classList.add('on');}
-  // Rebuild cat grids - use setTimeout to ensure all JS is loaded
-  setTimeout(function(){
-    if(typeof mkCatGrid==='undefined')return;
-    if(id==='sc-create'){mkCatGrid('cn-cats',typeof O!=='undefined'?O.selCats:[],'sc1',4,typeof updOnlineCatInfo!=='undefined'?updOnlineCatInfo:null);}
-    if(id==='sc-local-setup'){mkCatGrid('lc-cats',typeof L!=='undefined'?L.selCats:[],'sc3',6,typeof updLocalCatInfo!=='undefined'?updLocalCatInfo:null);}
-    if(id==='sc-gf-setup'){mkCatGrid('gf-cats',typeof GF!=='undefined'?GF.selCats:[],'sc4',2,typeof updGFCatInfo!=='undefined'?updGFCatInfo:null);}
-  },0);
+  window._lastGoId=id;
+  window.dispatchEvent(new CustomEvent('screenChange',{detail:id}));
 }
 window.go=go;
 </script>
@@ -645,16 +641,16 @@ const QB=[
 {c:"Microbiology",q:"Autoclave: 134°C for?",a:"3 minutes",w:["30 minutes","1 hour","10 minutes"]}
 ];
 
-function go(id){
+// go is defined in head - patch it here with cat grid support
+window.go=function(id){
 document.querySelectorAll(’.sc’).forEach(s=>{s.classList.remove(‘on’);s.style.display=’’;});
 const el=document.getElementById(id);if(!el)return;
 if([‘sc-local’,‘sc-gf-game’].includes(id)){el.style.display=‘flex’;}else{el.classList.add(‘on’);}
-// Rebuild cat grids when navigating to setup screens
-if(id===‘sc-create’&&typeof mkCatGrid!==‘undefined’){mkCatGrid(‘cn-cats’,O.selCats,‘sc1’,4,updOnlineCatInfo);}
-if(id===‘sc-local-setup’&&typeof mkCatGrid!==‘undefined’){mkCatGrid(‘lc-cats’,L.selCats,‘sc3’,6,updLocalCatInfo);}
-if(id===‘sc-gf-setup’&&typeof mkCatGrid!==‘undefined’){mkCatGrid(‘gf-cats’,GF.selCats,‘sc4’,2,updGFCatInfo);}
-}
-window.go=go;
+if(id===‘sc-create’){mkCatGrid(‘cn-cats’,O.selCats,‘sc1’,4,updOnlineCatInfo);}
+if(id===‘sc-local-setup’){mkCatGrid(‘lc-cats’,L.selCats,‘sc3’,6,updLocalCatInfo);}
+if(id===‘sc-gf-setup’){mkCatGrid(‘gf-cats’,GF.selCats,‘sc4’,2,updGFCatInfo);}
+};
+go=window.go;
 function toast(msg,d=2500){const t=document.getElementById(‘toast’);t.textContent=msg;t.classList.add(‘on’);setTimeout(()=>t.classList.remove(‘on’),d);}
 function genCode(){return Math.random().toString(36).substring(2,6).toUpperCase();}
 function rnd(arr){const a=[…arr];for(let i=a.length-1;i>0;i–){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
@@ -711,17 +707,7 @@ async function playAgainGF(){if(!GF.isHost)return;const snap=await window._get(w
 function leaveGFRoom(){GF.subs.forEach(u=>u&&u());GF.subs=[];if(GF.code&&GF.myId)window._remove(window._ref(window._db,‘gfrooms/’+GF.code+’/players/’+GF.myId)).catch(()=>{});clearInterval(GF.timer);go(‘sc-land’);resetGF();}
 function resetGF(){GF.subs.forEach(u=>u&&u());GF.subs=[];clearInterval(GF.timer);GF.code=null;GF.isHost=false;GF.myName=null;GF.myId=null;GF.selCats=[];GF.qs=[];GF.qi=0;GF.score=0;GF.answered=0;GF.done=false;GF.timeLeft=60;mkCatGrid(‘gf-cats’,GF.selCats,‘sc4’,2,updGFCatInfo);updGFCatInfo();}
 
-document.addEventListener(‘DOMContentLoaded’,()=>{
-mkCatGrid(‘cn-cats’,O.selCats,‘sc1’,4,updOnlineCatInfo);
-mkCatGrid(‘lc-cats’,L.selCats,‘sc3’,6,updLocalCatInfo);
-mkCatGrid(‘gf-cats’,GF.selCats,‘sc4’,2,updGFCatInfo);
-});
-// Also run immediately in case DOMContentLoaded already fired
-if(document.readyState===‘complete’||document.readyState===‘interactive’){
-mkCatGrid(‘cn-cats’,O.selCats,‘sc1’,4,updOnlineCatInfo);
-mkCatGrid(‘lc-cats’,L.selCats,‘sc3’,6,updLocalCatInfo);
-mkCatGrid(‘gf-cats’,GF.selCats,‘sc4’,2,updGFCatInfo);
-}
+// Cat grids are rebuilt by go() on each navigation - no need for init here
 </script>
 
 <!-- EXAM HOME -->
