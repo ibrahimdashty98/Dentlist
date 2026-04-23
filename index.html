@@ -281,7 +281,7 @@ select option{background:var(--s2);}
 </style>
 </head>
 <body>
-
+ 
 <!-- USER BAR -->
 <div id="user-bar">
   <div class="ub-logo">Dent.list</div>
@@ -291,7 +291,7 @@ select option{background:var(--s2);}
     <button id="btn-logout" onclick="doLogout()">⎋ Logout</button>
   </div>
 </div>
-
+ 
 <!-- LANDING -->
 <div id="sc-land" class="sc on">
   <div style="text-align:center;margin-bottom:4px;">
@@ -338,7 +338,7 @@ select option{background:var(--s2);}
     </a>
   </div>
 </div>
-
+ 
 <!-- ONLINE CREATE -->
 <div id="sc-create" class="sc">
   <div class="fw">
@@ -362,7 +362,7 @@ select option{background:var(--s2);}
     <div class="ig-bar"><a class="ig-link" href="https://www.instagram.com/dr.ibrahimdashty" target="_blank"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>@dr.ibrahimdashty</a><a class="ig-link" href="https://www.instagram.com/dent.list" target="_blank"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>@dent.list</a></div>
   </div>
 </div>
-
+ 
 <!-- JOIN -->
 <div id="sc-join" class="sc">
   <div class="fw">
@@ -376,7 +376,7 @@ select option{background:var(--s2);}
     <div class="ig-bar"><a class="ig-link" href="https://www.instagram.com/dr.ibrahimdashty" target="_blank"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>@dr.ibrahimdashty</a><a class="ig-link" href="https://www.instagram.com/dent.list" target="_blank"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>@dent.list</a></div>
   </div>
 </div>
-
+ 
 <!-- LOBBY -->
 <div id="sc-lobby" class="sc">
   <div class="fw">
@@ -633,13 +633,13 @@ const QB=[
 {c:"Microbiology",q:"Primary periodontitis pathogen?",a:"Porphyromonas gingivalis",w:["S. mutans","Actinomyces","T. denticola"]},
 {c:"Microbiology",q:"Autoclave: 134°C for?",a:"3 minutes",w:["30 minutes","1 hour","10 minutes"]}
 ];
-
+ 
 function toast(msg,d=2500){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),d);}
 function genCode(){return Math.random().toString(36).substring(2,6).toUpperCase();}
 function rnd(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
 function mkOpts(q){return rnd([q.a,...(q.w||[]).slice(0,3)]);}
 function mkCatGrid(elId,sel,cls,max,cb){const el=document.getElementById(elId);if(!el)return;el.innerHTML='';Object.entries(CATS).forEach(([n,i])=>{const c=document.createElement('div');c.className='chip'+(sel.includes(n)?' '+cls:'');c.textContent=i+' '+n;c.onclick=()=>{const idx=sel.indexOf(n);if(idx>-1){sel.splice(idx,1);c.className='chip';}else{if(sel.length>=max){toast('Max '+max+' categories!');return;}sel.push(n);c.className='chip '+cls;}if(cb)cb();};el.appendChild(c);});}
-
+ 
 let O={isHost:false,code:null,role:null,name:null,timerSecs:10,qCount:12,selCats:[],qs:[],qi:0,scores:{host:0,guest:0},timer:null,tLeft:0,myDone:false,oppDone:false,hName:'',gName:'',subs:[]};
 function updOnlineCatInfo(){const n=O.selCats.length,el=document.getElementById('cn-cinfo'),btn=document.getElementById('cn-btn');if(n===4){el.className='cinfo ok';el.textContent='✅ 4 categories selected!';btn.disabled=false;}else{el.className='cinfo bad';el.textContent='Select exactly 4 ('+n+'/4)';btn.disabled=true;}}
 function selQ(el){document.querySelectorAll('.qb').forEach(e=>e.classList.remove('on'));el.classList.add('on');O.qCount=parseInt(el.dataset.v);document.getElementById('cn-tinfo').textContent='10s per question × '+O.qCount;}
@@ -658,7 +658,7 @@ async function evalRound(){const snap=await window._get(window._ref(window._db,'
 function showResultOverlay(correct,ans,my,opp){document.getElementById('r-emj').textContent=correct?'✅':'❌';document.getElementById('r-vrd').textContent=correct?'Correct! 🎉':'Wrong!';document.getElementById('r-vrd').className='rvrd '+(correct?'ok':'bad');document.getElementById('r-ans').textContent=' '+ans;document.getElementById('r-ms').textContent=my;document.getElementById('r-os').textContent=opp;document.getElementById('rovl').classList.add('on');let c=3;const nx=document.getElementById('r-nxt');const t=setInterval(()=>{c--;nx.textContent='Next in '+c+'...';if(c<=0){clearInterval(t);document.getElementById('rovl').classList.remove('on');}},1000);}
 function showOnlineEnd(d){clearInterval(O.timer);document.getElementById('rovl').classList.remove('on');go('sc-results');const hs=d.scores?.host||0,gs=d.scores?.guest||0;const w=hs>gs?d.host:gs>hs?(d.guest||'Guest'):'🤝 Tie!';document.getElementById('f-win').textContent=w;document.getElementById('f-wsc').textContent=w==='🤝 Tie!'?'Equal scores!':'Score: '+Math.max(hs,gs);document.getElementById('f-n1').textContent=d.host;document.getElementById('f-n2').textContent=d.guest||'Guest';document.getElementById('f-s1').textContent=hs;document.getElementById('f-s2').textContent=gs;}
 function resetOnline(){O.subs.forEach(u=>u&&u());O.subs=[];clearInterval(O.timer);O.code=null;O.isHost=false;O.role=null;O.qi=0;O.scores={host:0,guest:0};O.myDone=false;O.oppDone=false;O.selCats=[];}
-
+ 
 let L={t1:'',t2:'',s:{t1:0,t2:0},selCats:[],board:{},curQ:null,timer:null,secs:0,awarded:false,ansRevealed:false};
 function updLocalCatInfo(){const n=L.selCats.length,el=document.getElementById('lc-cinfo'),btn=document.getElementById('lc-btn');if(n===6){el.className='cinfo ok';el.textContent='✅ 6 categories selected!';btn.disabled=false;}else{el.className='cinfo bad';el.textContent='Select exactly 6 ('+n+'/6)';btn.disabled=true;}}
 function startLocal(){L.t1=document.getElementById('lt1').value.trim()||'Team 1';L.t2=document.getElementById('lt2').value.trim()||'Team 2';if(L.selCats.length!==6){toast('Select exactly 6!');return;}L.s={t1:0,t2:0};L.board={};L.selCats.forEach(cat=>{const pool=rnd(QB.filter(q=>q.c===cat));L.board[cat]=pool.slice(0,4).map((q,i)=>({...q,opts:mkOpts(q),used:false,usedBy:null,pts:10*(i+1)}));});go('sc-local');updLBoard();updLHdr();}
@@ -670,7 +670,7 @@ function awardPts(team){if(L.awarded)return;L.awarded=true;clearInterval(L.timer
 function closeLocalQ(){clearInterval(L.timer);document.getElementById('lmodal').classList.remove('on');const all=L.selCats.every(c=>L.board[c].every(q=>q.used));if(all)showLRes();}
 function showLRes(){go('sc-lres');const s1=L.s.t1,s2=L.s.t2;const w=s1>s2?L.t1:s2>s1?L.t2:'🤝 Tie!';document.getElementById('lf-win').textContent=w;document.getElementById('lf-wsc').textContent=w==='🤝 Tie!'?'Equal scores!':'Total: '+Math.max(s1,s2)+' pts';document.getElementById('lf-s1').textContent=s1;document.getElementById('lf-s2').textContent=s2;}
 function resetLocal(){L.selCats=[];L.s={t1:0,t2:0};L.board={};L.curQ=null;clearInterval(L.timer);L.awarded=false;L.ansRevealed=false;}
-
+ 
 let GF={code:null,isHost:false,myName:null,myId:null,selCats:[],qs:[],subs:[],qi:0,score:0,answered:0,timer:null,timeLeft:60,done:false};
 function updGFCatInfo(){const n=GF.selCats.length,el=document.getElementById('gf-cinfo'),btn=document.getElementById('gf-create-btn');if(n===2){el.className='cinfo ok';el.textContent='✅ 2 categories selected!';btn.disabled=false;}else{el.className='cinfo bad';el.textContent='Select exactly 2 ('+n+'/2)';btn.disabled=true;}}
 async function createGFRoom(){if(!window._fbReady){toast('Firebase not ready!');return;}const name=document.getElementById('gf-host-name').value.trim();if(!name){toast('Enter your name!');return;}if(GF.selCats.length!==2){toast('Select exactly 2!');return;}const pool=rnd(QB.filter(q=>GF.selCats.includes(q.c)));GF.qs=pool.map(q=>({...q,opts:mkOpts(q)}));const code=genCode();GF.code=code;GF.isHost=true;GF.myName=name;GF.myId='p_'+Date.now()+'_'+Math.random().toString(36).slice(2,6);await window._set(window._ref(window._db,'gfrooms/'+code),{status:'waiting',cats:GF.selCats,qs:GF.qs,host:name,hostId:GF.myId,players:{},created:Date.now()});await window._set(window._ref(window._db,'gfrooms/'+code+'/players/'+GF.myId),{name,score:0,answered:0,done:false,joined:Date.now()});showGFLobby();listenGFRoom();}
@@ -689,10 +689,10 @@ function showGFResultsScreen(players){document.getElementById('gf-waiting-res').
 async function playAgainGF(){if(!GF.isHost)return;const snap=await window._get(window._ref(window._db,'gfrooms/'+GF.code+'/players'));if(!snap.exists())return;const players=snap.val();const updates={};Object.keys(players).forEach(id=>{updates['players/'+id+'/score']=0;updates['players/'+id+'/answered']=0;updates['players/'+id+'/done']=false;});updates.status='waiting';const pool=rnd(QB.filter(q=>GF.selCats.includes(q.c)));GF.qs=pool.map(q=>({...q,opts:mkOpts(q)}));updates.qs=GF.qs;await window._update(window._ref(window._db,'gfrooms/'+GF.code),updates);go('sc-gf-lobby');showGFLobby();}
 function leaveGFRoom(){GF.subs.forEach(u=>u&&u());GF.subs=[];if(GF.code&&GF.myId)window._remove(window._ref(window._db,'gfrooms/'+GF.code+'/players/'+GF.myId)).catch(()=>{});clearInterval(GF.timer);go('sc-land');resetGF();}
 function resetGF(){GF.subs.forEach(u=>u&&u());GF.subs=[];clearInterval(GF.timer);GF.code=null;GF.isHost=false;GF.myName=null;GF.myId=null;GF.selCats=[];GF.qs=[];GF.qi=0;GF.score=0;GF.answered=0;GF.done=false;GF.timeLeft=60;mkCatGrid('gf-cats',GF.selCats,'sc4',2,updGFCatInfo);updGFCatInfo();}
-
+ 
 // Cat grids are rebuilt by go() on each navigation - no need for init here
 </script>
-
+ 
 <!-- EXAM HOME -->
 <div id="sc-exam-home" class="sc" style="gap:24px;">
   <div style="text-align:center;">
@@ -703,7 +703,7 @@ function resetGF(){GF.subs.forEach(u=>u&&u());GF.subs=[];clearInterval(GF.timer)
   <button class="btn btn-o" onclick="go('sc-land')" style="max-width:500px;width:100%;">← Back</button>
   <div class="ig-bar" style="max-width:500px;"><a class="ig-link" href="https://www.instagram.com/dr.ibrahimdashty" target="_blank"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>@dr.ibrahimdashty</a><a class="ig-link" href="https://www.instagram.com/dent.list" target="_blank"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>@dent.list</a></div>
 </div>
-
+ 
 <!-- EXAM SUBJECT -->
 <div id="sc-exam-subject" class="sc" style="gap:0;justify-content:flex-start;padding:0;">
   <div style="background:var(--s1);border-bottom:1px solid var(--b1);padding:14px 18px;display:flex;align-items:center;gap:12px;width:100%;position:sticky;top:0;z-index:10;">
@@ -716,7 +716,7 @@ function resetGF(){GF.subs.forEach(u=>u&&u());GF.subs=[];clearInterval(GF.timer)
   </div>
   <div id="exam-chapter-list" style="flex:1;overflow-y:auto;padding:14px 18px;width:100%;"></div>
 </div>
-
+ 
 <!-- EXAM CARD -->
 <div id="sc-exam-card" class="sc" style="gap:0;justify-content:flex-start;padding:0;">
   <div style="background:var(--s1);border-bottom:1px solid var(--b1);padding:12px 16px;display:flex;align-items:center;gap:10px;width:100%;position:sticky;top:0;z-index:10;">
@@ -742,7 +742,7 @@ function resetGF(){GF.subs.forEach(u=>u&&u());GF.subs=[];clearInterval(GF.timer)
     </div>
   </div>
 </div>
-
+ 
 <!-- EXAM DONE -->
 <div id="sc-exam-done" class="sc" style="gap:20px;max-width:420px;width:100%;">
   <div style="font-size:3.5rem;">🎉</div>
@@ -754,7 +754,7 @@ function resetGF(){GF.subs.forEach(u=>u&&u());GF.subs=[];clearInterval(GF.timer)
   <button onclick="go('sc-exam-subject');examRenderSubject();" style="width:100%;background:#f0c94d;color:var(--bg);border:none;border-radius:11px;padding:13px;font-family:var(--fh);font-size:0.9rem;font-weight:700;cursor:pointer;">← Back to List</button>
   <button onclick="go('sc-exam-home');" style="width:100%;background:transparent;color:var(--mt);border:1px solid var(--b1);border-radius:11px;padding:13px;font-family:var(--fh);font-size:0.9rem;font-weight:700;cursor:pointer;">🏠 Home</button>
 </div>
-
+ 
 <script>
 const EXAM_SUBJECTS=[
 {id:"kbr-entry",name:"KBR Entry Exam",icon:"🏆",desc:"Kuwait Board R1 · 256 Questions · 2023–2025",isExternal:true,externalUrl:"exam-kbr-entry.html",chapters:[{title:"KBR",questions:[{q:"",a:""}]}]},
@@ -795,12 +795,12 @@ const EXAM_SUBJECTS=[
 ]}
 ]}
 ];
-
+ 
 let EX={subj:null,chIdx:0,qIdx:0,reviewed:{}};
 function exKey(s,c,q){return s+'-'+c+'-'+q;}
 function exLoad(){try{EX.reviewed=JSON.parse(localStorage.getItem('ex_rev')||'{}')}catch(e){EX.reviewed={}}}
 function exSave(){localStorage.setItem('ex_rev',JSON.stringify(EX.reviewed))}
-
+ 
 function examRenderHome(){
   const el=document.getElementById('exam-subject-list');
   if(!el)return;
@@ -815,14 +815,14 @@ function examRenderHome(){
     </div>`;
   }).join('');
 }
-
+ 
 function examSelectSubject(id){
   const s=EXAM_SUBJECTS.find(x=>x.id===id);
   if(!s)return;
   if(s.isExternal){window.location.href=s.externalUrl;return;}
   EX.subj=s;go('sc-exam-subject');examRenderSubject();
 }
-
+ 
 function examRenderSubject(){
   if(!EX.subj)return;
   const s=EX.subj;
@@ -845,7 +845,7 @@ function examRenderSubject(){
     return`<div style="margin-bottom:20px;"><div style="font-family:var(--fm);font-size:0.65rem;color:${ch.color||'#f0c94d'};letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--b1);">${ch.title} (${chDone}/${ch.questions.length})</div><div style="display:flex;flex-direction:column;gap:7px;">${qItems}</div></div>`;
   }).join('');
 }
-
+ 
 function examGoCard(ci,qi){EX.chIdx=ci;EX.qIdx=qi;go('sc-exam-card');examRenderCard();}
 function examRenderCard(){
   if(!EX.subj)return;
