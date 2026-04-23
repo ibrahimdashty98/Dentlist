@@ -7,16 +7,9 @@
 <title>Dent.list — Medical Quiz Battle</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <script>
-// go() defined early so onclick handlers work immediately
-// Cat grids are rebuilt by a separate listener defined after all JS loads
-function go(id){
-  document.querySelectorAll('.sc').forEach(s=>{s.classList.remove('on');s.style.display='';});
-  const el=document.getElementById(id);if(!el)return;
-  if(['sc-local','sc-gf-game'].includes(id)){el.style.display='flex';}else{el.classList.add('on');}
-  window._lastGoId=id;
-  window.dispatchEvent(new CustomEvent('screenChange',{detail:id}));
-}
-window.go=go;
+// go() is defined in the main script block below after CATS/QB are loaded
+// This stub ensures onclick="go(...)" doesn't throw before the page loads
+function go(id){window._pendingGo=id;}
 </script>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
@@ -641,7 +634,7 @@ const QB=[
 {c:"Microbiology",q:"Autoclave: 134°C for?",a:"3 minutes",w:["30 minutes","1 hour","10 minutes"]}
 ];
 
-// go is defined in head - patch it here with cat grid support
+// Real go() with cat grid support - overrides head stub
 window.go=function(id){
 document.querySelectorAll(’.sc’).forEach(s=>{s.classList.remove(‘on’);s.style.display=’’;});
 const el=document.getElementById(id);if(!el)return;
@@ -650,7 +643,6 @@ if(id===‘sc-create’){mkCatGrid(‘cn-cats’,O.selCats,‘sc1’,4,updOnline
 if(id===‘sc-local-setup’){mkCatGrid(‘lc-cats’,L.selCats,‘sc3’,6,updLocalCatInfo);}
 if(id===‘sc-gf-setup’){mkCatGrid(‘gf-cats’,GF.selCats,‘sc4’,2,updGFCatInfo);}
 };
-go=window.go;
 function toast(msg,d=2500){const t=document.getElementById(‘toast’);t.textContent=msg;t.classList.add(‘on’);setTimeout(()=>t.classList.remove(‘on’),d);}
 function genCode(){return Math.random().toString(36).substring(2,6).toUpperCase();}
 function rnd(arr){const a=[…arr];for(let i=a.length-1;i>0;i–){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
