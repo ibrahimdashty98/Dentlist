@@ -12,10 +12,13 @@ function go(id){
   document.querySelectorAll('.sc').forEach(s=>{s.classList.remove('on');s.style.display='';});
   const el=document.getElementById(id);if(!el)return;
   if(['sc-local','sc-gf-game'].includes(id)){el.style.display='flex';}else{el.classList.add('on');}
-  // Rebuild cat grids when navigating to setup screens
-  if(id==='sc-create'&&typeof mkCatGrid!=='undefined'){mkCatGrid('cn-cats',O.selCats,'sc1',4,updOnlineCatInfo);}
-  if(id==='sc-local-setup'&&typeof mkCatGrid!=='undefined'){mkCatGrid('lc-cats',L.selCats,'sc3',6,updLocalCatInfo);}
-  if(id==='sc-gf-setup'&&typeof mkCatGrid!=='undefined'){mkCatGrid('gf-cats',GF.selCats,'sc4',2,updGFCatInfo);}
+  // Rebuild cat grids - use setTimeout to ensure all JS is loaded
+  setTimeout(function(){
+    if(typeof mkCatGrid==='undefined')return;
+    if(id==='sc-create'){mkCatGrid('cn-cats',typeof O!=='undefined'?O.selCats:[],'sc1',4,typeof updOnlineCatInfo!=='undefined'?updOnlineCatInfo:null);}
+    if(id==='sc-local-setup'){mkCatGrid('lc-cats',typeof L!=='undefined'?L.selCats:[],'sc3',6,typeof updLocalCatInfo!=='undefined'?updLocalCatInfo:null);}
+    if(id==='sc-gf-setup'){mkCatGrid('gf-cats',typeof GF!=='undefined'?GF.selCats:[],'sc4',2,typeof updGFCatInfo!=='undefined'?updGFCatInfo:null);}
+  },0);
 }
 window.go=go;
 </script>
