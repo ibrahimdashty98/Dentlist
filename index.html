@@ -199,6 +199,8 @@ font-family:var(–fm);user-select:none;}
 .chip.s1{background:rgba(0,240,255,.08);border-color:var(–c1);color:var(–c1);}
 .chip.s3{background:rgba(170,255,0,.08);border-color:var(–c3);color:var(–c3);}
 .chip.s4{background:rgba(255,170,0,.08);border-color:var(–c4);color:var(–c4);}
+.chip-med{background:rgba(255,149,0,.05);border:1px solid rgba(255,149,0,.25);border-radius:50px;padding:6px 12px;font-size:.68rem;cursor:pointer;transition:all .18s;font-family:var(–fm);user-select:none;color:#ff9500;}
+.chip-med-on{background:rgba(255,149,0,.15);border:1.5px solid #ff9500;border-radius:50px;padding:6px 12px;font-size:.68rem;cursor:pointer;transition:all .18s;font-family:var(–fm);user-select:none;color:#ff9500;font-weight:700;}
 .ci{font-family:var(–fm);font-size:.65rem;text-align:center;
 padding:6px 12px;border-radius:8px;margin-top:2px;}
 .cok{color:var(–c3);background:rgba(170,255,0,.05);border:1px solid rgba(170,255,0,.18);}
@@ -502,7 +504,7 @@ z-index:9999;opacity:0;transition:opacity .3s;white-space:nowrap;pointer-events:
 <div id="sc-land" class="sc on" style="padding:14px 14px 80px;justify-content:flex-start;align-items:center;gap:14px;">
   <div class="hero">
     <div class="hero-badge"><span class="live-dot"></span>Live · 847 players online</div>
-    <div class="hero-title">Quiz. Battle.<br><span class="gr">Level Up.</span></div>
+    <div class="hero-title">Dent<span class="gr">.</span>list</div>
     <div class="hero-sub">The #1 platform for dentists &amp; doctors<br>to learn, compete &amp; grow together.</div>
     <div class="hero-stats">
       <div class="hstat"><div class="n">700+</div><div class="l">Questions</div></div>
@@ -526,11 +528,11 @@ z-index:9999;opacity:0;transition:opacity .3s;white-space:nowrap;pointer-events:
 
 ```
 <div class="lc lc-online" onclick="go('sc-create')"><div class="ico">🌐</div><h3>Online Battle</h3><p>Real-time 1v1</p></div>
-<div class="lc lc-local" onclick="go('sc-local-setup')"><div class="ico">🎮</div><h3>Local Battle</h3><p>Jeopardy style</p></div>
+<div class="lc lc-online" onclick="go('sc-join')" style="border-style:dashed"><div class="ico">🔗</div><h3 style="color:var(--c1)">Join Online</h3><p>Enter room code</p></div>
+<div class="lc lc-local fl" onclick="go('sc-local-setup')"><div style="display:flex;align-items:center;gap:12px"><span style="font-size:2rem">🎮</span><div><h3>Local Battle</h3><p>Jeopardy style · One device · Two teams</p></div></div></div>
 <div class="lc lc-fast" onclick="go('sc-gf-setup')"><div class="ico">⚡</div><h3>Go Fast</h3><p>60s speed race</p></div>
 <div class="lc lc-fast" onclick="go('sc-gf-join')" style="border-style:dashed"><div class="ico">🔗</div><h3 style="color:var(--c4)">Join Go Fast</h3><p>Enter code</p></div>
-<div class="lc lc-online fl" onclick="go('sc-join')" style="padding:13px"><div style="display:flex;align-items:center;justify-content:center;gap:10px"><span style="font-size:1.4rem">🔗</span><div><h3>Join Online Battle</h3><p style="font-family:var(--fm);font-size:.56rem;color:var(--tx2)">Enter room code</p></div></div></div>
-<div class="lc lc-exam fl" onclick="go('sc-exam-home')" style="padding:14px"><div style="display:flex;align-items:center;gap:12px"><span style="font-size:2rem">📚</span><div><h3>General Dentistry Exam</h3><p>KBR · All Specialties · Study Mode</p></div></div></div>
+<div class="lc lc-exam fl" onclick="go('sc-exam-home')" style="padding:14px"><div style="display:flex;align-items:center;gap:12px"><span style="font-size:2rem">📚</span><div><h3>Study Smart</h3><p>Dentistry · Medicine · All Specialties</p></div></div></div>
 ```
 
   </div>
@@ -538,7 +540,7 @@ z-index:9999;opacity:0;transition:opacity .3s;white-space:nowrap;pointer-events:
   <!-- LB PREVIEW -->
 
   <div class="lb-prev">
-    <div class="lb-hdr"><div class="lb-hdr-t">🏆 Leaderboard</div><div class="lb-hdr-s" id="lb-prev-cycle">Loading...</div></div>
+    <div class="lb-hdr"><div class="lb-hdr-t">🏆 Daily Leaderboard</div><div class="lb-hdr-s" id="lb-prev-cycle">Loading...</div></div>
     <div id="lb-prev-rows"><div class="pulse" style="padding:14px"><div class="d"></div><div class="d"></div><div class="d"></div><span>Loading...</span></div></div>
   </div>
 
@@ -546,13 +548,13 @@ z-index:9999;opacity:0;transition:opacity .3s;white-space:nowrap;pointer-events:
 
   <div class="pro-bar">
     <div class="pi">⚡</div>
-    <div><div class="pt">Dent.list Pro</div><div class="pd">All specialties · AI questions<br>Priority leaderboard · No ads</div></div>
+    <div><div class="pt">Dent.list Pro</div><div class="pd">All specialties · All tracks<br>Priority leaderboard · No ads</div></div>
     <button onclick="toast('Coming soon! 🚀')">Try Free →</button>
   </div>
 
   <div style="font-family:var(--fm);font-size:.62rem;color:var(--mt);display:flex;flex-direction:column;align-items:center;gap:6px;padding-top:4px;">
-    <a href="https://www.instagram.com/dr.ibrahimdashty" target="_blank" style="color:var(--mt);text-decoration:none;opacity:.6;transition:opacity .2s" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=.6">📸 @dr.ibrahimdashty</a>
-    <a href="https://www.instagram.com/dent.list" target="_blank" style="color:var(--mt);text-decoration:none;opacity:.6;transition:opacity .2s" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=.6">📸 @dent.list</a>
+    <a href="https://www.instagram.com/dr.ibrahimdashty" target="_blank" style="color:var(--mt);text-decoration:none;opacity:.6;transition:opacity .2s" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=.6">@dr.ibrahimdashty</a>
+    <a href="https://www.instagram.com/dent.list" target="_blank" style="color:var(--mt);text-decoration:none;opacity:.6;transition:opacity .2s" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=.6">@dent.list</a>
   </div>
 </div>
 
@@ -830,20 +832,23 @@ z-index:9999;opacity:0;transition:opacity .3s;white-space:nowrap;pointer-events:
 
 <!-- ══ EXAM HOME ══ -->
 
-<div id="sc-exam-home" class="sc" style="gap:18px;padding:16px 16px 80px;justify-content:flex-start">
-  <div style="text-align:center;padding-top:10px">
-    <div style="font-size:clamp(1.4rem,5vw,2rem);font-weight:800;letter-spacing:-1px">General Dentistry<br><span style="background:linear-gradient(135deg,var(--gd),#ffa657);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Exam Review</span></div>
-    <div style="font-family:var(--fm);font-size:.62rem;color:var(--mt);letter-spacing:3px;text-transform:uppercase;margin-top:6px">📚 Study Mode</div>
+<div id="sc-exam-home" class="sc" style="gap:14px;padding:14px 14px 80px;justify-content:flex-start">
+  <div style="text-align:center;padding-top:6px;width:100%;max-width:480px">
+    <div style="font-size:clamp(1.3rem,5vw,1.8rem);font-weight:800;letter-spacing:-1px">Study <span style="background:linear-gradient(135deg,var(--gd),#ffa657);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Smart</span></div>
+    <div id="ex-study-sub" style="font-family:var(--fm);font-size:.6rem;color:var(--mt);letter-spacing:2px;text-transform:uppercase;margin-top:5px">📚 Study Mode</div>
   </div>
-  <div id="exam-sl" style="display:flex;flex-direction:column;gap:9px;width:100%;max-width:480px"></div>
-  <button class="btn bo" onclick="go('sc-land')" style="max-width:480px;width:100%">← Back</button>
+  <div style="width:100%;max-width:480px">
+    <button id="ex-back-btn" class="btn bo" onclick="exGoBack()" style="display:none;padding:9px 14px;font-size:.78rem;width:auto">← Back</button>
+  </div>
+  <div id="exam-sl" style="display:flex;flex-direction:column;width:100%;max-width:480px"></div>
+  <button class="btn bo" onclick="go('sc-land')" style="max-width:480px;width:100%">🏠 Home</button>
 </div>
 
 <!-- ══ EXAM SUBJECT ══ -->
 
 <div id="sc-exam-subject" class="sc" style="gap:0;justify-content:flex-start;padding:0">
   <div style="background:rgba(13,16,24,.97);border-bottom:1px solid var(--b1);padding:12px 16px;display:flex;align-items:center;gap:10px;width:100%;position:sticky;top:0;z-index:10">
-    <button onclick="go('sc-exam-home')" style="background:none;border:none;color:var(--mt);cursor:pointer;font-size:1rem;padding:4px 8px">←</button>
+    <button onclick="go('sc-exam-home');exGoBack()" style="background:none;border:none;color:var(--mt);cursor:pointer;font-size:1rem;padding:4px 8px">←</button>
     <div style="flex:1"><div style="font-size:.9rem;font-weight:700" id="ex-st">Subject</div><div style="font-family:var(--fm);font-size:.58rem;color:var(--mt);margin-top:2px" id="ex-ss"></div></div>
   </div>
   <div style="padding:10px 14px 0;width:100%"><div style="height:4px;background:var(--b1);border-radius:2px;overflow:hidden"><div style="height:100%;background:linear-gradient(90deg,var(--gd),#ffa657);border-radius:2px;transition:width .4s" id="ex-pf"></div></div><div style="font-family:var(--fm);font-size:.58rem;color:var(--mt);margin-top:3px;text-align:right" id="ex-pl">0/0</div></div>
@@ -960,20 +965,38 @@ function rnd(arr){var a=arr.slice();for(var i=a.length-1;i>0;i--){var j=Math.flo
 function mkOpts(q){return rnd([q.a,q.w[0],q.w[1],q.w[2]]);}
 function mkCatGrid(elId,sel,cls,max,cb){
   var el=document.getElementById(elId);if(!el)return;el.innerHTML='';
-  Object.keys(CATS).forEach(function(n){
-    var c=document.createElement('div');
-    c.className='chip'+(sel.indexOf(n)>-1?' '+cls:'');
-    c.textContent=CATS[n]+' '+n;
-    c.onclick=function(){
-      var idx=sel.indexOf(n);
-      if(idx>-1){sel.splice(idx,1);c.className='chip';}
-      else{if(sel.length>=max){toast('Max '+max+' categories!');return;}sel.push(n);c.className='chip '+cls;}
-      if(cb)cb();
-    };
-    el.appendChild(c);
+  var dlbl=document.createElement('div');
+  dlbl.style.cssText='width:100%;font-family:var(--fm);font-size:.55rem;color:var(--c1);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;margin-top:2px';
+  dlbl.textContent='🦷 Dental';el.appendChild(dlbl);
+  var drow=document.createElement('div');
+  drow.style.cssText='display:flex;flex-wrap:wrap;gap:7px;width:100%;margin-bottom:10px';
+  DENTAL_CATS.forEach(function(n){
+    if(!CATS[n])return;
+    var chip=document.createElement('div');
+    chip.className='chip'+(sel.indexOf(n)>-1?' '+cls:'');
+    chip.textContent=CATS[n]+' '+n;
+    chip.onclick=function(){var idx=sel.indexOf(n);if(idx>-1){sel.splice(idx,1);chip.className='chip';}else{if(sel.length>=max){toast('Max '+max+' categories!');return;}sel.push(n);chip.className='chip '+cls;}if(cb)cb();};
+    drow.appendChild(chip);
   });
+  el.appendChild(drow);
+  var mlbl=document.createElement('div');
+  mlbl.style.cssText='width:100%;font-family:var(--fm);font-size:.55rem;color:#ff9500;letter-spacing:2px;text-transform:uppercase;margin-bottom:4px';
+  mlbl.textContent='🩺 Medical';el.appendChild(mlbl);
+  var mrow=document.createElement('div');
+  mrow.style.cssText='display:flex;flex-wrap:wrap;gap:7px;width:100%';
+  MEDICAL_CATS.forEach(function(n){
+    if(!CATS[n])return;
+    var chip=document.createElement('div');
+    chip.className=sel.indexOf(n)>-1?'chip-med-on':'chip-med';
+    chip.textContent=CATS[n]+' '+n;
+    chip.onclick=function(){var idx=sel.indexOf(n);if(idx>-1){sel.splice(idx,1);chip.className='chip-med';}else{if(sel.length>=max){toast('Max '+max+' categories!');return;}sel.push(n);chip.className='chip-med-on';}if(cb)cb();};
+    mrow.appendChild(chip);
+  });
+  el.appendChild(mrow);
 }
-var CATS={"General Dentistry":"🦷","Oral Surgery":"🔪","Endodontics":"🦠","Periodontics":"🩸","Orthodontics":"😬","Prosthodontics":"🦾","Pediatric Dentistry":"👶","Oral Pathology":"🔬","Oral Pharmacology":"💊","General Medicine":"🩺","Anatomy":"🧬","Microbiology":"🧫"};
+var CATS={"General Dentistry":"🦷","Oral Surgery":"🔪","Endodontics":"🦠","Periodontics":"🩸","Orthodontics":"😬","Prosthodontics":"🦾","Pediatric Dentistry":"👶","Oral Pathology":"🔬","Oral Pharmacology":"💊","Anatomy":"🧬","Microbiology":"🧫","General Medicine":"🩺","Family Medicine":"👨‍⚕️","Surgery":"🏥","Dermatology":"🩹","Physiology":"🫀"};
+var DENTAL_CATS=["General Dentistry","Oral Surgery","Endodontics","Periodontics","Orthodontics","Prosthodontics","Pediatric Dentistry","Oral Pathology","Oral Pharmacology","Anatomy","Microbiology"];
+var MEDICAL_CATS=["General Medicine","Family Medicine","Surgery","Dermatology","Physiology"];
 var QB=[
 
 {c:"General Dentistry",q:"Normal healthy sulcus depth?",a:"1-3 mm",w:["4-6 mm","7-9 mm","0 mm"]},
@@ -1575,7 +1598,411 @@ var QB=[
 {c:"Periodontics",q:"Localised recession treatment of choice:",a:"Connective tissue graft for best root coverage",w:["Extraction","Filling only","Crown"]},
 {c:"Periodontics",q:"Periodontal pocket treatment aims to:",a:"Reduce pocket depth and eliminate pathogenic bacteria",w:["Increase pocket depth","Change color","Extract tooth"]},
 {c:"Periodontics",q:"Which bacteria are most associated with aggressive periodontitis?",a:"Aggregatibacter actinomycetemcomitans",w:["P. gingivalis only","S. mutans","T. denticola only"]},
-{c:"Periodontics",q:"Periodontal disease staging (2017 classification) is based on:",a:"Severity (Stage I-IV) and risk factors (Grade A-C)",w:["Age only","Tooth shade","Restoration type"]},];
+{c:"Periodontics",q:"Periodontal disease staging (2017 classification) is based on:",a:"Severity (Stage I-IV) and risk factors (Grade A-C)",w:["Age only","Tooth shade","Restoration type"]},,
+// ─── Dental Material (game mode) ───
+{c:"Dental Material",q:"The main component of dental amalgam is:",a:"Mercury",w:["Gold","Silver","Copper"]},
+{c:"Dental Material",q:"Amalgam strength increases with:",a:"Time",w:["Moisture","Mixing error","Low condensation"]},
+{c:"Dental Material",q:"High-copper amalgam reduces:",a:"Gamma-2 phase",w:["Strength","Hardness","Setting time"]},
+{c:"Dental Material",q:"The weakest phase in amalgam:",a:"Gamma-2",w:["Gamma","Gamma-1","Beta"]},
+{c:"Dental Material",q:"Creep in amalgam leads to:",a:"Marginal breakdown",w:["Strength increase","Whitening","Expansion"]},
+{c:"Dental Material",q:"Composite resin consists of:",a:"Resin matrix + filler",w:["Metal","Enamel only","Ceramic only"]},
+{c:"Dental Material",q:"The main resin matrix in composites:",a:"Bis-GMA",w:["PMMA","Zinc oxide","Gold"]},
+{c:"Dental Material",q:"Filler particles improve:",a:"Strength and wear resistance",w:["Shrinkage","Color only","Expansion"]},
+{c:"Dental Material",q:"Polymerization shrinkage causes:",a:"Marginal gaps",w:["Strength increase","Hardness only","Expansion"]},
+{c:"Dental Material",q:"Light-cured composites use:",a:"Blue light (~470 nm)",w:["UV light","Red light","Infrared"]},
+{c:"Dental Material",q:"The initiator in light-cure composite:",a:"Camphorquinone",w:["Benzoyl peroxide","Zinc oxide","Mercury"]},
+{c:"Dental Material",q:"Self-cure composites use:",a:"Chemical activation",w:["Light only","Heat only","Pressure"]},
+{c:"Dental Material",q:"Bonding agents improve:",a:"Adhesion to tooth",w:["Color","Strength of enamel","Occlusion"]},
+{c:"Dental Material",q:"Etching with phosphoric acid creates:",a:"Microporosities",w:["Smooth surface","Hard enamel","Color change"]},
+{c:"Dental Material",q:"Acid etch concentration commonly:",a:"37%",w:["10%","60%","80%"]},
+{c:"Dental Material",q:"Enamel etching time:",a:"15-30 sec",w:["1 sec","2 min","5 min"]},
+{c:"Dental Material",q:"Dentin bonding is difficult due to:",a:"Moisture and tubules",w:["Enamel content","Thickness","Hardness"]},
+{c:"Dental Material",q:"Hybrid layer forms between:",a:"Resin and dentin",w:["Enamel and dentin","Bone and tooth","Cementum only"]},
+{c:"Dental Material",q:"Glass ionomer cement sets by:",a:"Acid-base reaction",w:["Polymerization","Heat","Light only"]},
+{c:"Dental Material",q:"GIC releases:",a:"Fluoride",w:["Calcium only","Mercury","Gold"]},
+{c:"Dental Material",q:"GIC bonds to tooth via:",a:"Chemical bonding",w:["Mechanical retention","No bonding","Pressure"]},
+{c:"Dental Material",q:"Resin-modified GIC includes:",a:"Resin component",w:["Metal","Gold","Mercury"]},
+{c:"Dental Material",q:"Zinc oxide eugenol is used for:",a:"Temporary filling",w:["Final restoration","Crown","Implant"]},
+{c:"Dental Material",q:"Eugenol effect on composite:",a:"Inhibits polymerization",w:["Improves bond","No effect","Strengthens composite"]},
+{c:"Dental Material",q:"Dental ceramics are:",a:"Esthetic and brittle",w:["Weak","Flexible","Soft"]},
+{c:"Dental Material",q:"Porcelain strength increases with:",a:"Glazing",w:["Moisture","Rough surface","Low firing"]},
+{c:"Dental Material",q:"The main disadvantage of ceramics:",a:"Brittleness",w:["Weak color","Poor esthetics","Toxicity"]},
+{c:"Dental Material",q:"Metal-ceramic bond is:",a:"Chemical + mechanical",w:["Weak","None","Only mechanical"]},
+{c:"Dental Material",q:"Impression materials record:",a:"Tooth and tissue details",w:["Color","Caries","Bone density"]},
+{c:"Dental Material",q:"Alginate is:",a:"Elastic impression material",w:["Rigid","Metal","Resin"]},
+{c:"Dental Material",q:"Alginate setting reaction:",a:"Chemical gelation",w:["Polymerization","Heat reaction","Pressure"]},
+{c:"Dental Material",q:"Alginate dimensional stability:",a:"Low",w:["High","Permanent","Perfect"]},
+{c:"Dental Material",q:"Syneresis in alginate:",a:"Water loss",w:["Water absorption","Expansion","Hardening"]},
+{c:"Dental Material",q:"Imbibition means:",a:"Water gain",w:["Water loss","Shrinkage","Fracture"]},
+{c:"Dental Material",q:"Addition silicone is:",a:"High accuracy",w:["Poor stability","Weak","Rigid"]},
+{c:"Dental Material",q:"Condensation silicone produces:",a:"Alcohol byproduct",w:["No byproduct","Water","Heat"]},
+{c:"Dental Material",q:"Polyether impression material is:",a:"Hydrophilic",w:["Hydrophobic","Weak","Soft"]},
+{c:"Dental Material",q:"Bite registration materials:",a:"Record occlusion",w:["Record color","Record bone","Record caries"]},
+{c:"Dental Material",q:"Gypsum products include:",a:"Dental stone",w:["Composite","Amalgam","Resin"]},
+{c:"Dental Material",q:"Gypsum setting is:",a:"Crystallization",w:["Polymerization","Melting","Drying"]},
+{c:"Dental Material",q:"Type III gypsum is:",a:"Dental stone",w:["Impression","Wax","Cement"]},
+{c:"Dental Material",q:"Type IV gypsum used for:",a:"Die stone",w:["Models","Wax","Temporary"]},
+{c:"Dental Material",q:"Wax distortion occurs due to:",a:"Internal stress",w:["Stability","Hardness","Color"]},
+{c:"Dental Material",q:"Inlay wax is:",a:"Pattern material",w:["Permanent","Cement","Composite"]},
+{c:"Dental Material",q:"Casting shrinkage:",a:"Metal contraction",w:["Expansion","No change","Fracture"]},
+{c:"Dental Material",q:"Investment materials withstand:",a:"High temperature",w:["Low heat","Moisture only","Pressure"]},
+{c:"Dental Material",q:"Soldering joins metals by:",a:"Filler metal",w:["Melting base metal","Pressure","Cement"]},
+{c:"Dental Material",q:"Corrosion is:",a:"Metal degradation",w:["Strength gain","Hardening","Whitening"]},
+{c:"Dental Material",q:"Galvanic shock occurs due to:",a:"Different metals contact",w:["Same metals","Composite","Ceramic"]},
+{c:"Dental Material",q:"Biocompatibility means:",a:"Compatibility with tissues",w:["Toxicity","Hardness","Color"]},
+{c:"Dental Material",q:"Thermal expansion mismatch causes:",a:"Cracks",w:["Strength","Bonding","Color"]},
+{c:"Dental Material",q:"Modulus of elasticity indicates:",a:"Stiffness",w:["Strength","Hardness","Color"]},
+{c:"Dental Material",q:"Hardness measures:",a:"Resistance to indentation",w:["Flexibility","Color","Strength only"]},
+{c:"Dental Material",q:"Toughness is:",a:"Energy absorption before fracture",w:["Brittle","Softness","Color"]},
+{c:"Dental Material",q:"Curing depth depends on:",a:"Light intensity",w:["Color only","Temperature only","Water"]},
+{c:"Dental Material",q:"Oxygen inhibition layer:",a:"Unpolymerized surface",w:["Strong layer","Hard layer","None"]},
+{c:"Dental Material",q:"Matrix system used for:",a:"Contour restoration",w:["Whitening","Extraction","Surgery"]},
+{c:"Dental Material",q:"Wedge function:",a:"Stabilize matrix",w:["Increase gap","Reduce contact","None"]},
+{c:"Dental Material",q:"Adhesion types:",a:"Mechanical + chemical",w:["Biological only","Thermal","None"]},
+{c:"Dental Material",q:"Bond strength measured in:",a:"MPa",w:["mm","kg","cm"]},
+{c:"Dental Material",q:"Microleakage leads to:",a:"Secondary caries",w:["Strength","Whitening","Expansion"]},
+{c:"Dental Material",q:"Dental implants made of:",a:"Titanium",w:["Gold","Mercury","Silver"]},
+{c:"Dental Material",q:"Titanium property:",a:"Biocompatible",w:["Toxic","Weak","Soft"]},
+{c:"Dental Material",q:"Impression tray adhesive:",a:"Retains material",w:["Color","Hardness","Strength"]},
+{c:"Dental Material",q:"Zinc phosphate cement sets by:",a:"Acid-base reaction",w:["Polymerization","Light cure","Heat"]},
+{c:"Dental Material",q:"Zinc phosphate pH initially:",a:"Acidic",w:["Neutral","Basic","Alkaline"]},
+{c:"Dental Material",q:"Polycarboxylate cement bonds to:",a:"Enamel chemically",w:["No bonding","Mechanical only","None"]},
+{c:"Dental Material",q:"Resin cement provides:",a:"Strong adhesion",w:["Weak bond","No retention","Expansion"]},
+{c:"Dental Material",q:"Etch-and-rinse system:",a:"Separate etch step",w:["No etching","Self-etch","No bonding"]},
+{c:"Dental Material",q:"Self-etch system:",a:"Combined etch + primer",w:["No etch","Separate etch","None"]},
+{c:"Dental Material",q:"Flowable composite has:",a:"Low viscosity",w:["High viscosity","No flow","Rigid"]},
+{c:"Dental Material",q:"Packable composite:",a:"High viscosity",w:["Low viscosity","Weak","Liquid"]},
+{c:"Dental Material",q:"Bulk-fill composite allows:",a:"Thick increments",w:["Thin layers only","No curing","Weak curing"]},
+{c:"Dental Material",q:"Polymerization stress causes:",a:"Bond failure",w:["Strength","Color","Expansion"]},
+{c:"Dental Material",q:"Shade selection should be done:",a:"Before isolation",w:["After dehydration","After curing","At night"]},
+{c:"Dental Material",q:"Dental cements used for:",a:"Luting restorations",w:["Temporary only","Extraction","Whitening"]},
+{c:"Dental Material",q:"Adhesive failure occurs at:",a:"Interface",w:["Within material","Tooth only","None"]},
+{c:"Dental Material",q:"Cohesive failure occurs:",a:"Within material",w:["At interface","Outside tooth","None"]},
+{c:"Dental Material",q:"Impression accuracy depends on:",a:"Both",w:["Technique","Material","None"]},
+{c:"Dental Material",q:"Setting expansion of gypsum:",a:"Slight expansion",w:["Shrinkage","No change","Fracture"]},
+{c:"Dental Material",q:"Burnout in casting:",a:"Wax elimination",w:["Cooling","Heating only","Polishing"]},
+{c:"Dental Material",q:"Casting defects include:",a:"Porosity",w:["Strength","Hardness","Color"]},
+{c:"Dental Material",q:"Porosity caused by:",a:"Air entrapment",w:["Strength","Cooling","Bonding"]},
+{c:"Dental Material",q:"Dental alloys include:",a:"Mixture of metals",w:["Pure metals only","Resin","Ceramic"]},
+{c:"Dental Material",q:"Noble metals:",a:"Resist corrosion",w:["Corrode easily","Weak","Soft"]},
+{c:"Dental Material",q:"Base metals:",a:"Nickel",w:["Gold","Platinum","Palladium"]},
+{c:"Dental Material",q:"Impression tearing due to:",a:"Thin material",w:["Strength","Thick material","Stability"]},
+{c:"Dental Material",q:"Tray selection affects:",a:"Accuracy",w:["Color","Strength","Hardness"]},
+{c:"Dental Material",q:"Disinfection of impression:",a:"Required",w:["Not needed","Optional","Harmful"]},
+{c:"Dental Material",q:"Autoclave sterilization uses:",a:"Steam under pressure",w:["Dry heat","UV","Cold"]},
+{c:"Dental Material",q:"Composite polishing improves:",a:"Surface smoothness",w:["Roughness","Weakness","Shrinkage"]},
+{c:"Dental Material",q:"Wear resistance improved by:",a:"Filler content",w:["Resin only","Color","Water"]},
+{c:"Dental Material",q:"Radiopacity helps:",a:"Detection in X-ray",w:["Color","Strength","Bonding"]},
+{c:"Dental Material",q:"Resin composite radiopacity due to:",a:"Barium glass filler",w:["Silica","Water","Resin"]},
+{c:"Dental Material",q:"Polymerization reaction is:",a:"Irreversible",w:["Reversible","Temporary","Weak"]},
+{c:"Dental Material",q:"Cross-linking increases:",a:"Strength",w:["Softness","Color","Shrinkage"]},
+{c:"Dental Material",q:"Water sorption causes:",a:"Expansion",w:["Shrinkage","Strength","Color"]},
+{c:"Dental Material",q:"Solubility leads to:",a:"Material loss",w:["Stability","Strength","Hardness"]},
+{c:"Dental Material",q:"Elastic materials return to:",a:"Original shape",w:["Deformed shape","Broken state","None"]},
+{c:"Dental Material",q:"Key property of ideal dental material:",a:"Biocompatible + durable",w:["Toxic","Weak","Expensive"]},
+// ─── General Medicine ───
+{c:"General Medicine",q:"A 65-year-old man presents with fatigue and pallor. Lab tests show Hb 9 g/dL and MCV 70 fL. What is the most likely diagnosis?",a:"Iron deficiency anemia",w:["Vitamin B12 deficiency","Aplastic anemia","Hemolytic anemia"]},
+{c:"General Medicine",q:"Which electrolyte abnormality is most associated with cardiac arrhythmias?",a:"Hypokalemia",w:["Hypernatremia","Hypercalcemia","Hypophosphatemia"]},
+{c:"General Medicine",q:"A patient with diabetes presents with polyuria and polydipsia. Which hormone is deficient?",a:"Insulin",w:["Glucagon","Cortisol","ADH"]},
+{c:"General Medicine",q:"Which of the following is a hallmark of inflammation?",a:"Redness and swelling",w:["Hypothermia","Vasoconstriction","Decreased blood flow"]},
+{c:"General Medicine",q:"What is the most common cause of hypertension worldwide?",a:"Essential hypertension",w:["Renal artery stenosis","Endocrine disorders","Pheochromocytoma"]},
+{c:"General Medicine",q:"A 30-year-old presents with exophthalmos and weight loss. Most likely diagnosis?",a:"Graves disease",w:["Hypothyroidism","Hashimoto thyroiditis","Thyroid cancer"]},
+{c:"General Medicine",q:"Which organ is primarily affected in hepatitis?",a:"Liver",w:["Kidney","Lung","Heart"]},
+{c:"General Medicine",q:"What is the normal resting heart rate in adults?",a:"60-100 bpm",w:["40-60 bpm","100-120 bpm","120-140 bpm"]},
+{c:"General Medicine",q:"Which vitamin deficiency causes scurvy?",a:"Vitamin C",w:["Vitamin A","Vitamin B12","Vitamin D"]},
+{c:"General Medicine",q:"Which condition is characterized by high blood glucose levels?",a:"Diabetes mellitus",w:["Hypoglycemia","Hyperthyroidism","Anemia"]},
+{c:"General Medicine",q:"Which of the following is a beta-blocker?",a:"Metoprolol",w:["Amlodipine","Lisinopril","Furosemide"]},
+{c:"General Medicine",q:"Which part of the brain controls balance?",a:"Cerebellum",w:["Cerebrum","Medulla","Hypothalamus"]},
+{c:"General Medicine",q:"What is the main function of red blood cells?",a:"Oxygen transport",w:["Immunity","Clotting","Hormone production"]},
+{c:"General Medicine",q:"Which condition causes moon face?",a:"Cushing syndrome",w:["Addison disease","Diabetes","Hyperthyroidism"]},
+{c:"General Medicine",q:"A patient presents with chest pain radiating to the left arm. Most likely diagnosis?",a:"Myocardial infarction",w:["GERD","Pneumonia","Asthma"]},
+{c:"General Medicine",q:"Which of the following is an ACE inhibitor?",a:"Enalapril",w:["Losartan","Atenolol","Verapamil"]},
+{c:"General Medicine",q:"Which hormone regulates calcium levels?",a:"Parathyroid hormone",w:["Insulin","Cortisol","Aldosterone"]},
+{c:"General Medicine",q:"What is the normal blood pH?",a:"7.35-7.45",w:["6.8-7.0","7.0-7.2","7.5-7.7"]},
+{c:"General Medicine",q:"Which disease is caused by Mycobacterium tuberculosis?",a:"Tuberculosis",w:["Pneumonia","COPD","Asthma"]},
+{c:"General Medicine",q:"Which type of shock is caused by blood loss?",a:"Hypovolemic shock",w:["Septic shock","Cardiogenic shock","Neurogenic shock"]},
+{c:"General Medicine",q:"Which electrolyte imbalance causes peaked T waves on ECG?",a:"Hyperkalemia",w:["Hypokalemia","Hyponatremia","Hypercalcemia"]},
+{c:"General Medicine",q:"Which condition is associated with low TSH and high T3/T4?",a:"Graves disease",w:["Hypothyroidism","Pituitary failure","Addison disease"]},
+{c:"General Medicine",q:"Which artery is most commonly involved in myocardial infarction?",a:"Left anterior descending artery",w:["Right coronary artery","Left circumflex artery","Pulmonary artery"]},
+{c:"General Medicine",q:"Which of the following is a loop diuretic?",a:"Furosemide",w:["Hydrochlorothiazide","Spironolactone","Amiloride"]},
+{c:"General Medicine",q:"Which bacteria is most commonly responsible for urinary tract infections?",a:"Escherichia coli",w:["Staphylococcus aureus","Pseudomonas","Klebsiella"]},
+{c:"General Medicine",q:"Which condition presents with butterfly rash?",a:"Systemic lupus erythematosus",w:["Psoriasis","Eczema","Rosacea"]},
+{c:"General Medicine",q:"Which type of anemia shows high MCV?",a:"Vitamin B12 deficiency",w:["Iron deficiency","Thalassemia","Chronic disease anemia"]},
+{c:"General Medicine",q:"Which lung disease is characterized by reversible airway obstruction?",a:"Asthma",w:["COPD","Pulmonary fibrosis","Bronchiectasis"]},
+{c:"General Medicine",q:"Which of the following is an anticoagulant?",a:"Warfarin",w:["Aspirin","Clopidogrel","Atorvastatin"]},
+{c:"General Medicine",q:"Which hormone increases blood glucose?",a:"Glucagon",w:["Insulin","Oxytocin","Melatonin"]},
+{c:"General Medicine",q:"Which condition causes clubbing of fingers?",a:"Lung cancer",w:["Asthma","Hypertension","GERD"]},
+{c:"General Medicine",q:"Which of the following is a calcium channel blocker?",a:"Amlodipine",w:["Propranolol","Enalapril","Losartan"]},
+{c:"General Medicine",q:"Which disease is associated with H. pylori?",a:"Gastric ulcer",w:["Ulcerative colitis","Crohn disease","IBS"]},
+{c:"General Medicine",q:"Which condition causes hyperpigmentation due to ACTH increase?",a:"Addison disease",w:["Cushing syndrome","Diabetes","Hypothyroidism"]},
+{c:"General Medicine",q:"Which test measures long-term glucose control?",a:"HbA1c",w:["Fasting glucose","Random glucose","OGTT"]},
+{c:"General Medicine",q:"Which of the following is an ARB?",a:"Losartan",w:["Lisinopril","Metoprolol","Diltiazem"]},
+{c:"General Medicine",q:"Which organ produces insulin?",a:"Pancreas",w:["Liver","Kidney","Spleen"]},
+{c:"General Medicine",q:"Which vitamin deficiency causes rickets?",a:"Vitamin D",w:["Vitamin A","Vitamin B12","Vitamin C"]},
+{c:"General Medicine",q:"Which infection is characterized by Koplik spots?",a:"Measles",w:["Rubella","Mumps","Varicella"]},
+{c:"General Medicine",q:"Which condition causes barrel chest?",a:"COPD",w:["Pneumonia","Asthma","Tuberculosis"]},
+{c:"General Medicine",q:"Which type of hypersensitivity is IgE-mediated?",a:"Type I",w:["Type II","Type III","Type IV"]},
+{c:"General Medicine",q:"Which electrolyte is most abundant intracellularly?",a:"Potassium",w:["Sodium","Calcium","Chloride"]},
+{c:"General Medicine",q:"Which condition leads to metabolic acidosis?",a:"Diarrhea",w:["Vomiting","Hyperventilation","Antacid use"]},
+{c:"General Medicine",q:"Which hormone is released from posterior pituitary?",a:"ADH",w:["TSH","ACTH","GH"]},
+{c:"General Medicine",q:"Which disease is caused by deficiency of dopamine?",a:"Parkinson disease",w:["Alzheimer","Epilepsy","Stroke"]},
+{c:"General Medicine",q:"Which organism causes strep throat?",a:"Streptococcus pyogenes",w:["Staphylococcus","E. coli","Neisseria"]},
+{c:"General Medicine",q:"Which condition is associated with increased ESR?",a:"Inflammation",w:["Dehydration","Hypoglycemia","Anemia"]},
+{c:"General Medicine",q:"Which drug is used for anaphylaxis?",a:"Epinephrine",w:["Insulin","Atropine","Morphine"]},
+{c:"General Medicine",q:"Which type of shock is due to infection?",a:"Septic",w:["Hypovolemic","Cardiogenic","Neurogenic"]},
+{c:"General Medicine",q:"Which condition is characterized by bradycardia?",a:"Hypothyroidism",w:["Fever","Anxiety","Hyperthyroidism"]},
+{c:"General Medicine",q:"Which of the following is an NSAID?",a:"Ibuprofen",w:["Paracetamol","Morphine","Codeine"]},
+{c:"General Medicine",q:"Which vitamin is important for clotting?",a:"Vitamin K",w:["Vitamin A","Vitamin C","Vitamin D"]},
+{c:"General Medicine",q:"Which organ detoxifies drugs?",a:"Liver",w:["Kidney","Lung","Heart"]},
+{c:"General Medicine",q:"Which condition causes hypoglycemia?",a:"Insulin overdose",w:["Diabetes","Hyperthyroidism","Cushing syndrome"]},
+{c:"General Medicine",q:"Which of the following is a statin?",a:"Simvastatin",w:["Amlodipine","Metformin","Furosemide"]},
+{c:"General Medicine",q:"Which disease causes demyelination?",a:"MS",w:["Alzheimer","Parkinson","Stroke"]},
+{c:"General Medicine",q:"Which hormone regulates sleep?",a:"Melatonin",w:["Cortisol","Insulin","Thyroxine"]},
+{c:"General Medicine",q:"Which condition causes cyanosis?",a:"Hypoxia",w:["Anemia","Hyperglycemia","Hypertension"]},
+{c:"General Medicine",q:"Which test is used for TB diagnosis?",a:"Mantoux test",w:["ECG","CT scan","MRI"]},
+{c:"General Medicine",q:"Which disease causes honeycomb lung?",a:"Pulmonary fibrosis",w:["Asthma","COPD","Pneumonia"]},
+{c:"General Medicine",q:"Which drug lowers cholesterol?",a:"Statins",w:["Beta blockers","ACE inhibitors","Diuretics"]},
+{c:"General Medicine",q:"Which electrolyte imbalance causes muscle weakness?",a:"Hypokalemia",w:["Hyperkalemia","Hypernatremia","Hypercalcemia"]},
+{c:"General Medicine",q:"Which condition causes jaundice?",a:"Liver disease",w:["Kidney disease","Lung disease","Brain disease"]},
+{c:"General Medicine",q:"Which type of diabetes is insulin-dependent?",a:"Type 1",w:["Type 2","Gestational","Secondary"]},
+{c:"General Medicine",q:"Which drug is used for hypertension?",a:"Lisinopril",w:["Insulin","Omeprazole","Metronidazole"]},
+{c:"General Medicine",q:"Which condition causes weight gain and cold intolerance?",a:"Hypothyroidism",w:["Hyperthyroidism","Diabetes","Cushing"]},
+{c:"General Medicine",q:"Which infection causes slapped cheek rash?",a:"Parvovirus B19",w:["Measles","Rubella","Varicella"]},
+{c:"General Medicine",q:"Which organ filters blood?",a:"Kidney",w:["Liver","Heart","Lung"]},
+{c:"General Medicine",q:"Which disease is autoimmune?",a:"Lupus",w:["TB","Malaria","Influenza"]},
+{c:"General Medicine",q:"Which drug treats GERD?",a:"Omeprazole",w:["Metformin","Atenolol","Warfarin"]},
+{c:"General Medicine",q:"Which electrolyte is high in dehydration?",a:"Sodium",w:["Potassium","Calcium","Magnesium"]},
+{c:"General Medicine",q:"Which condition causes tremor and heat intolerance?",a:"Hyperthyroidism",w:["Hypothyroidism","Diabetes","Addison"]},
+{c:"General Medicine",q:"Which drug is bronchodilator?",a:"Salbutamol",w:["Insulin","Aspirin","Warfarin"]},
+{c:"General Medicine",q:"Which disease affects joints?",a:"RA",w:["COPD","Hepatitis","CKD"]},
+{c:"General Medicine",q:"Which vitamin deficiency causes night blindness?",a:"Vitamin A",w:["Vitamin B","Vitamin C","Vitamin D"]},
+{c:"General Medicine",q:"Which condition causes high uric acid?",a:"Gout",w:["Diabetes","Asthma","TB"]},
+{c:"General Medicine",q:"Which hormone increases BP?",a:"Aldosterone",w:["Insulin","Melatonin","Oxytocin"]},
+{c:"General Medicine",q:"Which disease causes bulls eye rash?",a:"Lyme disease",w:["Measles","TB","Lupus"]},
+{c:"General Medicine",q:"Which condition causes anemia of chronic disease?",a:"Chronic inflammation",w:["Trauma","Bleeding","Infection only"]},
+{c:"General Medicine",q:"Which organ produces bile?",a:"Liver",w:["Pancreas","Gallbladder","Kidney"]},
+{c:"General Medicine",q:"Which disease causes mask-like face?",a:"Parkinson",w:["Alzheimer","Stroke","MS"]},
+{c:"General Medicine",q:"Which drug is anticoagulant?",a:"Heparin",w:["Aspirin","Clopidogrel","Ibuprofen"]},
+{c:"General Medicine",q:"Which condition causes edema?",a:"Heart failure",w:["Hypertension","Diabetes","Asthma"]},
+{c:"General Medicine",q:"Which infection is fungal?",a:"Candida",w:["TB","Influenza","HIV"]},
+{c:"General Medicine",q:"Which condition causes high cortisol?",a:"Cushing syndrome",w:["Addison disease","Hypothyroidism","Diabetes"]},
+{c:"General Medicine",q:"Which organ stores urine?",a:"Bladder",w:["Kidney","Ureter","Urethra"]},
+{c:"General Medicine",q:"Which condition causes seizures?",a:"Epilepsy",w:["Asthma","Diabetes","GERD"]},
+{c:"General Medicine",q:"Which test measures kidney function?",a:"Creatinine",w:["HbA1c","ALT","TSH"]},
+{c:"General Medicine",q:"Which condition causes low hemoglobin?",a:"Anemia",w:["Polycythemia","Leukemia","Thrombosis"]},
+{c:"General Medicine",q:"Which disease is viral?",a:"Influenza",w:["TB","Malaria","Typhoid"]},
+{c:"General Medicine",q:"Which drug treats diabetes?",a:"Metformin",w:["Amlodipine","Warfarin","Omeprazole"]},
+{c:"General Medicine",q:"Which condition causes shortness of breath?",a:"Heart failure",w:["Diabetes","GERD","Anemia only"]},
+{c:"General Medicine",q:"Which electrolyte imbalance causes tetany?",a:"Hypocalcemia",w:["Hyperkalemia","Hypernatremia","Hypoglycemia"]},
+{c:"General Medicine",q:"Which disease affects the liver?",a:"Hepatitis",w:["Nephritis","Pneumonia","Arthritis"]},
+{c:"General Medicine",q:"Which condition causes high BP?",a:"Hypertension",w:["Hypotension","Shock","Sepsis"]},
+{c:"General Medicine",q:"Which disease is parasitic?",a:"Malaria",w:["TB","Influenza","Hepatitis"]},
+{c:"General Medicine",q:"Which drug reduces fever?",a:"Paracetamol",w:["Insulin","Heparin","Warfarin"]},
+{c:"General Medicine",q:"Which condition causes dehydration?",a:"Diarrhea",w:["Hypertension","Diabetes only","Asthma"]},
+{c:"General Medicine",q:"Which organ pumps blood?",a:"Heart",w:["Liver","Lung","Kidney"]},
+{c:"General Medicine",q:"Which system controls hormones?",a:"Endocrine system",w:["Nervous system","Digestive system","Respiratory system"]},
+// ─── Family Medicine ───
+{c:"Family Medicine",q:"A 45-year-old man with no risk factors asks about colon cancer screening. What is the recommended starting age?",a:"45",w:["40","50","55"]},
+{c:"Family Medicine",q:"What is the first-line treatment for uncomplicated hypertension?",a:"Lifestyle modification",w:["Beta-blocker","Insulin","Antibiotics"]},
+{c:"Family Medicine",q:"A patient presents with sore throat and fever. Centor criteria are used to assess risk of:",a:"Strep throat",w:["Viral infection","Pneumonia","TB"]},
+{c:"Family Medicine",q:"Which vaccine is recommended annually?",a:"Influenza",w:["Hepatitis B","MMR","Varicella"]},
+{c:"Family Medicine",q:"What is the BMI range for overweight?",a:"25-29.9",w:["18.5-24.9","30-34.9",">35"]},
+{c:"Family Medicine",q:"A 60-year-old smoker should be screened for:",a:"Lung cancer",w:["Breast cancer","Cervical cancer","Thyroid cancer"]},
+{c:"Family Medicine",q:"Which screening test is used for diabetes?",a:"HbA1c",w:["CBC","ECG","X-ray"]},
+{c:"Family Medicine",q:"Which condition is most common in primary care?",a:"Hypertension",w:["Rare genetic disorders","Brain tumors","Leukemia"]},
+{c:"Family Medicine",q:"Which drug is first-line for type 2 diabetes?",a:"Metformin",w:["Insulin","Aspirin","Statins"]},
+{c:"Family Medicine",q:"Which age group requires HPV vaccination?",a:"Adolescents",w:["Infants","Elderly","Pregnant women"]},
+{c:"Family Medicine",q:"Which condition is most associated with smoking?",a:"COPD",w:["Asthma","Diabetes","GERD"]},
+{c:"Family Medicine",q:"What is the goal BP for most adults?",a:"<130/80",w:["<150/90","<140/90","<120/70"]},
+{c:"Family Medicine",q:"Which screening is done for cervical cancer?",a:"Pap smear",w:["Mammogram","Colonoscopy","PSA"]},
+{c:"Family Medicine",q:"A child with fever and rash most likely viral cause is:",a:"Measles",w:["Bacterial sepsis","TB","Cancer"]},
+{c:"Family Medicine",q:"Which lifestyle factor reduces cardiovascular risk?",a:"Exercise",w:["Smoking","High salt diet","Alcohol abuse"]},
+{c:"Family Medicine",q:"Which condition requires urgent referral?",a:"Chest pain",w:["Mild headache","Seasonal allergy","Mild cough"]},
+{c:"Family Medicine",q:"Which test screens for hyperlipidemia?",a:"Lipid profile",w:["CBC","TSH","LFT"]},
+{c:"Family Medicine",q:"Which is a red flag symptom in back pain?",a:"Weight loss",w:["Mild stiffness","Pain after exercise","Morning pain"]},
+{c:"Family Medicine",q:"Which condition is common in elderly?",a:"Osteoporosis",w:["Appendicitis","Acne","Measles"]},
+{c:"Family Medicine",q:"Which vitamin is given to newborns?",a:"Vitamin K",w:["Vitamin A","Vitamin B","Vitamin D"]},
+{c:"Family Medicine",q:"Which condition causes polyuria and polydipsia?",a:"Diabetes",w:["Hypertension","Asthma","GERD"]},
+{c:"Family Medicine",q:"Which drug is used for pain relief in primary care?",a:"Paracetamol",w:["Insulin","Warfarin","Heparin"]},
+{c:"Family Medicine",q:"Which screening is done for breast cancer?",a:"Mammogram",w:["Pap smear","Colonoscopy","ECG"]},
+{c:"Family Medicine",q:"Which is a risk factor for heart disease?",a:"Smoking",w:["Exercise","Healthy diet","Sleep"]},
+{c:"Family Medicine",q:"Which condition presents with wheezing?",a:"Asthma",w:["GERD","Hypertension","Diabetes"]},
+{c:"Family Medicine",q:"Which infection is treated with antibiotics?",a:"Bacterial UTI",w:["Viral flu","COVID-19","Measles"]},
+{c:"Family Medicine",q:"Which condition causes fatigue and pallor?",a:"Anemia",w:["Hypertension","Asthma","GERD"]},
+{c:"Family Medicine",q:"Which screening is for prostate cancer?",a:"PSA",w:["Pap smear","Mammogram","CT scan"]},
+{c:"Family Medicine",q:"Which condition causes burning urination?",a:"UTI",w:["Asthma","GERD","Diabetes"]},
+{c:"Family Medicine",q:"Which is a childhood vaccine?",a:"MMR",w:["Statin","Insulin","Warfarin"]},
+{c:"Family Medicine",q:"Which disease is lifestyle-related?",a:"Diabetes type 2",w:["TB","Malaria","Measles"]},
+{c:"Family Medicine",q:"Which is first step in smoking cessation?",a:"Counseling",w:["Surgery","Antibiotics","Insulin"]},
+{c:"Family Medicine",q:"Which condition causes headache and high BP?",a:"Hypertension",w:["Asthma","GERD","Diabetes"]},
+{c:"Family Medicine",q:"Which test checks thyroid function?",a:"TSH",w:["CBC","ECG","X-ray"]},
+{c:"Family Medicine",q:"Which condition causes joint pain?",a:"Arthritis",w:["Asthma","GERD","Diabetes"]},
+{c:"Family Medicine",q:"Which is a preventive measure?",a:"Vaccination",w:["Surgery","Chemotherapy","Dialysis"]},
+{c:"Family Medicine",q:"Which disease is communicable?",a:"TB",w:["Diabetes","Hypertension","Cancer"]},
+{c:"Family Medicine",q:"Which is a symptom of depression?",a:"Low mood",w:["Happiness","Energy","Hyperactivity"]},
+{c:"Family Medicine",q:"Which condition causes chest tightness?",a:"Asthma",w:["GERD","UTI","Anemia"]},
+{c:"Family Medicine",q:"Which drug lowers BP?",a:"Amlodipine",w:["Insulin","Paracetamol","Antibiotics"]},
+{c:"Family Medicine",q:"Which is a screening test for anemia?",a:"CBC",w:["ECG","X-ray","MRI"]},
+{c:"Family Medicine",q:"Which condition causes dizziness?",a:"Hypotension",w:["Hypertension","Asthma","GERD"]},
+{c:"Family Medicine",q:"Which infection causes diarrhea?",a:"Gastroenteritis",w:["Asthma","GERD","Hypertension"]},
+{c:"Family Medicine",q:"Which is a mental health disorder?",a:"Depression",w:["Hypertension","Diabetes","GERD"]},
+{c:"Family Medicine",q:"Which is a risk factor for stroke?",a:"Hypertension",w:["Exercise","Sleep","Diet"]},
+{c:"Family Medicine",q:"Which drug is used for allergy?",a:"Antihistamine",w:["Insulin","Antibiotic","Statin"]},
+{c:"Family Medicine",q:"Which condition causes cough and fever?",a:"Pneumonia",w:["Diabetes","GERD","Hypertension"]},
+{c:"Family Medicine",q:"Which is a sign of dehydration?",a:"Dry mouth",w:["Sweating","Energy","Appetite"]},
+{c:"Family Medicine",q:"Which disease affects lungs?",a:"COPD",w:["Diabetes","GERD","Hypertension"]},
+{c:"Family Medicine",q:"Which condition causes swelling of legs?",a:"Heart failure",w:["Asthma","GERD","Diabetes"]},
+{c:"Family Medicine",q:"Which screening is recommended for osteoporosis?",a:"DEXA scan",w:["ECG","CBC","MRI"]},
+{c:"Family Medicine",q:"Which is a complication of diabetes?",a:"Neuropathy",w:["Asthma","GERD","TB"]},
+{c:"Family Medicine",q:"Which infection is viral?",a:"Influenza",w:["UTI","TB","Syphilis"]},
+{c:"Family Medicine",q:"Which condition causes increased urination at night?",a:"BPH",w:["Asthma","GERD","Pneumonia"]},
+{c:"Family Medicine",q:"Which is a sign of anemia?",a:"Pallor",w:["Cyanosis","Jaundice","Edema"]},
+{c:"Family Medicine",q:"Which drug treats GERD?",a:"Omeprazole",w:["Insulin","Warfarin","Statin"]},
+{c:"Family Medicine",q:"Which condition causes weight loss and tremor?",a:"Hyperthyroidism",w:["Hypothyroidism","Diabetes","HTN"]},
+{c:"Family Medicine",q:"Which screening is for colon cancer?",a:"Colonoscopy",w:["Pap smear","Mammogram","PSA"]},
+{c:"Family Medicine",q:"Which disease causes chronic cough?",a:"COPD",w:["Diabetes","GERD","HTN"]},
+{c:"Family Medicine",q:"Which condition causes low mood and sleep issues?",a:"Depression",w:["Asthma","GERD","Diabetes"]},
+{c:"Family Medicine",q:"Which is a bacterial infection?",a:"Strep throat",w:["Influenza","Measles","COVID-19"]},
+{c:"Family Medicine",q:"Which drug is for cholesterol?",a:"Statin",w:["Insulin","Antibiotic","NSAID"]},
+{c:"Family Medicine",q:"Which condition causes blurred vision in diabetes?",a:"Retinopathy",w:["Asthma","GERD","TB"]},
+{c:"Family Medicine",q:"Which symptom needs urgent care?",a:"Chest pain",w:["Mild headache","Runny nose","Sneezing"]},
+{c:"Family Medicine",q:"Which disease is preventable by vaccine?",a:"Measles",w:["Diabetes","HTN","GERD"]},
+{c:"Family Medicine",q:"Which condition causes high blood sugar?",a:"Diabetes",w:["Asthma","GERD","TB"]},
+{c:"Family Medicine",q:"Which condition causes wheezing in children?",a:"Asthma",w:["GERD","UTI","HTN"]},
+{c:"Family Medicine",q:"Which test is routine in checkups?",a:"CBC",w:["MRI","CT","Biopsy"]},
+{c:"Family Medicine",q:"Which is a symptom of infection?",a:"Fever",w:["Hunger","Sleep","Energy"]},
+{c:"Family Medicine",q:"Which condition causes chest pain after meals?",a:"GERD",w:["Asthma","UTI","HTN"]},
+{c:"Family Medicine",q:"Which condition causes fatigue in elderly?",a:"Anemia",w:["Asthma","GERD","TB"]},
+{c:"Family Medicine",q:"Which is a lifestyle disease?",a:"HTN",w:["TB","Malaria","Measles"]},
+{c:"Family Medicine",q:"Which drug is for pain and fever?",a:"Paracetamol",w:["Insulin","Warfarin","Statin"]},
+{c:"Family Medicine",q:"Which condition causes skin rash?",a:"Allergy",w:["HTN","GERD","Diabetes"]},
+{c:"Family Medicine",q:"Which infection spreads by air?",a:"TB",w:["UTI","GERD","Diabetes"]},
+{c:"Family Medicine",q:"Which symptom is common in UTI?",a:"Dysuria",w:["Cough","Chest pain","Rash"]},
+{c:"Family Medicine",q:"Which condition causes high cholesterol?",a:"Dyslipidemia",w:["Asthma","GERD","TB"]},
+{c:"Family Medicine",q:"Which disease affects kidneys?",a:"CKD",w:["Asthma","GERD","HTN"]},
+{c:"Family Medicine",q:"Which test detects infection?",a:"WBC count",w:["ECG","MRI","X-ray"]},
+{c:"Family Medicine",q:"Which condition causes vomiting and diarrhea?",a:"Gastroenteritis",w:["HTN","GERD","Asthma"]},
+{c:"Family Medicine",q:"Which is a childhood illness?",a:"Chickenpox",w:["HTN","Diabetes","GERD"]},
+{c:"Family Medicine",q:"Which symptom is seen in flu?",a:"Fever",w:["Hypertension","GERD","Dysuria"]},
+{c:"Family Medicine",q:"Which condition causes leg pain on walking?",a:"PAD",w:["Asthma","GERD","TB"]},
+{c:"Family Medicine",q:"Which is a screening for vision?",a:"Eye exam",w:["ECG","CBC","MRI"]},
+{c:"Family Medicine",q:"Which condition causes memory loss?",a:"Dementia",w:["Asthma","GERD","HTN"]},
+{c:"Family Medicine",q:"Which is a complication of HTN?",a:"Stroke",w:["Asthma","GERD","UTI"]},
+{c:"Family Medicine",q:"Which infection causes sore throat?",a:"Strep",w:["TB","Malaria","HIV"]},
+{c:"Family Medicine",q:"Which condition causes insomnia?",a:"Anxiety",w:["Asthma","GERD","HTN"]},
+{c:"Family Medicine",q:"Which is a symptom of heart disease?",a:"Chest pain",w:["Rash","Dysuria","Vomiting"]},
+{c:"Family Medicine",q:"Which disease affects bones?",a:"Osteoporosis",w:["Asthma","GERD","TB"]},
+{c:"Family Medicine",q:"Which test checks liver?",a:"LFT",w:["CBC","ECG","MRI"]},
+{c:"Family Medicine",q:"Which condition causes weight gain?",a:"Hypothyroidism",w:["Hyperthyroidism","Diabetes","TB"]},
+{c:"Family Medicine",q:"Which is a preventive screening?",a:"Pap smear",w:["Surgery","Dialysis","Chemotherapy"]},
+{c:"Family Medicine",q:"Which disease causes fever and cough?",a:"Pneumonia",w:["Diabetes","GERD","HTN"]},
+{c:"Family Medicine",q:"Which is a sign of heart failure?",a:"Edema",w:["Rash","Fever","Dysuria"]},
+{c:"Family Medicine",q:"Which drug treats asthma?",a:"Salbutamol",w:["Insulin","Warfarin","Statin"]},
+{c:"Family Medicine",q:"Which condition causes increased thirst?",a:"Diabetes",w:["Asthma","GERD","TB"]},
+{c:"Family Medicine",q:"Which is a mental disorder?",a:"Anxiety",w:["Asthma","GERD","HTN"]},
+{c:"Family Medicine",q:"Which disease is chronic?",a:"HTN",w:["Flu","Cold","Gastroenteritis"]},
+{c:"Family Medicine",q:"Which is the main role of family medicine?",a:"Holistic patient care",w:["Specialized surgery","Lab testing only","Emergency only"]},
+// ─── Surgery ───
+{c:"Surgery",q:"A 25-year-old presents with right lower quadrant pain and fever. What is the next step?",a:"CT scan abdomen",w:["Discharge","Immediate appendectomy","Antibiotics only"]},
+{c:"Surgery",q:"Confirmed acute appendicitis management?",a:"Appendectomy",w:["Observation","IV antibiotics only","Discharge"]},
+{c:"Surgery",q:"A patient with bowel obstruction presents with vomiting and distension. Initial step?",a:"IV fluids and NG tube",w:["Surgery immediately","Antibiotics only","Discharge"]},
+{c:"Surgery",q:"Strangulated hernia management?",a:"Emergency surgery",w:["Observation","Elective repair","Antibiotics"]},
+{c:"Surgery",q:"A patient with trauma and hypotension first step?",a:"IV fluids/resuscitation",w:["CT scan","Surgery immediately","Discharge"]},
+{c:"Surgery",q:"Tension pneumothorax management?",a:"Needle decompression",w:["Chest X-ray","Antibiotics","Observation"]},
+{c:"Surgery",q:"Open fracture initial management?",a:"IV antibiotics + tetanus",w:["Cast","Surgery only","Discharge"]},
+{c:"Surgery",q:"A patient with acute cholecystitis definitive treatment?",a:"Cholecystectomy",w:["Antibiotics only","Observation","Painkillers"]},
+{c:"Surgery",q:"Burn patient first priority?",a:"Airway management",w:["Antibiotics","Pain relief","Dressing"]},
+{c:"Surgery",q:"A patient with GI bleeding first step?",a:"IV fluids",w:["Endoscopy","Surgery","Discharge"]},
+{c:"Surgery",q:"Perforated peptic ulcer management?",a:"Emergency surgery",w:["PPI only","Antibiotics only","Observation"]},
+{c:"Surgery",q:"Breast lump suspicious for cancer next step?",a:"Biopsy",w:["Observe","Surgery immediately","Antibiotics"]},
+{c:"Surgery",q:"Hemodynamically unstable trauma investigation?",a:"FAST scan",w:["CT scan","MRI","X-ray only"]},
+{c:"Surgery",q:"Acute urinary retention management?",a:"Catheterization",w:["Antibiotics","Surgery","Observation"]},
+{c:"Surgery",q:"Thyroid nodule initial test?",a:"TSH",w:["CT","Surgery","MRI"]},
+{c:"Surgery",q:"Varicose veins symptomatic treatment?",a:"Surgery/ablation",w:["Observation","Compression stockings","Antibiotics"]},
+{c:"Surgery",q:"Acute pancreatitis initial management?",a:"IV fluids",w:["Surgery","Antibiotics","Feeding"]},
+{c:"Surgery",q:"Gallstones without symptoms management?",a:"Observation",w:["Surgery","Antibiotics","ERCP"]},
+{c:"Surgery",q:"Hemorrhoids bleeding initial management?",a:"Lifestyle + fiber",w:["Surgery","Antibiotics","Radiation"]},
+{c:"Surgery",q:"Testicular torsion management?",a:"Immediate surgery",w:["Ultrasound first","Antibiotics","Observation"]},
+{c:"Surgery",q:"Abscess treatment?",a:"Incision and drainage",w:["Antibiotics only","Surgery later","Observation"]},
+{c:"Surgery",q:"Deep vein thrombosis management?",a:"Anticoagulation",w:["Surgery","Antibiotics","Observation"]},
+{c:"Surgery",q:"Aortic aneurysm ruptured management?",a:"Emergency surgery",w:["Observation","Antibiotics","Pain control"]},
+{c:"Surgery",q:"Diabetic foot ulcer infected management?",a:"Antibiotics + debridement",w:["Observation","Surgery only","Discharge"]},
+{c:"Surgery",q:"Intussusception in child management?",a:"Air/contrast enema",w:["Surgery immediately","Antibiotics","Observation"]},
+{c:"Surgery",q:"Hydrocele asymptomatic management?",a:"Observation",w:["Surgery","Antibiotics","Drainage"]},
+{c:"Surgery",q:"Compartment syndrome management?",a:"Fasciotomy",w:["Elevation","Antibiotics","Cast"]},
+{c:"Surgery",q:"Necrotizing fasciitis management?",a:"Urgent surgical debridement",w:["Antibiotics only","Observation","Dressing"]},
+{c:"Surgery",q:"Colon cancer obstruction management?",a:"Surgery",w:["Antibiotics","Observation","Radiation only"]},
+{c:"Surgery",q:"Kidney stone with severe pain initial step?",a:"Pain control + fluids",w:["Surgery","Antibiotics","Discharge"]},
+{c:"Surgery",q:"Empyema management?",a:"Chest tube drainage",w:["Antibiotics only","Observation","Surgery later"]},
+{c:"Surgery",q:"Hemothorax management?",a:"Chest tube",w:["Observation","Antibiotics","Surgery immediately"]},
+{c:"Surgery",q:"Obstructed inguinal hernia management?",a:"Emergency surgery",w:["Observation","Antibiotics","Discharge"]},
+{c:"Surgery",q:"Bartholin abscess management?",a:"Incision and drainage",w:["Antibiotics only","Observation","Surgery later"]},
+{c:"Surgery",q:"Splenic rupture unstable management?",a:"Emergency laparotomy",w:["CT scan","Observation","Antibiotics"]},
+{c:"Surgery",q:"Acute limb ischemia management?",a:"Heparin + surgery",w:["Observation","Antibiotics","Painkillers"]},
+{c:"Surgery",q:"Osteomyelitis management?",a:"Antibiotics long-term",w:["Observation","Surgery only","Discharge"]},
+{c:"Surgery",q:"Perianal fistula treatment?",a:"Surgery",w:["Antibiotics","Observation","Creams"]},
+{c:"Surgery",q:"Esophageal varices bleeding management?",a:"Endoscopic banding",w:["Surgery first","Observation","Antibiotics"]},
+{c:"Surgery",q:"Acute mesenteric ischemia management?",a:"Emergency surgery",w:["Observation","Antibiotics","Fluids only"]},
+{c:"Surgery",q:"Basal cell carcinoma treatment?",a:"Surgical excision",w:["Radiation only","Antibiotics","Observation"]},
+{c:"Surgery",q:"Melanoma suspected next step?",a:"Wide excision",w:["Shave biopsy","Antibiotics","Observation"]},
+{c:"Surgery",q:"Pilonidal abscess management?",a:"Drainage",w:["Antibiotics","Observation","Surgery later"]},
+{c:"Surgery",q:"Small bowel obstruction stable initial step?",a:"NG tube + fluids",w:["Surgery","Antibiotics","Discharge"]},
+{c:"Surgery",q:"AAA screening population?",a:"Elderly male smokers",w:["Young females","Children","Pregnant women"]},
+{c:"Surgery",q:"Hypercalcemia severe management?",a:"Fluids",w:["Surgery","Antibiotics","Observation"]},
+{c:"Surgery",q:"Head injury GCS less than 8 management?",a:"Intubation",w:["CT later","Observation","Discharge"]},
+{c:"Surgery",q:"Fracture with neuro deficit management?",a:"Urgent surgical evaluation",w:["Cast","Antibiotics","Observation"]},
+{c:"Surgery",q:"Thyroid cancer definitive treatment?",a:"Surgery",w:["Chemotherapy","Antibiotics","Radiation only"]},
+{c:"Surgery",q:"Septic shock first step?",a:"Fluids + antibiotics",w:["Antibiotics","Surgery","Discharge"]},
+{c:"Surgery",q:"Pancreatic cancer obstructive jaundice management?",a:"Biliary stenting",w:["Observation","Antibiotics","Surgery always"]},
+{c:"Surgery",q:"Chronic venous ulcer management?",a:"Compression therapy",w:["Surgery","Antibiotics only","Observation"]},
+{c:"Surgery",q:"Acute cholecystitis severe management?",a:"Early surgery",w:["Antibiotics only","Observation","Discharge"]},
+{c:"Surgery",q:"Rectal bleeding stable next step?",a:"Colonoscopy",w:["Surgery","Antibiotics","Discharge"]},
+{c:"Surgery",q:"Esophageal cancer management?",a:"Surgery with chemo",w:["Antibiotics","Observation","Painkillers"]},
+{c:"Surgery",q:"Perforated appendix management?",a:"Surgery + antibiotics",w:["Observation","Antibiotics only","Discharge"]},
+{c:"Surgery",q:"Bladder outlet obstruction management?",a:"Catheter",w:["Antibiotics","Surgery always","Observation"]},
+{c:"Surgery",q:"Liver abscess management?",a:"Antibiotics with drainage",w:["Surgery always","Observation","Discharge"]},
+{c:"Surgery",q:"Thrombosed hemorrhoid management?",a:"Conservative management",w:["Surgery","Antibiotics","Radiation"]},
+{c:"Surgery",q:"Gastric cancer management?",a:"Surgery",w:["Antibiotics","Observation","Painkillers"]},
+{c:"Surgery",q:"Penetrating trauma management?",a:"Surgical exploration",w:["Observation","Antibiotics only","Discharge"]},
+{c:"Surgery",q:"Spinal cord compression management?",a:"Steroids + urgent surgery",w:["Observation","Antibiotics","Discharge"]},
+{c:"Surgery",q:"Acute urinary stone with infection management?",a:"Drainage + antibiotics",w:["Painkillers","Surgery later","Observation"]},
+{c:"Surgery",q:"Hemorrhagic shock management?",a:"Blood transfusion",w:["Fluids","Antibiotics","Observation"]},
+{c:"Surgery",q:"Post-op fever day 1 cause?",a:"Atelectasis",w:["Infection","Sepsis","Abscess"]},
+{c:"Surgery",q:"Post-op day 5 fever likely cause?",a:"Wound infection",w:["Atelectasis","Trauma","Dehydration"]},
+{c:"Surgery",q:"Anastomotic leak management?",a:"Surgery",w:["Observation","Antibiotics only","Discharge"]},
+{c:"Surgery",q:"Gallstone pancreatitis management?",a:"Supportive then cholecystectomy",w:["Surgery immediately","Antibiotics only","Discharge"]},
+{c:"Surgery",q:"Burn more than 20 percent fluid formula?",a:"Parkland",w:["BMI","GCS","APGAR"]},
+{c:"Surgery",q:"Airway obstruction first step?",a:"Secure airway",w:["Imaging","Antibiotics","Observation"]},
+{c:"Surgery",q:"Acute abdomen next step?",a:"Surgical evaluation",w:["Discharge","Antibiotics only","Observation"]},
+{c:"Surgery",q:"Hernia reducible management?",a:"Elective repair",w:["Emergency surgery","Antibiotics","Observation"]},
+{c:"Surgery",q:"Breast abscess management?",a:"Drainage",w:["Antibiotics only","Surgery later","Observation"]},
+{c:"Surgery",q:"Thyrotoxicosis surgery prep?",a:"Beta-blockers",w:["Antibiotics","Insulin","Statin"]},
+{c:"Surgery",q:"Prostate enlargement initial?",a:"Alpha blockers",w:["Surgery","Antibiotics","Observation"]},
+{c:"Surgery",q:"GI obstruction with perforation management?",a:"Emergency surgery",w:["Observation","Antibiotics","Fluids only"]},
+{c:"Surgery",q:"Fracture open priority?",a:"Antibiotics",w:["Cast","Surgery later","Observation"]},
+{c:"Surgery",q:"Severe bleeding priority?",a:"Control bleeding",w:["Imaging","Antibiotics","Observation"]},
+{c:"Surgery",q:"Head trauma stable next?",a:"CT scan",w:["Discharge","Antibiotics","Observation"]},
+{c:"Surgery",q:"Sepsis source unknown management?",a:"Broad antibiotics",w:["Observation","Surgery","Discharge"]},
+{c:"Surgery",q:"Acute limb fracture initial?",a:"Immobilization",w:["Surgery","Antibiotics","Observation"]},
+{c:"Surgery",q:"Hydronephrosis management?",a:"Relieve obstruction",w:["Observation","Antibiotics","Surgery always"]},
+{c:"Surgery",q:"Shock unresponsive fluids next?",a:"Vasopressors",w:["Antibiotics","Surgery","Discharge"]},
+{c:"Surgery",q:"Pancreatic pseudocyst management?",a:"Drain if symptomatic",w:["Observation","Antibiotics","Surgery always"]},
+{c:"Surgery",q:"Trauma FAST positive management?",a:"Surgery",w:["CT","Observation","Antibiotics"]},
+{c:"Surgery",q:"Air embolism management?",a:"Oxygen + positioning",w:["Observation","Antibiotics","Surgery"]},
+{c:"Surgery",q:"Hypovolemic shock management?",a:"Fluids",w:["Antibiotics","Surgery","Discharge"]},
+{c:"Surgery",q:"Appendix mass management?",a:"Conservative + interval surgery",w:["Immediate surgery","Antibiotics only","Discharge"]},
+{c:"Surgery",q:"Frostbite management?",a:"Warm water rewarming",w:["Ice","Antibiotics","Surgery"]},
+{c:"Surgery",q:"Wound contaminated management?",a:"Debridement",w:["Close immediately","Antibiotics only","Observation"]},
+{c:"Surgery",q:"Thyroid storm management?",a:"Beta-blocker + meds",w:["Surgery","Antibiotics","Observation"]},
+{c:"Surgery",q:"GI perforation sign?",a:"Free air under diaphragm",w:["Normal abdomen","Fever only","Cough"]},
+{c:"Surgery",q:"Peritonitis management?",a:"Surgery",w:["Observation","Antibiotics only","Discharge"]},
+{c:"Surgery",q:"Biliary colic management?",a:"Elective cholecystectomy",w:["Emergency surgery","Antibiotics","Observation"]},
+{c:"Surgery",q:"Trauma airway compromised management?",a:"Intubation",w:["CT","Antibiotics","Observation"]},
+{c:"Surgery",q:"Renal failure acute management?",a:"Treat cause + fluids",w:["Observation","Antibiotics","Surgery"]},
+{c:"Surgery",q:"Hematoma expanding management?",a:"Surgical evacuation",w:["Observation","Antibiotics","Discharge"]},
+{c:"Surgery",q:"Severe burns nutrition?",a:"High protein",w:["Low protein","No feeding","Fluids only"]},
+{c:"Surgery",q:"Tumor resectable management?",a:"Surgery",w:["Observation","Antibiotics","Radiation only"]},
+{c:"Surgery",q:"Golden rule in trauma?",a:"Treat life-threatening first",w:["Diagnose first","Observe","Delay"]}];
 
 // ── ONLINE BATTLE ────────────────────────────────
 var O={isHost:false,code:null,role:null,name:null,qCount:12,sc:[],qs:[],qi:0,scores:{host:0,guest:0},timer:null,tLeft:0,myDone:false,oppDone:false,hName:'',gName:'',subs:[]};
@@ -1711,9 +2138,10 @@ function dcInfo(){
 function dcGetQs(key){
   var seed=0;for(var i=0;i<key.length;i++)seed=(seed*31+key.charCodeAt(i))&0xffffffff;
   function sr(s){s=Math.sin(s)*10000;return s-Math.floor(s);}
-  var idx=QB.map(function(_,i){return i;});
+  var dentalQB=QB.filter(function(q){return DENTAL_CATS.indexOf(q.c)>-1;});
+  var idx=dentalQB.map(function(_,i){return i;});
   for(var i=idx.length-1;i>0;i--){var j=Math.floor(sr(seed+i)*(i+1));var tmp=idx[i];idx[i]=idx[j];idx[j]=tmp;}
-  return idx.slice(0,60).map(function(i){return{c:QB[i].c,q:QB[i].q,a:QB[i].a,opts:mkOpts(QB[i])};});
+  return idx.slice(0,60).map(function(i){return{c:dentalQB[i].c,q:dentalQB[i].q,a:dentalQB[i].a,opts:mkOpts(dentalQB[i])};});
 }
 function dcRenderCycleDays(containerId){
   var info=dcInfo();var el=document.getElementById(containerId);if(!el)return;
@@ -1826,7 +2254,7 @@ window.dcLoadLB=function(){
 window.loadLandingLB=function(){
   var el=document.getElementById('lb-prev-rows'),cycleEl=document.getElementById('lb-prev-cycle');
   var info=dcInfo();if(cycleEl)cycleEl.textContent='Day '+info.cycleDay+'/10';
-  if(!window._fbReady||!window._db||!el)return;
+  if(!window._fbReady||!window._db||!el){if(el)el.innerHTML='<div style="padding:12px;text-align:center;font-family:var(--fm);font-size:.65rem;color:var(--mt)">Sign in to see rankings</div>';return;}
   window._get(window._ref(window._db,'daily/'+info.cn+'/leaderboard')).then(function(snap){
     if(!snap.exists()){el.innerHTML='<div style="padding:14px;text-align:center;font-family:var(--fm);font-size:.65rem;color:var(--mt)">No scores yet this cycle</div>';return;}
     var players=Object.values(snap.val()).sort(function(a,b){return b.cycleTotal-a.cycleTotal;}).slice(0,3);
@@ -1836,46 +2264,11 @@ window.loadLandingLB=function(){
   }).catch(function(){});
 };
 const EXAM_SUBJECTS=[
-{id:"kbr-entry",name:"KBR Entry Exam",icon:"🏆",desc:"Kuwait Board R1 · 256 Questions · 2023–2025",isExternal:true,externalUrl:"exam-kbr-entry.html",chapters:[{title:"KBR",questions:[{q:"",a:""}]}]},
-{id:"dental-material-ext",name:"Dental Material",icon:"🔬",desc:"Adhesive · Liners · Composite · GIC · Properties",isExternal:true,externalUrl:"exam-dental-material.html",chapters:[{title:"DM",questions:[{q:"",a:""}]}]},
-{id:"dental-material",name:"Dental Material Study",icon:"🦷",desc:"Adhesive · Liners · Composite · GIC · Properties",chapters:[
-{title:"L1 — Amalgam & Dental Adhesive",color:"#3ddc84",questions:[
-{q:"When was amalgam first introduced and banned in Kuwait?",a:"Introduced in US by <strong>Edward Crawcour in 1833</strong>. Kuwait banned it after signing <strong>Minamata Convention 2013</strong>, in force 2017."},
-{q:"What are the 3 requirements for adhesion?",a:"<ol><li><strong>Clean surfaces</strong> — free of debris and moisture</li><li><strong>Surface microroughness</strong> — enhances wettability</li><li><strong>Acute contact angle</strong> — high surface energy → better wetting</li></ol>"},
-{q:"What are the dental adhesive generations?",a:"<ul><li><strong>4th:</strong> 3-step total-etch (2 bottles)</li><li><strong>5th:</strong> 2-step total-etch (1 bottle)</li><li><strong>6th:</strong> 2-step self-etch</li><li><strong>7th:</strong> 1-step self-etch</li><li><strong>8th:</strong> Universal</li></ul>"},
-{q:"What is the smear layer?",a:"Tooth preparation debris ~0.5–7 µm. Contains hydroxyapatite, denatured collagen, bacteria. Reduces dentin permeability by <strong>86%</strong>. Must be removed or modified for bonding."},
-{q:"What is 10-MDP?",a:"Adhesion monomer. Phosphate group bonds ionically to calcium in HAp. Forms stable nano-layer. Has <strong>MMP inhibitory activity</strong> → improves bond longevity."},
-{q:"What is the C-factor?",a:"Ratio of bonded to unbonded surfaces (Carl Davidson 1984). High C-factor → more polymerization shrinkage stress → debonding risk. Class I cavities have highest C-factor."}
-]},
-{title:"L2 — Dental Liners and Bases",color:"#58a6ff",questions:[
-{q:"What are the key RDT thresholds?",a:"<ul><li><strong>≥2 mm</strong> → little pulpal reaction</li><li><strong>1 mm</strong> → reduces toxins 90%</li><li><strong>0.5 mm</strong> → reduces toxins 75%</li><li><strong>≤0.25 mm</strong> → greatest pulpal impact</li></ul>"},
-{q:"Liner vs Base — difference?",a:"<strong>Liner:</strong> ≤0.5 mm — bacterial barrier, therapeutic, electrical insulation.<br><strong>Base:</strong> Thick layer — thermal/chemical protection + structural support under restoration."},
-{q:"Properties and indications of MTA?",a:"Biocompatible, pH→12.5 (antibacterial), radiopaque, long setting time, compressive strength 67 MPa.<br>Indications: root-end filling, apexification, perforation repair, pulp capping, pulpotomy."},
-{q:"Properties of GIC (Types)?",a:"Fluoride release, self-adhesive (ionic bond to Ca), minimal shrinkage.<br>I=luting, II=restorative, III=liner/base, IV=sealant, V=ortho, VI=core buildup."},
-{q:"What is Bioceramic Putty?",a:"Biocompatible, hydrophilic, dimensionally stable (expands slightly), insoluble, pH 12.<br>Uses: liner/base, pulp cap, pulpotomy, perforation, resorption, obturation."}
-]},
-{title:"L3 — Composite Resin",color:"#f0c94d",questions:[
-{q:"Composition of composite resin?",a:"<ul><li><strong>Resin matrix:</strong> Bis-GMA, UDMA, TEG-DMA</li><li><strong>Filler particles:</strong> determine strength and polishability</li><li><strong>Silane coupling agent:</strong> bonds filler to matrix</li><li>Photo-initiators, stabilizers, pigments</li></ul>"},
-{q:"Classification by filler size?",a:"<ul><li><strong>Macrofilled:</strong> Strong, poor polish</li><li><strong>Microfilled:</strong> Weaker, excellent polish</li><li><strong>Hybrid (minifill/midifill):</strong> Best balance — anterior + posterior</li><li><strong>Nanofill:</strong> Most recent generation</li></ul>"},
-{q:"What is polymerization shrinkage?",a:"1.5–5% volumetric reduction during setting. Causes internal stress → gaps → marginal failure → post-op sensitivity. Minimised by incremental layering technique."},
-{q:"Curing protocol for Class II?",a:"3 curing cycles after matrix removal:<br>Occlusal + buccal + lingual (10s each at ≥1000 mW/cm²). Intensity drops 10% per 1mm distance from tip."},
-{q:"Causes of post-op sensitivity?",a:"Over-etching dentin, no incremental build-up, polymerization shrinkage stressing cusps, incomplete cure, microleakage from poor moisture control."}
-]},
-{title:"L4 — Glass Ionomer",color:"#bc8cff",questions:[
-{q:"GIC composition and setting reaction?",a:"<strong>Wilson & Kent, early 1970s.</strong><br>Powder: calcium-fluoro-alumino-silicate glass.<br>Liquid: polyalkenoic acids (polyacrylic acid).<br>Setting = <strong>acid-base reaction.</strong>"},
-{q:"Advantages and disadvantages of GIC?",a:"<strong>Advantages:</strong> Fluoride release, self-adhesive, minimal shrinkage, biocompatible.<br><strong>Disadvantages:</strong> Tensile strength only 40% of composite. Poor aesthetics. Moisture sensitive during setting."},
-{q:"Indications for GIC?",a:"Class V restorations, caries control, primary posterior teeth, ART technique, undercut block-out, dentin substitute, ortho band cementation, core build-up (≥50% tooth remaining)."}
-]},
-{title:"L5 — Material Properties",color:"#ffa657",questions:[
-{q:"Define stress, strain and Young's modulus?",a:"<strong>Stress:</strong> Force per unit area (MPa) = F/A.<br><strong>Strain:</strong> Change in dimension per unit original length (%) = ΔL/L₀.<br><strong>Young's Modulus:</strong> Stress/Strain ratio in elastic range."},
-{q:"Ductility vs Malleability; Resilience vs Toughness?",a:"<strong>Ductility:</strong> Plastic deformation under tension.<br><strong>Malleability:</strong> Under compression.<br><strong>Resilience:</strong> Elastic energy absorbed and released (spring).<br><strong>Toughness:</strong> Total energy to fracture (elastic + plastic)."},
-{q:"Tarnish vs Corrosion?",a:"<strong>Tarnish:</strong> Surface dulling from thin sulfide/oxide film — reversible.<br><strong>Corrosion:</strong> Chemical/electrochemical attack → partial dissolution — irreversible. Galvanic: two dissimilar metals in liquid → pain then subsides."},
-{q:"Munsell color system and shade selection?",a:"3 dimensions: <strong>Hue</strong> (color family), <strong>Value</strong> (brightness), <strong>Chroma</strong> (saturation).<br>VITA: A=red-brown, B=red-yellow, C=gray, D=red-gray.<br>Always select shade in <strong>natural daylight</strong>, hydrated tooth."}
-]}
-]}
-,
-// ── SPECIALTY MCQ SECTIONS ──────────────────────────
-{id:"mcq-gd",name:"General Dentistry MCQ",icon:"🦷",desc:"Composite · Bonding · GIC · Cavity Prep · 100 Questions",chapters:[
+{id:"study-smart",name:"Study Smart",icon:"📖",desc:"Dentistry and Medicine All Specialties",isFolder:true,children:[
+  {id:"dentistry-folder",name:"Dentistry",icon:"🦷",desc:"KBR · All Specialties · Dental Materials",isFolder:true,children:[
+    {id:"kbr-entry",name:"KBR Practice Questions",icon:"🏆",desc:"Kuwait Board R1 · 256 Questions · 2023–2025",isExternal:true,externalUrl:"exam-kbr-entry.html",chapters:[{title:"KBR",questions:[{q:"",a:""}]}]},
+    {id:"dentistry-all-specs",name:"All Specialties",icon:"📚",desc:"General Dentistry · Endo · Perio · Ortho · Prosth · Oral Surgery",isFolder:true,children:[
+      {id:"mcq-gd",name:"General Dentistry MCQ",icon:"🦷",desc:"Composite · Bonding · GIC · Cavity Prep · 100 Questions",chapters:[
 {title:"General Dentistry — 100 MCQs",color:"#00f0ff",questions:[
 {q:"The most common cause of postoperative sensitivity in composite restorations is:",a:"A. Polymerization shrinkage — creates tensile stress pulling restoration from tooth walls, causing microleakage and sensitivity."},
 {q:"Which factor most affects composite polymerization shrinkage stress?",a:"A. C-factor — ratio of bonded to unbonded surfaces. High C-factor = Class I cavity = most stress."},
@@ -1978,7 +2371,7 @@ const EXAM_SUBJECTS=[
 {q:"The best marginal seal over time:",a:"B. Amalgam — corrosion products seal marginal gap."}
 ]}
 ]},
-{id:"mcq-endo",name:"Endodontics MCQ",icon:"🦠",desc:"Pulp Diagnosis · RCT · Irrigation · Files · 100 Questions",chapters:[
+      {id:"mcq-endo",name:"Endodontics MCQ",icon:"🦠",desc:"Pulp Diagnosis · RCT · Irrigation · Files · 100 Questions",chapters:[
 {title:"Endodontics — 100 MCQs",color:"#aaff00",questions:[
 {q:"The main cause of pulpal inflammation:",a:"B. Bacteria — dental caries is the primary pathway for bacterial invasion of pulp."},
 {q:"Reversible pulpitis is characterized by:",a:"C. Sharp pain to cold, non-lingering — pain resolves within seconds of stimulus removal."},
@@ -2077,7 +2470,7 @@ const EXAM_SUBJECTS=[
 {q:"The most important step before all others in RCT:",a:"A. Access cavity — straight-line access to all canals."}
 ]}
 ]},
-{id:"mcq-pros",name:"Prosthodontics MCQ",icon:"🦾",desc:"Complete Dentures · RPD · Crowns · Implants · 100 Questions",chapters:[
+      {id:"mcq-pros",name:"Prosthodontics MCQ",icon:"🦾",desc:"Complete Dentures · RPD · Crowns · Implants · 100 Questions",chapters:[
 {title:"Prosthodontics — 100 MCQs",color:"#ffaa00",questions:[
 {q:"The primary objectives of complete dentures:",a:"B. Mastication, speech, esthetics — in order of functional importance."},
 {q:"Retention of complete denture is mainly due to:",a:"B. Adhesion and cohesion of saliva film — atmospheric pressure also contributes."},
@@ -2180,7 +2573,7 @@ const EXAM_SUBJECTS=[
 {q:"Most common cause of complete denture failure:",a:"A. Alveolar ridge resorption."}
 ]}
 ]},
-{id:"mcq-surgery",name:"Oral Surgery MCQ",icon:"🔪",desc:"Extractions · Anaesthesia · Impactions · Complications · 100 Questions",chapters:[
+      {id:"mcq-surgery",name:"Oral Surgery MCQ",icon:"🔪",desc:"Extractions · Anaesthesia · Impactions · Complications · 100 Questions",chapters:[
 {title:"Oral Surgery — 100 MCQs",color:"#ff6b9d",questions:[
 {q:"The most common indication for tooth extraction:",a:"B. Caries beyond restoration — non-restorable carious destruction."},
 {q:"The most common complication during extraction:",a:"B. Root fracture — especially curved, hypercementosed, or ankylosed roots."},
@@ -2278,7 +2671,7 @@ const EXAM_SUBJECTS=[
 {q:"Nerve monitoring in third molar surgery:",a:"B. Neurosensory testing post-op — two-point discrimination."}
 ]}
 ]},
-{id:"mcq-ortho",name:"Orthodontics MCQ",icon:"😬",desc:"Malocclusion · Appliances · Cephalometrics · 100 Questions",chapters:[
+      {id:"mcq-ortho",name:"Orthodontics MCQ",icon:"😬",desc:"Malocclusion · Appliances · Cephalometrics · 100 Questions",chapters:[
 {title:"Orthodontics — 100 MCQs",color:"#b06eff",questions:[
 {q:"Main goal of orthodontic treatment:",a:"B. Functional occlusion and esthetics."},
 {q:"Angle's classification is based on:",a:"B. Molar relationship."},
@@ -2380,7 +2773,7 @@ const EXAM_SUBJECTS=[
 {q:"Retention after surgery:",a:"B. Both rigid fixation and orthodontics needed."}
 ]}
 ]},
-{id:"mcq-perio",name:"Periodontics MCQ",icon:"🩸",desc:"Diagnosis · Scaling · Surgery · Maintenance · 100 Questions",chapters:[
+      {id:"mcq-perio",name:"Periodontics MCQ",icon:"🩸",desc:"Diagnosis · Scaling · Surgery · Maintenance · 100 Questions",chapters:[
 {title:"Periodontics — 100 MCQs",color:"#58a6ff",questions:[
 {q:"Primary etiological factor of periodontitis:",a:"B. Bacteria in dental plaque biofilm."},
 {q:"Gingivitis is:",a:"A. Reversible inflammation of gingiva without attachment loss."},
@@ -2479,61 +2872,794 @@ const EXAM_SUBJECTS=[
 {q:"Periodontal disease staging uses:",a:"A. Attachment loss, bone loss, tooth loss as severity indicators."}
 ]}
 ]}
+    ]},
+    {id:"mcq-dm",name:"Dental Materials MCQ",icon:"🔬",desc:"Amalgam · Composite · GIC · Impression · Ceramics · 100 Questions",chapters:[
+      {title:"Dental Material - 100 MCQs",color:"#00f0ff",questions:[
+{q:"The main component of dental amalgam is:",a:"Mercury"},
+{q:"Amalgam strength increases with:",a:"Time"},
+{q:"High-copper amalgam reduces:",a:"Gamma-2 phase"},
+{q:"The weakest phase in amalgam:",a:"Gamma-2"},
+{q:"Creep in amalgam leads to:",a:"Marginal breakdown"},
+{q:"Composite resin consists of:",a:"Resin matrix + filler"},
+{q:"The main resin matrix in composites:",a:"Bis-GMA"},
+{q:"Filler particles improve:",a:"Strength and wear resistance"},
+{q:"Polymerization shrinkage causes:",a:"Marginal gaps"},
+{q:"Light-cured composites use:",a:"Blue light (~470 nm)"},
+{q:"The initiator in light-cure composite:",a:"Camphorquinone"},
+{q:"Self-cure composites use:",a:"Chemical activation"},
+{q:"Bonding agents improve:",a:"Adhesion to tooth"},
+{q:"Etching with phosphoric acid creates:",a:"Microporosities"},
+{q:"Acid etch concentration commonly:",a:"37%"},
+{q:"Enamel etching time:",a:"15-30 sec"},
+{q:"Dentin bonding is difficult due to:",a:"Moisture and tubules"},
+{q:"Hybrid layer forms between:",a:"Resin and dentin"},
+{q:"Glass ionomer cement sets by:",a:"Acid-base reaction"},
+{q:"GIC releases:",a:"Fluoride"},
+{q:"GIC bonds to tooth via:",a:"Chemical bonding"},
+{q:"Resin-modified GIC includes:",a:"Resin component"},
+{q:"Zinc oxide eugenol is used for:",a:"Temporary filling"},
+{q:"Eugenol effect on composite:",a:"Inhibits polymerization"},
+{q:"Dental ceramics are:",a:"Esthetic and brittle"},
+{q:"Porcelain strength increases with:",a:"Glazing"},
+{q:"The main disadvantage of ceramics:",a:"Brittleness"},
+{q:"Metal-ceramic bond is:",a:"Chemical + mechanical"},
+{q:"Impression materials record:",a:"Tooth and tissue details"},
+{q:"Alginate is:",a:"Elastic impression material"},
+{q:"Alginate setting reaction:",a:"Chemical gelation"},
+{q:"Alginate dimensional stability:",a:"Low"},
+{q:"Syneresis in alginate:",a:"Water loss"},
+{q:"Imbibition means:",a:"Water gain"},
+{q:"Addition silicone is:",a:"High accuracy"},
+{q:"Condensation silicone produces:",a:"Alcohol byproduct"},
+{q:"Polyether impression material is:",a:"Hydrophilic"},
+{q:"Bite registration materials:",a:"Record occlusion"},
+{q:"Gypsum products include:",a:"Dental stone"},
+{q:"Gypsum setting is:",a:"Crystallization"},
+{q:"Type III gypsum is:",a:"Dental stone"},
+{q:"Type IV gypsum used for:",a:"Die stone"},
+{q:"Wax distortion occurs due to:",a:"Internal stress"},
+{q:"Inlay wax is:",a:"Pattern material"},
+{q:"Casting shrinkage:",a:"Metal contraction"},
+{q:"Investment materials withstand:",a:"High temperature"},
+{q:"Soldering joins metals by:",a:"Filler metal"},
+{q:"Corrosion is:",a:"Metal degradation"},
+{q:"Galvanic shock occurs due to:",a:"Different metals contact"},
+{q:"Biocompatibility means:",a:"Compatibility with tissues"},
+{q:"Thermal expansion mismatch causes:",a:"Cracks"},
+{q:"Modulus of elasticity indicates:",a:"Stiffness"},
+{q:"Hardness measures:",a:"Resistance to indentation"},
+{q:"Toughness is:",a:"Energy absorption before fracture"},
+{q:"Curing depth depends on:",a:"Light intensity"},
+{q:"Oxygen inhibition layer:",a:"Unpolymerized surface"},
+{q:"Matrix system used for:",a:"Contour restoration"},
+{q:"Wedge function:",a:"Stabilize matrix"},
+{q:"Adhesion types:",a:"Mechanical + chemical"},
+{q:"Bond strength measured in:",a:"MPa"},
+{q:"Microleakage leads to:",a:"Secondary caries"},
+{q:"Dental implants made of:",a:"Titanium"},
+{q:"Titanium property:",a:"Biocompatible"},
+{q:"Impression tray adhesive:",a:"Retains material"},
+{q:"Zinc phosphate cement sets by:",a:"Acid-base reaction"},
+{q:"Zinc phosphate pH initially:",a:"Acidic"},
+{q:"Polycarboxylate cement bonds to:",a:"Enamel chemically"},
+{q:"Resin cement provides:",a:"Strong adhesion"},
+{q:"Etch-and-rinse system:",a:"Separate etch step"},
+{q:"Self-etch system:",a:"Combined etch + primer"},
+{q:"Flowable composite has:",a:"Low viscosity"},
+{q:"Packable composite:",a:"High viscosity"},
+{q:"Bulk-fill composite allows:",a:"Thick increments"},
+{q:"Polymerization stress causes:",a:"Bond failure"},
+{q:"Shade selection should be done:",a:"Before isolation"},
+{q:"Dental cements used for:",a:"Luting restorations"},
+{q:"Adhesive failure occurs at:",a:"Interface"},
+{q:"Cohesive failure occurs:",a:"Within material"},
+{q:"Impression accuracy depends on:",a:"Both"},
+{q:"Setting expansion of gypsum:",a:"Slight expansion"},
+{q:"Burnout in casting:",a:"Wax elimination"},
+{q:"Casting defects include:",a:"Porosity"},
+{q:"Porosity caused by:",a:"Air entrapment"},
+{q:"Dental alloys include:",a:"Mixture of metals"},
+{q:"Noble metals:",a:"Resist corrosion"},
+{q:"Base metals:",a:"Nickel"},
+{q:"Impression tearing due to:",a:"Thin material"},
+{q:"Tray selection affects:",a:"Accuracy"},
+{q:"Disinfection of impression:",a:"Required"},
+{q:"Autoclave sterilization uses:",a:"Steam under pressure"},
+{q:"Composite polishing improves:",a:"Surface smoothness"},
+{q:"Wear resistance improved by:",a:"Filler content"},
+{q:"Radiopacity helps:",a:"Detection in X-ray"},
+{q:"Resin composite radiopacity due to:",a:"Barium glass filler"},
+{q:"Polymerization reaction is:",a:"Irreversible"},
+{q:"Cross-linking increases:",a:"Strength"},
+{q:"Water sorption causes:",a:"Expansion"},
+{q:"Solubility leads to:",a:"Material loss"},
+{q:"Elastic materials return to:",a:"Original shape"},
+{q:"Key property of ideal dental material:",a:"Biocompatible + durable"}
+      ]}
+    ]}
+  ]},
+  {id:"medicine-folder",name:"Medicine",icon:"🩺",desc:"General Medicine · Dermatology · Surgery · Physiology · Family",isFolder:true,isMedical:true,children:[
+    {id:"medicine-all-specs",name:"All Specialties",icon:"📚",desc:"General Medicine · Dermatology · Physiology · Family Medicine · Surgery",isFolder:true,isMedical:true,children:[
+      {id:"med-general",name:"General Medicine",icon:"🩺",desc:"Diagnosis · Pharmacology · Pathology · 100 MCQ",isMedical:true,chapters:[
+{title:"General Medicine — 100 MCQs",color:"#ff9500",questions:[
+{q:"Iron deficiency anemia — low MCV, low ferritin, what other finding?",a:"Low serum iron with high TIBC — transferrin is upregulated in iron deficiency."},
+{q:"Hypokalemia causes what ECG change?",a:"Flattened T waves and U waves — increased risk of arrhythmias."},
+{q:"Graves disease — what is the pathology?",a:"TSH receptor stimulating antibodies — cause hyperthyroidism and goitre."},
+{q:"Most common cause of hypertension?",a:"Essential (primary) hypertension — no identifiable cause in 90-95%."},
+{q:"Myocardial infarction — first biomarker to rise?",a:"Troponin — rises within 3-4 hours, remains elevated 1-2 weeks."},
+{q:"HbA1c of 6.5% or above is diagnostic of?",a:"Diabetes mellitus — reflects average glucose over 3 months."},
+{q:"ACE inhibitors mechanism?",a:"Inhibit angiotensin-converting enzyme — reduce angiotensin II, lower BP, reduce proteinuria."},
+{q:"Which electrolyte causes peaked T waves when elevated?",a:"Potassium (hyperkalemia) — can progress to sine wave and VF."},
+{q:"Asthma — what is the pathophysiology?",a:"Reversible airway obstruction due to bronchospasm, mucus, inflammation."},
+{q:"Vitamin C deficiency — what is the clinical presentation?",a:"Scurvy — bleeding gums, perifollicular hemorrhages, impaired wound healing."},
+{q:"Normal blood pH?",a:"7.35–7.45 — maintained by buffers, lungs (CO₂), and kidneys (HCO₃⁻)."},
+{q:"Addison disease — cortisol deficiency causes?",a:"Hypotension, hyponatremia, hyperkalemia, hyperpigmentation (high ACTH)."},
+{q:"SLE (lupus) — specific antibody?",a:"Anti-dsDNA and anti-Smith — highly specific for SLE."},
+{q:"Vitamin B12 deficiency — neurological complication?",a:"Subacute combined degeneration of spinal cord — posterior and lateral columns."},
+{q:"Hypothyroidism causes?",a:"Weight gain, cold intolerance, bradycardia, constipation, depression, dry skin."},
+{q:"Type I hypersensitivity is mediated by?",a:"IgE antibodies — mast cell degranulation, anaphylaxis."},
+{q:"PTH increases blood calcium via?",a:"Bone resorption, renal calcium reabsorption, and vitamin D activation (1-alpha hydroxylase)."},
+{q:"Which shock type has low SVR and high CO?",a:"Septic shock — vasodilation causes low SVR."},
+{q:"Pneumonia — most common community organism?",a:"Streptococcus pneumoniae — typically lobar consolidation."},
+{q:"Warfarin mechanism?",a:"Inhibits vitamin K epoxide reductase — reduces factors II, VII, IX, X."},
+{q:"Heart failure — signs of right-sided failure?",a:"Peripheral edema, raised JVP, hepatomegaly, ascites."},
+{q:"Statins mechanism?",a:"HMG-CoA reductase inhibitors — reduce LDL cholesterol synthesis in liver."},
+{q:"Ricketts — caused by?",a:"Vitamin D deficiency — impairs calcium absorption, causes soft bones."},
+{q:"DVT — Virchow triad?",a:"Stasis + hypercoagulability + endothelial injury."},
+{q:"Anaphylaxis — first-line treatment?",a:"Adrenaline (epinephrine) 0.5mg IM into lateral thigh."},
+{q:"Which vitamin is required for clotting factors II, VII, IX, X?",a:"Vitamin K — cofactor for gamma-carboxylation."},
+{q:"COPD — spirometry shows?",a:"Obstructive pattern — FEV1/FVC < 0.7, non-reversible."},
+{q:"Pulmonary embolism — gold standard investigation?",a:"CT pulmonary angiography (CTPA)."},
+{q:"Gout — cause?",a:"Hyperuricemia with monosodium urate crystal deposition in joints."},
+{q:"Parkinson disease — pathology?",a:"Loss of dopaminergic neurons in substantia nigra."},
+{q:"Which artery causes anterior STEMI?",a:"Left anterior descending (LAD) artery."},
+{q:"Normal serum sodium?",a:"135–145 mmol/L."},
+{q:"Furosemide — class and mechanism?",a:"Loop diuretic — inhibits Na/K/2Cl transporter in thick ascending limb."},
+{q:"Measles — pathognomonic sign?",a:"Koplik spots — white spots on buccal mucosa, appear before rash."},
+{q:"Hypothyroidism — investigation?",a:"TSH elevated, free T4 low — TSH is most sensitive test."},
+{q:"Normal platelet count?",a:"150,000–400,000/µL."},
+{q:"Peptic ulcer — most common organism?",a:"Helicobacter pylori — treat with triple therapy (PPI + two antibiotics)."},
+{q:"Which drug causes cough as side effect?",a:"ACE inhibitors — bradykinin accumulation causes dry cough."},
+{q:"Metabolic alkalosis caused by?",a:"Vomiting (loss of HCl), diuretics (chloride loss), antacid overuse."},
+{q:"Diabetes insipidus — caused by?",a:"ADH deficiency (central) or resistance (nephrogenic) — polyuria with dilute urine."},
+{q:"Iron deficiency anemia — treatment?",a:"Oral ferrous sulfate 200mg TDS for 3-6 months."},
+{q:"Multiple sclerosis — characteristic MRI finding?",a:"Periventricular white matter plaques — demyelinating lesions."},
+{q:"Hyponatremia — most common cause?",a:"SIADH — syndrome of inappropriate ADH secretion."},
+{q:"Aortic stenosis — classic murmur?",a:"Ejection systolic murmur, loudest at aortic area, radiates to carotids."},
+{q:"Beta-blockers are contraindicated in?",a:"Asthma — can cause bronchospasm via beta-2 blockade."},
+{q:"Rheumatoid arthritis — specific blood test?",a:"Anti-CCP antibodies — most specific; RF also elevated."},
+{q:"Cushing syndrome — cause?",a:"Excess cortisol — most commonly from exogenous steroids or pituitary adenoma."},
+{q:"Infective endocarditis — most common organism?",a:"Streptococcus viridans (subacute) or Staphylococcus aureus (acute)."},
+{q:"Aspirin mechanism?",a:"Irreversibly inhibits COX-1 and COX-2 — reduces thromboxane A2, prostaglandins."},
+{q:"Sepsis definition?",a:"Life-threatening organ dysfunction caused by dysregulated host response to infection."},
+{q:"Creatinine is used to assess?",a:"Glomerular filtration rate (GFR) — index of kidney function."},
+{q:"Iron studies in anaemia of chronic disease?",a:"Low iron, low TIBC, normal/high ferritin — ferritin is an acute phase protein."},
+{q:"Troponin elevation indicates?",a:"Myocardial cell damage — from MI, myocarditis, PE, or severe sepsis."},
+{q:"Lyme disease — caused by?",a:"Borrelia burgdorferi — tick-borne spirochete, bull's eye rash (erythema migrans)."},
+{q:"Normal INR for therapeutic anticoagulation?",a:"2.0–3.0 for most indications (e.g., AF, DVT, PE)."},
+{q:"Metabolic acidosis with high anion gap?",a:"MUDPILES — Methanol, Uraemia, DKA, Paracetamol, Iron, Lactic acidosis, Ethanol, Salicylates."},
+{q:"CKD — most common cause?",a:"Diabetic nephropathy — glomerulosclerosis from chronic hyperglycemia."},
+{q:"Atrial fibrillation — thrombus forms where?",a:"Left atrial appendage — risk of systemic embolism including stroke."},
+{q:"Hyperthyroidism — biochemistry?",a:"Low TSH, high free T3 and T4."},
+{q:"Type 2 diabetes — first-line drug?",a:"Metformin — reduces hepatic glucose output, weight-neutral/weight-losing."},
+{q:"Addison disease — emergency?",a:"Addisonian crisis — treat with IV hydrocortisone + IV saline + dextrose."},
+{q:"Portal hypertension complication?",a:"Oesophageal varices — treated with endoscopic banding and propranolol."},
+{q:"Systemic lupus — renal involvement?",a:"Lupus nephritis — managed with hydroxychloroquine + immunosuppression."},
+{q:"Wilson disease — organs affected?",a:"Liver (cirrhosis) and brain — copper accumulation."},
+{q:"Henoch-Schonlein purpura — classic triad?",a:"Purpura + arthralgia + abdominal pain — IgA vasculitis."},
+{q:"Normal cardiac output in adults?",a:"~5 L/min = stroke volume (70mL) × heart rate (70bpm)."},
+{q:"Haemolytic anaemia — investigation?",a:"Raised bilirubin, low haptoglobin, positive Coombs, raised LDH, reticulocytosis."},
+{q:"Myasthenia gravis — pathology?",a:"Autoantibodies against acetylcholine receptors at NMJ — fatigable muscle weakness."},
+{q:"Hypercalcaemia mnemonic?",a:"Bones, Groans, Psychic Moans, Stones — bone pain, constipation, depression, renal stones."},
+{q:"SGLT-2 inhibitors — example and benefit?",a:"Empagliflozin — reduces cardiovascular and renal outcomes in T2DM."},
+{q:"Acute kidney injury — AKIN classification based on?",a:"Rise in creatinine and urine output — staged 1-3 by severity."},
+{q:"Pancreatitis — most common causes?",a:"Gallstones (GET SMASHED — mnemonic) and alcohol."},
+{q:"Haematuria — red flag for?",a:"Bladder cancer — requires urgent cystoscopy."},
+{q:"Which hepatitis virus has no chronic carrier state?",a:"Hepatitis A — self-limiting, faecal-oral transmission."},
+{q:"Nephrotic syndrome triad?",a:"Proteinuria > 3.5g/day + hypoalbuminaemia + oedema."},
+{q:"Mitral regurgitation — murmur?",a:"Pansystolic murmur at apex, radiates to axilla."},
+{q:"Polycythaemia vera — caused by?",a:"JAK2 mutation — autonomous RBC overproduction."},
+{q:"Chronic liver disease — signs?",a:"Spider naevi, palmar erythema, caput medusae, gynaecomastia, jaundice."},
+{q:"Sickle cell anaemia — pathology?",a:"HbS polymerises when deoxygenated — causes vaso-occlusion and haemolysis."},
+{q:"Wernicke encephalopathy — caused by?",a:"Thiamine (B1) deficiency — triad of confusion, ophthalmoplegia, ataxia."},
+{q:"Coarctation of aorta — sign?",a:"Radio-femoral delay, hypertension in upper limbs, rib notching on CXR."},
+{q:"Acute gout attack — treatment?",a:"NSAIDs (naproxen) or colchicine or steroids — rest and ice."},
+{q:"Goodpasture syndrome — target antigen?",a:"Type IV collagen in glomerular basement membrane and alveoli."},
+{q:"Haemolytic uraemic syndrome — cause?",a:"E. coli O157:H7 (EHEC) — produces Shiga toxin."},
+{q:"Normal eGFR?",a:">90 mL/min/1.73m² — CKD defined as eGFR < 60 for > 3 months."},
+{q:"Hypothyroidism in pregnancy — risks?",a:"Miscarriage, pre-eclampsia, impaired fetal neurodevelopment — must treat."},
+{q:"Meningitis triad?",a:"Fever + neck stiffness + photophobia — empirical treatment: ceftriaxone + dexamethasone."},
+{q:"Acute angle-closure glaucoma?",a:"Sudden painful red eye, fixed mid-dilated pupil, haloes — emergency: acetazolamide + pilocarpine."},
+{q:"Hyperosmolar hyperglycaemic state (HHS)?",a:"Type 2 DM emergency — glucose > 30, osmolality > 320, no significant ketosis."},
+{q:"Gilbert syndrome — jaundice type?",a:"Unconjugated hyperbilirubinaemia — benign, worsened by fasting/illness."},
+{q:"Pulmonary fibrosis — auscultation finding?",a:"Fine bi-basal inspiratory crackles (velcro crackles)."},
+{q:"Takayasu arteritis — affects?",a:"Large vessels (aorta and branches) — young women, pulseless disease."},
+{q:"Temporal arteritis — complication?",a:"Anterior ischaemic optic neuropathy — blindness if untreated."},
+{q:"Reactive arthritis triad?",a:"Arthritis + urethritis + conjunctivitis (can't see, pee or climb a tree)."}
+]}
+]},
+      {id:"med-derm",name:"Dermatology",icon:"🩹",desc:"Skin Conditions · Diagnosis · Treatment · 100 MCQ",isMedical:true,chapters:[
+{title:"Dermatology — 100 MCQs",color:"#ff6b35",questions:[
+{q:"Itchy silvery-scaled plaques on extensor surfaces?",a:"Psoriasis — chronic autoimmune inflammatory skin disease."},
+{q:"Ring-shaped scaly lesion with central clearing?",a:"Tinea corporis — dermatophyte fungal infection."},
+{q:"White depigmented macules with no scaling?",a:"Vitiligo — autoimmune destruction of melanocytes."},
+{q:"Butterfly (malar) rash across cheeks?",a:"Systemic lupus erythematosus — triggered by sun exposure."},
+{q:"Acne vulgaris — first-line topical treatment?",a:"Topical retinoids (adapalene) + benzoyl peroxide."},
+{q:"Most common cause of cellulitis?",a:"Staphylococcus aureus and Streptococcus pyogenes."},
+{q:"Honey-colored crusted lesions on face in child?",a:"Impetigo — highly contagious, treat with topical mupirocin."},
+{q:"Night itching with burrows between fingers?",a:"Scabies — Sarcoptes scabiei mite."},
+{q:"Scabies treatment?",a:"Permethrin 5% cream to whole body, leave overnight."},
+{q:"Seborrheic dermatitis — treatment?",a:"Ketoconazole shampoo + mild topical steroid for face."},
+{q:"Alopecia areata — type of hair loss?",a:"Autoimmune non-scarring alopecia — smooth bald patches."},
+{q:"Tense blisters in elderly patient?",a:"Bullous pemphigoid — autoimmune, IgG against hemidesmosomes."},
+{q:"Flaccid blisters with Nikolsky sign positive?",a:"Pemphigus vulgaris — autoimmune, IgG against desmoglein 3."},
+{q:"ABCDE rule — what does E stand for?",a:"Evolution — any change in size, shape, colour over time."},
+{q:"Pearly nodule with telangiectasia and rolled edge?",a:"Basal cell carcinoma (BCC) — most common skin cancer."},
+{q:"Most common skin cancer?",a:"Basal cell carcinoma — sun-exposed areas."},
+{q:"Most dangerous skin cancer?",a:"Melanoma — high metastatic potential."},
+{q:"Eczema (atopic dermatitis) — first-line treatment?",a:"Emollients regularly + topical corticosteroids for flares."},
+{q:"Urticaria (hives) — immediate treatment?",a:"Non-sedating oral antihistamines (cetirizine or loratadine)."},
+{q:"Painful grouped vesicles on erythematous base?",a:"Herpes simplex — treat with acyclovir."},
+{q:"Shingles — caused by?",a:"Reactivation of VZV (varicella-zoster virus) in sensory ganglion."},
+{q:"Shingles treatment?",a:"Acyclovir within 72 hours of rash onset."},
+{q:"Psoriasis nail changes?",a:"Pitting, onycholysis, oil drops, subungual hyperkeratosis."},
+{q:"Koebner phenomenon — seen in?",a:"Psoriasis — new lesions appear at sites of trauma."},
+{q:"Drug causing photosensitivity?",a:"Tetracycline, amiodarone, thiazides, fluoroquinolones."},
+{q:"Contact dermatitis — cause and treatment?",a:"Allergen or irritant exposure — remove trigger + topical steroid."},
+{q:"Vitiligo — first-line treatment?",a:"Topical steroids or calcineurin inhibitors + narrowband UVB phototherapy."},
+{q:"Tinea capitis — treatment?",a:"Oral griseofulvin or terbinafine — topical antifungals ineffective for scalp."},
+{q:"Furuncle (boil) — causative organism?",a:"Staphylococcus aureus — treat with incision and drainage."},
+{q:"Target lesions (erythema multiforme) — common trigger?",a:"Herpes simplex virus — can also be drug-induced."},
+{q:"Stevens-Johnson syndrome — management?",a:"Admit to ICU/burns unit, stop causative drug, supportive care."},
+{q:"Most common bacteria in acne?",a:"Cutibacterium acnes (formerly Propionibacterium acnes)."},
+{q:"Rosacea — first-line treatment?",a:"Topical metronidazole or azelaic acid."},
+{q:"Actinic keratosis — significance?",a:"Pre-malignant — can progress to squamous cell carcinoma."},
+{q:"Keloid — treatment?",a:"Intralesional steroid injections + silicone sheets."},
+{q:"Dermatitis herpetiformis — associated with?",a:"Coeliac disease — responds to gluten-free diet + dapsone."},
+{q:"Pityriasis rosea — herald patch?",a:"Oval salmon-pink plaque appears 1-2 weeks before general eruption."},
+{q:"Molluscum contagiosum — caused by?",a:"Poxvirus — pearly umbilicated papules, self-limiting."},
+{q:"Warts (verruca) — caused by?",a:"Human papillomavirus (HPV)."},
+{q:"Seborrhoeic keratosis — appearance?",a:"Stuck-on warty benign lesions — no treatment needed."},
+{q:"Erythema nodosum — common causes?",a:"Strep infection, sarcoidosis, IBD, TB, drugs, pregnancy."},
+{q:"Pyoderma gangrenosum — associated with?",a:"IBD, rheumatoid arthritis, haematological malignancy."},
+{q:"Acanthosis nigricans — associated with?",a:"Insulin resistance, obesity, type 2 diabetes, malignancy."},
+{q:"Xanthelasma — associated with?",a:"Hyperlipidaemia — cholesterol deposits around eyelids."},
+{q:"Spider naevi — when clinically significant?",a:"If >5, suggests chronic liver disease (cirrhosis)."},
+{q:"Systemic sclerosis — skin features?",a:"Tight shiny skin, Raynaud's, sclerodactyly, calcinosis, telangiectasia."},
+{q:"Kaposi sarcoma — caused by?",a:"HHV-8 — occurs in HIV/AIDS or transplant patients."},
+{q:"Lichen planus — clinical features?",a:"4Ps: Purple, Pruritic, Polygonal Papules with Wickham striae."},
+{q:"Pompholyx — affects?",a:"Palms and soles — vesicular eczema (dyshidrotic eczema)."},
+{q:"Tinea versicolor (pityriasis versicolor)?",a:"Malassezia furfur — hypo or hyperpigmented scaly patches."},
+{q:"Rosacea phymatous type — feature?",a:"Rhinophyma — enlarged nose from sebaceous gland hyperplasia."},
+{q:"Infantile haemangioma — management?",a:"Propranolol if growing or endangering vision/airway."},
+{q:"Granuloma annulare — associated with?",a:"Diabetes mellitus (generalised form)."},
+{q:"Psoriasis — biologics target?",a:"TNF-alpha (adalimumab), IL-17 (secukinumab), IL-23 (guselkumab)."},
+{q:"Eczema — allergen testing?",a:"Skin prick test and specific IgE — to identify triggers."},
+{q:"Livedo reticularis — pattern?",a:"Mottled violaceous net-like pattern — vasospasm or small vessel occlusion."},
+{q:"Palmar erythema — associated with?",a:"Chronic liver disease, pregnancy, rheumatoid arthritis, thyrotoxicosis."},
+{q:"Discoid lupus erythematosus — feature?",a:"Scarring alopecia with plugged follicles and telangiectasia."},
+{q:"Paronychia — acute vs chronic?",a:"Acute = bacterial (Staph); Chronic = fungal (Candida)."},
+{q:"Necrotising fasciitis — key feature?",a:"Pain out of proportion + systemic toxicity + crepitus — surgical emergency."},
+{q:"Solar lentigo — treatment?",a:"Photoprotection, cryotherapy or laser for cosmesis."},
+{q:"Port wine stain — type of lesion?",a:"Capillary vascular malformation — not a true haemangioma."},
+{q:"Sun protection factor (SPF) 30 blocks?",a:"~97% of UVB radiation."},
+{q:"Botulinum toxin mechanism in dermatology?",a:"Inhibits acetylcholine release at NMJ — reduces dynamic wrinkles."},
+{q:"Narrowband UVB used for?",a:"Psoriasis, vitiligo, atopic eczema, mycosis fungoides."},
+{q:"Melanoma — staging investigation?",a:"Sentinel lymph node biopsy — detects early regional metastasis."},
+{q:"SCC of skin — risk factors?",a:"Chronic UV exposure, HPV, immunosuppression, Bowen disease."},
+{q:"Milia — what are they?",a:"Benign keratin-filled epidermal cysts — no treatment needed."},
+{q:"Epidermoid cyst contents?",a:"Keratin material — not sebum (misnomer: sebaceous cyst)."},
+{q:"Lipoma — characteristics?",a:"Soft, mobile, painless, subcutaneous fat tumour."},
+{q:"Dermatofibroma — clinical sign?",a:"Dimple sign when pinched — firm brown papule, usually on legs."},
+{q:"Pemphigoid gestationis — occurs when?",a:"During pregnancy — pruritic urticarial lesions, periumbilical."},
+{q:"Toxic epidermal necrolysis — main trigger?",a:"Drug reaction (sulfonamides, anticonvulsants, allopurinol)."},
+{q:"Morphea — type of condition?",a:"Localised scleroderma — hardening of skin without systemic involvement."},
+{q:"Chickenpox vs shingles — difference?",a:"Chickenpox = primary VZV infection (widespread); Shingles = reactivation (dermatomal)."},
+{q:"First-line for mild eczema in children?",a:"Regular emollients + low-potency topical steroids (hydrocortisone 1%)."},
+{q:"First-line for severe eczema?",a:"Cyclosporin or dupilumab (biologic IL-4/IL-13 inhibitor)."},
+{q:"Phototherapy types in dermatology?",a:"Narrowband UVB (most used), PUVA (psoralen + UVA)."},
+{q:"Patch testing — used for?",a:"Identifying allergens in allergic contact dermatitis."},
+{q:"Henoch-Schonlein purpura skin findings?",a:"Palpable purpura on buttocks and legs — IgA vasculitis."},
+{q:"Erythroderma — definition?",a:"Generalised redness >90% BSA — medical emergency (risk of hypothermia/sepsis)."},
+{q:"DRESS syndrome — stands for?",a:"Drug Reaction with Eosinophilia and Systemic Symptoms."},
+{q:"Minocycline side effect on skin?",a:"Grey-blue pigmentation of skin, nails, and mucous membranes."},
+{q:"Hydroxyurea side effect on skin?",a:"Leg ulcers, dry skin, nail changes."},
+{q:"Cutaneous larva migrans — cause?",a:"Hookworm (Ancylostoma) larval migration — serpiginous track."},
+{q:"Mycosis fungoides — type of cancer?",a:"Cutaneous T-cell lymphoma — presents as patches, plaques, tumours."},
+{q:"Scleroderma — autoantibody?",a:"Anti-Scl-70 (diffuse scleroderma) or anti-centromere (limited CREST)."},
+{q:"Dermatomyositis — skin feature?",a:"Heliotrope rash (periorbital), Gottron papules over knuckles."},
+{q:"Chronic urticaria — duration definition?",a:">6 weeks — requires investigation for underlying cause."},
+{q:"Atopic triad?",a:"Eczema + asthma + allergic rhinitis — all IgE-mediated."},
+{q:"Herpes gladiatorum — common in?",a:"Wrestlers — HSV spread through skin-to-skin contact."},
+{q:"Trichophyton rubrum — causes?",a:"Most common dermatophyte — causes tinea pedis, unguium, corporis."},
+{q:"Majocchi granuloma — what is it?",a:"Dermatophyte infection of hair follicles — often after topical steroid misuse."},
+{q:"Photosensitive rash — drug causes?",a:"Amiodarone, tetracyclines, thiazides, fluoroquinolones, NSAIDs."},
+{q:"Best way to confirm melanoma diagnosis?",a:"Excision biopsy with 2mm margins — not shave biopsy."}
+]}
+]},
+      {id:"med-physio",name:"Physiology",icon:"🫀",desc:"Cardiovascular · Respiratory · Renal · Endocrine · 100 MCQ",isMedical:true,chapters:[
+{title:"Physiology — 100 MCQs",color:"#9b59b6",questions:[
+{q:"SA node location and rate?",a:"Right atrium near SVC junction — intrinsic rate 60-100 bpm."},
+{q:"Normal cardiac output?",a:"~5 L/min = stroke volume (70mL) × heart rate (72 bpm)."},
+{q:"O₂-Hb dissociation curve is sigmoid because?",a:"Cooperative binding — each O₂ bound increases affinity for next."},
+{q:"Right shift of O₂ curve means?",a:"Decreased O₂ affinity — more O₂ released to tissues (acidosis, fever, high CO₂, high 2,3-DPG)."},
+{q:"Surfactant — produced by?",a:"Type II pneumocytes — reduces alveolar surface tension, prevents atelectasis."},
+{q:"Primary stimulus for ventilation?",a:"Rising arterial CO₂ (PaCO₂) — detected by medullary chemoreceptors."},
+{q:"Normal blood pH range?",a:"7.35–7.45 — maintained by bicarbonate, haemoglobin, phosphate buffers."},
+{q:"Bicarbonate buffer system?",a:"CO₂ + H₂O ⇌ H₂CO₃ ⇌ H⁺ + HCO₃⁻ — links lungs and kidneys."},
+{q:"Insulin — where produced?",a:"Beta cells of islets of Langerhans in pancreas."},
+{q:"ADH mechanism?",a:"Binds V2 receptors on collecting duct — inserts aquaporin-2 channels, increases water reabsorption."},
+{q:"PTH — 3 main actions?",a:"Bone resorption (raises Ca²⁺), renal Ca²⁺ reabsorption, activates vitamin D."},
+{q:"P wave represents?",a:"Atrial depolarization — precedes atrial contraction."},
+{q:"QRS complex represents?",a:"Ventricular depolarization — triggers ventricular contraction."},
+{q:"T wave represents?",a:"Ventricular repolarization — recovery phase."},
+{q:"Preload definition?",a:"End-diastolic volume (EDV) — ventricular filling before contraction."},
+{q:"Afterload definition?",a:"Resistance against which heart must pump — mainly systemic vascular resistance."},
+{q:"Frank-Starling law?",a:"Greater preload (EDV) → greater stroke volume — up to physiological limit."},
+{q:"Fick's principle?",a:"O₂ consumption = CO × (arterial O₂ content - venous O₂ content)."},
+{q:"Normal GFR in adult?",a:"~125 mL/min or 180 L/day — most reabsorbed; ~1.8L urine/day produced."},
+{q:"Renin — what triggers its release?",a:"Low renal perfusion pressure, low Na⁺, sympathetic activation."},
+{q:"Angiotensin II — main effects?",a:"Vasoconstriction, aldosterone release, ADH release, Na⁺ reabsorption."},
+{q:"Aldosterone — site and effect?",a:"Principal cells of collecting duct — increases Na⁺ reabsorption, K⁺ excretion."},
+{q:"Main site of glucose absorption?",a:"Duodenum and jejunum — via SGLT-1 (secondary active transport)."},
+{q:"Bile — produced by?",a:"Hepatocytes — stored in gallbladder, emulsifies fats for lipase."},
+{q:"Primary neurotransmitter at NMJ?",a:"Acetylcholine — nicotinic ACh receptors on motor end plate."},
+{q:"Muscle contraction — calcium role?",a:"Binds troponin C → moves tropomyosin → exposes actin → myosin cross-bridge forms."},
+{q:"ATP production — main site?",a:"Mitochondria — via oxidative phosphorylation (electron transport chain)."},
+{q:"Anaerobic glycolysis produces?",a:"2 ATP net + lactate (pyruvate → lactate via LDH)."},
+{q:"Normal serum sodium?",a:"135–145 mmol/L."},
+{q:"Normal serum potassium?",a:"3.5–5.0 mmol/L."},
+{q:"Hypothalamus — functions?",a:"Temperature, thirst, hunger, circadian rhythm, hormone secretion (TRH, CRH, GnRH)."},
+{q:"Growth hormone — effects?",a:"IGF-1 release from liver — bone growth, lipolysis, anti-insulin."},
+{q:"Cortisol — main metabolic effects?",a:"Gluconeogenesis, protein catabolism, lipolysis, immune suppression."},
+{q:"Adrenaline — sympathetic effects?",a:"Increased HR, bronchodilation, glycogenolysis, vasoconstriction in skin."},
+{q:"Parasympathetic — heart effect?",a:"Slows HR via muscarinic M2 receptors on SA node (ACh)."},
+{q:"Baroreceptors — location?",a:"Carotid sinus and aortic arch — detect stretch from blood pressure."},
+{q:"CO₂ transport — main form?",a:"Bicarbonate (HCO₃⁻) ~70%, carbaminohaemoglobin ~23%, dissolved ~7%."},
+{q:"Bohr effect — clinical importance?",a:"In acidic tissues (e.g., exercising muscle), O₂ is unloaded more readily."},
+{q:"Haldane effect?",a:"Oxygenation of Hb decreases CO₂ carrying capacity — facilitates CO₂ removal in lungs."},
+{q:"Type II respiratory failure?",a:"High CO₂ (PaCO₂ > 6 kPa) + hypoxia — obstructive (COPD) or neuromuscular."},
+{q:"Ventilation-perfusion (V/Q) mismatch — causes hypoxia how?",a:"Poorly ventilated but perfused alveoli → unoxygenated blood enters circulation (shunt)."},
+{q:"Pulmonary vascular resistance vs systemic?",a:"Much lower — right heart is low-pressure system."},
+{q:"Coronary blood flow — when does it occur?",a:"Mainly in diastole — compressed during systole."},
+{q:"Mean arterial pressure formula?",a:"MAP = DBP + 1/3(PP) = (SBP + 2×DBP)/3."},
+{q:"Pulse pressure?",a:"SBP - DBP — widens in aortic regurgitation/stenosis, reduces in cardiac tamponade."},
+{q:"Venous return — determinants?",a:"Skeletal muscle pump, respiratory pump, venous tone, blood volume."},
+{q:"Central venous pressure — normal range?",a:"0–8 mmHg — reflects right atrial pressure and venous return."},
+{q:"Myogenic autoregulation?",a:"Arterioles constrict when BP rises — maintains constant flow to organs."},
+{q:"Cerebral blood flow regulated by?",a:"CO₂ primarily — hypercapnia causes vasodilation; also pH and O₂."},
+{q:"Osmolarity regulated by?",a:"ADH (water balance) and thirst — hypothalamic osmoreceptors."},
+{q:"Tubuloglomerular feedback?",a:"High NaCl at macula densa → afferent arteriole constriction → reduces GFR."},
+{q:"Proximal tubule reabsorbs?",a:"~65-70% of filtered Na⁺, water, glucose, amino acids, HCO₃⁻."},
+{q:"Loop of Henle — ascending limb?",a:"Impermeable to water, actively reabsorbs Na⁺/K⁺/Cl⁻ — creates medullary gradient."},
+{q:"Thyroid hormone synthesis?",a:"Thyroglobulin + iodination + coupling → T3/T4 — requires iodine."},
+{q:"Calcitonin — source and function?",a:"C cells of thyroid — lowers blood calcium (opposes PTH)."},
+{q:"Prolactin — function?",a:"Milk production — also inhibits GnRH (suppresses ovulation in lactation)."},
+{q:"Oxytocin — functions?",a:"Uterine contractions (labor) + milk ejection reflex."},
+{q:"EPO (erythropoietin) — stimulus?",a:"Renal hypoxia — increases RBC production in bone marrow."},
+{q:"RBC lifespan?",a:"~120 days — destroyed in spleen and liver."},
+{q:"Normal haemoglobin?",a:"Male: 130–170 g/L; Female: 115–155 g/L."},
+{q:"Platelets — lifespan?",a:"~10 days — produced by megakaryocytes in bone marrow."},
+{q:"Coagulation cascade — intrinsic pathway trigger?",a:"Contact activation (factor XII) — activated by collagen/foreign surface."},
+{q:"Histamine in allergy — source?",a:"Mast cells and basophils — causes vasodilation, increased permeability, bronchoconstriction."},
+{q:"Complement system — C5a function?",a:"Potent chemotactic agent — recruits neutrophils to site of infection."},
+{q:"Acute phase reactants?",a:"CRP, ESR, fibrinogen, ferritin — rise in inflammation."},
+{q:"Cytokines in fever?",a:"IL-1, IL-6, TNF-α → prostaglandin E2 → hypothalamus → fever."},
+{q:"Nitric oxide (NO) — vascular effect?",a:"Produced by endothelium — potent vasodilator via cGMP."},
+{q:"Skeletal muscle vs cardiac muscle?",a:"Skeletal = voluntary, multinucleate, fatigable; Cardiac = involuntary, uninucleate, non-fatigable."},
+{q:"Smooth muscle — contraction mechanism?",a:"Calcium + calmodulin → activates myosin light chain kinase (MLCK)."},
+{q:"Action potential — phases in cardiac muscle?",a:"Phase 0 (Na⁺ in), 1 (K⁺ out), 2 (Ca²⁺ in plateau), 3 (K⁺ out repolarization), 4 (resting)."},
+{q:"SA node action potential — unique feature?",a:"No fast Na⁺ channel — slow Ca²⁺ dependent; funny current (If) drives automaticity."},
+{q:"Absolute refractory period — significance?",a:"Cannot generate another action potential — prevents tetany in cardiac muscle."},
+{q:"CO₂ retention in COPD?",a:"Hypoxic drive — high O₂ therapy can suppress respiratory drive."},
+{q:"Dead space — definition?",a:"Anatomical dead space (~150mL) — conducting airways not involved in gas exchange."},
+{q:"Functional residual capacity (FRC)?",a:"Volume at end of passive expiration — ERV + RV."},
+{q:"Total lung capacity?",a:"All air in lungs at maximum inspiration = TV + IRV + ERV + RV."},
+{q:"Lung compliance — what reduces it?",a:"Pulmonary fibrosis (stiff lungs), pulmonary oedema."},
+{q:"Airway resistance — what increases it?",a:"Bronchospasm (asthma), mucus, airway inflammation."},
+{q:"Respiratory acidosis — causes?",a:"Hypoventilation — COPD, obstructive sleep apnoea, sedation."},
+{q:"Metabolic alkalosis — causes?",a:"Vomiting, diuretics, hyperaldosteronism — loss of H⁺ or gain of HCO₃⁻."},
+{q:"Anion gap — normal value?",a:"8–12 mEq/L = Na⁺ − (Cl⁻ + HCO₃⁻)."},
+{q:"High anion gap metabolic acidosis causes?",a:"MUDPILES — methanol, uraemia, DKA, propylene glycol/paracetamol, iron/INH, lactic acidosis, ethanol, salicylates."},
+{q:"Henderson-Hasselbalch equation?",a:"pH = pKa + log([HCO₃⁻]/[CO₂]) — describes bicarbonate buffer system."},
+{q:"Renal compensation for respiratory alkalosis?",a:"Kidneys excrete HCO₃⁻ — takes 3-5 days (slower than respiratory compensation)."},
+{q:"Osmotic diuresis — mechanism?",a:"Non-reabsorbable solute (glucose in DKA) pulls water into tubule — increases urine output."},
+{q:"ADH deficiency — effect on urine?",a:"Large volumes of dilute urine (diabetes insipidus)."},
+{q:"Normal urine osmolality range?",a:"50–1200 mOsm/kg — concentrated urine in dehydration."},
+{q:"Erythropoiesis — where does it occur?",a:"Red bone marrow — stimulated by EPO from kidneys."},
+{q:"Iron — how is it absorbed?",a:"As Fe²⁺ (ferrous) in duodenum via DMT-1 transporter — vitamin C enhances."},
+{q:"B12 absorption requires?",a:"Intrinsic factor from gastric parietal cells — deficiency causes pernicious anaemia."},
+{q:"Folic acid — role?",a:"One-carbon transfer reactions — DNA synthesis and RBC maturation."},
+{q:"Neutrophil lifespan?",a:"~6-8 hours in blood, ~1-4 days in tissue."},
+{q:"T-lymphocyte maturation?",a:"Bone marrow origin → mature in thymus → peripheral blood."},
+{q:"B-lymphocyte maturation?",a:"Bone marrow origin and maturation → differentiate to plasma cells → produce antibodies."},
+{q:"IgG — function?",a:"Main immunoglobulin in secondary immune response — crosses placenta."},
+{q:"IgE — function?",a:"Allergy and anti-parasitic defence — binds mast cells and basophils."},
+{q:"Normal WBC count?",a:"4,000–11,000/µL — neutrophils most common (~60-70%)."}
+]}
+]},
+      {id:"med-family",name:"Family Medicine",icon:"👨‍⚕️",desc:"Screening · Prevention · Primary Care · 100 Questions",isMedical:true,chapters:[
+        {title:"Family Medicine - 100 MCQs",color:"#ff9500",questions:[
+{q:"A 45-year-old man with no risk factors asks about colon cancer screening. What is the recommended starting age?",a:"45"},
+{q:"What is the first-line treatment for uncomplicated hypertension?",a:"Lifestyle modification"},
+{q:"A patient presents with sore throat and fever. Centor criteria are used to assess risk of:",a:"Strep throat"},
+{q:"Which vaccine is recommended annually?",a:"Influenza"},
+{q:"What is the BMI range for overweight?",a:"25-29.9"},
+{q:"A 60-year-old smoker should be screened for:",a:"Lung cancer"},
+{q:"Which screening test is used for diabetes?",a:"HbA1c"},
+{q:"Which condition is most common in primary care?",a:"Hypertension"},
+{q:"Which drug is first-line for type 2 diabetes?",a:"Metformin"},
+{q:"Which age group requires HPV vaccination?",a:"Adolescents"},
+{q:"Which condition is most associated with smoking?",a:"COPD"},
+{q:"What is the goal BP for most adults?",a:"<130/80"},
+{q:"Which screening is done for cervical cancer?",a:"Pap smear"},
+{q:"A child with fever and rash most likely viral cause is:",a:"Measles"},
+{q:"Which lifestyle factor reduces cardiovascular risk?",a:"Exercise"},
+{q:"Which condition requires urgent referral?",a:"Chest pain"},
+{q:"Which test screens for hyperlipidemia?",a:"Lipid profile"},
+{q:"Which is a red flag symptom in back pain?",a:"Weight loss"},
+{q:"Which condition is common in elderly?",a:"Osteoporosis"},
+{q:"Which vitamin is given to newborns?",a:"Vitamin K"},
+{q:"Which condition causes polyuria and polydipsia?",a:"Diabetes"},
+{q:"Which drug is used for pain relief in primary care?",a:"Paracetamol"},
+{q:"Which screening is done for breast cancer?",a:"Mammogram"},
+{q:"Which is a risk factor for heart disease?",a:"Smoking"},
+{q:"Which condition presents with wheezing?",a:"Asthma"},
+{q:"Which infection is treated with antibiotics?",a:"Bacterial UTI"},
+{q:"Which condition causes fatigue and pallor?",a:"Anemia"},
+{q:"Which screening is for prostate cancer?",a:"PSA"},
+{q:"Which condition causes burning urination?",a:"UTI"},
+{q:"Which is a childhood vaccine?",a:"MMR"},
+{q:"Which disease is lifestyle-related?",a:"Diabetes type 2"},
+{q:"Which is first step in smoking cessation?",a:"Counseling"},
+{q:"Which condition causes headache and high BP?",a:"Hypertension"},
+{q:"Which test checks thyroid function?",a:"TSH"},
+{q:"Which condition causes joint pain?",a:"Arthritis"},
+{q:"Which is a preventive measure?",a:"Vaccination"},
+{q:"Which disease is communicable?",a:"TB"},
+{q:"Which is a symptom of depression?",a:"Low mood"},
+{q:"Which condition causes chest tightness?",a:"Asthma"},
+{q:"Which drug lowers BP?",a:"Amlodipine"},
+{q:"Which is a screening test for anemia?",a:"CBC"},
+{q:"Which condition causes dizziness?",a:"Hypotension"},
+{q:"Which infection causes diarrhea?",a:"Gastroenteritis"},
+{q:"Which is a mental health disorder?",a:"Depression"},
+{q:"Which is a risk factor for stroke?",a:"Hypertension"},
+{q:"Which drug is used for allergy?",a:"Antihistamine"},
+{q:"Which condition causes cough and fever?",a:"Pneumonia"},
+{q:"Which is a sign of dehydration?",a:"Dry mouth"},
+{q:"Which disease affects lungs?",a:"COPD"},
+{q:"Which condition causes swelling of legs?",a:"Heart failure"},
+{q:"Which screening is recommended for osteoporosis?",a:"DEXA scan"},
+{q:"Which is a complication of diabetes?",a:"Neuropathy"},
+{q:"Which infection is viral?",a:"Influenza"},
+{q:"Which condition causes increased urination at night?",a:"BPH"},
+{q:"Which is a sign of anemia?",a:"Pallor"},
+{q:"Which drug treats GERD?",a:"Omeprazole"},
+{q:"Which condition causes weight loss and tremor?",a:"Hyperthyroidism"},
+{q:"Which screening is for colon cancer?",a:"Colonoscopy"},
+{q:"Which disease causes chronic cough?",a:"COPD"},
+{q:"Which condition causes low mood and sleep issues?",a:"Depression"},
+{q:"Which is a bacterial infection?",a:"Strep throat"},
+{q:"Which drug is for cholesterol?",a:"Statin"},
+{q:"Which condition causes blurred vision in diabetes?",a:"Retinopathy"},
+{q:"Which symptom needs urgent care?",a:"Chest pain"},
+{q:"Which disease is preventable by vaccine?",a:"Measles"},
+{q:"Which condition causes high blood sugar?",a:"Diabetes"},
+{q:"Which condition causes wheezing in children?",a:"Asthma"},
+{q:"Which test is routine in checkups?",a:"CBC"},
+{q:"Which is a symptom of infection?",a:"Fever"},
+{q:"Which condition causes chest pain after meals?",a:"GERD"},
+{q:"Which condition causes fatigue in elderly?",a:"Anemia"},
+{q:"Which is a lifestyle disease?",a:"HTN"},
+{q:"Which drug is for pain and fever?",a:"Paracetamol"},
+{q:"Which condition causes skin rash?",a:"Allergy"},
+{q:"Which infection spreads by air?",a:"TB"},
+{q:"Which symptom is common in UTI?",a:"Dysuria"},
+{q:"Which condition causes high cholesterol?",a:"Dyslipidemia"},
+{q:"Which disease affects kidneys?",a:"CKD"},
+{q:"Which test detects infection?",a:"WBC count"},
+{q:"Which condition causes vomiting and diarrhea?",a:"Gastroenteritis"},
+{q:"Which is a childhood illness?",a:"Chickenpox"},
+{q:"Which symptom is seen in flu?",a:"Fever"},
+{q:"Which condition causes leg pain on walking?",a:"PAD"},
+{q:"Which is a screening for vision?",a:"Eye exam"},
+{q:"Which condition causes memory loss?",a:"Dementia"},
+{q:"Which is a complication of HTN?",a:"Stroke"},
+{q:"Which infection causes sore throat?",a:"Strep"},
+{q:"Which condition causes insomnia?",a:"Anxiety"},
+{q:"Which is a symptom of heart disease?",a:"Chest pain"},
+{q:"Which disease affects bones?",a:"Osteoporosis"},
+{q:"Which test checks liver?",a:"LFT"},
+{q:"Which condition causes weight gain?",a:"Hypothyroidism"},
+{q:"Which is a preventive screening?",a:"Pap smear"},
+{q:"Which disease causes fever and cough?",a:"Pneumonia"},
+{q:"Which is a sign of heart failure?",a:"Edema"},
+{q:"Which drug treats asthma?",a:"Salbutamol"},
+{q:"Which condition causes increased thirst?",a:"Diabetes"},
+{q:"Which is a mental disorder?",a:"Anxiety"},
+{q:"Which disease is chronic?",a:"HTN"},
+{q:"Which is the main role of family medicine?",a:"Holistic patient care"}
+        ]}
+      ]},
+      {id:"med-surgery",name:"Surgery",icon:"🏥",desc:"Management · Trauma · Emergency · 100 Questions",isMedical:true,chapters:[
+        {title:"Surgery - 100 MCQs",color:"#ff6b35",questions:[
+{q:"A 25-year-old presents with right lower quadrant pain and fever. What is the next step?",a:"CT scan abdomen"},
+{q:"Confirmed acute appendicitis management?",a:"Appendectomy"},
+{q:"A patient with bowel obstruction presents with vomiting and distension. Initial step?",a:"IV fluids and NG tube"},
+{q:"Strangulated hernia management?",a:"Emergency surgery"},
+{q:"A patient with trauma and hypotension first step?",a:"IV fluids/resuscitation"},
+{q:"Tension pneumothorax management?",a:"Needle decompression"},
+{q:"Open fracture initial management?",a:"IV antibiotics + tetanus"},
+{q:"A patient with acute cholecystitis definitive treatment?",a:"Cholecystectomy"},
+{q:"Burn patient first priority?",a:"Airway management"},
+{q:"A patient with GI bleeding first step?",a:"IV fluids"},
+{q:"Perforated peptic ulcer management?",a:"Emergency surgery"},
+{q:"Breast lump suspicious for cancer next step?",a:"Biopsy"},
+{q:"Hemodynamically unstable trauma investigation?",a:"FAST scan"},
+{q:"Acute urinary retention management?",a:"Catheterization"},
+{q:"Thyroid nodule initial test?",a:"TSH"},
+{q:"Varicose veins symptomatic treatment?",a:"Surgery/ablation"},
+{q:"Acute pancreatitis initial management?",a:"IV fluids"},
+{q:"Gallstones without symptoms management?",a:"Observation"},
+{q:"Hemorrhoids bleeding initial management?",a:"Lifestyle + fiber"},
+{q:"Testicular torsion management?",a:"Immediate surgery"},
+{q:"Abscess treatment?",a:"Incision and drainage"},
+{q:"Deep vein thrombosis management?",a:"Anticoagulation"},
+{q:"Aortic aneurysm ruptured management?",a:"Emergency surgery"},
+{q:"Diabetic foot ulcer infected management?",a:"Antibiotics + debridement"},
+{q:"Intussusception in child management?",a:"Air/contrast enema"},
+{q:"Hydrocele asymptomatic management?",a:"Observation"},
+{q:"Compartment syndrome management?",a:"Fasciotomy"},
+{q:"Necrotizing fasciitis management?",a:"Urgent surgical debridement"},
+{q:"Colon cancer obstruction management?",a:"Surgery"},
+{q:"Kidney stone with severe pain initial step?",a:"Pain control + fluids"},
+{q:"Empyema management?",a:"Chest tube drainage"},
+{q:"Hemothorax management?",a:"Chest tube"},
+{q:"Obstructed inguinal hernia management?",a:"Emergency surgery"},
+{q:"Bartholin abscess management?",a:"Incision and drainage"},
+{q:"Splenic rupture unstable management?",a:"Emergency laparotomy"},
+{q:"Acute limb ischemia management?",a:"Heparin + surgery"},
+{q:"Osteomyelitis management?",a:"Antibiotics long-term"},
+{q:"Perianal fistula treatment?",a:"Surgery"},
+{q:"Esophageal varices bleeding management?",a:"Endoscopic banding"},
+{q:"Acute mesenteric ischemia management?",a:"Emergency surgery"},
+{q:"Basal cell carcinoma treatment?",a:"Surgical excision"},
+{q:"Melanoma suspected next step?",a:"Wide excision"},
+{q:"Pilonidal abscess management?",a:"Drainage"},
+{q:"Small bowel obstruction stable initial step?",a:"NG tube + fluids"},
+{q:"AAA screening population?",a:"Elderly male smokers"},
+{q:"Hypercalcemia severe management?",a:"Fluids"},
+{q:"Head injury GCS less than 8 management?",a:"Intubation"},
+{q:"Fracture with neuro deficit management?",a:"Urgent surgical evaluation"},
+{q:"Thyroid cancer definitive treatment?",a:"Surgery"},
+{q:"Septic shock first step?",a:"Fluids + antibiotics"},
+{q:"Pancreatic cancer obstructive jaundice management?",a:"Biliary stenting"},
+{q:"Chronic venous ulcer management?",a:"Compression therapy"},
+{q:"Acute cholecystitis severe management?",a:"Early surgery"},
+{q:"Rectal bleeding stable next step?",a:"Colonoscopy"},
+{q:"Esophageal cancer management?",a:"Surgery with chemo"},
+{q:"Perforated appendix management?",a:"Surgery + antibiotics"},
+{q:"Bladder outlet obstruction management?",a:"Catheter"},
+{q:"Liver abscess management?",a:"Antibiotics with drainage"},
+{q:"Thrombosed hemorrhoid management?",a:"Conservative management"},
+{q:"Gastric cancer management?",a:"Surgery"},
+{q:"Penetrating trauma management?",a:"Surgical exploration"},
+{q:"Spinal cord compression management?",a:"Steroids + urgent surgery"},
+{q:"Acute urinary stone with infection management?",a:"Drainage + antibiotics"},
+{q:"Hemorrhagic shock management?",a:"Blood transfusion"},
+{q:"Post-op fever day 1 cause?",a:"Atelectasis"},
+{q:"Post-op day 5 fever likely cause?",a:"Wound infection"},
+{q:"Anastomotic leak management?",a:"Surgery"},
+{q:"Gallstone pancreatitis management?",a:"Supportive then cholecystectomy"},
+{q:"Burn more than 20 percent fluid formula?",a:"Parkland"},
+{q:"Airway obstruction first step?",a:"Secure airway"},
+{q:"Acute abdomen next step?",a:"Surgical evaluation"},
+{q:"Hernia reducible management?",a:"Elective repair"},
+{q:"Breast abscess management?",a:"Drainage"},
+{q:"Thyrotoxicosis surgery prep?",a:"Beta-blockers"},
+{q:"Prostate enlargement initial?",a:"Alpha blockers"},
+{q:"GI obstruction with perforation management?",a:"Emergency surgery"},
+{q:"Fracture open priority?",a:"Antibiotics"},
+{q:"Severe bleeding priority?",a:"Control bleeding"},
+{q:"Head trauma stable next?",a:"CT scan"},
+{q:"Sepsis source unknown management?",a:"Broad antibiotics"},
+{q:"Acute limb fracture initial?",a:"Immobilization"},
+{q:"Hydronephrosis management?",a:"Relieve obstruction"},
+{q:"Shock unresponsive fluids next?",a:"Vasopressors"},
+{q:"Pancreatic pseudocyst management?",a:"Drain if symptomatic"},
+{q:"Trauma FAST positive management?",a:"Surgery"},
+{q:"Air embolism management?",a:"Oxygen + positioning"},
+{q:"Hypovolemic shock management?",a:"Fluids"},
+{q:"Appendix mass management?",a:"Conservative + interval surgery"},
+{q:"Frostbite management?",a:"Warm water rewarming"},
+{q:"Wound contaminated management?",a:"Debridement"},
+{q:"Thyroid storm management?",a:"Beta-blocker + meds"},
+{q:"GI perforation sign?",a:"Free air under diaphragm"},
+{q:"Peritonitis management?",a:"Surgery"},
+{q:"Biliary colic management?",a:"Elective cholecystectomy"},
+{q:"Trauma airway compromised management?",a:"Intubation"},
+{q:"Renal failure acute management?",a:"Treat cause + fluids"},
+{q:"Hematoma expanding management?",a:"Surgical evacuation"},
+{q:"Severe burns nutrition?",a:"High protein"},
+{q:"Tumor resectable management?",a:"Surgery"},
+{q:"Golden rule in trauma?",a:"Treat life-threatening first"}
+        ]}
+      ]}
+    ]}
+  ]}
+]}
 ];
 
-// ── EXAM ─────────────────────────────────────────
-var EX={subj:null,ci:0,qi:0,rev:{}};
+// -- EXAM (Study Smart) -----------------------------------------
+var EX={subj:null,ci:0,qi:0,rev:{},folderStack:[],curFolder:null};
+
 function exKey(s,c,q){return s+'-'+c+'-'+q;}
 function exLoad(){try{EX.rev=JSON.parse(localStorage.getItem('ex_rev')||'{}');}catch(e){EX.rev={};}}
 function exSave(){localStorage.setItem('ex_rev',JSON.stringify(EX.rev));}
+
+function exCountDone(subj){
+  if(!subj||subj.isFolder||subj.isExternal)return{done:0,tot:0};
+  var tot=0,done=0;
+  (subj.chapters||[]).forEach(function(ch,ci){
+    tot+=ch.questions.length;
+    ch.questions.forEach(function(_,qi){if(EX.rev[exKey(subj.id,ci,qi)])done++;});
+  });
+  return{done:done,tot:tot};
+}
+
+function exCountFolder(items){
+  var done=0,tot=0;
+  (items||[]).forEach(function(s){
+    if(s.isFolder){var r=exCountFolder(s.children||[]);done+=r.done;tot+=r.tot;}
+    else if(!s.isExternal){var r=exCountDone(s);done+=r.done;tot+=r.tot;}
+  });
+  return{done:done,tot:tot};
+}
+
 function exRenderHome(){
   var el=document.getElementById('exam-sl');if(!el)return;
-  el.innerHTML=EXAM_SUBJECTS.map(function(s){
-    var tot=s.isExternal?'—':s.chapters.reduce(function(a,c){return a+c.questions.length;},0);
-    var done=s.isExternal?0:s.chapters.reduce(function(a,c,ci){return a+c.questions.filter(function(_,qi){return EX.rev[exKey(s.id,ci,qi)];}).length;},0);
-    var prog=s.isExternal?'Tap to open →':(done+'/'+tot+' reviewed');
-    var color=s.id.indexOf('mcq')===0?'var(--pk)':s.id==='gd-questions'?'var(--c1)':'var(--gd)';
-    return'<div style="background:var(--s2);border:1px solid var(--b1);border-radius:13px;padding:15px 17px;cursor:pointer;transition:border-color .2s;display:flex;align-items:center;justify-content:space-between;gap:11px" onclick="exSelectSubj(\''+s.id+'\')" onmouseover="this.style.borderColor=\''+color+'\'" onmouseout="this.style.borderColor=\'var(--b1)\'">'
-      +'<div style="display:flex;align-items:center;gap:11px"><span style="font-size:1.4rem">'+s.icon+'</span><div><div style="font-size:.88rem;font-weight:700;margin-bottom:2px">'+s.name+'</div><div style="font-family:var(--fm);font-size:.6rem;color:var(--mt)">'+s.desc+' · '+prog+'</div></div></div>'
-      +'<span style="color:var(--mt)">›</span></div>';
+  EX.folderStack=[];EX.curFolder=null;
+  el.innerHTML=exBuildList(EXAM_SUBJECTS);
+  exBindClicks(el);
+  var bb=document.getElementById('ex-back-btn');if(bb)bb.style.display='none';
+  var sub=document.getElementById('ex-study-sub');if(sub)sub.textContent='Study Mode';
+}
+
+function exBuildList(items){
+  return items.map(function(s){
+    var isMed=s.isMedical||false;
+    var bdr=isMed?'rgba(255,149,0,.25)':s.id==='kbr-entry'?'rgba(240,201,77,.25)':s.isFolder?'rgba(0,240,255,.18)':'rgba(170,255,0,.15)';
+    var col=isMed?'#ff9500':s.id==='kbr-entry'?'#f0c94d':s.isFolder?'var(--c1)':'var(--c3)';
+    var prog='';
+    if(s.isFolder){var r=exCountFolder(s.children||[]);prog=r.tot>0?(r.done+'/'+r.tot):'sub-folders';}
+    else if(s.isExternal){prog='tap to open';}
+    else{var r=exCountDone(s);prog=r.done+'/'+r.tot+' done';}
+    var arrow=s.isFolder?'<b style="color:'+col+'">&#9656;</b>':s.isExternal?'<b style="color:'+col+'">&#8599;</b>':'<b style="color:var(--mt)">&#10095;</b>';
+    var medTag=isMed?'<span style="font-family:var(--fm);font-size:.48rem;background:rgba(255,149,0,.12);border:1px solid rgba(255,149,0,.3);color:#ff9500;padding:1px 5px;border-radius:4px;margin-left:4px;vertical-align:middle">Medical</span>':'';
+    return '<div class="ex-item" data-sid="'+s.id+'" style="background:var(--s2);border:1px solid '+bdr+';border-radius:13px;padding:14px 16px;cursor:pointer;transition:all .18s;display:flex;align-items:center;justify-content:space-between;gap:11px;margin-bottom:8px">'
+      +'<div style="display:flex;align-items:center;gap:10px">'
+      +'<span style="font-size:1.4rem">'+s.icon+'</span>'
+      +'<div><div style="font-size:.88rem;font-weight:700;margin-bottom:2px;color:'+col+'">'+s.name+medTag+'</div>'
+      +'<div style="font-family:var(--fm);font-size:.58rem;color:var(--mt)">'+s.desc+' &middot; '+prog+'</div></div>'
+      +'</div>'+arrow+'</div>';
   }).join('');
 }
-function exSelectSubj(id){var s=EXAM_SUBJECTS.filter(function(x){return x.id===id;})[0];if(!s)return;if(s.isExternal){window.location.href=s.externalUrl;return;}EX.subj=s;go('sc-exam-subject');exRenderSubj();}
+
+function exBindClicks(container){
+  if(!container)return;
+  container.querySelectorAll('.ex-item').forEach(function(div){
+    var sid=div.getAttribute('data-sid');
+    div.onclick=function(){exSelectItem(sid);};
+  });
+}
+
+function exSelectItem(id){
+  var s=exFindItem(EXAM_SUBJECTS,id);
+  if(!s)return;
+  if(s.isExternal){window.location.href=s.externalUrl;return;}
+  if(s.isFolder){
+    var parent=EX.curFolder||{id:'root',children:EXAM_SUBJECTS,name:'Study Smart'};
+    EX.folderStack.push(parent);
+    EX.curFolder=s;
+    exShowFolder(s);
+    return;
+  }
+  EX.subj=s;
+  go('sc-exam-subject');
+  exRenderSubj();
+}
+
+function exFindItem(items,id){
+  for(var i=0;i<(items||[]).length;i++){
+    if(items[i].id===id)return items[i];
+    if(items[i].isFolder){var f=exFindItem(items[i].children,id);if(f)return f;}
+  }
+  return null;
+}
+
+function exShowFolder(folder){
+  var el=document.getElementById('exam-sl');if(!el)return;
+  go('sc-exam-home');
+  el.innerHTML=exBuildList(folder.children||[]);
+  exBindClicks(el);
+  var sub=document.getElementById('ex-study-sub');if(sub)sub.textContent=folder.name;
+  var bb=document.getElementById('ex-back-btn');if(bb)bb.style.display='block';
+}
+
+function exGoBack(){
+  if(EX.folderStack.length===0){exRenderHome();return;}
+  var prev=EX.folderStack.pop();
+  if(!prev||prev.id==='root'){
+    EX.curFolder=null;
+    exRenderHome();
+  } else {
+    EX.curFolder=prev;
+    exShowFolder(prev);
+  }
+}
+
 function exRenderSubj(){
-  if(!EX.subj)return;var s=EX.subj;
+  if(!EX.subj)return;
+  var s=EX.subj;
   document.getElementById('ex-st').textContent=s.name;
-  var tot=s.chapters.reduce(function(a,c){return a+c.questions.length;},0);
-  var done=s.chapters.reduce(function(a,c,ci){return a+c.questions.filter(function(_,qi){return EX.rev[exKey(s.id,ci,qi)];}).length;},0);
-  document.getElementById('ex-ss').textContent=s.chapters.length+' chapters · '+tot+' questions';
+  var tot=0,done=0;
+  (s.chapters||[]).forEach(function(ch,ci){
+    tot+=ch.questions.length;
+    ch.questions.forEach(function(_,qi){if(EX.rev[exKey(s.id,ci,qi)])done++;});
+  });
+  document.getElementById('ex-ss').textContent=(s.chapters||[]).length+' chapters / '+tot+' questions';
   document.getElementById('ex-pf').style.width=(tot>0?(done/tot*100):0)+'%';
   document.getElementById('ex-pl').textContent=done+' / '+tot+' reviewed';
   var el=document.getElementById('ex-cl');
-  el.innerHTML=s.chapters.map(function(ch,ci){
+  el.innerHTML=(s.chapters||[]).map(function(ch,ci){
     var chDone=ch.questions.filter(function(_,qi){return EX.rev[exKey(s.id,ci,qi)];}).length;
     var items=ch.questions.map(function(q,qi){
-      var isDone=EX.rev[exKey(s.id,ci,qi)];
-      return'<div style="background:var(--s2);border:1px solid '+(isDone?'rgba(61,220,132,.28)':'var(--b1)')+(isDone?';background:rgba(61,220,132,.03)':'')+';border-radius:10px;padding:10px 12px;cursor:pointer;transition:all .18s;display:flex;align-items:center;justify-content:space-between;gap:9px;margin-bottom:5px" onclick="exGoCard('+ci+','+qi+')">'
+      var isDone=!!EX.rev[exKey(s.id,ci,qi)];
+      return '<div onclick="exGoCard('+ci+','+qi+')" style="background:var(--s2);border:1px solid '+(isDone?'rgba(61,220,132,.28)':'var(--b1)')+(isDone?';background:rgba(61,220,132,.03)':'')+';border-radius:10px;padding:10px 12px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:9px;margin-bottom:5px">'
         +'<span style="font-size:.8rem;font-weight:600;flex:1;line-height:1.4">'+q.q+'</span>'
-        +'<span style="flex-shrink:0">'+(isDone?'✅':'›')+'</span></div>';
+        +'<span>'+(isDone?'✅':'›')+'</span></div>';
     }).join('');
-    return'<div style="margin-bottom:18px"><div style="font-family:var(--fm);font-size:.6rem;color:'+(ch.color||'var(--gd)')+';letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;padding-bottom:4px;border-bottom:1px solid var(--b1)">'+ch.title+' ('+chDone+'/'+ch.questions.length+')</div>'+items+'</div>';
+    return '<div style="margin-bottom:18px"><div style="font-family:var(--fm);font-size:.6rem;color:'+(ch.color||'var(--gd)')+';letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;padding-bottom:4px;border-bottom:1px solid var(--b1)">'+ch.title+' ('+chDone+'/'+ch.questions.length+')</div>'+items+'</div>';
   }).join('');
 }
+
 function exGoCard(ci,qi){EX.ci=ci;EX.qi=qi;go('sc-exam-card');exRenderCard();}
+
 function exRenderCard(){
-  if(!EX.subj)return;var ch=EX.subj.chapters[EX.ci],q=ch.questions[EX.qi];
+  if(!EX.subj)return;
+  var ch=EX.subj.chapters[EX.ci],q=ch.questions[EX.qi];
   var key=exKey(EX.subj.id,EX.ci,EX.qi),isDone=!!EX.rev[key];
   document.getElementById('ex-cc').textContent=ch.title;
   document.getElementById('ex-cnt').textContent=(EX.qi+1)+'/'+ch.questions.length;
-  document.getElementById('ex-q').textContent=q.q;document.getElementById('ex-a').innerHTML=q.a;
-  document.getElementById('ex-ab').style.display='none';document.getElementById('ex-sb').style.display='block';
-  var mb=document.getElementById('ex-mb');mb.textContent=isDone?'✅ Reviewed':'☑ Mark as reviewed';mb.style.color=isDone?'var(--c3)':'var(--mt)';mb.style.borderColor=isDone?'rgba(170,255,0,.35)':'var(--b2)';
-  var nb=document.getElementById('ex-nb');if(EX.qi>=ch.questions.length-1){nb.textContent='Finish ✓';nb.style.background='var(--c3)';}else{nb.textContent='Next →';nb.style.background='var(--c1)';}
+  document.getElementById('ex-q').textContent=q.q;
+  document.getElementById('ex-a').innerHTML=q.a;
+  document.getElementById('ex-ab').style.display='none';
+  document.getElementById('ex-sb').style.display='block';
+  var mb=document.getElementById('ex-mb');
+  mb.textContent=isDone?'✅ Reviewed':'☑ Mark as reviewed';
+  mb.style.color=isDone?'var(--c3)':'var(--mt)';
+  mb.style.borderColor=isDone?'rgba(170,255,0,.35)':'var(--b2)';
+  var nb=document.getElementById('ex-nb');
+  if(EX.qi>=ch.questions.length-1){nb.textContent='Finish ✓';nb.style.background='var(--c3)';}
+  else{nb.textContent='Next →';nb.style.background='var(--c1)';}
 }
+
 function exShowAns(){document.getElementById('ex-ab').style.display='block';document.getElementById('ex-sb').style.display='none';}
-function exNext(){var ch=EX.subj.chapters[EX.ci];if(EX.qi<ch.questions.length-1){EX.qi++;exRenderCard();}else{var done=ch.questions.filter(function(_,qi){return EX.rev[exKey(EX.subj.id,EX.ci,qi)];}).length;document.getElementById('ex-dn').textContent=done;document.getElementById('ex-dt').textContent=ch.questions.length;go('sc-exam-done');}}
+function exNext(){
+  var ch=EX.subj.chapters[EX.ci];
+  if(EX.qi<ch.questions.length-1){EX.qi++;exRenderCard();}
+  else{
+    var r=exCountDone(EX.subj);
+    document.getElementById('ex-dn').textContent=r.done;
+    document.getElementById('ex-dt').textContent=r.tot;
+    go('sc-exam-done');
+  }
+}
 function exPrev(){if(EX.qi>0){EX.qi--;exRenderCard();}}
 function exToggleMark(){var key=exKey(EX.subj.id,EX.ci,EX.qi);EX.rev[key]=!EX.rev[key];exSave();exRenderCard();}
+
+
 
 // ── INIT ─────────────────────────────────────────
 exLoad();
