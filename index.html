@@ -15,6 +15,17 @@
   --tx:#eef2ff;--tx2:#a8b3cc;--mt:#5a6a85;
   --fh:'Syne',sans-serif;--fm:'DM Mono',monospace;
 }
+body.theme-light {
+  --bg:#FAFBFF; --s1:#FFFFFF; --s2:#F4F6FF; --s3:#EEF2FF;
+  ...
+}
+
+#theme-btn {
+  position: fixed;
+  ...
+}
+#theme-btn:hover { transform: scale(1.1); }
+ه  
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 html,body{height:100%;}
 body{font-family:var(--fh);background:var(--bg);color:var(--tx);overflow-x:hidden;}
@@ -483,6 +494,8 @@ z-index:9999;opacity:0;transition:opacity .3s;white-space:nowrap;pointer-events:
 
 </head>
 <body>
+<button id="theme-btn" onclick="toggleTheme()">🌓</button>
+  
 <!-- TOP BAR -->
 <div id="ub">
   <div id="ub-logo">Dent<em>.</em>list</div>
@@ -940,6 +953,25 @@ window.doLogout=function(){auth.signOut?auth.signOut():signOut(auth);window.loca
 <!-- MAIN SCRIPT -->
 
 <script>
+function toggleTheme(){
+  var b=document.body;
+  if(b.classList.contains('theme-light')){
+    b.classList.remove('theme-light');
+    document.getElementById('theme-btn').textContent='🌓';
+    localStorage.setItem('dl-theme','dark');
+  }else{
+    b.classList.add('theme-light');
+    document.getElementById('theme-btn').textContent='☀️';
+    localStorage.setItem('dl-theme','light');
+  }
+}
+(function(){
+  if(localStorage.getItem('dl-theme')==='light'){
+    document.body.classList.add('theme-light');
+    document.getElementById('theme-btn').textContent='☀️';
+  }
+})();
+  
 // ── NAVIGATION ──────────────────────────────────
 function go(id){
   document.querySelectorAll('.sc').forEach(function(s){s.classList.remove('on');s.style.display='';});
