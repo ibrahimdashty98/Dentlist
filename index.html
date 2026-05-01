@@ -5022,6 +5022,26 @@ function exToggleMark(){var key=exKey(EX.subj.id,EX.ci,EX.qi);EX.rev[key]=!EX.re
 
 // ── INIT ─────────────────────────────────────────
 exLoad();
+ 
+ // Expose functions globally
+window.go=go; window.bnav=bnav; window.toast=toast;
+window.mkCatGrid=mkCatGrid; window.selQ=selQ; window.setTrack=setTrack;
+window.updOCI=updOCI; window.updLCI=updLCI; window.updGCI=updGCI;
+window.createRoom=createRoom; window.joinRoom=joinRoom;
+window.startLocal=startLocal; window.openLQ=openLQ;
+window.revealLocalAns=revealLocalAns; window.awardPts=awardPts;
+window.closeLocalQ=closeLocalQ; window.showLRes=showLRes;
+window.createGFRoom=createGFRoom; window.joinGFRoom=joinGFRoom;
+window.startGFGame=startGFGame; window.gfAns=gfAns;
+window.playAgainGF=playAgainGF; window.leaveRoom=leaveRoom;
+window.leaveGFRoom=leaveGFRoom; window.leaveGFRoom=leaveGFRoom;
+window.pickOpt=pickOpt; window.startOnline=startOnline;
+window.exRenderHome=exRenderHome; window.exRenderSubj=exRenderSubj;
+window.exGoCard=exGoCard; window.exGoBack=exGoBack;
+window.exShowAns=exShowAns; window.exNext=exNext;
+window.exPrev=exPrev; window.exToggleMark=exToggleMark;
+window.startDC=startDC; window.dcAns=dcAns;
+
 document.addEventListener('DOMContentLoaded',function(){
   exRenderHome();
   window.updateDCLandCard&&window.updateDCLandCard();
