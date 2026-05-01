@@ -3362,8 +3362,8 @@ var QB=[
 {c:"Oral Pathology",q:"Most important oral pathology rule?",a:"Any suspicious lesion >2 weeks needs biopsy",w:["Ignore all lesions","Treat without diagnosis","Wait months"]},
 {c:"Oral Pathology",q:"Oral pathology integrates?",a:"Clinical and histological findings",w:["Only X-ray","Only symptoms","Only blood tests"]},
 
-  
-// ── ONLINE BATTLE ────────────────────────────────
+];  
+ // ── ONLINE BATTLE ────────────────────────────────
 var O={isHost:false,code:null,role:null,name:null,qCount:12,sc:[],qs:[],qi:0,scores:{host:0,guest:0},timer:null,tLeft:0,myDone:false,oppDone:false,hName:'',gName:'',subs:[]};
 function updOCI(){var n=O.sc.length,el=document.getElementById('cn-ci'),btn=document.getElementById('cn-btn');if(n===4){el.className='ci cok';el.textContent='✅ 4 selected!';btn.disabled=false;}else{el.className='ci cbad';el.textContent='Select 4 ('+n+'/4)';btn.disabled=true;}}
 function selQ(el){document.querySelectorAll('.qb').forEach(function(e){e.classList.remove('on');});el.classList.add('on');O.qCount=parseInt(el.dataset.v);}
