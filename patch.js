@@ -1,44 +1,13 @@
-// patch.js — Dent.list Complete Fix v3
-// يصلح CSS + Theme + Local Battle
-// الـ QB array errors في index.html لا تؤثر على patch.js
- 
+// patch.js — Dent.list Complete Fix v4
 (function () {
 'use strict';
  
-// ═══════════════════════════════════════
-// 1. CSS FIX — إضافة المتغيرات الصحيحة
-// ═══════════════════════════════════════
+// ── 1. CSS FIX ──────────────────────────────
 var style = document.createElement('style');
-style.textContent = [
-':root{',
-'--bg:#07090d;--s1:#0d1018;--s2:#131720;--s3:#181e28;',
-'--b1:#1d2535;--b2:#242e42;',
-'--c1:#00f0ff;--c2:#ff3d6b;--c3:#aaff00;--c4:#ffaa00;--c5:#b06eff;',
-'--pk:#ff6b9d;--gd:#f0c94d;',
-'--tx:#eef2ff;--tx2:#a8b3cc;--mt:#5a6a85;',
-"--fh:'Syne',sans-serif;--fm:'DM Mono',monospace;",
-'}',
-'body.theme-light{',
-'--bg:#FAFBFF;--s1:#FFFFFF;--s2:#F4F6FF;--s3:#EEF2FF;',
-'--b1:#E2E8F8;--b2:#D0D8F0;',
-'--c1:#2563EB;--c2:#EF4444;--c3:#10B981;--c4:#F59E0B;--c5:#8B5CF6;',
-'--pk:#EC4899;--gd:#D97706;',
-'--tx:#1E293B;--tx2:#475569;--mt:#94A3B8;',
-"--fh:'Plus Jakarta Sans',sans-serif;",
-'}',
-'#theme-btn{position:fixed;bottom:70px;right:14px;z-index:9999;',
-'width:44px;height:44px;border-radius:50%;',
-'background:var(--s2);border:1.5px solid var(--b1);',
-'font-size:1.2rem;cursor:pointer;display:flex;',
-'align-items:center;justify-content:center;',
-'box-shadow:0 4px 16px rgba(0,0,0,.25);transition:transform .2s;}',
-'#theme-btn:hover{transform:scale(1.1);}',
-].join('');
+style.textContent = ':root{--bg:#07090d;--s1:#0d1018;--s2:#131720;--s3:#181e28;--b1:#1d2535;--b2:#242e42;--c1:#00f0ff;--c2:#ff3d6b;--c3:#aaff00;--c4:#ffaa00;--c5:#b06eff;--pk:#ff6b9d;--gd:#f0c94d;--tx:#eef2ff;--tx2:#a8b3cc;--mt:#5a6a85;--fh:\'Syne\',sans-serif;--fm:\'DM Mono\',monospace;}body.theme-light{--bg:#FAFBFF;--s1:#FFFFFF;--s2:#F4F6FF;--s3:#EEF2FF;--b1:#E2E8F8;--b2:#D0D8F0;--c1:#2563EB;--c2:#EF4444;--c3:#10B981;--c4:#F59E0B;--c5:#8B5CF6;--pk:#EC4899;--gd:#D97706;--tx:#1E293B;--tx2:#475569;--mt:#94A3B8;--fh:\'Plus Jakarta Sans\',sans-serif;}#theme-btn{position:fixed;bottom:70px;right:14px;z-index:9999;width:44px;height:44px;border-radius:50%;background:var(--s2);border:1.5px solid var(--b1);font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,0,0,.25);transition:transform .2s;}#theme-btn:hover{transform:scale(1.1);}';
 document.head.appendChild(style);
  
-// ═══════════════════════════════════════
-// 2. THEME TOGGLE
-// ═══════════════════════════════════════
+// ── 2. THEME TOGGLE ─────────────────────────
 window.toggleTheme = function () {
   var b = document.body;
   var btn = document.getElementById('theme-btn');
@@ -60,94 +29,42 @@ window.toggleTheme = function () {
   }
 })();
  
-// ═══════════════════════════════════════
-// 3. QB ARRAY FIX — يصلح الـ array الكسور
-// هذا الحل يأخذ الـ QB الموجود ويضيف عليه
-// الأسئلة اللي كانت orphaned خارج الـ array
-// ═══════════════════════════════════════
-window.addEventListener('load', function () {
-  // تحقق من وجود QB
-  if (typeof QB === 'undefined') {
-    console.error('QB not defined — JS syntax error in index.html');
-    // نبني QB من الصفر بأسئلة أساسية
-    window.QB = buildFallbackQB();
+// ── 3. FIX go() FUNCTION ────────────────────
+// Override go() to ensure navigation works
+window.go = function(id) {
+  // Hide all screens
+  document.querySelectorAll('.sc').forEach(function(s) {
+    s.classList.remove('on');
+    s.style.display = '';
+  });
+  
+  var el = document.getElementById(id);
+  if (!el) { console.warn('go: not found:', id); return; }
+  
+  // Show target screen
+  if (id === 'sc-local' || id === 'sc-gf-game' || id === 'sc-daily-game') {
+    el.style.display = 'flex';
   } else {
-    console.log('QB loaded:', QB.length, 'questions');
-    // أضف الأسئلة المفقودة
-    QB = QB.concat(getExtraQuestions());
-    console.log('QB after patch:', QB.length, 'questions');
+    el.classList.add('on');
   }
   
-  // أعد تهيئة الـ category chips
-  if (typeof mkCatGrid === 'function') {
-    var cats = document.getElementById('cn-cats');
-    if (cats && typeof O !== 'undefined') mkCatGrid('cn-cats', O.sc, 's1', 4, updOCI);
-    var lcats = document.getElementById('lc-cats');
-    if (lcats && typeof L !== 'undefined') mkCatGrid('lc-cats', L.sc, 's3', 6, updLCI);
-    var gcats = document.getElementById('gf-cats');
-    if (gcats && typeof GF !== 'undefined') mkCatGrid('gf-cats', GF.sc, 's4', 2, updGCI);
+  // Scroll to top
+  window.scrollTo(0, 0);
+  
+  // Run screen-specific setup
+  if (id === 'sc-create') { try { mkCatGrid('cn-cats', O.sc, 's1', 4, updOCI); } catch(e) {} }
+  if (id === 'sc-local-setup') { try { mkCatGrid('lc-cats', L.sc, 's3', 6, updLCI); } catch(e) {} }
+  if (id === 'sc-gf-setup') { try { mkCatGrid('gf-cats', GF.sc, 's4', 2, updGCI); } catch(e) {} }
+  if (id === 'sc-daily-home') { try { window.dcUpdateHome && window.dcUpdateHome(); } catch(e) {} }
+  if (id === 'sc-daily-lb') { try { window.dcLoadLB && window.dcLoadLB(); } catch(e) {} }
+  if (id === 'sc-exam-home') { try { exRenderHome(); } catch(e) {} }
+  if (id === 'sc-land') {
+    try { window.loadLandingLB && window.loadLandingLB(); } catch(e) {}
+    try { window.updateDCLandCard && window.updateDCLandCard(); } catch(e) {}
   }
-});
+};
  
-function getExtraQuestions() {
-  return [
-    {c:"Endodontics",q:"Most important step in root canal success?",a:"Proper cleaning and shaping",w:["Color matching","Filling speed","Crown design"]},
-    {c:"Endodontics",q:"Ideal working length is usually?",a:"0.5-1 mm short of apex",w:["At anatomical apex","2-3 mm beyond apex","Coronal to CEJ"]},
-    {c:"Endodontics",q:"Main function of sodium hypochlorite (NaOCl)?",a:"Tissue dissolution and disinfection",w:["Only lubrication","Hard tissue formation","Tooth whitening only"]},
-    {c:"Endodontics",q:"Gold standard method for canal shaping today?",a:"Rotary NiTi instrumentation",w:["Hand stainless steel only","Amalgam filling","Glass ionomer"]},
-    {c:"Endodontics",q:"Most accurate method for working length determination?",a:"Apex locator",w:["Visual inspection","Patient pain response","Percussion test"]},
-    {c:"Periodontics",q:"Primary etiological factor of periodontitis?",a:"Dental plaque biofilm",w:["Trauma from occlusion","Vitamin deficiency","Mechanical brushing only"]},
-    {c:"Periodontics",q:"Most specific clinical sign of periodontitis?",a:"Clinical attachment loss",w:["Gingival color change","Tooth shape change","Salivary pH increase"]},
-    {c:"Periodontics",q:"Most important microbial group in periodontitis?",a:"Gram-negative anaerobes",w:["Gram-positive aerobes","Viruses only","Fungi only"]},
-    {c:"Orthodontics",q:"Primary goal of orthodontic treatment?",a:"Establish functional occlusion",w:["Improve tooth color","Increase enamel thickness","Reduce pulp size"]},
-    {c:"Orthodontics",q:"Most important factor in tooth movement?",a:"Bone remodeling",w:["Enamel dissolution","Pulp calcification","Cementum loss only"]},
-    {c:"Prosthodontics",q:"Primary goal of prosthodontic treatment?",a:"Restore function and esthetics",w:["Increase pulp size","Cause bone resorption","Change saliva pH"]},
-    {c:"Prosthodontics",q:"Most important factor for denture stability?",a:"Border seal",w:["Tooth color","Base thickness","Fluoride level"]},
-    {c:"Pediatric Dentistry",q:"Primary goal of pediatric dentistry?",a:"Maintain oral health in children",w:["Tooth extraction only","Aesthetic whitening only","Increase pulp size"]},
-    {c:"Pediatric Dentistry",q:"Most common chronic disease in children?",a:"Dental caries",w:["Asthma","Hypertension","Fractures"]},
-    {c:"Oral Pathology",q:"Most common oral malignancy?",a:"Squamous cell carcinoma",w:["Adenoma","Sarcoma","Melanoma only"]},
-    {c:"Oral Pathology",q:"Most important risk factor for oral cancer?",a:"Tobacco use",w:["Fluoride","Brushing","Calcium intake"]},
-    {c:"Oral Pharmacology",q:"Most commonly used local anesthetic in dentistry?",a:"Lidocaine",w:["Aspirin","Amoxicillin","Ibuprofen"]},
-    {c:"Oral Pharmacology",q:"Mechanism of local anesthetics?",a:"Block sodium channels",w:["Increase calcium influx","Stimulate dopamine","Activate GABA receptors"]},
-    {c:"Anatomy",q:"Primary nerve supplying maxillary teeth?",a:"Maxillary nerve (V2)",w:["Mandibular nerve","Facial nerve","Hypoglossal nerve"]},
-    {c:"Anatomy",q:"Mandibular nerve is division of?",a:"Trigeminal nerve (V3)",w:["Facial nerve","Vagus nerve","Glossopharyngeal nerve"]},
-    {c:"Microbiology",q:"Most common bacteria in dental caries?",a:"Streptococcus mutans",w:["E. coli","Staphylococcus aureus","Pseudomonas"]},
-    {c:"Microbiology",q:"Primary organism in periodontal disease?",a:"Porphyromonas gingivalis",w:["Lactobacillus","E. coli","Candida albicans"]},
-    {c:"General Medicine",q:"Normal fasting glucose?",a:"70-100 mg/dL",w:["120-140 mg/dL","50-70 mg/dL","150-200 mg/dL"]},
-    {c:"General Medicine",q:"Anaphylaxis first-line?",a:"Epinephrine 0.5mg IM",w:["Antihistamine","Steroids","Oxygen only"]},
-    {c:"Family Medicine",q:"Main goal of family medicine?",a:"Comprehensive continuous care",w:["Surgery only","Emergency only","Radiology focus"]},
-    {c:"Surgery",q:"Most important step before surgery?",a:"Informed consent",w:["Antibiotics","X-ray","Suturing"]},
-    {c:"Dermatology",q:"Most common skin cancer?",a:"Basal cell carcinoma",w:["Melanoma","Squamous cell carcinoma","Lymphoma"]},
-    {c:"Physiology",q:"SA node location and rate?",a:"Right atrium near SVC - 60-100 bpm",w:["Left atrium - 40 bpm","AV node - 20-40 bpm","Bundle of His - 15-20 bpm"]}
-  ];
-}
- 
-function buildFallbackQB() {
-  return [
-    {c:"General Dentistry",q:"Normal healthy sulcus depth?",a:"1-3 mm",w:["4-6 mm","7-9 mm","0 mm"]},
-    {c:"General Dentistry",q:"Hardest tissue in the body?",a:"Enamel",w:["Dentin","Bone","Cementum"]},
-    {c:"General Dentistry",q:"Cells that produce enamel?",a:"Ameloblasts",w:["Odontoblasts","Cementoblasts","Osteoblasts"]},
-    {c:"Endodontics",q:"Most common RCT irrigant?",a:"Sodium hypochlorite",w:["Saline","H2O2","Chlorhexidine"]},
-    {c:"Periodontics",q:"BOP indicates?",a:"Gingival inflammation",w:["Healthy gingiva","Bone loss","Caries"]},
-    {c:"Oral Surgery",q:"Dry socket clinical term?",a:"Alveolar osteitis",w:["Pericoronitis","Cellulitis","Osteomyelitis"]},
-    {c:"Orthodontics",q:"ANB normal value?",a:"1-3 degrees",w:["0 degrees","8-10 degrees","-5 degrees"]},
-    {c:"Prosthodontics",q:"Kennedy Class I?",a:"Bilateral free-end saddles",w:["Unilateral free-end","Single bounded","Anterior space"]},
-    {c:"Oral Pharmacology",q:"Max dose lidocaine with epi?",a:"7 mg/kg",w:["3 mg/kg","10 mg/kg","1 mg/kg"]},
-    {c:"General Medicine",q:"Normal fasting glucose?",a:"70-100 mg/dL",w:["120-140 mg/dL","50-70 mg/dL","150-200 mg/dL"]},
-    {c:"Anatomy",q:"Maxillary sinus drains into?",a:"Middle meatus",w:["Inferior meatus","Superior meatus","Nasopharynx"]},
-    {c:"Microbiology",q:"Most cariogenic bacterium?",a:"Streptococcus mutans",w:["Lactobacillus","Actinomyces","P. gingivalis"]},
-    {c:"Pediatric Dentistry",q:"First primary tooth to erupt?",a:"Mandibular central incisor",w:["Max central","First molar","Canine"]},
-    {c:"Oral Pathology",q:"Most common odontogenic cyst?",a:"Radicular cyst",w:["Dentigerous","OKC","Lateral periodontal"]},
-    {c:"Family Medicine",q:"First-line treatment for uncomplicated hypertension?",a:"Lifestyle modification",w:["Beta-blocker","Insulin","Antibiotics"]},
-    {c:"Surgery",q:"Confirmed acute appendicitis management?",a:"Appendectomy",w:["Observation","IV antibiotics only","Discharge"]},
-    {c:"Dermatology",q:"Most dangerous skin cancer?",a:"Melanoma",w:["Basal cell carcinoma","Seborrheic keratosis","Nevus"]},
-    {c:"Physiology",q:"Normal cardiac output?",a:"~5 L/min",w:["1 L/min","10 L/min","20 L/min"]}
-  ];
-}
- 
-// ═══════════════════════════════════════
-// 4. LOCAL BATTLE OVERRIDES
-// ═══════════════════════════════════════
+// ── 4. LOCAL BATTLE ─────────────────────────
 document.addEventListener('DOMContentLoaded', function () {
  
   window.startLocal = function () {
@@ -179,7 +96,6 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('lm-cat').textContent = (CATS[cat] || '') + ' ' + cat;
     document.getElementById('lm-pts').textContent = '10 pts';
     document.getElementById('lm-q').textContent = q.q;
- 
     document.getElementById('lm-opts').innerHTML = q.opts.map(function (o, i) {
       return '<div class="lo"><span class="ll">' + 'ABCD'[i] + '</span>' + o + '</div>';
     }).join('');
