@@ -5043,9 +5043,13 @@ window.exPrev=exPrev; window.exToggleMark=exToggleMark;
 window.startDC=startDC; window.dcAns=dcAns;
 
 document.addEventListener('DOMContentLoaded',function(){
-  exRenderHome();
-  window.updateDCLandCard&&window.updateDCLandCard();
+  if(typeof exRenderHome==='function') exRenderHome();
+  if(typeof mkCatGrid==='function') mkCatGrid();
+  if(window.updateDCLandCard) window.updateDCLandCard();
+  if(window.dcUpdateHome) window.dcUpdateHome();
+  if(window.loadLandingLB) window.loadLandingLB();
 });
+
 </script>
 <script src="patch.js"></script>
 
