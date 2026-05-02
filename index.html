@@ -162,9 +162,9 @@ width:100%;max-width:500px;margin-bottom:12px;}
 .pro-bar .pi{font-size:2rem;flex-shrink:0;}
 .pro-bar .pt{font-size:.82rem;font-weight:800;color:var(--c5);margin-bottom:2px;}
 .pro-bar .pd{font-family:var(--fm);font-size:.58rem;color:var(--tx2);line-height:1.6;}
-.pro-bar button{margin-left:auto;background:linear-gradient(135deg,var(--c5),var(--pk));
-color:#fff;border:none;border-radius:10px;padding:9px 13px;
-font-family:var(--fh);font-size:.72rem;font-weight:800;cursor:pointer;white-space:nowrap;}
+.pro-bar button{margin-left:auto;background:linear-gradient(135deg,var(--c1),var(--c3));
+color:#001014;border:none;border-radius:10px;padding:9px 13px;
+font-family:var(--fh);font-size:.72rem;font-weight:800;cursor:pointer;white-space:nowrap;box-shadow:0 0 18px rgba(0,229,255,.22);}
 
 /* ──────────────────────────────────────
 FORMS
@@ -485,10 +485,15 @@ z-index:9999;opacity:0;transition:opacity .3s;white-space:nowrap;pointer-events:
 body.theme-light{
   --bg:#FAFBFF;--s1:#FFFFFF;--s2:#F4F6FF;--s3:#EEF2FF;
   --b1:#E2E8F8;--b2:#D0D8F0;
-  --c1:#2563EB;--c2:#EF4444;--c3:#10B981;--c4:#F59E0B;--c5:#8B5CF6;
-  --pk:#EC4899;--gd:#D97706;
+  --c1:#2563EB;--c2:#EF4444;--c3:#10B981;--c4:#F59E0B;--c5:#7C3AED;
+  --pk:#DB2777;--gd:#D97706;
   --tx:#1E293B;--tx2:#475569;--mt:#94A3B8;
   --fh:'Plus Jakarta Sans',sans-serif;
+}
+body.theme-light .pro-bar button{
+  background:linear-gradient(135deg,var(--c1),var(--c3));
+  color:#FFFFFF;
+  box-shadow:0 8px 18px rgba(37,99,235,.22);
 }
 #theme-btn{
   position:fixed;bottom:70px;right:14px;z-index:500;
@@ -5050,8 +5055,8 @@ document.addEventListener('DOMContentLoaded',function(){
   if(window.loadLandingLB) window.loadLandingLB();
 });
 
+})();
 </script>
-<script src="patch.js"></script>
 
 </body>
 </html>
