@@ -103,7 +103,7 @@ width:100%;max-width:500px;}
 .lc{border-radius:16px;padding:16px;cursor:pointer;transition:transform .18s;
 border:1px solid transparent;position:relative;overflow:hidden;}
 .lc:active{transform:scale(.97);}
-.lc::after{content:'';position:absolute;inset:0;opacity:0;transition:opacity .3s;border-radius:16px;}
+.lc::after{content:’’;position:absolute;inset:0;opacity:0;transition:opacity .3s;border-radius:16px;}
 .lc:hover::after{opacity:1;}
 .lc .ico{font-size:1.8rem;margin-bottom:8px;}
 .lc h3{font-size:.86rem;font-weight:800;margin-bottom:3px;}
@@ -836,7 +836,7 @@ z-index:9999;opacity:0;transition:opacity .3s;white-space:nowrap;pointer-events:
     <div style="font-family:var(--fm);font-size:.62rem;color:var(--mt);letter-spacing:3px;text-transform:uppercase;margin-top:6px">📚 Study Mode</div>
   </div>
   <div id="exam-sl" style="display:flex;flex-direction:column;gap:9px;width:100%;max-width:480px"></div>
-  <button class="btn bo" onclick="go('sc-land')" style="max-width:480px;width:100%">← Back</button>
+  <!-- back button hidden: exam home is the main entry point -->
 </div>
 
 <!-- ══ EXAM SUBJECT ══ -->
@@ -2538,16 +2538,20 @@ function exToggleMark(){var key=exKey(EX.subj.id,EX.ci,EX.qi);EX.rev[key]=!EX.re
 
 // ── INIT ─────────────────────────────────────────
 exLoad();
-function openKBRDirect(){
+
+// Fix KBR external subject to load inline
+(function(){
   var kbr=EXAM_SUBJECTS.filter(function(x){return x.id==='kbr-entry';})[0];
-  if(!kbr)return;
-  if(kbr.isExternal){kbr=Object.assign({},kbr,{isExternal:false,chapters:[{title:'KBR Entry Exam',questions:KBR_QS}]});}
-  EX.subj=kbr;
-  go('sc-exam-subject');
-  exRenderSubj();
-}
+  if(kbr&&kbr.isExternal){
+    kbr.isExternal=false;
+    kbr.chapters=[{title:'KBR Entry Exam',color:'var(--c1)',questions:KBR_QS}];
+    delete kbr.externalUrl;
+  }
+})();
+
 document.addEventListener('DOMContentLoaded',function(){
-  openKBRDirect();
+  go('sc-exam-home');
+  exRenderHome();
   window.updateDCLandCard&&window.updateDCLandCard();
 });
 </script>
