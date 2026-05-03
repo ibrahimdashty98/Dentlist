@@ -60,7 +60,7 @@ border:1px solid var(-b1);border-radius:8px;padding:5px 10px;
 font-family:var(-fm);font-size:.65rem;cursor:pointer;}
 
 /* ──────────────────────────────────────
-BOTTOM NAV — DARK NEON
+BOTTOM NAV — DARK NEON (Purple + Cyan)
 ────────────────────────────────────── */
 #bnav{
 position:fixed;
@@ -72,12 +72,12 @@ height:76px;
 display:none;
 justify-content:space-around;
 align-items:center;
-background:rgba(10,13,22,.78);
-border:1px solid rgba(0,240,255,.15);
+background:rgba(10,13,22,.82);
+border:1px solid rgba(176,110,255,.2);
 border-radius:26px;
-backdrop-filter:blur(18px);
--webkit-backdrop-filter:blur(18px);
-box-shadow:0 0 25px rgba(0,240,255,.05),inset 0 0 20px rgba(255,255,255,.03);
+backdrop-filter:blur(22px);
+-webkit-backdrop-filter:blur(22px);
+box-shadow:0 0 30px rgba(176,110,255,.08),0 0 60px rgba(0,240,255,.04),inset 0 0 20px rgba(255,255,255,.02);
 z-index:60;
 padding:0;
 }
@@ -88,16 +88,16 @@ display:flex;flex-direction:column;align-items:center;justify-content:center;gap
 cursor:pointer;
 color:#7b89a8;
 font-family:var(–fm);font-size:.6rem;font-weight:600;letter-spacing:.3px;
-transition:.25s ease;
-user-select:none;
+transition:.25s cubic-bezier(.34,1.56,.64,1);
+user-select:none;-webkit-tap-highlight-color:transparent;
 }
 .bn-ico-box{
 width:40px;height:40px;
 display:flex;align-items:center;justify-content:center;
 border-radius:16px;
 background:rgba(255,255,255,.02);
-border:1px solid rgba(255,255,255,.06);
-transition:.25s ease;
+border:1px solid rgba(255,255,255,.07);
+transition:.25s cubic-bezier(.34,1.56,.64,1);
 }
 .bn-svg{
 width:22px;height:22px;
@@ -105,40 +105,39 @@ stroke:#7b89a8;
 stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;fill:none;
 transition:.25s ease;
 }
-.bn-lbl{font-size:.58rem;color:#7b89a8;transition:color .25s;}
+.bn-lbl{font-size:.56rem;color:#7b89a8;transition:color .25s;}
 
 /* hover */
-.bn-i:hover{color:#dffcff;}
 .bn-i:hover .bn-ico-box{
-border-color:rgba(0,240,255,.45);
+border-color:rgba(176,110,255,.5);
 transform:translateY(-4px);
-box-shadow:0 0 12px rgba(0,240,255,.4),0 0 28px rgba(0,240,255,.15);
+box-shadow:0 0 14px rgba(176,110,255,.4),0 0 30px rgba(176,110,255,.15);
 }
-.bn-i:hover .bn-svg{stroke:#00f0ff;}
-.bn-i:hover .bn-lbl{color:#dffcff;}
+.bn-i:hover .bn-svg{stroke:#b06eff;}
+.bn-i:hover .bn-lbl{color:#d0b4ff;}
 
 /* active */
 .bn-i.on{color:#fff;}
-.bn-i.on .bn-lbl{color:#fff;}
+.bn-i.on .bn-lbl{color:#e8d5ff;}
 .bn-i.on .bn-ico-box{
-background:linear-gradient(135deg,#00f0ff,#aaff00);
+background:linear-gradient(135deg,#b06eff,#7b2fff);
 border:none;
-box-shadow:0 0 18px rgba(0,240,255,.7),0 0 35px rgba(170,255,0,.25);
-transform:translateY(-6px);
+box-shadow:0 0 20px rgba(176,110,255,.8),0 0 40px rgba(176,110,255,.3),0 4px 15px rgba(0,0,0,.3);
+transform:translateY(-7px);
 }
-.bn-i.on .bn-svg{stroke:#071018;}
+.bn-i.on .bn-svg{stroke:#fff;stroke-width:2;}
 .bn-i.on::after{
 content:’’;position:absolute;bottom:4px;
-width:22px;height:3px;border-radius:99px;
-background:#00f0ff;
-box-shadow:0 0 10px #00f0ff,0 0 20px #00f0ff;
+width:24px;height:3px;border-radius:99px;
+background:linear-gradient(90deg,#b06eff,#00f0ff);
+box-shadow:0 0 10px #b06eff,0 0 20px rgba(176,110,255,.5);
 }
 
 @media(max-width:600px){
-#bnav{height:68px;border-radius:22px;bottom:14px;}
+#bnav{height:68px;border-radius:22px;bottom:12px;width:min(94%,420px);}
 .bn-ico-box{width:36px;height:36px;}
 .bn-svg{width:20px;height:20px;}
-.bn-lbl{font-size:.52rem;}
+.bn-lbl{font-size:.5rem;}
 }
 
 /* ──────────────────────────────────────
@@ -895,7 +894,7 @@ z-index:9999;opacity:0;transition:opacity .3s;white-space:nowrap;pointer-events:
 <div id="sc-exam-home" class="sc" style="gap:18px;padding:16px 16px 80px;justify-content:flex-start">
   <div style="text-align:center;padding-top:10px">
     <div style="font-size:clamp(1.4rem,5vw,2rem);font-weight:800;letter-spacing:-1px">Study <span style="background:linear-gradient(135deg,var(--gd),#ffa657);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Smart</span></div>
-    <div style="font-family:var(--fm);font-size:.62rem;color:var(--mt);letter-spacing:3px;text-transform:uppercase;margin-top:6px">📚 اختر التخصص وابدأ المراجعة</div>
+    <div style="font-family:var(--fm);font-size:.62rem;color:var(--mt);letter-spacing:3px;text-transform:uppercase;margin-top:6px">📚 Study Mode</div>
   </div>
   <div id="exam-sl" style="display:flex;flex-direction:column;gap:9px;width:100%;max-width:480px"></div>
   <!-- back button hidden: exam home is the main entry point -->
@@ -958,20 +957,19 @@ z-index:9999;opacity:0;transition:opacity .3s;white-space:nowrap;pointer-events:
 
 <div id="bnav">
 
-  <!-- Home -->
+  <!-- Home → goes back to index.html -->
 
-  <div class="bn-i on" id="bn-home" onclick="bnav('home')">
+  <div class="bn-i" id="bn-home" onclick="bnav('home')">
     <div class="bn-ico-box">
       <svg class="bn-svg" viewBox="0 0 24 24">
-        <path d="M3 12L12 3l9 9"/>
+        <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z"/>
         <path d="M9 21V12h6v9"/>
-        <path d="M3 12v9h18v-9"/>
       </svg>
     </div>
     <span class="bn-lbl">Home</span>
   </div>
 
-  <!-- Battle -->
+  <!-- Battle → goes back to index.html -->
 
   <div class="bn-i" id="bn-battle" onclick="bnav('battle')">
     <div class="bn-ico-box">
@@ -985,7 +983,7 @@ z-index:9999;opacity:0;transition:opacity .3s;white-space:nowrap;pointer-events:
     <span class="bn-lbl">Battle</span>
   </div>
 
-  <!-- Daily -->
+  <!-- Daily → goes back to index.html -->
 
   <div class="bn-i" id="bn-daily" onclick="bnav('daily')">
     <div class="bn-ico-box">
@@ -996,9 +994,9 @@ z-index:9999;opacity:0;transition:opacity .3s;white-space:nowrap;pointer-events:
     <span class="bn-lbl">Daily</span>
   </div>
 
-  <!-- Study -->
+  <!-- Study → active on this page -->
 
-  <div class="bn-i" id="bn-study" onclick="bnav('study')">
+  <div class="bn-i on" id="bn-study" onclick="bnav('study')">
     <div class="bn-ico-box">
       <svg class="bn-svg" viewBox="0 0 24 24">
         <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
@@ -1008,7 +1006,7 @@ z-index:9999;opacity:0;transition:opacity .3s;white-space:nowrap;pointer-events:
     <span class="bn-lbl">Study</span>
   </div>
 
-  <!-- Stats -->
+  <!-- Stats → goes back to index.html -->
 
   <div class="bn-i" id="bn-stats" onclick="bnav('stats')">
     <div class="bn-ico-box">
@@ -1063,7 +1061,9 @@ function go(id){
 function bnav(tab){
   document.querySelectorAll('.bn-i').forEach(function(b){b.classList.remove('on');});
   var bid=document.getElementById('bn-'+tab);if(bid)bid.classList.add('on');
-  go('sc-exam-home');
+  if(tab==='study'){go('sc-exam-home');return;}
+  // all other tabs go back to main site
+  window.location.href='index.html';
 }
 function setTrack(t,btn){document.querySelectorAll('.tab-sw button').forEach(function(b){b.classList.remove('on');});btn.classList.add('on');toast(t==='medical'?'Medical questions - coming soon! 🩺':'Dental mode ✅');}
 
