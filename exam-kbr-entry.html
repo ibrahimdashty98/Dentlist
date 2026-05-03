@@ -60,19 +60,86 @@ border:1px solid var(-b1);border-radius:8px;padding:5px 10px;
 font-family:var(-fm);font-size:.65rem;cursor:pointer;}
 
 /* ──────────────────────────────────────
-BOTTOM NAV
+BOTTOM NAV — DARK NEON
 ────────────────────────────────────── */
-#bnav{position:fixed;bottom:0;left:0;right:0;z-index:60;
-background:rgba(13,16,24,.97);backdrop-filter:blur(20px);
-border-top:1px solid var(-b1);display:none;
-padding:8px 0 calc(8px + env(safe-area-inset-bottom));}
-.bn-items{display:flex;}
-.bn-i{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;
-cursor:pointer;padding:4px 0;transition:all .2s;}
-.bn-ico{font-size:1.2rem;line-height:1;}
-.bn-lbl{font-family:var(-fm);font-size:.52rem;color:var(-mt);transition:color .2s;}
-.bn-i.on .bn-lbl{color:var(-c1);}
-.bn-i.on .bn-ico{filter:drop-shadow(0 0 6px var(-c1));}
+#bnav{
+position:fixed;
+bottom:18px;
+left:50%;
+transform:translateX(-50%);
+width:min(92%,720px);
+height:76px;
+display:none;
+justify-content:space-around;
+align-items:center;
+background:rgba(10,13,22,.78);
+border:1px solid rgba(0,240,255,.15);
+border-radius:26px;
+backdrop-filter:blur(18px);
+-webkit-backdrop-filter:blur(18px);
+box-shadow:0 0 25px rgba(0,240,255,.05),inset 0 0 20px rgba(255,255,255,.03);
+z-index:60;
+padding:0;
+}
+.bn-i{
+position:relative;
+width:20%;height:64px;
+display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;
+cursor:pointer;
+color:#7b89a8;
+font-family:var(–fm);font-size:.6rem;font-weight:600;letter-spacing:.3px;
+transition:.25s ease;
+user-select:none;
+}
+.bn-ico-box{
+width:40px;height:40px;
+display:flex;align-items:center;justify-content:center;
+border-radius:16px;
+background:rgba(255,255,255,.02);
+border:1px solid rgba(255,255,255,.06);
+transition:.25s ease;
+}
+.bn-svg{
+width:22px;height:22px;
+stroke:#7b89a8;
+stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;fill:none;
+transition:.25s ease;
+}
+.bn-lbl{font-size:.58rem;color:#7b89a8;transition:color .25s;}
+
+/* hover */
+.bn-i:hover{color:#dffcff;}
+.bn-i:hover .bn-ico-box{
+border-color:rgba(0,240,255,.45);
+transform:translateY(-4px);
+box-shadow:0 0 12px rgba(0,240,255,.4),0 0 28px rgba(0,240,255,.15);
+}
+.bn-i:hover .bn-svg{stroke:#00f0ff;}
+.bn-i:hover .bn-lbl{color:#dffcff;}
+
+/* active */
+.bn-i.on{color:#fff;}
+.bn-i.on .bn-lbl{color:#fff;}
+.bn-i.on .bn-ico-box{
+background:linear-gradient(135deg,#00f0ff,#aaff00);
+border:none;
+box-shadow:0 0 18px rgba(0,240,255,.7),0 0 35px rgba(170,255,0,.25);
+transform:translateY(-6px);
+}
+.bn-i.on .bn-svg{stroke:#071018;}
+.bn-i.on::after{
+content:’’;position:absolute;bottom:4px;
+width:22px;height:3px;border-radius:99px;
+background:#00f0ff;
+box-shadow:0 0 10px #00f0ff,0 0 20px #00f0ff;
+}
+
+@media(max-width:600px){
+#bnav{height:68px;border-radius:22px;bottom:14px;}
+.bn-ico-box{width:36px;height:36px;}
+.bn-svg{width:20px;height:20px;}
+.bn-lbl{font-size:.52rem;}
+}
 
 /* ──────────────────────────────────────
 LANDING
@@ -828,7 +895,7 @@ z-index:9999;opacity:0;transition:opacity .3s;white-space:nowrap;pointer-events:
 <div id="sc-exam-home" class="sc" style="gap:18px;padding:16px 16px 80px;justify-content:flex-start">
   <div style="text-align:center;padding-top:10px">
     <div style="font-size:clamp(1.4rem,5vw,2rem);font-weight:800;letter-spacing:-1px">Study <span style="background:linear-gradient(135deg,var(--gd),#ffa657);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Smart</span></div>
-    <div style="font-family:var(--fm);font-size:.62rem;color:var(--mt);letter-spacing:3px;text-transform:uppercase;margin-top:6px"> </div>
+    <div style="font-family:var(--fm);font-size:.62rem;color:var(--mt);letter-spacing:3px;text-transform:uppercase;margin-top:6px">📚 اختر التخصص وابدأ المراجعة</div>
   </div>
   <div id="exam-sl" style="display:flex;flex-direction:column;gap:9px;width:100%;max-width:480px"></div>
   <!-- back button hidden: exam home is the main entry point -->
@@ -890,13 +957,70 @@ z-index:9999;opacity:0;transition:opacity .3s;white-space:nowrap;pointer-events:
 <!-- ══ BOTTOM NAV ══ -->
 
 <div id="bnav">
-  <div class="bn-items">
-    <div class="bn-i on" id="bn-home" onclick="bnav('home')"><div class="bn-ico">🏠</div><div class="bn-lbl">Home</div></div>
-    <div class="bn-i" id="bn-battle" onclick="bnav('battle')"><div class="bn-ico">⚔️</div><div class="bn-lbl">Battle</div></div>
-    <div class="bn-i" id="bn-daily" onclick="bnav('daily')"><div class="bn-ico">🏆</div><div class="bn-lbl">Daily</div></div>
-    <div class="bn-i" id="bn-study" onclick="bnav('study')"><div class="bn-ico">📚</div><div class="bn-lbl">Study</div></div>
-    <div class="bn-i" id="bn-stats" onclick="bnav('stats')"><div class="bn-ico">📊</div><div class="bn-lbl">Stats</div></div>
+
+  <!-- Home -->
+
+  <div class="bn-i on" id="bn-home" onclick="bnav('home')">
+    <div class="bn-ico-box">
+      <svg class="bn-svg" viewBox="0 0 24 24">
+        <path d="M3 12L12 3l9 9"/>
+        <path d="M9 21V12h6v9"/>
+        <path d="M3 12v9h18v-9"/>
+      </svg>
+    </div>
+    <span class="bn-lbl">Home</span>
   </div>
+
+  <!-- Battle -->
+
+  <div class="bn-i" id="bn-battle" onclick="bnav('battle')">
+    <div class="bn-ico-box">
+      <svg class="bn-svg" viewBox="0 0 24 24">
+        <path d="M14.5 17.5 3 6V3h3l11.5 11.5"/>
+        <path d="M13 19l3.5-3.5 2 2L15 21z"/>
+        <path d="M11 5l3.5 3.5-2 2L9 7z"/>
+        <path d="M5 11l3.5 3.5"/>
+      </svg>
+    </div>
+    <span class="bn-lbl">Battle</span>
+  </div>
+
+  <!-- Daily -->
+
+  <div class="bn-i" id="bn-daily" onclick="bnav('daily')">
+    <div class="bn-ico-box">
+      <svg class="bn-svg" viewBox="0 0 24 24">
+        <path d="M12 2l2.9 6.2L22 9.3l-5 4.9 1.2 6.8L12 18l-6.2 3 1.2-6.8L2 9.3l7.1-1.1z"/>
+      </svg>
+    </div>
+    <span class="bn-lbl">Daily</span>
+  </div>
+
+  <!-- Study -->
+
+  <div class="bn-i" id="bn-study" onclick="bnav('study')">
+    <div class="bn-ico-box">
+      <svg class="bn-svg" viewBox="0 0 24 24">
+        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+      </svg>
+    </div>
+    <span class="bn-lbl">Study</span>
+  </div>
+
+  <!-- Stats -->
+
+  <div class="bn-i" id="bn-stats" onclick="bnav('stats')">
+    <div class="bn-ico-box">
+      <svg class="bn-svg" viewBox="0 0 24 24">
+        <rect x="3" y="12" width="4" height="9" rx="1"/>
+        <rect x="10" y="7" width="4" height="14" rx="1"/>
+        <rect x="17" y="3" width="4" height="18" rx="1"/>
+      </svg>
+    </div>
+    <span class="bn-lbl">Stats</span>
+  </div>
+
 </div>
 
 <!-- FIREBASE -->
@@ -911,7 +1035,7 @@ window._db=db;window._ref=ref;window._set=set;window._get=get;window._onValue=on
 onAuthStateChanged(auth,function(user){
   window._cu=user;
   var bar=document.getElementById('ub');if(!bar)return;bar.style.display='flex';
-  document.getElementById('bnav').style.display='block';
+  document.getElementById('bnav').style.display='flex';
   var un=document.getElementById('un'),bl=document.getElementById('bl'),bo=document.getElementById('bo');
   if(user){un.textContent=user.displayName||user.email.split('@')[0];un.style.display='block';bl.style.display='none';bo.style.display='flex';}
   else{un.style.display='none';bl.style.display='flex';bo.style.display='none';}
@@ -2540,6 +2664,11 @@ exLoad();
 })();
 
 document.addEventListener('DOMContentLoaded',function(){
+  // Show nav and top bar immediately (don't wait for Firebase)
+  var nav=document.getElementById('bnav');
+  if(nav)nav.style.display='flex';
+  var ub=document.getElementById('ub');
+  if(ub)ub.style.display='flex';
   go('sc-exam-home');
   exRenderHome();
   window.updateDCLandCard&&window.updateDCLandCard();
