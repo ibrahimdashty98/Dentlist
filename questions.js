@@ -5,253 +5,253 @@
 
 // ── فئات الأسئلة ──────────────────────────────────────────────
 var CATS = {
-“General Dentistry”:“🦷”,“Oral Surgery”:“🔪”,“Endodontics”:“🦠”,
-“Periodontics”:“🩸”,“Orthodontics”:“😬”,“Prosthodontics”:“🦾”,
-“Pediatric Dentistry”:“👶”,“Oral Pathology”:“🔬”,“Oral Pharmacology”:“💊”,
-“Anatomy”:“🧬”,“Microbiology”:“🧫”,“Dental Material”:“🔩”,
-“General Medicine”:“🩺”,“Family Medicine”:“👨‍⚕️”,“Surgery”:“🏥”,
-“Dermatology”:“🩹”,“Physiology”:“🫀”
+"General Dentistry":"🦷","Oral Surgery":"🔪","Endodontics":"🦠",
+"Periodontics":"🩸","Orthodontics":"😬","Prosthodontics":"🦾",
+"Pediatric Dentistry":"👶","Oral Pathology":"🔬","Oral Pharmacology":"💊",
+"Anatomy":"🧬","Microbiology":"🧫","Dental Material":"🔩",
+"General Medicine":"🩺","Family Medicine":"👨‍⚕️","Surgery":"🏥",
+"Dermatology":"🩹","Physiology":"🫀"
 };
 
 var DENTAL_CATS = [
-“General Dentistry”,“Oral Surgery”,“Endodontics”,“Periodontics”,
-“Orthodontics”,“Prosthodontics”,“Pediatric Dentistry”,“Oral Pathology”,
-“Oral Pharmacology”,“Anatomy”,“Microbiology”,“Dental Material”
+"General Dentistry","Oral Surgery","Endodontics","Periodontics",
+"Orthodontics","Prosthodontics","Pediatric Dentistry","Oral Pathology",
+"Oral Pharmacology","Anatomy","Microbiology","Dental Material"
 ];
 
 var MEDICAL_CATS = [
-“General Medicine”,“Family Medicine”,“Surgery”,“Dermatology”,“Physiology”
+"General Medicine","Family Medicine","Surgery","Dermatology","Physiology"
 ];
 
 // ================================================================
 // QB — قاعدة أسئلة وضع اللعبة (Battle / Go Fast / Daily)
-// كل سؤال: {c: “التخصص”, q: “السؤال”, a: “الإجابة الصحيحة”, w: [“خطأ1”,“خطأ2”,“خطأ3”]}
+// كل سؤال: {c: "التخصص", q: "السؤال", a: "الإجابة الصحيحة", w: ["خطأ1","خطأ2","خطأ3"]}
 // لإضافة سؤال جديد: انسخ نمط السطر وأضفه في التخصص المناسب
 // ================================================================
 var QB = [
 
 // ─── General Dentistry ───────────────────────────────────────
-{c:“General Dentistry”,q:“Normal healthy sulcus depth?”,a:“1-3 mm”,w:[“4-6 mm”,“7-9 mm”,“0 mm”]},
-{c:“General Dentistry”,q:“Hardest tissue in the body?”,a:“Enamel”,w:[“Dentin”,“Bone”,“Cementum”]},
-{c:“General Dentistry”,q:“Cells that produce enamel?”,a:“Ameloblasts”,w:[“Odontoblasts”,“Cementoblasts”,“Osteoblasts”]},
-{c:“General Dentistry”,q:“Cells that produce dentin?”,a:“Odontoblasts”,w:[“Ameloblasts”,“Cementoblasts”,“Fibroblasts”]},
-{c:“General Dentistry”,q:“Best X-ray for full root length?”,a:“Periapical”,w:[“Bitewing”,“Panoramic”,“CBCT”]},
-{c:“General Dentistry”,q:“Number of permanent teeth?”,a:“32”,w:[“28”,“30”,“36”]},
-{c:“General Dentistry”,q:“Number of primary teeth?”,a:“20”,w:[“24”,“16”,“28”]},
-{c:“General Dentistry”,q:“Critical pH for enamel dissolution?”,a:“5.5”,w:[“6.5”,“7.0”,“4.0”]},
-{c:“General Dentistry”,q:“Tooth wear from tooth-to-tooth contact?”,a:“Attrition”,w:[“Abrasion”,“Erosion”,“Abfraction”]},
-{c:“General Dentistry”,q:“First permanent tooth to erupt?”,a:“Mandibular first molar”,w:[“Max central incisor”,“Mand canine”,“First premolar”]},
-{c:“General Dentistry”,q:“Tooth with the longest root?”,a:“Maxillary canine”,w:[“Mandibular molar”,“Max central”,“Mand canine”]},
-{c:“General Dentistry”,q:“Main buffer in saliva?”,a:“Bicarbonate”,w:[“Phosphate”,“Protein”,“Carbonate”]},
-{c:“General Dentistry”,q:“DMFT measures?”,a:“Caries experience”,w:[“Periodontal status”,“Fluorosis”,“Occlusion”]},
-{c:“General Dentistry”,q:“Ideal overjet value?”,a:“2-4 mm”,w:[“0 mm”,“6-8 mm”,“8-10 mm”]},
-{c:“General Dentistry”,q:“What is bruxism?”,a:“Teeth grinding”,w:[“Jaw dislocation”,“TMJ click”,“Trismus”]},
-{c:“General Dentistry”,q:“Most common cause of postoperative sensitivity in composite?”,a:“Polymerization shrinkage”,w:[“Over-etching enamel”,“Use of flowable composite”,“Improper shade selection”]},
-{c:“General Dentistry”,q:“C-factor is defined as?”,a:“Ratio of bonded to unbonded surfaces”,w:[“Composite viscosity”,“Polymerization rate”,“Etch depth”]},
-{c:“General Dentistry”,q:“Ideal etching time for enamel (37% phosphoric acid)?”,a:“15-20 sec”,w:[“5 sec”,“10 sec”,“60 sec”]},
-{c:“General Dentistry”,q:“Over-drying dentin after etching leads to?”,a:“Collagen collapse”,w:[“Better bonding”,“Increased wetting”,“Increased hybrid layer thickness”]},
-{c:“General Dentistry”,q:“GIC bonds to tooth via?”,a:“Chemical bonding”,w:[“Micromechanical retention”,“Mechanical retention only”,“Light curing”]},
-{c:“General Dentistry”,q:“Main advantage of GIC?”,a:“Fluoride release”,w:[“High strength”,“Esthetics”,“Low solubility”]},
-{c:“General Dentistry”,q:“Best matrix for class II composite?”,a:“Sectional matrix”,w:[“Tofflemire”,“Copper band”,“Celluloid strip”]},
-{c:“General Dentistry”,q:“Ideal composite increment thickness?”,a:“2 mm”,w:[“1 mm”,“5 mm”,“10 mm”]},
-{c:“General Dentistry”,q:“Which liner is best for deep cavities near pulp?”,a:“Calcium hydroxide”,w:[“Zinc oxide”,“Composite”,“Amalgam”]},
-{c:“General Dentistry”,q:“Best isolation method for bonding?”,a:“Rubber dam”,w:[“Cotton rolls”,“Saliva ejector”,“Gauze”]},
-{c:“General Dentistry”,q:“White spot lesions represent?”,a:“Initial enamel demineralisation”,w:[“Fluorosis”,“Dentinogenesis imperfecta”,“Enamel hypoplasia”]},
-{c:“General Dentistry”,q:“Dentin hypersensitivity best explained by?”,a:“Hydrodynamic theory”,w:[“Direct nerve stimulation”,“Bacterial invasion”,“Enamel cracking”]},
-{c:“General Dentistry”,q:“A 1.8ml cartridge of 2% lidocaine contains how many mg?”,a:“36 mg”,w:[“18 mg”,“72 mg”,“9 mg”]},
-{c:“General Dentistry”,q:“Cusp of Carabelli found on?”,a:“Maxillary first molar”,w:[“Mandibular first molar”,“Maxillary second premolar”,“Mandibular second molar”]},
+{c:"General Dentistry",q:"Normal healthy sulcus depth?",a:"1-3 mm",w:["4-6 mm","7-9 mm","0 mm"]},
+{c:"General Dentistry",q:"Hardest tissue in the body?",a:"Enamel",w:["Dentin","Bone","Cementum"]},
+{c:"General Dentistry",q:"Cells that produce enamel?",a:"Ameloblasts",w:["Odontoblasts","Cementoblasts","Osteoblasts"]},
+{c:"General Dentistry",q:"Cells that produce dentin?",a:"Odontoblasts",w:["Ameloblasts","Cementoblasts","Fibroblasts"]},
+{c:"General Dentistry",q:"Best X-ray for full root length?",a:"Periapical",w:["Bitewing","Panoramic","CBCT"]},
+{c:"General Dentistry",q:"Number of permanent teeth?",a:"32",w:["28","30","36"]},
+{c:"General Dentistry",q:"Number of primary teeth?",a:"20",w:["24","16","28"]},
+{c:"General Dentistry",q:"Critical pH for enamel dissolution?",a:"5.5",w:["6.5","7.0","4.0"]},
+{c:"General Dentistry",q:"Tooth wear from tooth-to-tooth contact?",a:"Attrition",w:["Abrasion","Erosion","Abfraction"]},
+{c:"General Dentistry",q:"First permanent tooth to erupt?",a:"Mandibular first molar",w:["Max central incisor","Mand canine","First premolar"]},
+{c:"General Dentistry",q:"Tooth with the longest root?",a:"Maxillary canine",w:["Mandibular molar","Max central","Mand canine"]},
+{c:"General Dentistry",q:"Main buffer in saliva?",a:"Bicarbonate",w:["Phosphate","Protein","Carbonate"]},
+{c:"General Dentistry",q:"DMFT measures?",a:"Caries experience",w:["Periodontal status","Fluorosis","Occlusion"]},
+{c:"General Dentistry",q:"Ideal overjet value?",a:"2-4 mm",w:["0 mm","6-8 mm","8-10 mm"]},
+{c:"General Dentistry",q:"What is bruxism?",a:"Teeth grinding",w:["Jaw dislocation","TMJ click","Trismus"]},
+{c:"General Dentistry",q:"Most common cause of postoperative sensitivity in composite?",a:"Polymerization shrinkage",w:["Over-etching enamel","Use of flowable composite","Improper shade selection"]},
+{c:"General Dentistry",q:"C-factor is defined as?",a:"Ratio of bonded to unbonded surfaces",w:["Composite viscosity","Polymerization rate","Etch depth"]},
+{c:"General Dentistry",q:"Ideal etching time for enamel (37% phosphoric acid)?",a:"15-20 sec",w:["5 sec","10 sec","60 sec"]},
+{c:"General Dentistry",q:"Over-drying dentin after etching leads to?",a:"Collagen collapse",w:["Better bonding","Increased wetting","Increased hybrid layer thickness"]},
+{c:"General Dentistry",q:"GIC bonds to tooth via?",a:"Chemical bonding",w:["Micromechanical retention","Mechanical retention only","Light curing"]},
+{c:"General Dentistry",q:"Main advantage of GIC?",a:"Fluoride release",w:["High strength","Esthetics","Low solubility"]},
+{c:"General Dentistry",q:"Best matrix for class II composite?",a:"Sectional matrix",w:["Tofflemire","Copper band","Celluloid strip"]},
+{c:"General Dentistry",q:"Ideal composite increment thickness?",a:"2 mm",w:["1 mm","5 mm","10 mm"]},
+{c:"General Dentistry",q:"Which liner is best for deep cavities near pulp?",a:"Calcium hydroxide",w:["Zinc oxide","Composite","Amalgam"]},
+{c:"General Dentistry",q:"Best isolation method for bonding?",a:"Rubber dam",w:["Cotton rolls","Saliva ejector","Gauze"]},
+{c:"General Dentistry",q:"White spot lesions represent?",a:"Initial enamel demineralisation",w:["Fluorosis","Dentinogenesis imperfecta","Enamel hypoplasia"]},
+{c:"General Dentistry",q:"Dentin hypersensitivity best explained by?",a:"Hydrodynamic theory",w:["Direct nerve stimulation","Bacterial invasion","Enamel cracking"]},
+{c:"General Dentistry",q:"A 1.8ml cartridge of 2% lidocaine contains how many mg?",a:"36 mg",w:["18 mg","72 mg","9 mg"]},
+{c:"General Dentistry",q:"Cusp of Carabelli found on?",a:"Maxillary first molar",w:["Mandibular first molar","Maxillary second premolar","Mandibular second molar"]},
 
 // ─── Oral Surgery ─────────────────────────────────────────────
-{c:“Oral Surgery”,q:“Dry socket clinical term?”,a:“Alveolar osteitis”,w:[“Pericoronitis”,“Cellulitis”,“Osteomyelitis”]},
-{c:“Oral Surgery”,q:“Nerve at risk in lower 3rd molar?”,a:“Inferior alveolar nerve”,w:[“Lingual nerve”,“Buccal nerve”,“Mental nerve”]},
-{c:“Oral Surgery”,q:“Primary danger of Ludwig angina?”,a:“Airway obstruction”,w:[“Facial swelling”,“Trismus”,“Pain”]},
-{c:“Oral Surgery”,q:“Bisphosphonate jaw complication?”,a:“MRONJ”,w:[“Cyst”,“Abscess”,“Fracture”]},
-{c:“Oral Surgery”,q:“Implant bond to bone?”,a:“Osseointegration”,w:[“Fibrous union”,“Soft tissue bond”,“Cement bond”]},
-{c:“Oral Surgery”,q:“Most commonly impacted tooth?”,a:“Mandibular third molar”,w:[“Maxillary canine”,“Maxillary central incisor”,“Premolar”]},
-{c:“Oral Surgery”,q:“Most common impaction angulation?”,a:“Mesioangular”,w:[“Horizontal”,“Vertical”,“Distoangular”]},
-{c:“Oral Surgery”,q:“Dry socket typically occurs?”,a:“1-3 days after extraction”,w:[“Immediately after”,“After 2 weeks”,“Before extraction”]},
-{c:“Oral Surgery”,q:“Maximum epinephrine dose healthy adult?”,a:“0.2 mg”,w:[“0 mg”,“2 mg”,“5 mg”]},
-{c:“Oral Surgery”,q:“OAC definition?”,a:“Connection between oral cavity and maxillary sinus”,w:[“Tooth decay”,“Gum disease”,“Root fracture”]},
+{c:"Oral Surgery",q:"Dry socket clinical term?",a:"Alveolar osteitis",w:["Pericoronitis","Cellulitis","Osteomyelitis"]},
+{c:"Oral Surgery",q:"Nerve at risk in lower 3rd molar?",a:"Inferior alveolar nerve",w:["Lingual nerve","Buccal nerve","Mental nerve"]},
+{c:"Oral Surgery",q:"Primary danger of Ludwig angina?",a:"Airway obstruction",w:["Facial swelling","Trismus","Pain"]},
+{c:"Oral Surgery",q:"Bisphosphonate jaw complication?",a:"MRONJ",w:["Cyst","Abscess","Fracture"]},
+{c:"Oral Surgery",q:"Implant bond to bone?",a:"Osseointegration",w:["Fibrous union","Soft tissue bond","Cement bond"]},
+{c:"Oral Surgery",q:"Most commonly impacted tooth?",a:"Mandibular third molar",w:["Maxillary canine","Maxillary central incisor","Premolar"]},
+{c:"Oral Surgery",q:"Most common impaction angulation?",a:"Mesioangular",w:["Horizontal","Vertical","Distoangular"]},
+{c:"Oral Surgery",q:"Dry socket typically occurs?",a:"1-3 days after extraction",w:["Immediately after","After 2 weeks","Before extraction"]},
+{c:"Oral Surgery",q:"Maximum epinephrine dose healthy adult?",a:"0.2 mg",w:["0 mg","2 mg","5 mg"]},
+{c:"Oral Surgery",q:"OAC definition?",a:"Connection between oral cavity and maxillary sinus",w:["Tooth decay","Gum disease","Root fracture"]},
 
 // ─── Endodontics ──────────────────────────────────────────────
-{c:“Endodontics”,q:“Most common RCT irrigant?”,a:“Sodium hypochlorite”,w:[“Saline”,“H2O2”,“Chlorhexidine”]},
-{c:“Endodontics”,q:“Working length ends at?”,a:“Apical constriction”,w:[“Radiographic apex”,“Crown tip”,“CEJ”]},
-{c:“Endodontics”,q:“Irreversible pulpitis key feature?”,a:“Spontaneous lingering pain”,w:[“Pain stops quickly”,“No pain”,“Cold only”]},
-{c:“Endodontics”,q:“EDTA in RCT removes?”,a:“Smear layer”,w:[“Bacteria”,“Pulp tissue”,“Calculus”]},
-{c:“Endodontics”,q:“Standard RCT filling material?”,a:“Gutta-percha + sealer”,w:[“Amalgam”,“Composite”,“ZOE only”]},
-{c:“Endodontics”,q:“Most reliable pulp vitality test?”,a:“Cold test”,w:[“Heat test”,“Electric pulp test”,“Percussion”]},
-{c:“Endodontics”,q:“Best intracanal medicament between visits?”,a:“Calcium hydroxide”,w:[“Saline”,“Composite”,“Zinc oxide”]},
-{c:“Endodontics”,q:“Most common cause of endodontic failure?”,a:“Persistent infection”,w:[“Overfilling”,“Underfilling”,“Instrument fracture”]},
-{c:“Endodontics”,q:“Most commonly missed canal in maxillary first molar?”,a:“MB2”,w:[“DB”,“Palatal”,“Distal”]},
-{c:“Endodontics”,q:“Best repair material for perforation?”,a:“MTA”,w:[“Composite”,“GIC”,“Amalgam”]},
+{c:"Endodontics",q:"Most common RCT irrigant?",a:"Sodium hypochlorite",w:["Saline","H2O2","Chlorhexidine"]},
+{c:"Endodontics",q:"Working length ends at?",a:"Apical constriction",w:["Radiographic apex","Crown tip","CEJ"]},
+{c:"Endodontics",q:"Irreversible pulpitis key feature?",a:"Spontaneous lingering pain",w:["Pain stops quickly","No pain","Cold only"]},
+{c:"Endodontics",q:"EDTA in RCT removes?",a:"Smear layer",w:["Bacteria","Pulp tissue","Calculus"]},
+{c:"Endodontics",q:"Standard RCT filling material?",a:"Gutta-percha + sealer",w:["Amalgam","Composite","ZOE only"]},
+{c:"Endodontics",q:"Most reliable pulp vitality test?",a:"Cold test",w:["Heat test","Electric pulp test","Percussion"]},
+{c:"Endodontics",q:"Best intracanal medicament between visits?",a:"Calcium hydroxide",w:["Saline","Composite","Zinc oxide"]},
+{c:"Endodontics",q:"Most common cause of endodontic failure?",a:"Persistent infection",w:["Overfilling","Underfilling","Instrument fracture"]},
+{c:"Endodontics",q:"Most commonly missed canal in maxillary first molar?",a:"MB2",w:["DB","Palatal","Distal"]},
+{c:"Endodontics",q:"Best repair material for perforation?",a:"MTA",w:["Composite","GIC","Amalgam"]},
 
 // ─── Periodontics ─────────────────────────────────────────────
-{c:“Periodontics”,q:“BOP indicates?”,a:“Gingival inflammation”,w:[“Healthy gingiva”,“Bone loss”,“Caries”]},
-{c:“Periodontics”,q:“Furcation Grade III?”,a:“Through-and-through”,w:[“Initial”,“Partial”,“No furcation”]},
-{c:“Periodontics”,q:“Subgingival calculus color?”,a:“Dark brown to black”,w:[“White”,“Yellow”,“Clear”]},
-{c:“Periodontics”,q:“Drug causing gingival enlargement?”,a:“Phenytoin, cyclosporine, CCBs”,w:[“Antibiotics”,“NSAIDs”,“Antihistamines”]},
-{c:“Periodontics”,q:“Primary etiological factor of periodontitis?”,a:“Bacteria in dental plaque biofilm”,w:[“Trauma”,“Malocclusion”,“Diet alone”]},
-{c:“Periodontics”,q:“Gingivitis differs from periodontitis by?”,a:“No attachment loss”,w:[“Bone loss present”,“Tooth mobility”,“Pus formation”]},
-{c:“Periodontics”,q:“Healthy sulcus depth?”,a:“1-3 mm”,w:[“0-1 mm”,“4-6 mm”,”>6 mm”]},
-{c:“Periodontics”,q:“Main pathogenic bacteria in periodontitis?”,a:“Porphyromonas gingivalis”,w:[“Streptococcus mutans”,“E. coli”,“Candida”]},
-{c:“Periodontics”,q:“NUG characteristic feature?”,a:“Punched-out papillae with pseudomembrane”,w:[“Swollen rounded papillae”,“No inflammation”,“Bone loss without bleeding”]},
-{c:“Periodontics”,q:“Red complex bacteria include?”,a:“P. gingivalis, T. forsythia, T. denticola”,w:[“Blue complex”,“Green complex”,“White complex”]},
+{c:"Periodontics",q:"BOP indicates?",a:"Gingival inflammation",w:["Healthy gingiva","Bone loss","Caries"]},
+{c:"Periodontics",q:"Furcation Grade III?",a:"Through-and-through",w:["Initial","Partial","No furcation"]},
+{c:"Periodontics",q:"Subgingival calculus color?",a:"Dark brown to black",w:["White","Yellow","Clear"]},
+{c:"Periodontics",q:"Drug causing gingival enlargement?",a:"Phenytoin, cyclosporine, CCBs",w:["Antibiotics","NSAIDs","Antihistamines"]},
+{c:"Periodontics",q:"Primary etiological factor of periodontitis?",a:"Bacteria in dental plaque biofilm",w:["Trauma","Malocclusion","Diet alone"]},
+{c:"Periodontics",q:"Gingivitis differs from periodontitis by?",a:"No attachment loss",w:["Bone loss present","Tooth mobility","Pus formation"]},
+{c:"Periodontics",q:"Healthy sulcus depth?",a:"1-3 mm",w:["0-1 mm","4-6 mm",">6 mm"]},
+{c:"Periodontics",q:"Main pathogenic bacteria in periodontitis?",a:"Porphyromonas gingivalis",w:["Streptococcus mutans","E. coli","Candida"]},
+{c:"Periodontics",q:"NUG characteristic feature?",a:"Punched-out papillae with pseudomembrane",w:["Swollen rounded papillae","No inflammation","Bone loss without bleeding"]},
+{c:"Periodontics",q:"Red complex bacteria include?",a:"P. gingivalis, T. forsythia, T. denticola",w:["Blue complex","Green complex","White complex"]},
 
 // ─── Orthodontics ─────────────────────────────────────────────
-{c:“Orthodontics”,q:“ANB normal value?”,a:“1-3 degrees”,w:[“0 degrees”,“8-10 degrees”,”-5 degrees”]},
-{c:“Orthodontics”,q:“Increased ANB = skeletal?”,a:“Class II”,w:[“Class III”,“Class I”,“Normal”]},
-{c:“Orthodontics”,q:“Palatal expander corrects?”,a:“Posterior crossbite”,w:[“Deep bite”,“Proclination”,“Class III”]},
-{c:“Orthodontics”,q:“First wire material?”,a:“NiTi round”,w:[“Stainless steel”,“TMA”,“Cobalt chrome”]},
-{c:“Orthodontics”,q:“Most common orthodontic problem?”,a:“Crowding”,w:[“Crossbite”,“Open bite”,“Spacing”]},
-{c:“Orthodontics”,q:“Optimal orthodontic force?”,a:“Light and continuous”,w:[“Heavy continuous”,“Random”,“No force”]},
-{c:“Orthodontics”,q:“Excessive orthodontic force causes?”,a:“Root resorption”,w:[“Faster movement”,“Improved esthetics”,“Better stability”]},
-{c:“Orthodontics”,q:“Class II division 1 shows?”,a:“Proclined upper incisors”,w:[“Retroclined incisors”,“Crossbite”,“Open bite”]},
-{c:“Orthodontics”,q:“IOTN stands for?”,a:“Index of Orthodontic Treatment Need”,w:[“Index of Oral Treatment Needs”,“International Orthodontic Norms”,“Index of Occlusal Treatment Norms”]},
-{c:“Orthodontics”,q:“Thumb sucking causes?”,a:“Anterior open bite”,w:[“Deep overbite”,“Posterior crossbite”,“Class III”]},
+{c:"Orthodontics",q:"ANB normal value?",a:"1-3 degrees",w:["0 degrees","8-10 degrees","-5 degrees"]},
+{c:"Orthodontics",q:"Increased ANB = skeletal?",a:"Class II",w:["Class III","Class I","Normal"]},
+{c:"Orthodontics",q:"Palatal expander corrects?",a:"Posterior crossbite",w:["Deep bite","Proclination","Class III"]},
+{c:"Orthodontics",q:"First wire material?",a:"NiTi round",w:["Stainless steel","TMA","Cobalt chrome"]},
+{c:"Orthodontics",q:"Most common orthodontic problem?",a:"Crowding",w:["Crossbite","Open bite","Spacing"]},
+{c:"Orthodontics",q:"Optimal orthodontic force?",a:"Light and continuous",w:["Heavy continuous","Random","No force"]},
+{c:"Orthodontics",q:"Excessive orthodontic force causes?",a:"Root resorption",w:["Faster movement","Improved esthetics","Better stability"]},
+{c:"Orthodontics",q:"Class II division 1 shows?",a:"Proclined upper incisors",w:["Retroclined incisors","Crossbite","Open bite"]},
+{c:"Orthodontics",q:"IOTN stands for?",a:"Index of Orthodontic Treatment Need",w:["Index of Oral Treatment Needs","International Orthodontic Norms","Index of Occlusal Treatment Norms"]},
+{c:"Orthodontics",q:"Thumb sucking causes?",a:"Anterior open bite",w:["Deep overbite","Posterior crossbite","Class III"]},
 
 // ─── Prosthodontics ───────────────────────────────────────────
-{c:“Prosthodontics”,q:“Kennedy Class I?”,a:“Bilateral free-end saddles”,w:[“Unilateral free-end”,“Single bounded”,“Anterior space”]},
-{c:“Prosthodontics”,q:“Kennedy Class II?”,a:“Unilateral free-end saddle”,w:[“Bilateral free-end”,“Anterior space”,“Multiple spaces”]},
-{c:“Prosthodontics”,q:“VDO stands for?”,a:“Vertical dimension of occlusion”,w:[“Variable dental occlusion”,“Vertical distance orbit”,“Vertical degree offset”]},
-{c:“Prosthodontics”,q:“Freeway space normal?”,a:“2-4 mm”,w:[“0 mm”,“6-8 mm”,“1 mm”]},
-{c:“Prosthodontics”,q:“Most important factor for complete denture retention?”,a:“Border seal”,w:[“Saliva volume”,“Occlusion”,“Tooth shade”]},
-{c:“Prosthodontics”,q:“Crown preparation taper should be?”,a:“2-6°”,w:[“0°”,“20°”,“45°”]},
-{c:“Prosthodontics”,q:“Biological width is?”,a:“Junctional epithelium plus connective tissue attachment”,w:[“Enamel thickness”,“Bone height”,“Crown height”]},
-{c:“Prosthodontics”,q:“Best pontic design for esthetics?”,a:“Ovate pontic”,w:[“Saddle pontic”,“Hygienic pontic”,“Conical pontic”]},
-{c:“Prosthodontics”,q:“Osseointegration is?”,a:“Direct structural bone-implant contact”,w:[“Fibrous attachment”,“Weak bond”,“Temporary union”]},
-{c:“Prosthodontics”,q:“Immediate denture delivered?”,a:“Immediately after extraction”,w:[“After 6 months”,“Before extraction”,“After 1 year”]},
+{c:"Prosthodontics",q:"Kennedy Class I?",a:"Bilateral free-end saddles",w:["Unilateral free-end","Single bounded","Anterior space"]},
+{c:"Prosthodontics",q:"Kennedy Class II?",a:"Unilateral free-end saddle",w:["Bilateral free-end","Anterior space","Multiple spaces"]},
+{c:"Prosthodontics",q:"VDO stands for?",a:"Vertical dimension of occlusion",w:["Variable dental occlusion","Vertical distance orbit","Vertical degree offset"]},
+{c:"Prosthodontics",q:"Freeway space normal?",a:"2-4 mm",w:["0 mm","6-8 mm","1 mm"]},
+{c:"Prosthodontics",q:"Most important factor for complete denture retention?",a:"Border seal",w:["Saliva volume","Occlusion","Tooth shade"]},
+{c:"Prosthodontics",q:"Crown preparation taper should be?",a:"2-6°",w:["0°","20°","45°"]},
+{c:"Prosthodontics",q:"Biological width is?",a:"Junctional epithelium plus connective tissue attachment",w:["Enamel thickness","Bone height","Crown height"]},
+{c:"Prosthodontics",q:"Best pontic design for esthetics?",a:"Ovate pontic",w:["Saddle pontic","Hygienic pontic","Conical pontic"]},
+{c:"Prosthodontics",q:"Osseointegration is?",a:"Direct structural bone-implant contact",w:["Fibrous attachment","Weak bond","Temporary union"]},
+{c:"Prosthodontics",q:"Immediate denture delivered?",a:"Immediately after extraction",w:["After 6 months","Before extraction","After 1 year"]},
 
 // ─── Pediatric Dentistry ──────────────────────────────────────
-{c:“Pediatric Dentistry”,q:“First primary tooth to erupt?”,a:“Mandibular central incisor”,w:[“Max central”,“First molar”,“Canine”]},
-{c:“Pediatric Dentistry”,q:“Primary avulsion: replant?”,a:“No”,w:[“Yes immediately”,“Yes within 2h”,“Yes with splint”]},
-{c:“Pediatric Dentistry”,q:“Permanent avulsion best storage?”,a:“HBSS or milk”,w:[“Tap water”,“Dry”,“Saline only”]},
-{c:“Pediatric Dentistry”,q:“Most common pulp therapy in primary teeth?”,a:“Pulpotomy”,w:[“Apicoectomy”,“Crown lengthening”,“Extraction only”]},
-{c:“Pediatric Dentistry”,q:“Space maintainer used for?”,a:“Prevent space loss”,w:[“Whitening”,“Extraction”,“Caries removal”]},
-{c:“Pediatric Dentistry”,q:“First dental visit recommended at?”,a:“1 year or first tooth eruption”,w:[“5 years”,“10 years”,“After decay only”]},
-{c:“Pediatric Dentistry”,q:“Silver diamine fluoride used for?”,a:“Arresting caries”,w:[“Whitening only”,“Extraction only”,“Bone growth”]},
-{c:“Pediatric Dentistry”,q:“Most common pediatric dental emergency?”,a:“Dental trauma”,w:[“Cancer”,“Stroke”,“Heart attack”]},
-{c:“Pediatric Dentistry”,q:“ECC most affected teeth?”,a:“Maxillary anterior teeth”,w:[“Mandibular molars only”,“Canines only”,“All equally”]},
-{c:“Pediatric Dentistry”,q:“Tell-show-do technique used for?”,a:“Reducing anxiety”,w:[“Increasing pain”,“Extraction only”,“Caries diagnosis”]},
+{c:"Pediatric Dentistry",q:"First primary tooth to erupt?",a:"Mandibular central incisor",w:["Max central","First molar","Canine"]},
+{c:"Pediatric Dentistry",q:"Primary avulsion: replant?",a:"No",w:["Yes immediately","Yes within 2h","Yes with splint"]},
+{c:"Pediatric Dentistry",q:"Permanent avulsion best storage?",a:"HBSS or milk",w:["Tap water","Dry","Saline only"]},
+{c:"Pediatric Dentistry",q:"Most common pulp therapy in primary teeth?",a:"Pulpotomy",w:["Apicoectomy","Crown lengthening","Extraction only"]},
+{c:"Pediatric Dentistry",q:"Space maintainer used for?",a:"Prevent space loss",w:["Whitening","Extraction","Caries removal"]},
+{c:"Pediatric Dentistry",q:"First dental visit recommended at?",a:"1 year or first tooth eruption",w:["5 years","10 years","After decay only"]},
+{c:"Pediatric Dentistry",q:"Silver diamine fluoride used for?",a:"Arresting caries",w:["Whitening only","Extraction only","Bone growth"]},
+{c:"Pediatric Dentistry",q:"Most common pediatric dental emergency?",a:"Dental trauma",w:["Cancer","Stroke","Heart attack"]},
+{c:"Pediatric Dentistry",q:"ECC most affected teeth?",a:"Maxillary anterior teeth",w:["Mandibular molars only","Canines only","All equally"]},
+{c:"Pediatric Dentistry",q:"Tell-show-do technique used for?",a:"Reducing anxiety",w:["Increasing pain","Extraction only","Caries diagnosis"]},
 
 // ─── Oral Pathology ───────────────────────────────────────────
-{c:“Oral Pathology”,q:“Most common odontogenic cyst?”,a:“Radicular cyst”,w:[“Dentigerous”,“OKC”,“Lateral periodontal”]},
-{c:“Oral Pathology”,q:“OKC recurrence rate?”,a:“Up to 60%”,w:[“Less than 5%”,“10-15%”,“Zero”]},
-{c:“Oral Pathology”,q:“Higher malignant potential?”,a:“Erythroplakia”,w:[“Leukoplakia”,“Same risk”,“Neither”]},
-{c:“Oral Pathology”,q:“Most common oral malignancy?”,a:“Squamous cell carcinoma”,w:[“Adenoma”,“Sarcoma”,“Melanoma only”]},
-{c:“Oral Pathology”,q:“Most common intraoral benign tumor?”,a:“Fibroma”,w:[“SCC”,“Melanoma”,“Sarcoma”]},
-{c:“Oral Pathology”,q:“Mucocele is caused by?”,a:“Salivary gland duct rupture”,w:[“Bone infection”,“Tooth decay”,“Virus”]},
-{c:“Oral Pathology”,q:“Most common salivary gland tumor?”,a:“Pleomorphic adenoma”,w:[“Mucocele”,“Cyst”,“Carcinoma only”]},
-{c:“Oral Pathology”,q:“Oral candidiasis caused by?”,a:“Candida albicans”,w:[“Streptococcus”,“E. coli”,“HSV”]},
-{c:“Oral Pathology”,q:“Lichen planus is?”,a:“Autoimmune mucosal disease”,w:[“Bacterial infection”,“Cyst”,“Trauma”]},
-{c:“Oral Pathology”,q:“Ameloblastoma most common site?”,a:“Mandible posterior”,w:[“Maxillary anterior”,“Tongue”,“Lip”]},
+{c:"Oral Pathology",q:"Most common odontogenic cyst?",a:"Radicular cyst",w:["Dentigerous","OKC","Lateral periodontal"]},
+{c:"Oral Pathology",q:"OKC recurrence rate?",a:"Up to 60%",w:["Less than 5%","10-15%","Zero"]},
+{c:"Oral Pathology",q:"Higher malignant potential?",a:"Erythroplakia",w:["Leukoplakia","Same risk","Neither"]},
+{c:"Oral Pathology",q:"Most common oral malignancy?",a:"Squamous cell carcinoma",w:["Adenoma","Sarcoma","Melanoma only"]},
+{c:"Oral Pathology",q:"Most common intraoral benign tumor?",a:"Fibroma",w:["SCC","Melanoma","Sarcoma"]},
+{c:"Oral Pathology",q:"Mucocele is caused by?",a:"Salivary gland duct rupture",w:["Bone infection","Tooth decay","Virus"]},
+{c:"Oral Pathology",q:"Most common salivary gland tumor?",a:"Pleomorphic adenoma",w:["Mucocele","Cyst","Carcinoma only"]},
+{c:"Oral Pathology",q:"Oral candidiasis caused by?",a:"Candida albicans",w:["Streptococcus","E. coli","HSV"]},
+{c:"Oral Pathology",q:"Lichen planus is?",a:"Autoimmune mucosal disease",w:["Bacterial infection","Cyst","Trauma"]},
+{c:"Oral Pathology",q:"Ameloblastoma most common site?",a:"Mandible posterior",w:["Maxillary anterior","Tongue","Lip"]},
 
 // ─── Oral Pharmacology ────────────────────────────────────────
-{c:“Oral Pharmacology”,q:“Amoxicillin mechanism?”,a:“Cell wall inhibition”,w:[“Protein inhibition”,“Membrane disruption”,“DNA damage”]},
-{c:“Oral Pharmacology”,q:“Max dose lidocaine with epi?”,a:“7 mg/kg”,w:[“3 mg/kg”,“10 mg/kg”,“1 mg/kg”]},
-{c:“Oral Pharmacology”,q:“Penicillin allergy alternative?”,a:“Clindamycin”,w:[“Amoxicillin”,“Ampicillin”,“Cefalexin”]},
-{c:“Oral Pharmacology”,q:“Drug for oral anaerobes?”,a:“Metronidazole”,w:[“Erythromycin”,“Tetracycline”,“Fluconazole”]},
-{c:“Oral Pharmacology”,q:“Paracetamol overdose antidote?”,a:“N-acetylcysteine”,w:[“Flumazenil”,“Naloxone”,“Atropine”]},
-{c:“Oral Pharmacology”,q:“Tetracycline side effect in children?”,a:“Tooth discoloration”,w:[“Bone growth”,“Hair growth”,“Skin whitening”]},
-{c:“Oral Pharmacology”,q:“Most common dental emergency drug?”,a:“Adrenaline (epinephrine)”,w:[“Ibuprofen”,“Amoxicillin”,“Paracetamol”]},
-{c:“Oral Pharmacology”,q:“Chlorhexidine main side effect?”,a:“Tooth staining”,w:[“Bone loss”,“Caries”,“Pulp death”]},
-{c:“Oral Pharmacology”,q:“NSAIDs mechanism?”,a:“COX inhibition”,w:[“Dopamine blockade”,“Calcium activation”,“Serotonin release”]},
-{c:“Oral Pharmacology”,q:“Topical anesthesia used for?”,a:“Surface numbing before injection”,w:[“Deep bone anesthesia”,“Systemic effect”,“Caries treatment”]},
+{c:"Oral Pharmacology",q:"Amoxicillin mechanism?",a:"Cell wall inhibition",w:["Protein inhibition","Membrane disruption","DNA damage"]},
+{c:"Oral Pharmacology",q:"Max dose lidocaine with epi?",a:"7 mg/kg",w:["3 mg/kg","10 mg/kg","1 mg/kg"]},
+{c:"Oral Pharmacology",q:"Penicillin allergy alternative?",a:"Clindamycin",w:["Amoxicillin","Ampicillin","Cefalexin"]},
+{c:"Oral Pharmacology",q:"Drug for oral anaerobes?",a:"Metronidazole",w:["Erythromycin","Tetracycline","Fluconazole"]},
+{c:"Oral Pharmacology",q:"Paracetamol overdose antidote?",a:"N-acetylcysteine",w:["Flumazenil","Naloxone","Atropine"]},
+{c:"Oral Pharmacology",q:"Tetracycline side effect in children?",a:"Tooth discoloration",w:["Bone growth","Hair growth","Skin whitening"]},
+{c:"Oral Pharmacology",q:"Most common dental emergency drug?",a:"Adrenaline (epinephrine)",w:["Ibuprofen","Amoxicillin","Paracetamol"]},
+{c:"Oral Pharmacology",q:"Chlorhexidine main side effect?",a:"Tooth staining",w:["Bone loss","Caries","Pulp death"]},
+{c:"Oral Pharmacology",q:"NSAIDs mechanism?",a:"COX inhibition",w:["Dopamine blockade","Calcium activation","Serotonin release"]},
+{c:"Oral Pharmacology",q:"Topical anesthesia used for?",a:"Surface numbing before injection",w:["Deep bone anesthesia","Systemic effect","Caries treatment"]},
 
 // ─── Anatomy ──────────────────────────────────────────────────
-{c:“Anatomy”,q:“Maxillary sinus drains into?”,a:“Middle meatus”,w:[“Inferior meatus”,“Superior meatus”,“Nasopharynx”]},
-{c:“Anatomy”,q:“Parotid duct opens opposite?”,a:“Upper second molar”,w:[“Upper first molar”,“Lower molar”,“Canine”]},
-{c:“Anatomy”,q:“Lingual nerve supplies?”,a:“Anterior 2/3 tongue sensation”,w:[“Posterior 1/3 taste”,“Motor to tongue”,“Cheek”]},
-{c:“Anatomy”,q:“Masseter function?”,a:“Jaw closure”,w:[“Jaw opening”,“Lateral deviation”,“Tongue protrusion”]},
-{c:“Anatomy”,q:“Facial nerve is?”,a:“Motor nerve for facial expression”,w:[“Sensory nerve”,“Mixed for teeth”,“Bone nerve”]},
-{c:“Anatomy”,q:“Most important sensory nerve of face?”,a:“Trigeminal nerve”,w:[“Facial nerve”,“Vagus nerve”,“Hypoglossal nerve”]},
-{c:“Anatomy”,q:“Inferior alveolar nerve enters mandible via?”,a:“Mandibular foramen”,w:[“Mental foramen”,“Infraorbital foramen”,“Incisive foramen”]},
-{c:“Anatomy”,q:“Motor to tongue muscles?”,a:“Hypoglossal nerve”,w:[“Facial nerve”,“Vagus nerve”,“V2”]},
-{c:“Anatomy”,q:“Greater palatine nerve supplies?”,a:“Hard palate”,w:[“Tongue”,“Mandible”,“Cheek”]},
-{c:“Anatomy”,q:“Taste from posterior 1/3 tongue via?”,a:“Glossopharyngeal nerve”,w:[“Facial nerve”,“Trigeminal nerve”,“Vagus only”]},
+{c:"Anatomy",q:"Maxillary sinus drains into?",a:"Middle meatus",w:["Inferior meatus","Superior meatus","Nasopharynx"]},
+{c:"Anatomy",q:"Parotid duct opens opposite?",a:"Upper second molar",w:["Upper first molar","Lower molar","Canine"]},
+{c:"Anatomy",q:"Lingual nerve supplies?",a:"Anterior 2/3 tongue sensation",w:["Posterior 1/3 taste","Motor to tongue","Cheek"]},
+{c:"Anatomy",q:"Masseter function?",a:"Jaw closure",w:["Jaw opening","Lateral deviation","Tongue protrusion"]},
+{c:"Anatomy",q:"Facial nerve is?",a:"Motor nerve for facial expression",w:["Sensory nerve","Mixed for teeth","Bone nerve"]},
+{c:"Anatomy",q:"Most important sensory nerve of face?",a:"Trigeminal nerve",w:["Facial nerve","Vagus nerve","Hypoglossal nerve"]},
+{c:"Anatomy",q:"Inferior alveolar nerve enters mandible via?",a:"Mandibular foramen",w:["Mental foramen","Infraorbital foramen","Incisive foramen"]},
+{c:"Anatomy",q:"Motor to tongue muscles?",a:"Hypoglossal nerve",w:["Facial nerve","Vagus nerve","V2"]},
+{c:"Anatomy",q:"Greater palatine nerve supplies?",a:"Hard palate",w:["Tongue","Mandible","Cheek"]},
+{c:"Anatomy",q:"Taste from posterior 1/3 tongue via?",a:"Glossopharyngeal nerve",w:["Facial nerve","Trigeminal nerve","Vagus only"]},
 
 // ─── Microbiology ─────────────────────────────────────────────
-{c:“Microbiology”,q:“Most cariogenic bacterium?”,a:“Streptococcus mutans”,w:[“Lactobacillus”,“Actinomyces”,“P. gingivalis”]},
-{c:“Microbiology”,q:“Primary periodontitis pathogen?”,a:“Porphyromonas gingivalis”,w:[“S. mutans”,“Actinomyces”,“T. denticola”]},
-{c:“Microbiology”,q:“Autoclave: 134°C for?”,a:“3 minutes”,w:[“30 minutes”,“1 hour”,“10 minutes”]},
-{c:“Microbiology”,q:“Dental plaque is?”,a:“Biofilm”,w:[“Bone tissue”,“Tooth enamel”,“Saliva only”]},
-{c:“Microbiology”,q:“Sterilization means?”,a:“Complete elimination of all microbes”,w:[“Reduction only”,“Cleaning only”,“Disinfection only”]},
-{c:“Microbiology”,q:“Most common oral fungal infection?”,a:“Candida albicans”,w:[“Streptococcus mutans”,“E. coli”,“HSV”]},
-{c:“Microbiology”,q:“HSV remains latent in?”,a:“Trigeminal ganglion”,w:[“Bone marrow”,“Teeth”,“Saliva glands only”]},
-{c:“Microbiology”,q:“Normal oral flora role?”,a:“Prevent colonization by pathogens”,w:[“Cause cancer”,“Destroy enamel”,“Block saliva”]},
-{c:“Microbiology”,q:“Secretory IgA found in?”,a:“Saliva”,w:[“Bone”,“Teeth”,“Muscle”]},
-{c:“Microbiology”,q:“Fusobacterium is?”,a:“Anaerobic Gram negative rod”,w:[“Gram positive cocci”,“Virus”,“Fungus”]},
+{c:"Microbiology",q:"Most cariogenic bacterium?",a:"Streptococcus mutans",w:["Lactobacillus","Actinomyces","P. gingivalis"]},
+{c:"Microbiology",q:"Primary periodontitis pathogen?",a:"Porphyromonas gingivalis",w:["S. mutans","Actinomyces","T. denticola"]},
+{c:"Microbiology",q:"Autoclave: 134°C for?",a:"3 minutes",w:["30 minutes","1 hour","10 minutes"]},
+{c:"Microbiology",q:"Dental plaque is?",a:"Biofilm",w:["Bone tissue","Tooth enamel","Saliva only"]},
+{c:"Microbiology",q:"Sterilization means?",a:"Complete elimination of all microbes",w:["Reduction only","Cleaning only","Disinfection only"]},
+{c:"Microbiology",q:"Most common oral fungal infection?",a:"Candida albicans",w:["Streptococcus mutans","E. coli","HSV"]},
+{c:"Microbiology",q:"HSV remains latent in?",a:"Trigeminal ganglion",w:["Bone marrow","Teeth","Saliva glands only"]},
+{c:"Microbiology",q:"Normal oral flora role?",a:"Prevent colonization by pathogens",w:["Cause cancer","Destroy enamel","Block saliva"]},
+{c:"Microbiology",q:"Secretory IgA found in?",a:"Saliva",w:["Bone","Teeth","Muscle"]},
+{c:"Microbiology",q:"Fusobacterium is?",a:"Anaerobic Gram negative rod",w:["Gram positive cocci","Virus","Fungus"]},
 
 // ─── Dental Material ──────────────────────────────────────────
-{c:“Dental Material”,q:“Main component of dental amalgam?”,a:“Mercury”,w:[“Gold”,“Silver”,“Copper”]},
-{c:“Dental Material”,q:“Weakest phase in amalgam?”,a:“Gamma-2”,w:[“Gamma”,“Gamma-1”,“Beta”]},
-{c:“Dental Material”,q:“Main resin matrix in composites?”,a:“Bis-GMA”,w:[“PMMA”,“Zinc oxide”,“Gold”]},
-{c:“Dental Material”,q:“Light-cured composites use?”,a:“Blue light (~470 nm)”,w:[“UV light”,“Red light”,“Infrared”]},
-{c:“Dental Material”,q:“GIC bonds to tooth via?”,a:“Chemical bonding”,w:[“Micromechanical only”,“No bonding”,“Pressure”]},
-{c:“Dental Material”,q:“Alginate dimensional stability?”,a:“Low”,w:[“High”,“Permanent”,“Perfect”]},
-{c:“Dental Material”,q:“Addition silicone is?”,a:“High accuracy”,w:[“Poor stability”,“Weak”,“Rigid”]},
-{c:“Dental Material”,q:“Eugenol effect on composite?”,a:“Inhibits polymerization”,w:[“Improves bond”,“No effect”,“Strengthens composite”]},
-{c:“Dental Material”,q:“Dental implants made of?”,a:“Titanium”,w:[“Gold”,“Mercury”,“Silver”]},
-{c:“Dental Material”,q:“Radiopacity in composite due to?”,a:“Barium glass filler”,w:[“Silica”,“Water”,“Resin”]},
+{c:"Dental Material",q:"Main component of dental amalgam?",a:"Mercury",w:["Gold","Silver","Copper"]},
+{c:"Dental Material",q:"Weakest phase in amalgam?",a:"Gamma-2",w:["Gamma","Gamma-1","Beta"]},
+{c:"Dental Material",q:"Main resin matrix in composites?",a:"Bis-GMA",w:["PMMA","Zinc oxide","Gold"]},
+{c:"Dental Material",q:"Light-cured composites use?",a:"Blue light (~470 nm)",w:["UV light","Red light","Infrared"]},
+{c:"Dental Material",q:"GIC bonds to tooth via?",a:"Chemical bonding",w:["Micromechanical only","No bonding","Pressure"]},
+{c:"Dental Material",q:"Alginate dimensional stability?",a:"Low",w:["High","Permanent","Perfect"]},
+{c:"Dental Material",q:"Addition silicone is?",a:"High accuracy",w:["Poor stability","Weak","Rigid"]},
+{c:"Dental Material",q:"Eugenol effect on composite?",a:"Inhibits polymerization",w:["Improves bond","No effect","Strengthens composite"]},
+{c:"Dental Material",q:"Dental implants made of?",a:"Titanium",w:["Gold","Mercury","Silver"]},
+{c:"Dental Material",q:"Radiopacity in composite due to?",a:"Barium glass filler",w:["Silica","Water","Resin"]},
 
 // ─── General Medicine ─────────────────────────────────────────
-{c:“General Medicine”,q:“Normal fasting glucose?”,a:“70-100 mg/dL”,w:[“120-140 mg/dL”,“50-70 mg/dL”,“150-200 mg/dL”]},
-{c:“General Medicine”,q:“Anaphylaxis first-line?”,a:“Epinephrine 0.5mg IM”,w:[“Antihistamine”,“Steroids”,“Oxygen only”]},
-{c:“General Medicine”,q:“HbA1c diabetes threshold?”,a:“6.5% or higher”,w:[“5.0%”,“8.0%”,“10%”]},
-{c:“General Medicine”,q:“Normal blood pH?”,a:“7.35-7.45”,w:[“6.8-7.0”,“7.0-7.2”,“7.5-7.7”]},
-{c:“General Medicine”,q:“Most common cause of hypertension?”,a:“Essential hypertension”,w:[“Renal artery stenosis”,“Endocrine disorders”,“Pheochromocytoma”]},
-{c:“General Medicine”,q:“Which organ primarily affected in hepatitis?”,a:“Liver”,w:[“Kidney”,“Lung”,“Heart”]},
-{c:“General Medicine”,q:“Normal resting heart rate adults?”,a:“60-100 bpm”,w:[“40-60 bpm”,“100-120 bpm”,“120-140 bpm”]},
-{c:“General Medicine”,q:“Vitamin C deficiency causes?”,a:“Scurvy”,w:[“Rickets”,“Pellagra”,“Beri-beri”]},
-{c:“General Medicine”,q:“Which drug causes cough as side effect?”,a:“ACE inhibitors”,w:[“Beta blockers”,“Statins”,“Diuretics”]},
-{c:“General Medicine”,q:“First biomarker to rise in MI?”,a:“Troponin”,w:[“CK-MB”,“LDH”,“Myoglobin”]},
+{c:"General Medicine",q:"Normal fasting glucose?",a:"70-100 mg/dL",w:["120-140 mg/dL","50-70 mg/dL","150-200 mg/dL"]},
+{c:"General Medicine",q:"Anaphylaxis first-line?",a:"Epinephrine 0.5mg IM",w:["Antihistamine","Steroids","Oxygen only"]},
+{c:"General Medicine",q:"HbA1c diabetes threshold?",a:"6.5% or higher",w:["5.0%","8.0%","10%"]},
+{c:"General Medicine",q:"Normal blood pH?",a:"7.35-7.45",w:["6.8-7.0","7.0-7.2","7.5-7.7"]},
+{c:"General Medicine",q:"Most common cause of hypertension?",a:"Essential hypertension",w:["Renal artery stenosis","Endocrine disorders","Pheochromocytoma"]},
+{c:"General Medicine",q:"Which organ primarily affected in hepatitis?",a:"Liver",w:["Kidney","Lung","Heart"]},
+{c:"General Medicine",q:"Normal resting heart rate adults?",a:"60-100 bpm",w:["40-60 bpm","100-120 bpm","120-140 bpm"]},
+{c:"General Medicine",q:"Vitamin C deficiency causes?",a:"Scurvy",w:["Rickets","Pellagra","Beri-beri"]},
+{c:"General Medicine",q:"Which drug causes cough as side effect?",a:"ACE inhibitors",w:["Beta blockers","Statins","Diuretics"]},
+{c:"General Medicine",q:"First biomarker to rise in MI?",a:"Troponin",w:["CK-MB","LDH","Myoglobin"]},
 
 // ─── Family Medicine ──────────────────────────────────────────
-{c:“Family Medicine”,q:“Colon cancer screening starting age?”,a:“45”,w:[“40”,“50”,“55”]},
-{c:“Family Medicine”,q:“First-line treatment for uncomplicated HTN?”,a:“Lifestyle modification”,w:[“Beta-blocker”,“Insulin”,“Antibiotics”]},
-{c:“Family Medicine”,q:“Which vaccine recommended annually?”,a:“Influenza”,w:[“Hepatitis B”,“MMR”,“Varicella”]},
-{c:“Family Medicine”,q:“BMI range for overweight?”,a:“25-29.9”,w:[“18.5-24.9”,“30-34.9”,”>35”]},
-{c:“Family Medicine”,q:“Diabetes screening test?”,a:“HbA1c”,w:[“CBC”,“ECG”,“X-ray”]},
-{c:“Family Medicine”,q:“First-line drug for type 2 diabetes?”,a:“Metformin”,w:[“Insulin”,“Aspirin”,“Statins”]},
-{c:“Family Medicine”,q:“Goal BP for most adults?”,a:”<130/80”,w:[”<150/90”,”<140/90”,”<120/70”]},
-{c:“Family Medicine”,q:“Screening for cervical cancer?”,a:“Pap smear”,w:[“Mammogram”,“Colonoscopy”,“PSA”]},
-{c:“Family Medicine”,q:“Screening for breast cancer?”,a:“Mammogram”,w:[“Pap smear”,“Colonoscopy”,“ECG”]},
-{c:“Family Medicine”,q:“Screening for osteoporosis?”,a:“DEXA scan”,w:[“ECG”,“CBC”,“MRI”]},
+{c:"Family Medicine",q:"Colon cancer screening starting age?",a:"45",w:["40","50","55"]},
+{c:"Family Medicine",q:"First-line treatment for uncomplicated HTN?",a:"Lifestyle modification",w:["Beta-blocker","Insulin","Antibiotics"]},
+{c:"Family Medicine",q:"Which vaccine recommended annually?",a:"Influenza",w:["Hepatitis B","MMR","Varicella"]},
+{c:"Family Medicine",q:"BMI range for overweight?",a:"25-29.9",w:["18.5-24.9","30-34.9",">35"]},
+{c:"Family Medicine",q:"Diabetes screening test?",a:"HbA1c",w:["CBC","ECG","X-ray"]},
+{c:"Family Medicine",q:"First-line drug for type 2 diabetes?",a:"Metformin",w:["Insulin","Aspirin","Statins"]},
+{c:"Family Medicine",q:"Goal BP for most adults?",a:"<130/80",w:["<150/90","<140/90","<120/70"]},
+{c:"Family Medicine",q:"Screening for cervical cancer?",a:"Pap smear",w:["Mammogram","Colonoscopy","PSA"]},
+{c:"Family Medicine",q:"Screening for breast cancer?",a:"Mammogram",w:["Pap smear","Colonoscopy","ECG"]},
+{c:"Family Medicine",q:"Screening for osteoporosis?",a:"DEXA scan",w:["ECG","CBC","MRI"]},
 
 // ─── Surgery ──────────────────────────────────────────────────
-{c:“Surgery”,q:“Tension pneumothorax management?”,a:“Needle decompression”,w:[“Chest X-ray”,“Antibiotics”,“Observation”]},
-{c:“Surgery”,q:“Burn patient first priority?”,a:“Airway management”,w:[“Antibiotics”,“Pain relief”,“Dressing”]},
-{c:“Surgery”,q:“Testicular torsion management?”,a:“Immediate surgery”,w:[“Ultrasound first”,“Antibiotics”,“Observation”]},
-{c:“Surgery”,q:“Necrotizing fasciitis management?”,a:“Urgent surgical debridement”,w:[“Antibiotics only”,“Observation”,“Dressing”]},
-{c:“Surgery”,q:“Compartment syndrome management?”,a:“Fasciotomy”,w:[“Elevation”,“Antibiotics”,“Cast”]},
-{c:“Surgery”,q:“Appendicitis management?”,a:“Appendectomy”,w:[“Observation”,“IV antibiotics only”,“Discharge”]},
-{c:“Surgery”,q:“Acute cholecystitis definitive treatment?”,a:“Cholecystectomy”,w:[“Antibiotics only”,“Observation”,“Painkillers”]},
-{c:“Surgery”,q:“DVT management?”,a:“Anticoagulation”,w:[“Surgery”,“Antibiotics”,“Observation”]},
-{c:“Surgery”,q:“Post-op day 1 fever most likely cause?”,a:“Atelectasis”,w:[“Infection”,“Sepsis”,“Abscess”]},
-{c:“Surgery”,q:“Golden rule in trauma?”,a:“Treat life-threatening first”,w:[“Diagnose first”,“Observe”,“Delay”]},
+{c:"Surgery",q:"Tension pneumothorax management?",a:"Needle decompression",w:["Chest X-ray","Antibiotics","Observation"]},
+{c:"Surgery",q:"Burn patient first priority?",a:"Airway management",w:["Antibiotics","Pain relief","Dressing"]},
+{c:"Surgery",q:"Testicular torsion management?",a:"Immediate surgery",w:["Ultrasound first","Antibiotics","Observation"]},
+{c:"Surgery",q:"Necrotizing fasciitis management?",a:"Urgent surgical debridement",w:["Antibiotics only","Observation","Dressing"]},
+{c:"Surgery",q:"Compartment syndrome management?",a:"Fasciotomy",w:["Elevation","Antibiotics","Cast"]},
+{c:"Surgery",q:"Appendicitis management?",a:"Appendectomy",w:["Observation","IV antibiotics only","Discharge"]},
+{c:"Surgery",q:"Acute cholecystitis definitive treatment?",a:"Cholecystectomy",w:["Antibiotics only","Observation","Painkillers"]},
+{c:"Surgery",q:"DVT management?",a:"Anticoagulation",w:["Surgery","Antibiotics","Observation"]},
+{c:"Surgery",q:"Post-op day 1 fever most likely cause?",a:"Atelectasis",w:["Infection","Sepsis","Abscess"]},
+{c:"Surgery",q:"Golden rule in trauma?",a:"Treat life-threatening first",w:["Diagnose first","Observe","Delay"]},
 
 // ─── Dermatology ──────────────────────────────────────────────
-{c:“Dermatology”,q:“Most common skin cancer?”,a:“Basal cell carcinoma”,w:[“Melanoma”,“Squamous cell carcinoma”,“Lymphoma”]},
-{c:“Dermatology”,q:“Most dangerous skin cancer?”,a:“Melanoma”,w:[“Basal cell carcinoma”,“Seborrheic keratosis”,“Nevus”]},
-{c:“Dermatology”,q:“Eczema first-line treatment?”,a:“Emollients + topical corticosteroids”,w:[“Antibiotics”,“Antifungals”,“Surgery”]},
-{c:“Dermatology”,q:“Psoriasis is?”,a:“Autoimmune skin disease”,w:[“Bacterial infection”,“Fungal infection”,“Allergy only”]},
-{c:“Dermatology”,q:“Scabies caused by?”,a:“Sarcoptes scabiei”,w:[“Virus”,“Fungus”,“Bacteria”]},
-{c:“Dermatology”,q:“HSV remains latent in?”,a:“Nerve ganglia”,w:[“Bone marrow”,“Skin only”,“Muscle”]},
-{c:“Dermatology”,q:“Ringworm caused by?”,a:“Dermatophytes”,w:[“Viruses”,“Bacteria”,“Parasites only”]},
-{c:“Dermatology”,q:“ABCDE A stands for?”,a:“Asymmetry”,w:[“Age”,“Area”,“Allergy”]},
-{c:“Dermatology”,q:“Impetigo characteristic lesion?”,a:“Honey-colored crust”,w:[“White plaque”,“Black necrosis”,“Bone lesion”]},
-{c:“Dermatology”,q:“Vitiligo is?”,a:“Loss of melanin”,w:[“Excess melanin”,“Infection”,“Cancer”]},
+{c:"Dermatology",q:"Most common skin cancer?",a:"Basal cell carcinoma",w:["Melanoma","Squamous cell carcinoma","Lymphoma"]},
+{c:"Dermatology",q:"Most dangerous skin cancer?",a:"Melanoma",w:["Basal cell carcinoma","Seborrheic keratosis","Nevus"]},
+{c:"Dermatology",q:"Eczema first-line treatment?",a:"Emollients + topical corticosteroids",w:["Antibiotics","Antifungals","Surgery"]},
+{c:"Dermatology",q:"Psoriasis is?",a:"Autoimmune skin disease",w:["Bacterial infection","Fungal infection","Allergy only"]},
+{c:"Dermatology",q:"Scabies caused by?",a:"Sarcoptes scabiei",w:["Virus","Fungus","Bacteria"]},
+{c:"Dermatology",q:"HSV remains latent in?",a:"Nerve ganglia",w:["Bone marrow","Skin only","Muscle"]},
+{c:"Dermatology",q:"Ringworm caused by?",a:"Dermatophytes",w:["Viruses","Bacteria","Parasites only"]},
+{c:"Dermatology",q:"ABCDE A stands for?",a:"Asymmetry",w:["Age","Area","Allergy"]},
+{c:"Dermatology",q:"Impetigo characteristic lesion?",a:"Honey-colored crust",w:["White plaque","Black necrosis","Bone lesion"]},
+{c:"Dermatology",q:"Vitiligo is?",a:"Loss of melanin",w:["Excess melanin","Infection","Cancer"]},
 
 // ─── Physiology ───────────────────────────────────────────────
-{c:“Physiology”,q:“Normal cardiac output?”,a:“~5 L/min”,w:[“~2 L/min”,“~10 L/min”,“~1 L/min”]},
-{c:“Physiology”,q:“O2-Hb curve right shift means?”,a:“Decreased O2 affinity - more O2 released”,w:[“Increased O2 affinity”,“Less O2 released”,“Alkalosis”]},
-{c:“Physiology”,q:“Surfactant produced by?”,a:“Type II pneumocytes”,w:[“Type I pneumocytes”,“Macrophages”,“Endothelium”]},
-{c:“Physiology”,q:“Primary stimulus for ventilation?”,a:“Rising PaCO2”,w:[“Falling O2”,“Falling pH”,“Rising HCO3”]},
-{c:“Physiology”,q:“ADH mechanism?”,a:“Aquaporin-2 insertion in collecting duct”,w:[“Na reabsorption loop”,“K secretion”,“Cl reabsorption”]},
-{c:“Physiology”,q:“Frank-Starling law?”,a:“Greater preload → greater stroke volume”,w:[“Greater afterload → greater SV”,“Less preload → more SV”,“No relation”]},
-{c:“Physiology”,q:“Normal GFR?”,a:“~125 mL/min”,w:[“~50 mL/min”,“~200 mL/min”,“~10 mL/min”]},
-{c:“Physiology”,q:“Muscle contraction - calcium binds?”,a:“Troponin C”,w:[“Actin”,“Myosin”,“Titin”]},
-{c:“Physiology”,q:“Insulin produced by?”,a:“Beta cells of islets of Langerhans”,w:[“Alpha cells”,“Delta cells”,“Acinar cells”]},
-{c:“Physiology”,q:“Baroreceptors located in?”,a:“Carotid sinus and aortic arch”,w:[“Hypothalamus”,“Renal cortex”,“Myocardium”]}
+{c:"Physiology",q:"Normal cardiac output?",a:"~5 L/min",w:["~2 L/min","~10 L/min","~1 L/min"]},
+{c:"Physiology",q:"O2-Hb curve right shift means?",a:"Decreased O2 affinity - more O2 released",w:["Increased O2 affinity","Less O2 released","Alkalosis"]},
+{c:"Physiology",q:"Surfactant produced by?",a:"Type II pneumocytes",w:["Type I pneumocytes","Macrophages","Endothelium"]},
+{c:"Physiology",q:"Primary stimulus for ventilation?",a:"Rising PaCO2",w:["Falling O2","Falling pH","Rising HCO3"]},
+{c:"Physiology",q:"ADH mechanism?",a:"Aquaporin-2 insertion in collecting duct",w:["Na reabsorption loop","K secretion","Cl reabsorption"]},
+{c:"Physiology",q:"Frank-Starling law?",a:"Greater preload → greater stroke volume",w:["Greater afterload → greater SV","Less preload → more SV","No relation"]},
+{c:"Physiology",q:"Normal GFR?",a:"~125 mL/min",w:["~50 mL/min","~200 mL/min","~10 mL/min"]},
+{c:"Physiology",q:"Muscle contraction - calcium binds?",a:"Troponin C",w:["Actin","Myosin","Titin"]},
+{c:"Physiology",q:"Insulin produced by?",a:"Beta cells of islets of Langerhans",w:["Alpha cells","Delta cells","Acinar cells"]},
+{c:"Physiology",q:"Baroreceptors located in?",a:"Carotid sinus and aortic arch",w:["Hypothalamus","Renal cortex","Myocardium"]}
 
 ]; // END QB
 // ================================================================
@@ -263,15 +263,14 @@ var QB = [
 // لإضافة تخصص جديد: أضف item جديد في المكان المناسب
 // هيكل المجلد:  {id, name, icon, desc, isFolder:true, children:[…]}
 // هيكل الموضوع: {id, name, icon, desc, chapters:[{title, color, questions:[{q,a},…]}]}
-// هيكل رابط خارجي: {id, name, icon, desc, isExternal:true, externalUrl:”…”}
+// هيكل رابط خارجي: {id, name, icon, desc, isExternal:true, externalUrl:"…"}
 // ================================================================
 var EXAM_SUBJECTS = [
-{id:“study-smart”, name:“Study Smart”, icon:“📖”, desc:“Dentistry and Medicine All Specialties”, isFolder:true, children:[
+{id:"study-smart", name:"Study Smart", icon:"📖", desc:"Dentistry and Medicine All Specialties", isFolder:true, children:[
 
 // ── مجلد طب الأسنان ──────────────────────────────────────
-{id:“dentistry-folder”, name:“Dentistry”, icon:“🦷”, desc:“KBR · All Specialties · Dental Materials”, isFolder:true, children:[
+{id:"dentistry-folder", name:"Dentistry", icon:"🦷", desc:"KBR · All Specialties · Dental Materials", isFolder:true, children:[
 
-```
 // KBR — رابط خارجي للملف المنفصل
 {id:"kbr-entry", name:"KBR Practice Questions", icon:"🏆",
  desc:"Kuwait Board R1 · 256 Questions · 2023-2025",
@@ -1007,17 +1006,13 @@ var EXAM_SUBJECTS = [
    ]}]
   }
  ]} // end dentistry-all-specs children
-]} // end dentistry-folder children
-```
-
-]}, // end dentistry-folder
+]}, // end dentistry-folder children
 
 // ── مجلد الطب العام ──────────────────────────────────────
-{id:“medicine-folder”, name:“Medicine”, icon:“🩺”,
-desc:“General Medicine · Dermatology · Surgery · Physiology · Family”,
+{id:"medicine-folder", name:"Medicine", icon:"🩺",
+desc:"General Medicine · Dermatology · Surgery · Physiology · Family",
 isFolder:true, isMedical:true, children:[
 
-```
 {id:"medicine-all-specs", name:"All Specialties", icon:"📚",
  desc:"General Medicine · Dermatology · Physiology · Family Medicine · Surgery",
  isFolder:true, isMedical:true, children:[
@@ -1555,7 +1550,6 @@ isFolder:true, isMedical:true, children:[
 
  ]} // end medicine-all-specs children
 ]} // end medicine-folder children
-```
 
 ]} // end study-smart children
 
