@@ -308,7 +308,7 @@ input:focus{border-color:var(–c1);}
 
 </head>
 <body>
-<button id="theme-btn" onclick="toggleTheme()">🌓</button>
+<button id="theme-btn">🌓</button>
 
 <div id="ub">
   <div id="ub-logo">Dent<em>.</em>list</div>
@@ -690,10 +690,10 @@ function exLoad(){try{EX.rev=JSON.parse(localStorage.getItem('ex_rev')||'{}');}c
 function exSave(){localStorage.setItem('ex_rev',JSON.stringify(EX.rev));}
 function exCountDone(subj){if(!subj||subj.isFolder||subj.isExternal)return{done:0,tot:0};var tot=0,done=0;(subj.chapters||[]).forEach(function(ch,ci){tot+=ch.questions.length;ch.questions.forEach(function(_,qi){if(EX.rev[exKey(subj.id,ci,qi)])done++;});});return{done:done,tot:tot};}
 function exCountFolder(items){var done=0,tot=0;(items||[]).forEach(function(s){if(s.isFolder){var r=exCountFolder(s.children||[]);done+=r.done;tot+=r.tot;}else if(!s.isExternal){var r=exCountDone(s);done+=r.done;tot+=r.tot;}});return{done:done,tot:tot};}
-function exRenderHome(){var el=document.getElementById('exam-sl');if(!el)return;EX.folderStack=[];EX.curFolder=null;el.innerHTML=exBuildList(EXAM_SUBJECTS);exBindClicks(el);var bb=document.getElementById('ex-back-btn');if(bb)bb.style.display='none';var sub=document.getElementById('ex-study-sub');if(sub)sub.textContent='📚 Study Mode';}
+function exRenderHome(){var el=document.getElementById('exam-sl');if(!el)return;EX.folderStack=[];EX.curFolder=null;var rootItems=EXAM_SUBJECTS;if(rootItems.length===1&&rootItems[0].isFolder&&rootItems[0].id==='study-smart'){rootItems=rootItems[0].children||[];}el.innerHTML=exBuildList(rootItems);exBindClicks(el);var bb=document.getElementById('ex-back-btn');if(bb)bb.style.display='none';var sub=document.getElementById('ex-study-sub');if(sub)sub.textContent='📚 Study Mode';}
 function exBuildList(items){return items.map(function(s){var isMed=s.isMedical||false;var bdr=isMed?'rgba(255,149,0,.25)':s.id==='kbr-entry'?'rgba(240,201,77,.25)':s.isFolder?'rgba(176,110,255,.2)':'rgba(170,255,0,.15)';var col=isMed?'#ff9500':s.id==='kbr-entry'?'#f0c94d':s.isFolder?'var(--c5)':'var(--c3)';var prog='';if(s.isFolder){var r=exCountFolder(s.children||[]);prog=r.tot>0?(r.done+'/'+r.tot):'sub-folders';}else if(s.isExternal){prog='tap to open';}else{var r=exCountDone(s);prog=r.done+'/'+r.tot+' done';}var arrow=s.isFolder?'<b style="color:'+col+'">&#9656;</b>':s.isExternal?'<b style="color:'+col+'">&#8599;</b>':'<b style="color:var(--mt)">&#10095;</b>';var medTag=isMed?'<span style="font-family:var(--fm);font-size:.48rem;background:rgba(255,149,0,.12);border:1px solid rgba(255,149,0,.3);color:#ff9500;padding:1px 5px;border-radius:4px;margin-left:4px">Medical</span>':'';return'<div class="ex-item" data-sid="'+s.id+'" style="background:var(--s2);border:1px solid '+bdr+';border-radius:13px;padding:14px 16px;cursor:pointer;transition:all .18s;display:flex;align-items:center;justify-content:space-between;gap:11px;margin-bottom:8px"><div style="display:flex;align-items:center;gap:10px"><span style="font-size:1.4rem">'+s.icon+'</span><div><div style="font-size:.88rem;font-weight:700;margin-bottom:2px;color:'+col+'">'+s.name+medTag+'</div><div style="font-family:var(--fm);font-size:.58rem;color:var(--mt)">'+s.desc+' &middot; '+prog+'</div></div></div>'+arrow+'</div>';}).join('');}
 function exBindClicks(container){if(!container)return;container.querySelectorAll('.ex-item').forEach(function(div){var sid=div.getAttribute('data-sid');div.onclick=function(){exSelectItem(sid);};});}
-function exSelectItem(id){var s=exFindItem(EXAM_SUBJECTS,id);if(!s)return;if(s.isExternal){window.location.href=s.externalUrl;return;}if(s.isFolder){var parent=EX.curFolder||{id:'root',children:EXAM_SUBJECTS,name:'Study Smart'};EX.folderStack.push(parent);EX.curFolder=s;exShowFolder(s);return;}EX.subj=s;go('sc-exam-subject');exRenderSubj();}
+function exSelectItem(id){var s=exFindItem(EXAM_SUBJECTS,id);if(!s)return;if(s.isExternal){window.location.href=s.externalUrl;return;}if(s.isFolder){var rootItems=EXAM_SUBJECTS.length===1&&EXAM_SUBJECTS[0].id==='study-smart'?EXAM_SUBJECTS[0].children:EXAM_SUBJECTS;var parent=EX.curFolder||{id:'root',children:rootItems,name:'Study Smart'};EX.folderStack.push(parent);EX.curFolder=s;exShowFolder(s);return;}EX.subj=s;go('sc-exam-subject');exRenderSubj();}
 function exFindItem(items,id){for(var i=0;i<(items||[]).length;i++){if(items[i].id===id)return items[i];if(items[i].isFolder){var f=exFindItem(items[i].children,id);if(f)return f;}}return null;}
 function exShowFolder(folder){var el=document.getElementById('exam-sl');if(!el)return;go('sc-exam-home');el.innerHTML=exBuildList(folder.children||[]);exBindClicks(el);var sub=document.getElementById('ex-study-sub');if(sub)sub.textContent=folder.name;var bb=document.getElementById('ex-back-btn');if(bb)bb.style.display='block';}
 function exGoBack(){if(EX.folderStack.length===0){exRenderHome();return;}var prev=EX.folderStack.pop();if(!prev||prev.id==='root'){EX.curFolder=null;exRenderHome();}else{EX.curFolder=prev;exShowFolder(prev);}}
@@ -709,7 +709,13 @@ exLoad();
 document.addEventListener('DOMContentLoaded',function(){
   document.getElementById('bnav').style.display='flex';
   document.getElementById('ub').style.display='flex';
-  window.updateDCLandCard&&window.updateDCLandCard();
+  // theme button
+  document.getElementById('theme-btn').onclick=toggleTheme;
+  // force landing screen visible
+  document.querySelectorAll('.sc').forEach(function(s){s.classList.remove('on');s.style.display='';});
+  document.getElementById('sc-land').classList.add('on');
+  // daily card
+  try{window.updateDCLandCard&&window.updateDCLandCard();}catch(e){}
 });
 </script>
 
