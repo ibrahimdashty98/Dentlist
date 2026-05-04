@@ -90,16 +90,16 @@ radial-gradient(ellipse 50% 40% at 10% 80%,rgba(255,107,157,.03),transparent);}
 .dc-d.done{background:rgba(255,107,157,.25);color:var(--pk);}
 .dc-d.today{background:var(--pk);color:#07090d;}
 .dc-d.left{background:rgba(255,255,255,.04);color:var(--mt);}
-.lb-prev{background:rgba(13,16,24,.7);border:1px solid var(--b1);border-radius:14px;overflow:hidden;width:100%;max-width:500px;margin-bottom:12px;}
-.lb-hdr{padding:11px 14px;background:rgba(255,107,157,.06);border-bottom:1px solid rgba(255,255,255,.05);display:flex;align-items:center;justify-content:space-between;}
-.lb-hdr-t{font-size:.78rem;font-weight:700;}
+.lb-prev{background:linear-gradient(135deg,rgba(255,107,157,.1),rgba(196,77,255,.06));border:1px solid rgba(255,107,157,.28);border-radius:14px;overflow:hidden;width:100%;max-width:500px;margin-bottom:12px;box-shadow:0 4px 20px rgba(255,107,157,.08);}
+.lb-hdr{padding:11px 14px;background:rgba(255,107,157,.12);border-bottom:1px solid rgba(255,107,157,.22);display:flex;align-items:center;justify-content:space-between;}
+.lb-hdr-t{font-size:.78rem;font-weight:700;color:var(--pk);}
 .lb-hdr-s{font-family:var(--fm);font-size:.58rem;color:var(--pk);}
-.lb-r{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.04);}
+.lb-r{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid rgba(255,107,157,.1);}
 .lb-r:last-child{border:none;}
-.lb-r.me{background:rgba(255,107,157,.04);}
+.lb-r.me{background:rgba(255,107,157,.08);}
 .lb-rk{font-size:1rem;width:26px;text-align:center;flex-shrink:0;}
 .lb-nm{flex:1;font-size:.82rem;font-weight:700;}
-.lb-sc .p{font-size:.95rem;font-weight:800;color:var(--c3);}
+.lb-sc .p{font-size:.95rem;font-weight:800;color:var(--pk);}
 .lb-sc .l{font-family:var(--fm);font-size:.5rem;color:var(--mt);}
 .pro-bar{background:linear-gradient(135deg,rgba(176,110,255,.12),rgba(255,107,157,.08));border:1px solid rgba(176,110,255,.25);border-radius:14px;padding:14px;display:flex;align-items:center;gap:12px;width:100%;max-width:500px;margin-bottom:12px;}
 .pro-bar .pi{font-size:2rem;flex-shrink:0;}
@@ -243,14 +243,14 @@ input:focus{border-color:var(--c1);}
 #sc-gf-game .mo .ol{width:36px;height:36px;font-size:.85rem;}
 @media(max-width:680px){#sc-gf-game .qtxt{font-size:1.15rem;padding:18px;}#sc-gf-game .mo{font-size:.95rem;padding:13px 14px;}#sc-gf-game .mo .ol{width:28px;height:28px;}}
 /* Daily Challenge — TV-style centered question (same as Go Fast, pink accent) */
-#sc-daily-game .qa{padding:28px 24px;max-width:1100px;margin:0 auto;width:100%;align-items:center;gap:22px;}
-#sc-daily-game .qmeta{justify-content:center;}
-#sc-daily-game .qcat{font-size:.78rem;padding:6px 16px;letter-spacing:2px;}
-#sc-daily-game .qtxt{font-size:clamp(1.4rem,3.2vw,2.4rem);font-weight:800;line-height:1.5;text-align:center;padding:32px 28px;border-radius:18px;background:linear-gradient(160deg,rgba(255,107,157,.07),rgba(176,110,255,.04));border:1px solid rgba(255,107,157,.25);box-shadow:inset 0 0 40px rgba(255,107,157,.04);width:100%;}
-#sc-daily-game .mcqg{max-width:820px;width:100%;margin:0 auto;gap:14px;}
-#sc-daily-game .mo{padding:18px 22px;font-size:1.1rem;border-radius:14px;border-width:1.5px;}
-#sc-daily-game .mo .ol{width:36px;height:36px;font-size:.85rem;}
-@media(max-width:680px){#sc-daily-game .qtxt{font-size:1.15rem;padding:18px;}#sc-daily-game .mo{font-size:.95rem;padding:13px 14px;}#sc-daily-game .mo .ol{width:28px;height:28px;}}
+#sc-daily-game .qa{padding:28px 24px!important;max-width:1100px!important;margin:0 auto!important;width:100%!important;align-items:center!important;gap:22px!important;}
+#sc-daily-game .qmeta{justify-content:center!important;width:100%;}
+#sc-daily-game .qcat{font-size:.78rem!important;padding:6px 16px!important;letter-spacing:2px!important;}
+#sc-daily-game .qtxt{font-size:clamp(1.4rem,3.2vw,2.4rem)!important;font-weight:800!important;line-height:1.5!important;text-align:center!important;padding:32px 28px!important;border-radius:18px!important;background:linear-gradient(160deg,rgba(255,107,157,.07),rgba(176,110,255,.04))!important;border:1px solid rgba(255,107,157,.25)!important;box-shadow:inset 0 0 40px rgba(255,107,157,.04)!important;width:100%!important;}
+#sc-daily-game .mcqg{max-width:820px!important;width:100%!important;margin:0 auto!important;gap:14px!important;display:flex!important;flex-direction:column!important;}
+#sc-daily-game .mo{padding:18px 22px!important;font-size:1.1rem!important;border-radius:14px!important;border-width:1.5px!important;}
+#sc-daily-game .mo .ol{width:36px!important;height:36px!important;font-size:.85rem!important;}
+@media(max-width:680px){#sc-daily-game .qtxt{font-size:1.15rem!important;padding:18px!important;}#sc-daily-game .mo{font-size:.95rem!important;padding:13px 14px!important;}#sc-daily-game .mo .ol{width:28px!important;height:28px!important;}}
 /* Daily Challenge — centered results */
 #sc-daily-results{max-width:760px!important;margin:0 auto;align-items:center;text-align:center;padding:24px 20px;}
 #sc-daily-results > div:first-child > div:first-child{font-size:4.5rem;}
@@ -264,7 +264,7 @@ input:focus{border-color:var(--c1);}
 #exam-sl.ex-root .ex-item > div:first-child{flex-direction:column!important;gap:14px!important;}
 #exam-sl.ex-root .ex-item > div:first-child > span{font-size:3.6rem!important;}
 #exam-sl.ex-root .ex-item > div:first-child > div > div:first-child{font-size:1.45rem!important;}
-#exam-sl.ex-root .ex-item > div:first-child > div > div:nth-child(2){font-size:.7rem!important;margin-top:6px;}
+#exam-sl.ex-root .ex-item > div:first-child > div > div:nth-child(2){display:none!important;}
 #exam-sl.ex-root .ex-item > b{display:none!important;}
 #exam-sl.ex-root .ex-item:hover{transform:translateY(-4px);box-shadow:0 0 24px rgba(176,110,255,.2);}
 @media(max-width:520px){#exam-sl.ex-root{grid-template-columns:1fr;}#exam-sl.ex-root .ex-item{aspect-ratio:auto;padding:22px!important;}}
@@ -592,7 +592,7 @@ body.theme-light .mode-toggle .moon-icon{opacity:0;transform:rotate(-90deg) scal
 
 <!-- DAILY -->
 
-<div id="sc-daily-home" class="sc" style="gap:14px;max-width:460px;width:100%">
+<div id="sc-daily-home" class="sc" style="gap:14px;max-width:460px;width:100%;margin:0 auto;">
   <div style="text-align:center"><div style="font-size:2.5rem;margin-bottom:4px">🏆</div><div style="font-size:1.5rem;font-weight:800;letter-spacing:-1px">Daily <span style="color:var(--pk)">Challenge</span></div><div style="font-family:var(--fm);font-size:.6rem;color:var(--mt);letter-spacing:3px;text-transform:uppercase;margin-top:5px">120 seconds · as many Qs as possible</div></div>
   <div style="background:rgba(255,107,157,.05);border:1px solid rgba(255,107,157,.22);border-radius:14px;padding:14px;text-align:center;width:100%">
     <div style="font-size:1.9rem;font-weight:800;color:var(--pk)" id="dc-day">Day 1</div>
@@ -611,7 +611,7 @@ body.theme-light .mode-toggle .moon-icon{opacity:0;transform:rotate(-90deg) scal
   <div class="qa"><div class="qmeta"><span class="qcat" style="color:var(--pk);border-color:rgba(255,107,157,.25);background:rgba(255,107,157,.07)" id="dc-qcat">Category</span></div><div class="qtxt" id="dc-qtxt">Loading...</div><div class="mcqg" id="dc-qopts"></div></div>
 </div>
 <div class="flash" id="dc-flash"><div class="flash-i" id="dc-fi">✅</div></div>
-<div id="sc-daily-results" class="sc" style="gap:14px;max-width:440px;width:100%">
+<div id="sc-daily-results" class="sc" style="gap:14px;max-width:760px;width:100%;margin:0 auto;">
   <div style="text-align:center"><div style="font-size:3.5rem" id="dc-remj">🎉</div><div style="font-size:1.4rem;font-weight:800;margin-top:5px">Challenge <span style="color:var(--pk)">Complete!</span></div></div>
   <div style="width:100%;display:flex;gap:10px">
     <div style="flex:1;background:var(--s2);border:1px solid rgba(255,107,157,.25);border-radius:13px;padding:15px;text-align:center"><div style="font-family:var(--fm);font-size:.56rem;color:var(--mt);letter-spacing:2px;text-transform:uppercase;margin-bottom:5px">Today</div><div style="font-size:2.2rem;font-weight:800;color:var(--pk)" id="dc-rs">0</div><div style="font-family:var(--fm);font-size:.56rem;color:var(--mt);margin-top:2px">correct answers</div></div>
