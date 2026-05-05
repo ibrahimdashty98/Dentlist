@@ -293,9 +293,9 @@ input:focus{border-color:var(--c1);}
 .lbrow{display:flex;align-items:center;gap:11px;background:var(--s2);border:1px solid var(--b1);border-radius:12px;padding:12px 14px;margin-bottom:7px;}
 .lbrow.me{border-color:rgba(255,107,157,.35);background:rgba(255,107,157,.04);}
 .lbrk{font-family:var(--fm);font-size:.95rem;font-weight:800;width:30px;text-align:center;flex-shrink:0;}
-.lbnm{font-weight:700;font-size:.88rem;flex:1;}
-.lbsc{font-family:var(--fm);font-size:.68rem;color:var(--mt);text-align:right;}
-.lbsc span{font-size:1.05rem;font-weight:800;color:var(--tx);display:block;}
+.lbnm{font-weight:800;font-size:1.05rem;flex:1;line-height:1.2;}
+.lbsc{font-family:var(--fm);font-size:.55rem;color:var(--mt);text-align:right;flex-shrink:0;min-width:44px;}
+.lbsc span{font-size:.85rem;font-weight:800;color:var(--tx);display:block;}
 .ech{font-family:var(--fm);font-size:.62rem;color:var(--c5);background:rgba(176,110,255,.07);border:1px solid rgba(176,110,255,.18);padding:2px 9px;border-radius:50px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:55%;}
 .dc-res-rank-box{background:linear-gradient(135deg,rgba(255,107,157,.1),rgba(196,77,255,.08));border:1px solid rgba(255,107,157,.3);border-radius:16px;padding:20px;text-align:center;width:100%;max-width:420px;}
 .toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:var(--s2);border:1px solid var(--c5);color:var(--tx);font-family:var(--fm);font-size:.68rem;padding:8px 16px;border-radius:50px;z-index:9999;opacity:0;transition:opacity .3s;white-space:nowrap;pointer-events:none;}
@@ -537,14 +537,14 @@ body.theme-light .mode-toggle .moon-icon{opacity:0;transform:rotate(-90deg) scal
   <div style="font-family:var(--fm);font-size:.63rem;color:var(--mt)">Waiting for others...</div>
   <div class="pulse"><div class="d" style="background:var(--c4)"></div><div class="d" style="background:var(--c4)"></div><div class="d" style="background:var(--c4)"></div></div>
 </div>
-<div id="sc-gf-results" class="sc" style="gap:14px;max-width:460px;width:100%;margin-left:auto;margin-right:auto;align-self:center;text-align:center">
+<div id="sc-gf-results" class="sc" style="text-align:center"><div style="width:100%;max-width:460px;display:flex;flex-direction:column;gap:14px;align-items:stretch;margin:0 auto">
   <div class="stl" style="font-size:1.5rem;text-align:center">Go Fast <span style="color:var(--c4)">Results!</span> ⚡</div>
   <div id="gf-podium" style="width:100%"></div>
-  <div style="max-width:400px;width:100%;display:flex;flex-direction:column;gap:9px;margin-left:auto;margin-right:auto">
+  <div style="width:100%;display:flex;flex-direction:column;gap:9px">
     <button class="btn by" id="gf-ab" onclick="playAgainGF()">🔄 Play Again</button>
     <button class="btn bo" onclick="go('sc-land');resetGF()">← Back</button>
   </div>
-</div>
+</div></div>
 
 <!-- DAILY -->
 
