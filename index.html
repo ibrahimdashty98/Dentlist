@@ -215,18 +215,19 @@ input:focus{border-color:var(--c1);}
 .lt.t2 .lts{color:var(--c2);}
 .lhm{display:flex;align-items:center;padding:0 8px;}
 .lhm span{font-family:var(--fm);font-size:.58rem;color:var(--mt);}
-.bwrap{flex:1;overflow-y:auto;padding:12px;}
-.btitle{font-family:var(--fm);font-size:.6rem;color:var(--mt);letter-spacing:3px;text-transform:uppercase;text-align:center;margin-bottom:10px;}
-.catsec{margin-bottom:24px;}
-.cathd{font-size:1.05rem;font-weight:800;margin-bottom:12px;display:flex;align-items:center;gap:7px;color:var(--c1);}
-.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
-.tile{background:var(--s2);border:1.5px solid var(--b1);border-radius:14px;padding:20px 8px;text-align:center;cursor:pointer;transition:all .18s;font-family:var(--fh);font-size:1.2rem;min-height:90px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;font-weight:800;color:var(--tx);}
+.bwrap{flex:1;overflow:hidden;padding:8px 10px;display:flex;flex-direction:column;}
+.btitle{font-family:var(--fm);font-size:.55rem;color:var(--mt);letter-spacing:3px;text-transform:uppercase;text-align:center;margin-bottom:6px;}
+#l-board{display:grid;grid-template-columns:repeat(2,1fr);grid-auto-rows:1fr;gap:8px;flex:1;min-height:0;}
+.catsec{margin-bottom:0;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:8px;display:flex;flex-direction:column;}
+.cathd{font-size:.78rem;font-weight:800;margin-bottom:6px;display:flex;align-items:center;gap:5px;color:var(--c1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;flex:1;}
+.tile{background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.1);border-radius:10px;padding:6px 4px;text-align:center;cursor:pointer;transition:all .18s;font-family:var(--fh);font-size:.85rem;min-height:42px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-weight:800;color:var(--tx);}
 .tile:hover:not(.used){border-color:var(--c3);transform:translateY(-2px);}
 .tile.used{cursor:default;opacity:.55;}
 .tile.u1{background:rgba(0,240,255,.08);border-color:var(--c1);color:var(--c1);}
 .tile.u2{background:rgba(255,61,107,.08);border-color:var(--c2);color:var(--c2);}
 .tile.un{background:rgba(90,100,117,.06);border-color:var(--b1);color:var(--mt);}
-.tile .tpts{font-size:.6rem;color:var(--mt);font-weight:600;letter-spacing:1.5px;text-transform:uppercase;font-family:var(--fm);}
+.tile .tpts{font-size:.5rem;color:var(--mt);font-weight:600;letter-spacing:1px;text-transform:uppercase;font-family:var(--fm);}
 .lmod{position:fixed;inset:0;z-index:300;background:rgba(7,9,13,.97);backdrop-filter:blur(18px);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px;opacity:0;pointer-events:none;transition:opacity .3s;}
 .lmod.on{opacity:1;pointer-events:all;}
 .lmc{background:var(--s2);border-radius:18px;padding:20px;width:100%;max-width:480px;display:flex;flex-direction:column;gap:12px;max-height:92dvh;overflow-y:auto;border:1px solid var(--b1);}
@@ -536,10 +537,10 @@ body.theme-light .mode-toggle .moon-icon{opacity:0;transform:rotate(-90deg) scal
   <div style="font-family:var(--fm);font-size:.63rem;color:var(--mt)">Waiting for others...</div>
   <div class="pulse"><div class="d" style="background:var(--c4)"></div><div class="d" style="background:var(--c4)"></div><div class="d" style="background:var(--c4)"></div></div>
 </div>
-<div id="sc-gf-results" class="sc" style="gap:14px;max-width:460px;width:100%">
-  <div class="stl" style="font-size:1.5rem">Go Fast <span style="color:var(--c4)">Results!</span> ⚡</div>
+<div id="sc-gf-results" class="sc" style="gap:14px;max-width:460px;width:100%;margin-left:auto;margin-right:auto;align-self:center;text-align:center">
+  <div class="stl" style="font-size:1.5rem;text-align:center">Go Fast <span style="color:var(--c4)">Results!</span> ⚡</div>
   <div id="gf-podium" style="width:100%"></div>
-  <div style="max-width:400px;width:100%;display:flex;flex-direction:column;gap:9px">
+  <div style="max-width:400px;width:100%;display:flex;flex-direction:column;gap:9px;margin-left:auto;margin-right:auto">
     <button class="btn by" id="gf-ab" onclick="playAgainGF()">🔄 Play Again</button>
     <button class="btn bo" onclick="go('sc-land');resetGF()">← Back</button>
   </div>
