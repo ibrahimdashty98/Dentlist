@@ -35,7 +35,7 @@ body {
 
 /* BG Effects */
 body::before {
-content: ‘’;
+content: '';
 position: fixed;
 inset: 0;
 background:
@@ -48,7 +48,7 @@ z-index: 0;
 
 /* Grid pattern */
 body::after {
-content: ‘’;
+content: '';
 position: fixed;
 inset: 0;
 background-image:
@@ -85,7 +85,7 @@ letter-spacing: -1.5px;
 line-height: 1;
 }
 .logo-title span {
-background: linear-gradient(135deg, var(–c1), var(–c5));
+background: linear-gradient(135deg, var(-c1), var(-c5));
 -webkit-background-clip: text;
 -webkit-text-fill-color: transparent;
 background-clip: text;
@@ -94,14 +94,14 @@ background-clip: text;
 display: flex;
 align-items: center;
 gap: 7px;
-font-family: var(–fm);
+font-family: var(-fm);
 font-size: 0.7rem;
-color: var(–mt);
+color: var(-mt);
 text-decoration: none;
 padding: 5px 12px;
 border-radius: 50px;
-border: 1px solid var(–b1);
-background: var(–s1);
+border: 1px solid var(-b1);
+background: var(-s1);
 transition: all 0.2s;
 }
 .logo-ig:hover {
@@ -112,8 +112,8 @@ color: #e1306c;
 
 /* Card */
 .card {
-background: var(–s2);
-border: 1px solid var(–b1);
+background: var(-s2);
+border: 1px solid var(-b1);
 border-radius: 20px;
 padding: 28px 24px;
 display: flex;
@@ -124,7 +124,7 @@ gap: 20px;
 /* Tabs */
 .tabs {
 display: flex;
-background: var(–s1);
+background: var(-s1);
 border-radius: 10px;
 padding: 4px;
 gap: 4px;
@@ -134,17 +134,17 @@ flex: 1;
 padding: 9px;
 border: none;
 border-radius: 7px;
-font-family: var(–fh);
+font-family: var(-fh);
 font-size: 0.85rem;
 font-weight: 700;
 cursor: pointer;
-color: var(–mt);
+color: var(-mt);
 background: transparent;
 transition: all 0.2s;
 }
 .tab.active {
-background: var(–s2);
-color: var(–tx);
+background: var(-s2);
+color: var(-tx);
 box-shadow: 0 2px 8px rgba(0,0,0,0.3);
 }
 
@@ -152,37 +152,37 @@ box-shadow: 0 2px 8px rgba(0,0,0,0.3);
 .form { display: flex; flex-direction: column; gap: 14px; }
 .field { display: flex; flex-direction: column; gap: 6px; }
 .field label {
-font-family: var(–fm);
+font-family: var(-fm);
 font-size: 0.65rem;
-color: var(–mt);
+color: var(-mt);
 letter-spacing: 1.5px;
 text-transform: uppercase;
 }
 .field input {
-background: var(–s1);
-border: 1.5px solid var(–b1);
+background: var(-s1);
+border: 1.5px solid var(-b1);
 border-radius: 10px;
 padding: 13px 14px;
-font-family: var(–fh);
+font-family: var(-fh);
 font-size: 0.92rem;
-color: var(–tx);
+color: var(-tx);
 outline: none;
 transition: border-color 0.2s;
 width: 100%;
 -webkit-appearance: none;
 }
-.field input::placeholder { color: var(–mt); }
-.field input:focus { border-color: var(–c1); }
-.field input.error { border-color: var(–c2); }
+.field input::placeholder { color: var(-mt); }
+.field input:focus { border-color: var(-c1); }
+.field input.error { border-color: var(-c2); }
 
 /* Submit btn */
 .submit-btn {
-background: linear-gradient(135deg, var(–c1), var(–c5));
-color: var(–bg);
+background: linear-gradient(135deg, var(-c1), var(-c5));
+color: var(-bg);
 border: none;
 border-radius: 12px;
 padding: 15px;
-font-family: var(–fh);
+font-family: var(-fh);
 font-size: 0.95rem;
 font-weight: 800;
 cursor: pointer;
@@ -212,7 +212,7 @@ margin-right: 8px;
 
 /* Error/Success message */
 .msg {
-font-family: var(–fm);
+font-family: var(-fm);
 font-size: 0.72rem;
 padding: 10px 12px;
 border-radius: 9px;
@@ -223,13 +223,13 @@ line-height: 1.5;
 .msg.error {
 background: rgba(255,61,107,0.1);
 border: 1px solid rgba(255,61,107,0.25);
-color: var(–c2);
+color: var(-c2);
 display: block;
 }
 .msg.success {
 background: rgba(170,255,0,0.08);
 border: 1px solid rgba(170,255,0,0.25);
-color: var(–c3);
+color: var(-c3);
 display: block;
 }
 
@@ -240,45 +240,45 @@ align-items: center;
 gap: 12px;
 }
 .divider::before, .divider::after {
-content: ‘’;
+content: '';
 flex: 1;
 height: 1px;
-background: var(–b1);
+background: var(-b1);
 }
 .divider span {
-font-family: var(–fm);
+font-family: var(-fm);
 font-size: 0.62rem;
-color: var(–mt);
+color: var(-mt);
 letter-spacing: 1px;
 }
 
 /* Back link */
 .back-link {
 text-align: center;
-font-family: var(–fm);
+font-family: var(-fm);
 font-size: 0.68rem;
-color: var(–mt);
+color: var(-mt);
 }
 .back-link a {
-color: var(–mt);
+color: var(-mt);
 text-decoration: none;
 transition: color 0.2s;
 }
-.back-link a:hover { color: var(–tx); }
+.back-link a:hover { color: var(-tx); }
 
 /* Forgot password */
 .forgot {
 text-align: right;
-font-family: var(–fm);
+font-family: var(-fm);
 font-size: 0.65rem;
-color: var(–mt);
+color: var(-mt);
 cursor: pointer;
 transition: color 0.2s;
 background: none;
 border: none;
 padding: 0;
 }
-.forgot:hover { color: var(–c1); }
+.forgot:hover { color: var(-c1); }
 
 /* Password strength */
 .pw-strength {
@@ -290,12 +290,12 @@ margin-top: 4px;
 flex: 1;
 height: 3px;
 border-radius: 2px;
-background: var(–b1);
+background: var(-b1);
 transition: background 0.3s;
 }
-.pw-bar.weak { background: var(–c2); }
+.pw-bar.weak { background: var(-c2); }
 .pw-bar.medium { background: #ffaa00; }
-.pw-bar.strong { background: var(–c3); }
+.pw-bar.strong { background: var(-c3); }
 
 /* Reset form */
 #reset-form { display: none; }
@@ -325,18 +325,18 @@ font-size: 1.1rem;
 font-weight: 700;
 }
 #success-screen p {
-font-family: var(–fm);
+font-family: var(-fm);
 font-size: 0.7rem;
-color: var(–mt);
+color: var(-mt);
 line-height: 1.6;
 }
 .go-btn {
-background: var(–c3);
-color: var(–bg);
+background: var(-c3);
+color: var(-bg);
 border: none;
 border-radius: 10px;
 padding: 13px 28px;
-font-family: var(–fh);
+font-family: var(-fh);
 font-size: 0.9rem;
 font-weight: 800;
 cursor: pointer;
@@ -369,7 +369,6 @@ to { opacity: 1; transform: translateY(0); }
 
   <div class="card">
 
-```
 <!-- Tabs -->
 <div class="tabs">
   <button class="tab active" id="tab-login" onclick="switchTab('login')">Sign In</button>
@@ -441,7 +440,6 @@ to { opacity: 1; transform: translateY(0); }
   <p id="success-msg">Signed in successfully.</p>
   <button class="go-btn" onclick="goToDashboard()">Go to Dent.list →</button>
 </div>
-```
 
   </div>
 
@@ -492,8 +490,7 @@ const db = getDatabase(app);
 
 // ══ CHECK IF ALREADY LOGGED IN ══
 onAuthStateChanged(auth, (user) => {
-  if (user) {
-    // Already logged in → go to dashboard
+  if (user && !user.isAnonymous) {
     window.location.href = 'index.html';
   }
 });
@@ -503,6 +500,14 @@ function showMsg(text, type) {
   const el = document.getElementById('msg');
   el.textContent = text;
   el.className = 'msg ' + type;
+}
+
+function withTimeout(promise, ms) {
+  let timer;
+  const timeout = new Promise((_, reject) => {
+    timer = setTimeout(() => reject({ code: 'auth/network-request-failed', message: 'Request timed out' }), ms);
+  });
+  return Promise.race([promise, timeout]).finally(() => clearTimeout(timer));
 }
 
 function setLoading(btnId, loading) {
@@ -535,7 +540,7 @@ window.handleLogin = async function() {
   document.getElementById('msg').className = 'msg';
 
   try {
-    const cred = await signInWithEmailAndPassword(auth, email, password);
+    const cred = await withTimeout(signInWithEmailAndPassword(auth, email, password), 15000);
     showSuccess('Welcome back, ' + (cred.user.displayName || 'Doctor') + '!', 'Signed in successfully. Redirecting...');
   } catch (err) {
     resetBtn('login-btn', 'Sign In →');
@@ -549,7 +554,7 @@ window.handleLogin = async function() {
       'auth/network-request-failed': 'Network error. Check your internet connection.',
       'auth/user-disabled': 'This account has been disabled.'
     };
-    showMsg(msgs[err.code] || ('Error: ' + err.code + ' — Please try again.'), 'error');
+    showMsg(msgs[err.code] || ('Error: ' + err.code + ' - Please try again.'), 'error');
   }
 };
 
@@ -576,13 +581,14 @@ window.handleRegister = async function() {
   document.getElementById('msg').className = 'msg';
 
   try {
-    const cred = await createUserWithEmailAndPassword(auth, email, password);
+    const cred = await withTimeout(createUserWithEmailAndPassword(auth, email, password), 15000);
 
     // Set display name
     await updateProfile(cred.user, { displayName: name });
 
     // Save user to database
-    await set(ref(db, 'users/' + cred.user.uid), {
+    try {
+      await set(ref(db, 'users/' + cred.user.uid), {
       displayName: name,
       email: email,
       createdAt: Date.now(),
@@ -592,13 +598,16 @@ window.handleRegister = async function() {
       lastDailyAttempt: null
     });
 
-    // Init leaderboard entry
-    await set(ref(db, 'leaderboard/' + cred.user.uid), {
+      // Init leaderboard entry
+      await set(ref(db, 'leaderboard/' + cred.user.uid), {
       displayName: name,
       score: 0,
       totalCorrect: 0,
-      updatedAt: Date.now()
-    });
+        updatedAt: Date.now()
+      });
+    } catch (dbErr) {
+      console.warn('Profile save skipped:', dbErr);
+    }
 
     showSuccess('Welcome, Dr. ' + name + '! 🎉', 'Account created successfully. Redirecting...');
   } catch (err) {
