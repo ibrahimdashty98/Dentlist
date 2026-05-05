@@ -56,6 +56,7 @@ radial-gradient(ellipse 50% 40% at 10% 80%,rgba(255,107,157,.03),transparent);}
 
 /* LANDING */
 #sc-land{padding:16px 16px 100px;}
+#sc-daily-home.on,#sc-daily-results.on{margin-left:auto!important;margin-right:auto!important;}
 .hero{width:100%;max-width:500px;margin-bottom:20px;}
 .hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(0,240,255,.06);border:1px solid rgba(0,240,255,.18);border-radius:50px;padding:4px 12px;font-family:var(--fm);font-size:.6rem;color:var(--c1);letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;}
 .live-dot{width:6px;height:6px;border-radius:50%;background:var(--c3);animation:ldot 1.5s ease infinite;}
@@ -534,7 +535,7 @@ body.theme-light .mode-toggle .moon-icon{opacity:0;transform:rotate(-90deg) scal
 
 <!-- DAILY -->
 
-<div id="sc-daily-home" class="sc" style="gap:14px;max-width:460px;width:100%">
+<div id="sc-daily-home" class="sc" style="gap:14px;max-width:460px;width:100%;margin-left:auto;margin-right:auto;align-self:center">
   <div style="text-align:center"><div style="font-size:2.5rem;margin-bottom:4px">🏆</div><div style="font-size:1.5rem;font-weight:800;letter-spacing:-1px">Daily <span style="color:var(--pk)">Challenge</span></div><div style="font-family:var(--fm);font-size:.6rem;color:var(--mt);letter-spacing:3px;text-transform:uppercase;margin-top:5px">120 seconds · as many Qs as possible</div></div>
   <div style="background:rgba(255,107,157,.05);border:1px solid rgba(255,107,157,.22);border-radius:14px;padding:14px;text-align:center;width:100%">
     <div style="font-size:1.9rem;font-weight:800;color:var(--pk)" id="dc-day">Day 1</div>
@@ -553,7 +554,7 @@ body.theme-light .mode-toggle .moon-icon{opacity:0;transform:rotate(-90deg) scal
   <div class="qa"><div class="qmeta"><span class="qcat" style="color:var(--pk);border-color:rgba(255,107,157,.25);background:rgba(255,107,157,.07)" id="dc-qcat">Category</span></div><div class="qtxt" id="dc-qtxt">Loading...</div><div class="mcqg" id="dc-qopts"></div></div>
 </div>
 <div class="flash" id="dc-flash"><div class="flash-i" id="dc-fi">✅</div></div>
-<div id="sc-daily-results" class="sc" style="gap:14px;max-width:440px;width:100%">
+<div id="sc-daily-results" class="sc" style="gap:14px;max-width:440px;width:100%;margin-left:auto;margin-right:auto;align-self:center">
   <div style="text-align:center"><div style="font-size:3.5rem" id="dc-remj">🎉</div><div style="font-size:1.4rem;font-weight:800;margin-top:5px">Challenge <span style="color:var(--pk)">Complete!</span></div></div>
   <div style="width:100%;display:flex;gap:10px">
     <div style="flex:1;background:var(--s2);border:1px solid rgba(255,107,157,.25);border-radius:13px;padding:15px;text-align:center"><div style="font-family:var(--fm);font-size:.56rem;color:var(--mt);letter-spacing:2px;text-transform:uppercase;margin-bottom:5px">Today</div><div style="font-size:2.2rem;font-weight:800;color:var(--pk)" id="dc-rs">0</div><div style="font-family:var(--fm);font-size:.56rem;color:var(--mt);margin-top:2px">correct answers</div></div>
@@ -630,22 +631,23 @@ body.theme-light .mode-toggle .moon-icon{opacity:0;transform:rotate(-90deg) scal
 <script type="module">
 import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import{getDatabase,ref,set,get,onValue,update,remove}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
-import{getAuth,onAuthStateChanged,signOut}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import{getAuth,onAuthStateChanged,signOut,signInAnonymously}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 const fc={apiKey:"AIzaSyAjrjkgVD2YcBnS6i0qqDVN1zpdfCBKwb8",authDomain:"dent-list-5cb38.firebaseapp.com",databaseURL:"https://dent-list-5cb38-default-rtdb.europe-west1.firebasedatabase.app",projectId:"dent-list-5cb38",storageBucket:"dent-list-5cb38.firebasestorage.app",messagingSenderId:"778763660961",appId:"1:778763660961:web:d88a83e4066272f8500ae0"};
 const app=initializeApp(fc);const db=getDatabase(app);const auth=getAuth(app);
-window._db=db;window._ref=ref;window._set=set;window._get=get;window._onValue=onValue;window._update=update;window._remove=remove;window._fbReady=true;
+window._db=db;window._ref=ref;window._set=set;window._get=get;window._onValue=onValue;window._update=update;window._remove=remove;window._fbReady=true;window._authReady=false;window._au=null;
+window.ensureRoomAuth=function(){if(auth.currentUser)return Promise.resolve(auth.currentUser);return signInAnonymously(auth).then(function(r){return r.user;}).catch(function(){return null;});};
 onAuthStateChanged(auth,function(user){
-  window._cu=user;
+  window._authReady=true;window._au=user||null;window._cu=(user&&!user.isAnonymous)?user:null;
   document.getElementById('ub').style.display='flex';
   document.getElementById('bnav').style.display='flex';
   var un=document.getElementById('un'),bl=document.getElementById('bl'),bo=document.getElementById('bo');
-  if(user){un.textContent=user.displayName||user.email.split('@')[0];un.style.display='block';bl.style.display='none';bo.style.display='flex';}
+  if(window._cu){un.textContent=window._cu.displayName||window._cu.email.split('@')[0];un.style.display='block';bl.style.display='none';bo.style.display='flex';}
   else{un.style.display='none';bl.style.display='flex';bo.style.display='none';}
   window.dcUpdateHome&&window.dcUpdateHome();
   window.loadLandingLB&&window.loadLandingLB();
   window.updateDCLandCard&&window.updateDCLandCard();
 });
-window.doLogout=function(){signOut(auth).then(function(){window.location.reload();});};
+window.doLogout=function(){signOut(auth).then(function(){window.location.reload();}).catch(function(){window.location.reload();});};
 </script>
 
 <script>
@@ -695,10 +697,11 @@ function resetLocal(){L.sc=[];L.s={t1:0,t2:0};L.board={};L.curQ=null;clearInterv
 
 var GF={code:null,isHost:false,myName:null,myId:null,sc:[],qs:[],subs:[],qi:0,score:0,answered:0,timer:null,timeLeft:60,done:false};
 function updGCI(){var n=GF.sc.length,el=document.getElementById('gf-ci'),btn=document.getElementById('gf-cb');if(n===2){el.className='ci cok';el.textContent='✅ 2 selected!';btn.disabled=false;}else{el.className='ci cbad';el.textContent='Select 2 ('+n+'/2)';btn.disabled=true;}}
-function createGFRoom(){if(!window._fbReady){toast('Firebase not ready!');return;}var name=document.getElementById('gf-hn').value.trim();if(!name){toast('Enter name!');return;}if(GF.sc.length!==2){toast('Select exactly 2!');return;}var pool=rnd(QB.filter(function(q){return GF.sc.indexOf(q.c)>-1;}));GF.qs=pool.map(function(q){return{c:q.c,q:q.q,a:q.a,opts:mkOpts(q)};});var code=genCode();GF.code=code;GF.isHost=true;GF.myName=name;GF.myId='p_'+Date.now()+'_'+Math.random().toString(36).slice(2,6);window._set(window._ref(window._db,'gfrooms/'+code),{status:'waiting',cats:GF.sc,qs:GF.qs,host:name,hostId:GF.myId,players:{},created:Date.now()}).then(function(){window._set(window._ref(window._db,'gfrooms/'+code+'/players/'+GF.myId),{name:name,score:0,answered:0,done:false,joined:Date.now()}).then(function(){go('sc-gf-lobby');document.getElementById('gf-cd').textContent=code;listenGF();});});}
-function joinGFRoom(){if(!window._fbReady){toast('Firebase not ready!');return;}var name=document.getElementById('gfj-n').value.trim(),code=document.getElementById('gfj-c').value.trim().toUpperCase();if(!name){toast('Enter name!');return;}if(!code){toast('Enter code!');return;}window._get(window._ref(window._db,'gfrooms/'+code)).then(function(snap){if(!snap.exists()){toast('Room not found!');return;}var d=snap.val();if(d.status==='playing'){toast('Already started!');return;}GF.code=code;GF.isHost=false;GF.myName=name;GF.qs=d.qs;GF.sc=d.cats;GF.myId='p_'+Date.now()+'_'+Math.random().toString(36).slice(2,6);window._set(window._ref(window._db,'gfrooms/'+code+'/players/'+GF.myId),{name:name,score:0,answered:0,done:false,joined:Date.now()}).then(function(){go('sc-gf-waiting');document.getElementById('gf-jn').textContent='✅ '+name+' - Ready!';listenGF();});});}
+function gfErr(err){var m=(err&&err.code?err.code+': ':'')+(err&&err.message?err.message:'Could not connect.');toast(m,4200);}
+function createGFRoom(){if(!window._fbReady){toast('Firebase not ready!');return;}var btn=document.getElementById('gf-cb');var name=document.getElementById('gf-hn').value.trim();if(!name){toast('Enter name!');return;}if(GF.sc.length!==2){toast('Select exactly 2!');return;}var pool=rnd(QB.filter(function(q){return GF.sc.indexOf(q.c)>-1;}));if(!pool.length){toast('No questions in selected categories!');return;}GF.qs=pool.map(function(q){return{c:q.c,q:q.q,a:q.a,opts:mkOpts(q)};});var code=genCode();GF.code=code;GF.isHost=true;GF.myName=name;GF.myId='p_'+Date.now()+'_'+Math.random().toString(36).slice(2,6);if(btn){btn.disabled=true;btn.textContent='Creating...';}window.ensureRoomAuth().then(function(){return window._set(window._ref(window._db,'gfrooms/'+code),{status:'waiting',cats:GF.sc,qs:GF.qs,host:name,hostId:GF.myId,players:{},created:Date.now()});}).then(function(){return window._set(window._ref(window._db,'gfrooms/'+code+'/players/'+GF.myId),{name:name,score:0,answered:0,done:false,joined:Date.now()});}).then(function(){go('sc-gf-lobby');document.getElementById('gf-cd').textContent=code;listenGF();}).catch(function(err){gfErr(err);}).finally(function(){if(btn){btn.disabled=false;btn.textContent='Create Room ⚡';updGCI();}});}
+function joinGFRoom(){if(!window._fbReady){toast('Firebase not ready!');return;}var name=document.getElementById('gfj-n').value.trim(),code=document.getElementById('gfj-c').value.trim().toUpperCase();if(!name){toast('Enter name!');return;}if(!code){toast('Enter code!');return;}window.ensureRoomAuth().then(function(){return window._get(window._ref(window._db,'gfrooms/'+code));}).then(function(snap){if(!snap.exists()){toast('Room not found!');return;}var d=snap.val();if(d.status==='playing'){toast('Already started!');return;}GF.code=code;GF.isHost=false;GF.myName=name;GF.qs=d.qs||[];GF.sc=d.cats||[];GF.myId='p_'+Date.now()+'_'+Math.random().toString(36).slice(2,6);return window._set(window._ref(window._db,'gfrooms/'+code+'/players/'+GF.myId),{name:name,score:0,answered:0,done:false,joined:Date.now()}).then(function(){go('sc-gf-waiting');document.getElementById('gf-jn').textContent='✅ '+name+' - Ready!';listenGF();});}).catch(function(err){gfErr(err);});}
 function listenGF(){var u=window._onValue(window._ref(window._db,'gfrooms/'+GF.code),function(snap){if(!snap.exists())return;var d=snap.val();var players=d.players||{},pList=Object.values(players);document.getElementById('gf-pc').textContent=pList.length;document.getElementById('gf-pc2').textContent=pList.length;var el=document.getElementById('gf-pl');if(el)el.innerHTML=pList.map(function(p){return'<div class="gfpsl j"><div class="pdot"></div><div>'+p.name+'</div></div>';}).join('');if(d.status==='playing'&&!GF.done){GF.qs=d.qs;startGFForMe();}if(d.status==='finished'){showGFRes(players);}if(d.status==='waiting'&&GF.done){GF.done=false;GF.qi=0;GF.score=0;GF.answered=0;go('sc-gf-waiting');}});GF.subs.push(u);}
-function startGFGame(){if(!GF.isHost)return;window._update(window._ref(window._db,'gfrooms/'+GF.code),{status:'playing'});}
+function startGFGame(){if(!GF.isHost)return;window._update(window._ref(window._db,'gfrooms/'+GF.code),{status:'playing'}).catch(function(err){gfErr(err);});}
 function startGFForMe(){GF.qi=0;GF.score=0;GF.answered=0;GF.done=false;GF.timeLeft=60;var cd=document.getElementById('gf-countdown');document.getElementById('gf-cdn-name').textContent=GF.myName;cd.style.opacity='1';cd.style.pointerEvents='all';var c=3;document.getElementById('gf-cdn').textContent=c;var t=setInterval(function(){c--;if(c<=0){clearInterval(t);cd.style.opacity='0';cd.style.pointerEvents='none';launchGF();}else document.getElementById('gf-cdn').textContent=c;},1000);}
 function launchGF(){go('sc-gf-game');document.getElementById('gf-mn').textContent='⚡ '+GF.myName;document.getElementById('gf-ls').textContent='0';renderGFQ();startGFTimer();}
 function startGFTimer(){clearInterval(GF.timer);function upd(){var pct=(GF.timeLeft/60)*100;var tf=document.getElementById('gf-tf');if(tf){tf.style.width=pct+'%';tf.className='tfill gftf'+(pct<=30?' warn':'');}document.getElementById('gf-ts').textContent=GF.timeLeft+'s';}upd();GF.timer=setInterval(function(){GF.timeLeft--;upd();if(GF.timeLeft<=0){clearInterval(GF.timer);endGF();}},1000);}
