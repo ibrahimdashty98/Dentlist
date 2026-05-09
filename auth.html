@@ -85,7 +85,7 @@ letter-spacing: -1.5px;
 line-height: 1;
 }
 .logo-title span {
-background: linear-gradient(135deg, var(-c1), var(-c5));
+background: linear-gradient(135deg, var(--c1), var(--c5));
 -webkit-background-clip: text;
 -webkit-text-fill-color: transparent;
 background-clip: text;
@@ -94,14 +94,14 @@ background-clip: text;
 display: flex;
 align-items: center;
 gap: 7px;
-font-family: var(-fm);
+font-family: var(--fm);
 font-size: 0.7rem;
-color: var(-mt);
+color: var(--mt);
 text-decoration: none;
 padding: 5px 12px;
 border-radius: 50px;
-border: 1px solid var(-b1);
-background: var(-s1);
+border: 1px solid var(--b1);
+background: var(--s1);
 transition: all 0.2s;
 }
 .logo-ig:hover {
@@ -112,8 +112,8 @@ color: #e1306c;
 
 /* Card */
 .card {
-background: var(-s2);
-border: 1px solid var(-b1);
+background: var(--s2);
+border: 1px solid var(--b1);
 border-radius: 20px;
 padding: 28px 24px;
 display: flex;
@@ -124,7 +124,7 @@ gap: 20px;
 /* Tabs */
 .tabs {
 display: flex;
-background: var(-s1);
+background: var(--s1);
 border-radius: 10px;
 padding: 4px;
 gap: 4px;
@@ -134,17 +134,17 @@ flex: 1;
 padding: 9px;
 border: none;
 border-radius: 7px;
-font-family: var(-fh);
+font-family: var(--fh);
 font-size: 0.85rem;
 font-weight: 700;
 cursor: pointer;
-color: var(-mt);
+color: var(--mt);
 background: transparent;
 transition: all 0.2s;
 }
 .tab.active {
-background: var(-s2);
-color: var(-tx);
+background: var(--s2);
+color: var(--tx);
 box-shadow: 0 2px 8px rgba(0,0,0,0.3);
 }
 
@@ -152,37 +152,37 @@ box-shadow: 0 2px 8px rgba(0,0,0,0.3);
 .form { display: flex; flex-direction: column; gap: 14px; }
 .field { display: flex; flex-direction: column; gap: 6px; }
 .field label {
-font-family: var(-fm);
+font-family: var(--fm);
 font-size: 0.65rem;
-color: var(-mt);
+color: var(--mt);
 letter-spacing: 1.5px;
 text-transform: uppercase;
 }
 .field input {
-background: var(-s1);
-border: 1.5px solid var(-b1);
+background: var(--s1);
+border: 1.5px solid var(--b1);
 border-radius: 10px;
 padding: 13px 14px;
-font-family: var(-fh);
+font-family: var(--fh);
 font-size: 0.92rem;
-color: var(-tx);
+color: var(--tx);
 outline: none;
 transition: border-color 0.2s;
 width: 100%;
 -webkit-appearance: none;
 }
-.field input::placeholder { color: var(-mt); }
-.field input:focus { border-color: var(-c1); }
-.field input.error { border-color: var(-c2); }
+.field input::placeholder { color: var(--mt); }
+.field input:focus { border-color: var(--c1); }
+.field input.error { border-color: var(--c2); }
 
 /* Submit btn */
 .submit-btn {
-background: linear-gradient(135deg, var(-c1), var(-c5));
-color: var(-bg);
+background: linear-gradient(135deg, var(--c1), var(--c5));
+color: var(--bg);
 border: none;
 border-radius: 12px;
 padding: 15px;
-font-family: var(-fh);
+font-family: var(--fh);
 font-size: 0.95rem;
 font-weight: 800;
 cursor: pointer;
@@ -212,7 +212,7 @@ margin-right: 8px;
 
 /* Error/Success message */
 .msg {
-font-family: var(-fm);
+font-family: var(--fm);
 font-size: 0.72rem;
 padding: 10px 12px;
 border-radius: 9px;
@@ -223,13 +223,13 @@ line-height: 1.5;
 .msg.error {
 background: rgba(255,61,107,0.1);
 border: 1px solid rgba(255,61,107,0.25);
-color: var(-c2);
+color: var(--c2);
 display: block;
 }
 .msg.success {
 background: rgba(170,255,0,0.08);
 border: 1px solid rgba(170,255,0,0.25);
-color: var(-c3);
+color: var(--c3);
 display: block;
 }
 
@@ -243,42 +243,42 @@ gap: 12px;
 content: '';
 flex: 1;
 height: 1px;
-background: var(-b1);
+background: var(--b1);
 }
 .divider span {
-font-family: var(-fm);
+font-family: var(--fm);
 font-size: 0.62rem;
-color: var(-mt);
+color: var(--mt);
 letter-spacing: 1px;
 }
 
 /* Back link */
 .back-link {
 text-align: center;
-font-family: var(-fm);
+font-family: var(--fm);
 font-size: 0.68rem;
-color: var(-mt);
+color: var(--mt);
 }
 .back-link a {
-color: var(-mt);
+color: var(--mt);
 text-decoration: none;
 transition: color 0.2s;
 }
-.back-link a:hover { color: var(-tx); }
+.back-link a:hover { color: var(--tx); }
 
 /* Forgot password */
 .forgot {
 text-align: right;
-font-family: var(-fm);
+font-family: var(--fm);
 font-size: 0.65rem;
-color: var(-mt);
+color: var(--mt);
 cursor: pointer;
 transition: color 0.2s;
 background: none;
 border: none;
 padding: 0;
 }
-.forgot:hover { color: var(-c1); }
+.forgot:hover { color: var(--c1); }
 
 /* Password strength */
 .pw-strength {
@@ -290,12 +290,12 @@ margin-top: 4px;
 flex: 1;
 height: 3px;
 border-radius: 2px;
-background: var(-b1);
+background: var(--b1);
 transition: background 0.3s;
 }
-.pw-bar.weak { background: var(-c2); }
+.pw-bar.weak { background: var(--c2); }
 .pw-bar.medium { background: #ffaa00; }
-.pw-bar.strong { background: var(-c3); }
+.pw-bar.strong { background: var(--c3); }
 
 /* Reset form */
 #reset-form { display: none; }
@@ -325,18 +325,18 @@ font-size: 1.1rem;
 font-weight: 700;
 }
 #success-screen p {
-font-family: var(-fm);
+font-family: var(--fm);
 font-size: 0.7rem;
-color: var(-mt);
+color: var(--mt);
 line-height: 1.6;
 }
 .go-btn {
-background: var(-c3);
-color: var(-bg);
+background: var(--c3);
+color: var(--bg);
 border: none;
 border-radius: 10px;
 padding: 13px 28px;
-font-family: var(-fh);
+font-family: var(--fh);
 font-size: 0.9rem;
 font-weight: 800;
 cursor: pointer;
@@ -352,7 +352,153 @@ to { opacity: 1; transform: translateY(0); }
 }
 .card { animation: fadeIn 0.35s ease; }
 </style>
+<style>
+/* ============================================================
+   DENT.LIST — Unified Theme (Dark Neon + Academic Light)
+   Drop-in: <link rel="stylesheet" href="dent-theme.css">
+   Toggle by adding/removing class "theme-light" on <html> or <body>.
+   ============================================================ */
 
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Cairo:wght@300;400;600;700;900&display=swap');
+
+/* ---------- DARK (default) ---------- */
+:root{
+  --bg:        #08080F;
+  --s1:        #0D0D1A;
+  --s2:        #111120;
+  --s3:        #16162A;
+  --b1:        #1F1F38;
+  --b2:        #2A2A4A;
+
+  --c1:        #B06EFF;   /* primary purple */
+  --c2:        #FF3D6B;   /* hot pink */
+  --c3:        #00F0FF;   /* cyan accent */
+  --c4:        #FFAA00;   /* amber */
+  --c5:        #6E5BFF;   /* indigo */
+
+  --tx:        #F5F2EC;
+  --tx2:       #B4AEC0;
+  --mt:        #6E6885;
+
+  --fh:        'Playfair Display', serif;
+  --fm:        'Cairo', sans-serif;
+
+  --grad-1:    linear-gradient(135deg, var(--c1), var(--c5));
+  --grad-2:    linear-gradient(135deg, var(--c2), var(--c4));
+  --shadow-1:  0 10px 30px -10px rgba(176,110,255,.4);
+}
+
+/* ---------- LIGHT (academic) ---------- */
+.theme-light, .theme-light :root{
+  --bg:        #FAFAF5;
+  --s1:        #FFFFFF;
+  --s2:        #F4F1EA;
+  --s3:        #ECE7DC;
+  --b1:        #E2DDD4;
+  --b2:        #C9C2B5;
+
+  --c1:        #5B3FBF;
+  --c2:        #C2185B;
+  --c3:        #00838F;
+  --c4:        #B8860B;
+  --c5:        #4527A0;
+
+  --tx:        #1A1626;
+  --tx2:       #4A4458;
+  --mt:        #6E6885;
+
+  --shadow-1:  0 8px 20px -8px rgba(91,63,191,.25);
+}
+
+/* ---------- Global polish ---------- */
+html, body{ background:var(--bg) !important; color:var(--tx) !important; font-family:var(--fm) !important; transition:background .3s, color .3s; }
+h1,h2,h3,h4,.title,#ub-logo{ font-family:var(--fh) !important; letter-spacing:-.5px; }
+.theme-light body::before{ display:none; }
+
+/* Override common surfaces */
+.lc, .qc, .pro-bar, #lb-list, .subj-card, .modal, .card,
+.sc-card, .panel, .tab-sw, .qrow .qb{
+  background:var(--s2) !important;
+  border-color:var(--b1) !important;
+  color:var(--tx) !important;
+}
+
+/* Buttons */
+.btn{ font-family:var(--fm) !important; font-weight:700 !important; transition:transform .15s, box-shadow .2s; }
+.btn:hover{ transform:translateY(-1px); box-shadow:var(--shadow-1); }
+.btn.bc, .btn.bg2, .btn.by, .btn.bpk{
+  background:var(--grad-1) !important;
+  color:#fff !important;
+  border:none !important;
+}
+.btn.bo{
+  background:transparent !important;
+  border:1px solid var(--b2) !important;
+  color:var(--tx2) !important;
+}
+
+/* Logo gradient */
+#ub-logo{
+  background:var(--grad-1) !important;
+  -webkit-background-clip:text !important;
+  background-clip:text !important;
+  -webkit-text-fill-color:transparent !important;
+}
+
+/* ---------- Theme toggle button ---------- */
+#dent-theme-btn{
+  position:fixed; top:10px; right:10px; z-index:9999;
+  width:38px; height:38px; border-radius:50%;
+  border:1px solid var(--b2); background:var(--s2); color:var(--tx);
+  font-size:1rem; cursor:pointer; display:flex; align-items:center; justify-content:center;
+  box-shadow:var(--shadow-1);
+}
+#dent-theme-btn:hover{ transform:scale(1.05); }
+
+/* ---------- Free-games credits pill ---------- */
+#dent-credits{
+  position:fixed; top:10px; right:58px; z-index:9999;
+  font-family:var(--fm); font-size:.72rem; font-weight:700;
+  padding:8px 14px; border-radius:50px;
+  background:var(--grad-1); color:#fff;
+  box-shadow:var(--shadow-1); cursor:pointer;
+  display:flex; align-items:center; gap:6px;
+}
+#dent-credits .ico{ font-size:.9rem; }
+
+/* ---------- Paywall modal ---------- */
+#dent-paywall{
+  position:fixed; inset:0; z-index:10000;
+  background:rgba(0,0,0,.75); backdrop-filter:blur(8px);
+  display:none; align-items:center; justify-content:center; padding:20px;
+}
+#dent-paywall.on{ display:flex; }
+#dent-paywall .box{
+  background:var(--s1); border:1px solid var(--b1); border-radius:20px;
+  padding:28px 24px; max-width:380px; width:100%; text-align:center;
+  box-shadow:0 30px 80px -20px rgba(0,0,0,.6);
+}
+#dent-paywall h2{ font-size:1.5rem; margin-bottom:8px; background:var(--grad-1); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+#dent-paywall p{ color:var(--tx2); font-size:.9rem; margin-bottom:18px; line-height:1.5; }
+#dent-paywall .price{ font-family:var(--fh); font-size:2.2rem; font-weight:900; color:var(--tx); margin:14px 0; }
+#dent-paywall .price small{ font-size:.85rem; color:var(--mt); font-weight:400; }
+#dent-paywall .pay-btn{
+  width:100%; padding:14px; border:none; border-radius:12px;
+  background:var(--grad-1); color:#fff; font-weight:700; font-size:1rem;
+  cursor:pointer; margin-bottom:8px;
+}
+#dent-paywall .close-btn{
+  width:100%; padding:10px; background:transparent; border:1px solid var(--b2);
+  border-radius:12px; color:var(--tx2); cursor:pointer;
+}
+
+/* Mobile-first tweaks */
+@media (max-width:480px){
+  #dent-theme-btn{ width:34px; height:34px; top:6px; right:6px; }
+  #dent-credits{ top:8px; right:48px; padding:6px 11px; font-size:.65rem; }
+}
+
+</style>
 </head>
 <body>
 
@@ -718,5 +864,39 @@ function checkStrength(pw) {
 }
 </script>
 
+<script>
+/* ============================================================
+   DENT.LIST — Theme only (Dark Neon ↔ Academic Light)
+   ============================================================ */
+(function(){
+  const THEME_KEY = 'dent.theme';
+  function applyTheme(t){
+    document.documentElement.classList.toggle('theme-light', t === 'light');
+    const btn = document.getElementById('dent-theme-btn');
+    if(btn) btn.textContent = t === 'light' ? '🌙' : '☀️';
+  }
+  function toggleTheme(){
+    const cur = localStorage.getItem(THEME_KEY) || 'dark';
+    const next = cur === 'dark' ? 'light' : 'dark';
+    localStorage.setItem(THEME_KEY, next);
+    applyTheme(next);
+  }
+  function inject(){
+    if(!document.getElementById('dent-theme-btn')){
+      const b = document.createElement('button');
+      b.id = 'dent-theme-btn';
+      b.title = 'تبديل الوضع';
+      b.onclick = toggleTheme;
+      document.body.appendChild(b);
+    }
+    applyTheme(localStorage.getItem(THEME_KEY) || 'dark');
+  }
+  window.DentTheme = { toggle: toggleTheme, apply: applyTheme };
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', inject);
+  } else { inject(); }
+})();
+
+</script>
 </body>
 </html>
