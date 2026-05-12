@@ -1,506 +1,620 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Dent.list — Beehive Quiz</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Baloo+2:wght@600;700;800&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>Beehive 🐝 | Dent.list</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --honey:#FFC107;
-    --honey-deep:#FF8F00;
-    --honey-light:#FFF3C4;
-    --cream:#FFFBEA;
-    --ink:#2B1B0E;
-    --ink-soft:#5A3A1B;
-    --white:#FFFFFF;
-    --blue:#3B82F6;
-    --blue-soft:#DBEAFE;
-    --red:#EF4444;
-    --red-soft:#FEE2E2;
-  }
-  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-  html,body{height:100%}
-  body{
-    font-family:'Fredoka',system-ui,sans-serif;
-    color:var(--ink);
-    background:#FFFDF5;
-    background-image:
-      radial-gradient(circle at 20% 10%, #FFF0B8 0%, transparent 40%),
-      radial-gradient(circle at 80% 90%, #FFE38A 0%, transparent 45%);
-    min-height:100vh;
-    overflow-x:hidden;
-  }
-  /* honeycomb pattern overlay */
-  body::before{
-    content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
-    background-image:
-      linear-gradient(60deg, rgba(255,193,7,.10) 25%, transparent 25.5%, transparent 75%, rgba(255,193,7,.10) 75%),
-      linear-gradient(-60deg, rgba(255,193,7,.10) 25%, transparent 25.5%, transparent 75%, rgba(255,193,7,.10) 75%);
-    background-size:40px 70px;
-    opacity:.6;
-  }
-  .stage{position:relative;z-index:1;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
-  .screen{display:none;width:100%;max-width:780px;animation:fadeIn .35s ease}
-  .screen.active{display:block}
-  @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+:root{
+  --t1:#DC2626; --t1l:#FEE2E2; --t1b:#991B1B;
+  --t2:#16A34A; --t2l:#DCFCE7; --t2b:#14532D;
+  --honey:#F59E0B; --hdk:#D97706;
+  --cream:#FFFBEB; --bg:#FEF9EE;
+  --card:#FFFFFF; --border:#FCD34D;
+  --ink:#1C0A00; --muted:#92400E;
+  --fh:'Fredoka One',cursive; --fb:'Nunito',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;overflow-x:hidden;}
+body{
+  font-family:var(--fb);background:var(--bg);color:var(--ink);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='52' height='90'%3E%3Cpath d='M26 0L52 15V45L26 60L0 45V15Z' fill='none' stroke='%23FCD34D' stroke-width='1' opacity='.25'/%3E%3Cpath d='M26 60L52 75V105L26 120L0 105V75Z' fill='none' stroke='%23FCD34D' stroke-width='1' opacity='.25'/%3E%3C/svg%3E");
+}
+.sc{display:none;min-height:100vh;}
+.sc.on{display:flex;flex-direction:column;align-items:center;}
 
-  /* ===== Logo ===== */
-  .logo-wrap{text-align:center;margin-bottom:28px}
-  .logo{
-    font-family:'Baloo 2',sans-serif;font-weight:800;font-size:64px;
-    color:var(--honey-deep);
-    letter-spacing:-1px;
-    display:inline-block;position:relative;
-    text-shadow:
-      0 2px 0 #B86A00,
-      0 4px 0 #8B4F00,
-      0 8px 18px rgba(255,143,0,.35);
-  }
-  .logo .dot{color:var(--ink)}
-  /* dripping honey under logo */
-  .honey-drip{position:relative;height:38px;margin-top:-6px}
-  .honey-drip svg{display:block;margin:0 auto;filter:drop-shadow(0 4px 6px rgba(255,143,0,.4))}
-  .tagline{font-family:'Fredoka';font-weight:500;color:var(--ink-soft);font-size:15px;margin-top:6px;letter-spacing:1px;text-transform:uppercase}
+/* TOPBAR */
+.topbar{width:100%;display:flex;align-items:center;justify-content:space-between;padding:12px 18px;background:rgba(255,251,235,.96);border-bottom:2px solid var(–border);box-shadow:0 2px 12px rgba(180,83,9,.1);position:sticky;top:0;z-index:50;}
+.logo{font-family:var(–fh);font-size:20px;color:var(–honey);display:flex;align-items:center;gap:6px;}
+.bee-anim{animation:fl 3s ease-in-out infinite;display:inline-block;}
+@keyframes fl{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.scores{display:flex;gap:7px;}
+.chip{display:flex;flex-direction:column;align-items:center;padding:4px 12px;border-radius:9px;border:2px solid;min-width:66px;}
+.chip.t1{background:var(–t1l);border-color:rgba(220,38,38,.35);}
+.chip.t2{background:var(–t2l);border-color:rgba(22,163,74,.35);}
+.chip .cn{font-size:9px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:64px;}
+.chip.t1 .cn{color:var(–t1);}
+.chip.t2 .cn{color:var(–t2);}
+.chip .cv{font-family:var(–fh);font-size:20px;line-height:1.1;}
+.chip.t1 .cv{color:var(–t1);}
+.chip.t2 .cv{color:var(–t2);}
+.btn-sm{font-size:12px;font-weight:700;color:var(–muted);padding:6px 12px;border:2px solid var(–border);border-radius:8px;background:var(–card);cursor:pointer;}
+.btn-sm:hover{border-color:var(–honey);color:var(–honey);}
 
-  /* ===== Card ===== */
-  .card{
-    background:var(--white);
-    border-radius:32px;
-    padding:32px 28px;
-    box-shadow:
-      0 1px 0 rgba(255,193,7,.4) inset,
-      0 20px 50px -20px rgba(255,143,0,.35),
-      0 4px 0 rgba(43,27,14,.08);
-    border:3px solid var(--honey);
-  }
-  h2{font-family:'Baloo 2';font-weight:800;color:var(--honey-deep);font-size:30px;margin-bottom:18px;display:flex;align-items:center;gap:10px}
-  label{display:block;font-weight:600;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-soft);margin:14px 0 8px;display:flex;align-items:center;gap:8px}
-  .dot-blue,.dot-red{width:14px;height:14px;border-radius:50%;display:inline-block;box-shadow:0 2px 4px rgba(0,0,0,.15)}
-  .dot-blue{background:radial-gradient(circle at 30% 30%, #93C5FD, #2563EB)}
-  .dot-red{background:radial-gradient(circle at 30% 30%, #FCA5A5, #DC2626)}
+/* SETUP */
+#s-setup{justify-content:flex-start;padding:0 0 40px;}
+.hero{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;padding:28px 20px 16px;}
+.hero-bee{font-size:72px;filter:drop-shadow(0 4px 10px rgba(180,83,9,.3));}
+.hero-title{font-family:var(–fh);font-size:38px;color:var(–honey);text-shadow:0 2px 0 rgba(180,83,9,.2);}
+.hero-sub{font-size:12px;font-weight:700;color:var(–muted);}
+.setup-card{background:var(–card);border:2px solid var(–border);border-radius:20px;padding:22px;width:calc(100% - 32px);max-width:420px;box-shadow:0 4px 18px rgba(180,83,9,.1);margin:0 16px 14px;}
+.setup-card h3{font-family:var(–fh);font-size:17px;color:var(–honey);margin-bottom:12px;display:flex;align-items:center;gap:6px;}
+.inp{width:100%;background:var(–cream);border:2px solid var(–border);border-radius:10px;padding:10px 12px;font-family:var(–fb);font-size:14px;font-weight:700;color:var(–ink);outline:none;margin-bottom:9px;transition:border-color .2s;}
+.inp:focus{border-color:var(–honey);}
+.inp.r{border-color:rgba(220,38,38,.4);background:#FEF2F2;}
+.inp.g{border-color:rgba(22,163,74,.4);background:#F0FDF4;}
+.inp::placeholder{opacity:.35;}
+.opt-row{display:flex;gap:7px;margin-bottom:5px;}
+.opt-btn{flex:1;padding:9px 6px;font-family:var(–fb);font-weight:800;font-size:13px;border:2px solid var(–border);border-radius:9px;background:var(–cream);color:var(–muted);cursor:pointer;transition:all .2s;}
+.opt-btn.on{background:var(–honey);border-color:var(–hdk);color:#fff;}
+.hint-txt{font-size:10px;color:var(–muted);font-weight:700;opacity:.75;margin-top:4px;}
+.btn-go{font-family:var(–fh);font-size:20px;background:linear-gradient(135deg,var(–honey),var(–hdk));color:#fff;border:none;border-radius:13px;padding:14px 44px;cursor:pointer;box-shadow:0 4px 0 var(–muted),0 6px 18px rgba(180,83,9,.3);transition:all .2s;display:flex;align-items:center;gap:8px;margin:4px auto 0;}
+.btn-go:hover{transform:translateY(-2px);}
+.btn-go:active{transform:translateY(2px);box-shadow:0 2px 0 var(–muted);}
 
-  input[type=text]{
-    width:100%;padding:18px 22px;font-size:18px;font-family:'Fredoka';font-weight:500;
-    border:2.5px solid var(--honey);background:var(--cream);
-    border-radius:18px;color:var(--ink);outline:none;transition:.2s;
-  }
-  input.blue{border-color:#93C5FD;background:#EFF6FF}
-  input.red{border-color:#FCA5A5;background:#FEF2F2}
-  input:focus{transform:translateY(-1px);box-shadow:0 6px 0 rgba(255,143,0,.18)}
+/* GAME */
+#s-game{padding:0;align-items:stretch;}
+.game-body{display:flex;flex-direction:column;align-items:center;padding:12px 10px 24px;gap:10px;flex:1;}
 
-  /* ===== Buttons ===== */
-  .btn{
-    font-family:'Baloo 2';font-weight:800;font-size:22px;
-    padding:18px 28px;border:none;border-radius:22px;cursor:pointer;
-    background:linear-gradient(180deg,#FFD24A,var(--honey-deep));
-    color:#fff;text-shadow:0 2px 0 rgba(0,0,0,.2);
-    box-shadow:0 6px 0 #B86A00, 0 10px 20px rgba(255,143,0,.4);
-    transition:.12s;display:inline-flex;align-items:center;justify-content:center;gap:10px;
-    width:100%;
-  }
-  .btn:hover{transform:translateY(-2px);box-shadow:0 8px 0 #B86A00, 0 14px 24px rgba(255,143,0,.5)}
-  .btn:active{transform:translateY(4px);box-shadow:0 2px 0 #B86A00, 0 4px 10px rgba(255,143,0,.4)}
-  .btn.ghost{background:#fff;color:var(--ink);text-shadow:none;box-shadow:0 4px 0 #E5C77A, 0 6px 14px rgba(0,0,0,.06);border:2px solid var(--honey)}
-  .btn.sm{font-size:16px;padding:12px 20px;border-radius:16px;width:auto}
+/* turn bar */
+.turn-bar{display:flex;align-items:center;gap:9px;padding:9px 16px;background:var(–card);border:2px solid var(–border);border-radius:13px;font-weight:800;font-size:13px;width:100%;max-width:560px;}
+.tdot{width:13px;height:13px;border-radius:50%;flex-shrink:0;}
+.tdot.t1{background:var(–t1);box-shadow:0 0 7px rgba(220,38,38,.5);}
+.tdot.t2{background:var(–t2);box-shadow:0 0 7px rgba(22,163,74,.5);}
+.tname{flex:1;}
+.tdir{font-size:10px;font-weight:700;color:var(–muted);}
 
-  .row{display:flex;gap:12px;margin-top:24px}
-  .row .btn{flex:1}
+/* legend */
+.legend{display:flex;justify-content:space-between;width:100%;max-width:560px;padding:0 2px;}
+.lg{display:flex;align-items:center;gap:5px;font-size:10px;font-weight:800;}
+.lg.t1{color:var(–t1);}
+.lg.t2{color:var(–t2);}
+.lgd{width:10px;height:10px;border-radius:50%;}
+.lgd.t1{background:var(–t1);}
+.lgd.t2{background:var(–t2);}
 
-  /* ===== Track selector ===== */
-  .track-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;background:var(--cream);padding:8px;border-radius:22px;border:2px solid var(--honey)}
-  .track{
-    padding:18px 14px;border-radius:16px;font-family:'Baloo 2';font-weight:700;font-size:20px;
-    background:transparent;color:var(--ink-soft);cursor:pointer;border:none;transition:.2s;
-    display:flex;align-items:center;justify-content:center;gap:8px;
-  }
-  .track.active{background:linear-gradient(180deg,#FFD24A,var(--honey-deep));color:#fff;text-shadow:0 1px 0 rgba(0,0,0,.2);box-shadow:0 4px 0 #B86A00}
-  .hint{font-size:14px;color:var(--ink-soft);margin-top:10px;text-align:center}
+/* hex grid */
+.hgwrap{
+position:relative;display:flex;flex-direction:column;align-items:center;
+max-width:100%;overflow:visible;
+}
+.edge-h{
+font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;
+padding:4px 16px;border-radius:8px;text-align:center;width:100%;
+}
+.edge-h.t1{color:var(–t1);background:rgba(220,38,38,.08);}
+.edge-v-wrap{display:flex;align-items:center;gap:6px;}
+.edge-v{
+font-size:9px;font-weight:800;color:var(–t2);
+writing-mode:vertical-rl;letter-spacing:1px;padding:4px 0;
+background:rgba(22,163,74,.08);border-radius:6px;min-height:60px;
+display:flex;align-items:center;justify-content:center;
+}
 
-  /* ===== Buzzer code screen ===== */
-  .code-box{background:var(--cream);border:3px dashed var(--honey-deep);border-radius:24px;padding:30px;text-align:center;margin:18px 0}
-  .code{font-family:'Baloo 2';font-weight:800;font-size:64px;color:var(--honey-deep);letter-spacing:8px;text-shadow:0 3px 0 #B86A00}
-  .code-label{font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+/* THE GRID */
+.hgrid{display:flex;flex-direction:column;gap:0;}
+.hrow{display:flex;}
 
-  /* ===== Beehive grid ===== */
-  .game{display:grid;grid-template-columns:1fr;gap:18px}
-  .scoreboard{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-  .team-card{background:#fff;border-radius:22px;padding:14px 18px;border:3px solid;display:flex;align-items:center;justify-content:space-between;font-family:'Baloo 2';font-weight:700}
-  .team-card.blue{border-color:#3B82F6;background:#EFF6FF}
-  .team-card.red{border-color:#EF4444;background:#FEF2F2}
-  .team-card.turn{box-shadow:0 0 0 4px rgba(255,193,7,.5), 0 8px 20px rgba(255,143,0,.3)}
-  .team-name{font-size:18px}
-  .team-score{font-size:24px;color:var(--honey-deep)}
+/* HEX CELL using SVG clip-path polygon */
+.hx{
+width:60px;height:52px;
+margin:1px;
+cursor:pointer;flex-shrink:0;
+transition:transform .2s;
+position:relative;
+}
+.hx:hover:not(.taken){transform:scale(1.1);}
+.hx-body{
+width:100%;height:100%;
+clip-path:polygon(25% 0%,75% 0%,100% 50%,75% 100%,25% 100%,0% 50%);
+display:flex;align-items:center;justify-content:center;
+font-family:var(–fh);font-size:16px;
+background:#FEF9C3;
+transition:all .3s;
+user-select:none;
+}
+.hx:hover:not(.taken) .hx-body{background:#FDE68A;filter:drop-shadow(0 2px 6px rgba(180,83,9,.3));}
+.hx.t1 .hx-body{background:var(–t1);color:#fff;filter:drop-shadow(0 2px 8px rgba(220,38,38,.4));}
+.hx.t2 .hx-body{background:var(–t2);color:#fff;filter:drop-shadow(0 2px 8px rgba(22,163,74,.4));}
+.hx.taken{cursor:default;}
+.hx.win .hx-body{animation:wpulse .7s ease-in-out infinite alternate;}
+@keyframes wpulse{from{filter:brightness(1.1)}to{filter:brightness(1.4) drop-shadow(0 0 10px currentColor)}}
 
-  .hive{
-    display:grid;
-    grid-template-columns:repeat(5, 1fr);
-    gap:10px;
-    padding:18px;
-    background:#FFFDF0;
-    border-radius:28px;
-    border:3px solid var(--honey);
-    box-shadow:inset 0 4px 12px rgba(255,143,0,.08);
-  }
-  .cell{
-    aspect-ratio:1/1;
-    background:radial-gradient(circle at 30% 25%, #FFF8C4, #FFD24A 60%, #FFB300);
-    border-radius:50%;
-    display:flex;align-items:center;justify-content:center;
-    font-family:'Baloo 2';font-weight:800;font-size:28px;color:var(--ink);
-    cursor:pointer;
-    box-shadow:
-      inset 0 -6px 0 rgba(184,106,0,.4),
-      inset 0 4px 8px rgba(255,255,255,.7),
-      0 6px 0 #B86A00,
-      0 10px 18px rgba(255,143,0,.3);
-    transition:transform .12s;
-    user-select:none;
-    border:none;
-  }
-  .cell:hover:not(.taken){transform:translateY(-3px) scale(1.04)}
-  .cell:active:not(.taken){transform:translateY(2px)}
-  .cell.taken{cursor:default}
-  .cell.blue{background:radial-gradient(circle at 30% 25%, #BFDBFE, #3B82F6 60%, #1D4ED8);color:#fff;box-shadow:inset 0 -6px 0 rgba(0,0,0,.25), 0 6px 0 #1E40AF, 0 10px 18px rgba(59,130,246,.4)}
-  .cell.red{background:radial-gradient(circle at 30% 25%, #FECACA, #EF4444 60%, #B91C1C);color:#fff;box-shadow:inset 0 -6px 0 rgba(0,0,0,.25), 0 6px 0 #991B1B, 0 10px 18px rgba(239,68,68,.4)}
-  .cell.win{animation:pop .6s ease infinite alternate}
-  @keyframes pop{to{transform:scale(1.08)}}
+/* MODAL */
+.mbg{position:fixed;inset:0;background:rgba(28,10,0,.55);z-index:200;display:none;align-items:flex-end;justify-content:center;backdrop-filter:blur(4px);padding:12px;}
+.mbg.on{display:flex;}
+.modal{background:var(–card);border:3px solid var(–border);border-radius:22px 22px 18px 18px;padding:22px;width:100%;max-width:480px;animation:sup .3s cubic-bezier(.34,1.56,.64,1);}
+@keyframes sup{from{transform:translateY(50px);opacity:0}to{transform:translateY(0);opacity:1}}
+.mhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.mletter{font-family:var(–fh);font-size:34px;color:var(–honey);}
+.mcat{font-size:10px;font-weight:800;letter-spacing:1px;text-transform:uppercase;background:var(–cream);border:1.5px solid var(–border);border-radius:20px;padding:3px 10px;color:var(–muted);}
+.mq{font-size:15px;font-weight:700;line-height:1.65;color:var(–ink);background:var(–cream);border:2px solid var(–border);border-radius:11px;padding:13px;margin-bottom:12px;text-align:center;min-height:60px;}
+.mq img{max-width:100%;border-radius:8px;margin-top:8px;max-height:160px;object-fit:contain;}
+.btn-reveal{width:100%;font-family:var(–fb);font-weight:800;font-size:13px;background:#F5F3FF;color:#7C3AED;border:2px solid #DDD6FE;border-radius:10px;padding:10px;cursor:pointer;margin-bottom:9px;display:flex;align-items:center;justify-content:center;gap:6px;transition:all .2s;}
+.btn-reveal:hover{background:#EDE9FE;}
+.ans-box{background:#F0FDF4;border:2px solid #BBF7D0;border-radius:10px;padding:11px 13px;margin-bottom:11px;display:none;}
+.ans-box .al{font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#15803D;opacity:.7;margin-bottom:3px;}
+.ans-box .av{font-size:14px;font-weight:700;color:#15803D;line-height:1.5;}
+.award-lbl{font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(–muted);text-align:center;margin-bottom:7px;}
+.award-row{display:flex;gap:8px;margin-bottom:9px;}
+.abtn{flex:1;font-family:var(–fb);font-weight:800;font-size:13px;border:2.5px solid transparent;border-radius:10px;padding:11px 6px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:5px;}
+.abtn.t1{background:var(–t1l);color:var(–t1);border-color:rgba(220,38,38,.4);}
+.abtn.t1:hover{background:var(–t1);color:#fff;}
+.abtn.t2{background:var(–t2l);color:var(–t2);border-color:rgba(22,163,74,.4);}
+.abtn.t2:hover{background:var(–t2);color:#fff;}
+.abtn.none{background:#F9FAFB;color:#6B7280;border-color:#E5E7EB;}
+.abtn.none:hover{background:#F3F4F6;}
+.btn-cancel{width:100%;font-family:var(–fb);font-weight:700;font-size:12px;background:transparent;color:var(–muted);border:2px solid var(–border);border-radius:9px;padding:8px;cursor:pointer;}
 
-  /* ===== Modal ===== */
-  .modal{position:fixed;inset:0;background:rgba(43,27,14,.55);display:none;align-items:center;justify-content:center;z-index:50;padding:20px;backdrop-filter:blur(4px)}
-  .modal.active{display:flex;animation:fadeIn .2s ease}
-  .modal .card{max-width:560px;width:100%}
-  .q-letter{font-family:'Baloo 2';font-weight:800;font-size:42px;color:var(--honey-deep);text-align:center;margin-bottom:8px}
-  .q-text{font-size:20px;font-weight:500;text-align:center;line-height:1.4;margin:14px 0 22px;color:var(--ink)}
-  .q-actions{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-  .btn.correct{background:linear-gradient(180deg,#86EFAC,#16A34A);box-shadow:0 6px 0 #14532D, 0 10px 20px rgba(22,163,74,.4)}
-  .btn.wrong{background:linear-gradient(180deg,#FCA5A5,#DC2626);box-shadow:0 6px 0 #7F1D1D, 0 10px 20px rgba(220,38,38,.4)}
+/* WIN */
+.winov{position:fixed;inset:0;z-index:500;background:var(–bg);display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:14px;background-image:url(“data:image/svg+xml,%3Csvg xmlns=‘http://www.w3.org/2000/svg’ width=‘52’ height=‘90’%3E%3Cpath d=‘M26 0L52 15V45L26 60L0 45V15Z’ fill=‘none’ stroke=’%23FCD34D’ stroke-width=‘1.5’ opacity=’.4’/%3E%3C/svg%3E”);}
+.winov.on{display:flex;}
+.wbee{font-size:68px;animation:fl 1s ease-in-out infinite;}
+.wtitle{font-family:var(–fh);font-size:46px;}
+.wtitle.t1{color:var(–t1);}
+.wtitle.t2{color:var(–t2);}
+.wdir{font-size:13px;font-weight:800;padding:8px 18px;border-radius:10px;}
+.wdir.t1{background:var(–t1l);color:var(–t1);}
+.wdir.t2{background:var(–t2l);color:var(–t2);}
+.btn-play{font-family:var(–fh);font-size:18px;background:linear-gradient(135deg,var(–honey),var(–hdk));color:#fff;border:none;border-radius:13px;padding:13px 38px;cursor:pointer;margin-top:6px;box-shadow:0 4px 0 var(–muted);transition:all .2s;}
+.btn-play:hover{transform:translateY(-2px);}
 
-  .winner-banner{text-align:center;padding:20px;background:linear-gradient(135deg,#FFD24A,#FF8F00);border-radius:22px;color:#fff;font-family:'Baloo 2';font-weight:800;font-size:28px;margin-bottom:14px;text-shadow:0 2px 0 rgba(0,0,0,.2)}
-
-  @media (max-width:520px){
-    .logo{font-size:48px}
-    .cell{font-size:22px}
-    h2{font-size:24px}
-    .code{font-size:48px}
-  }
+@media(max-width:480px){
+.hx{width:50px;height:43px;}
+.hx-body{font-size:13px;}
+}
+@media(max-width:360px){
+.hx{width:42px;height:36px;}
+.hx-body{font-size:11px;}
+}
 </style>
+
 </head>
 <body>
 
-<div class="stage">
+<!-- ── QUESTION MODAL ── -->
 
-  <!-- ============ HOME ============ -->
-  <section class="screen active" id="screen-home">
-    <div class="logo-wrap">
-      <div class="logo">Dent<span class="dot">.</span>list</div>
-      <div class="honey-drip">
-        <svg width="220" height="38" viewBox="0 0 220 38" fill="none">
-          <path d="M0 0 H220 V8 C200 8 200 22 180 22 C160 22 160 6 145 6 C130 6 130 30 110 30 C90 30 90 10 75 10 C60 10 60 26 45 26 C30 26 30 8 15 8 C8 8 4 8 0 8 Z" fill="#FFB300"/>
-          <ellipse cx="110" cy="34" rx="6" ry="4" fill="#FFB300"/>
-          <ellipse cx="180" cy="28" rx="4" ry="3" fill="#FFB300"/>
-        </svg>
-      </div>
-      <div class="tagline">🐝 Beehive Quiz</div>
+<div class="mbg" id="mbg">
+  <div class="modal">
+    <div class="mhead">
+      <div class="mletter" id="mL">A</div>
+      <div class="mcat" id="mC">Dental</div>
     </div>
-    <div class="card">
-      <h2>📚 Choose Question Track</h2>
-      <div class="track-grid" id="trackGrid">
-        <button class="track active" data-track="dental">🦷 Dental</button>
-        <button class="track" data-track="medical">🩺 Medical</button>
-      </div>
-      <p class="hint">Specialties are fixed — questions are randomized each game</p>
-      <div style="margin-top:22px">
-        <button class="btn" onclick="goTeams()">🍯 Continue</button>
-      </div>
+    <div class="mq" id="mQ">...</div>
+    <button class="btn-reveal" id="btnReveal" onclick="revealAns()">👁 Show Answer</button>
+    <div class="ans-box" id="ansBox">
+      <div class="al">✅ Answer</div>
+      <div class="av" id="ansText"></div>
     </div>
-  </section>
-
-  <!-- ============ TEAMS ============ -->
-  <section class="screen" id="screen-teams">
-    <div class="card">
-      <h2>🏆 Team Names</h2>
-      <label><span class="dot-blue"></span> Team 1</label>
-      <input type="text" id="team1" class="blue" placeholder="Blue Team" />
-      <label><span class="dot-red"></span> Team 2</label>
-      <input type="text" id="team2" class="red" placeholder="Red Team" />
-      <div class="row">
-        <button class="btn ghost" onclick="show('screen-home')">← Back</button>
-        <button class="btn" onclick="goCode()">🍯 Start Game</button>
-      </div>
+    <div class="award-lbl">Who answered correctly?</div>
+    <div class="award-row">
+      <button class="abtn t1" onclick="award(1)">🔴 <span id="an1">Red</span></button>
+      <button class="abtn none" onclick="award(0)">❌ No one</button>
+      <button class="abtn t2" onclick="award(2)">🟢 <span id="an2">Green</span></button>
     </div>
-  </section>
-
-  <!-- ============ BUZZER CODE ============ -->
-  <section class="screen" id="screen-code">
-    <div class="card">
-      <h2>📲 Buzzer Code</h2>
-      <p class="hint" style="margin:0 0 8px">Both teams enter this code in the buzzer to join</p>
-      <div class="code-box">
-        <div class="code-label">Room Code</div>
-        <div class="code" id="roomCode">000000</div>
-      </div>
-      <div class="row">
-        <button class="btn ghost" onclick="show('screen-teams')">← Back</button>
-        <button class="btn" onclick="startGame()">🐝 Enter Hive</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ GAME ============ -->
-  <section class="screen" id="screen-game">
-    <div class="logo-wrap" style="margin-bottom:14px">
-      <div class="logo" style="font-size:38px">Dent<span class="dot">.</span>list</div>
-    </div>
-    <div class="game">
-      <div class="scoreboard">
-        <div class="team-card blue turn" id="card1">
-          <span class="team-name" id="name1">Blue Team</span>
-          <span class="team-score" id="score1">0</span>
-        </div>
-        <div class="team-card red" id="card2">
-          <span class="team-name" id="name2">Red Team</span>
-          <span class="team-score" id="score2">0</span>
-        </div>
-      </div>
-      <div class="hive" id="hive"></div>
-      <div style="text-align:center">
-        <button class="btn sm ghost" onclick="resetGame()">🔄 Reset Game</button>
-      </div>
-    </div>
-  </section>
-
-</div>
-
-<!-- ============ QUESTION MODAL ============ -->
-<div class="modal" id="qModal">
-  <div class="card">
-    <div class="q-letter" id="qLetter">A</div>
-    <div class="q-text" id="qText">Question goes here...</div>
-    <div class="q-actions">
-      <button class="btn correct" onclick="answer(true)">✓ Correct</button>
-      <button class="btn wrong" onclick="answer(false)">✗ Wrong</button>
-    </div>
+    <button class="btn-cancel" onclick="closeModal()">✕ Cancel — keep cell empty</button>
   </div>
 </div>
 
-<!-- ============ WINNER MODAL ============ -->
-<div class="modal" id="winModal">
-  <div class="card" style="text-align:center">
-    <div class="winner-banner" id="winBanner">🏆 Winner!</div>
-    <p style="margin-bottom:18px;color:var(--ink-soft)">Completed a full line through the hive.</p>
-    <button class="btn" onclick="resetGame();closeWin()">🐝 Play Again</button>
+<!-- ── WIN OVERLAY ── -->
+
+<div class="winov" id="winov">
+  <div class="wbee">🏆</div>
+  <div class="wtitle" id="wtitle">Team</div>
+  <div style="font-size:14px;font-weight:700;color:var(--muted)">Connected the path!</div>
+  <div class="wdir" id="wdir">Top → Bottom ✅</div>
+  <button class="btn-play" onclick="backSetup()">🍯 Play Again</button>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SETUP SCREEN
+══════════════════════════════════════════ -->
+
+<div id="s-setup" class="sc on">
+  <div class="topbar">
+    <div class="logo"><span class="bee-anim">🐝</span> Beehive</div>
+    <a href="index.html" class="btn-sm">← Dent.list</a>
+  </div>
+
+  <div class="hero">
+    <div class="hero-bee bee-anim">🐝</div>
+    <div class="hero-title">Beehive</div>
+    <div class="hero-sub">🍯 Hexagonal Quiz Battle · Dent.list</div>
+  </div>
+
+  <div class="setup-card">
+    <h3>🏆 Team Names</h3>
+    <input class="inp r" id="i1" type="text" placeholder="🔴 Red Team (Top ↕ Bottom)" maxlength="16">
+    <input class="inp g" id="i2" type="text" placeholder="🟢 Green Team (Left ↔ Right)" maxlength="16">
+
+```
+<h3 style="margin-top:4px">📐 Grid Size</h3>
+<div class="opt-row">
+  <button class="opt-btn" data-n="4" onclick="selOpt(this,'n')">4×4</button>
+  <button class="opt-btn on" data-n="5" onclick="selOpt(this,'n')">5×5</button>
+  <button class="opt-btn" data-n="6" onclick="selOpt(this,'n')">6×6</button>
+  <button class="opt-btn" data-n="7" onclick="selOpt(this,'n')">7×7</button>
+</div>
+
+<h3 style="margin-top:10px">📚 Questions</h3>
+<div class="opt-row">
+  <button class="opt-btn on" data-q="dental" onclick="selOpt(this,'q')">🦷 Dental</button>
+  <button class="opt-btn" data-q="medical" onclick="selOpt(this,'q')">🩺 Medical</button>
+</div>
+<div class="hint-txt">🔴 connects Top→Bottom · 🟢 connects Left→Right · First to link wins!</div>
+```
+
+  </div>
+
+<button class="btn-go" onclick="startGame()">🍯 Start Game</button>
+
+</div>
+
+<!-- ══════════════════════════════════════════
+     GAME SCREEN
+══════════════════════════════════════════ -->
+
+<div id="s-game" class="sc">
+  <div class="topbar">
+    <div class="logo"><span class="bee-anim">🐝</span> Beehive</div>
+    <div class="scores">
+      <div class="chip t1"><span class="cn" id="gn1">Red</span><span class="cv" id="gs1">0</span></div>
+      <div class="chip t2"><span class="cn" id="gn2">Green</span><span class="cv" id="gs2">0</span></div>
+    </div>
+    <button class="btn-sm" onclick="backSetup()">↩ Reset</button>
+  </div>
+
+  <div class="game-body">
+    <div class="turn-bar">
+      <div class="tdot t1" id="tdot"></div>
+      <span class="tname" id="tname">Red's Turn</span>
+      <span class="tdir" id="tdir">Top → Bottom</span>
+    </div>
+
+```
+<div class="legend">
+  <div class="lg t1"><div class="lgd t1"></div><span id="lg1">Red: Top↕Bottom</span></div>
+  <div class="lg t2"><div class="lgd t2"></div><span id="lg2">Green: Left↔Right</span></div>
+</div>
+
+<!-- Hex grid with edge labels -->
+<div class="hgwrap">
+  <div class="edge-h t1" id="etop">▲ RED TEAM ▲</div>
+  <div class="edge-v-wrap">
+    <div class="edge-v" id="eleft">◀ GREEN</div>
+    <div class="hgrid" id="hgrid"></div>
+    <div class="edge-v" id="eright">GREEN ▶</div>
+  </div>
+  <div class="edge-h t1" id="ebot">▼ RED TEAM ▼</div>
+</div>
+
+<button class="btn-sm" onclick="backSetup()" style="margin-top:6px">🔄 New Game</button>
+```
+
   </div>
 </div>
 
 <script>
-/* =========================================================
-   QUESTIONS — add your own here later
-   Each track has questions keyed by letter A–Y (25 cells)
-   ========================================================= */
-const QUESTIONS = {
-  dental: {
-    A: "What is the hardest substance in the human body?",
-    B: "Name the tooth surface that faces the cheek.",
-    C: "What does DMFT stand for?",
-    D: "Which nerve provides sensation to mandibular teeth?",
-    E: "What is the most common cause of dental caries?",
-    F: "Name the layer beneath enamel.",
-    G: "What is gingivitis?",
-    H: "How many primary teeth does a child have?",
-    I: "What instrument is used to detect caries?",
-    J: "What is the function of fluoride?",
-    K: "Name a common local anesthetic in dentistry.",
-    L: "What is the apex of a tooth?",
-    M: "What is malocclusion?",
-    N: "Name the cells that form dentin.",
-    O: "What is an overbite?",
-    P: "What does RCT stand for?",
-    Q: "What is a quadrant in dentistry?",
-    R: "What is recession?",
-    S: "Name a periodontal probing depth considered healthy.",
-    T: "How many permanent teeth does an adult have?",
-    U: "What is an ulcer in oral context?",
-    V: "What does the V in DMV/DDS represent? (placeholder)",
-    W: "What is a wisdom tooth?",
-    X: "What imaging is most common in dentistry?",
-    Y: "At what age do third molars usually erupt?"
-  },
-  medical: {
-    A: "What is the largest organ in the human body?",
-    B: "What blood type is the universal donor?",
-    C: "What does CPR stand for?",
-    D: "Normal adult resting heart rate range?",
-    E: "What does ECG measure?",
-    F: "What is the function of red blood cells?",
-    G: "What gland produces insulin?",
-    H: "What is hypertension?",
-    I: "What is the powerhouse of the cell?",
-    J: "Which joint connects the femur and tibia?",
-    K: "How many kidneys does a healthy person have?",
-    L: "What organ produces bile?",
-    M: "What is myocardial infarction?",
-    N: "What does NSAID stand for?",
-    O: "What gas do we inhale to live?",
-    P: "What does BP stand for?",
-    Q: "What is the QRS complex?",
-    R: "Normal respiratory rate for adults?",
-    S: "What is sepsis?",
-    T: "What does TIA stand for?",
-    U: "What is the unit of blood pressure?",
-    V: "What vitamin is produced from sunlight?",
-    W: "What is WBC?",
-    X: "What imaging uses ionizing radiation?",
-    Y: "What is the yellow pigment in bile?"
-  }
+/* ============================================================
+   QUESTIONS — 25 letters A-Y
+   ============================================================ */
+const QS = {
+dental:{
+  A:{q:"What acid produced by S. mutans causes enamel dissolution?",a:"Lactic acid",cat:"Microbiology"},
+  B:{q:"What does BOP mean in periodontal examination?",a:"Bleeding on Probing — indicates active gingival inflammation",cat:"Periodontics"},
+  C:{q:"Critical pH at which enamel starts to dissolve?",a:"pH 5.5",cat:"General Dentistry"},
+  D:{q:"What is Dry Socket? (Clinical name)",a:"Alveolar Osteitis — loss of blood clot after extraction",cat:"Oral Surgery"},
+  E:{q:"What does EDTA do in root canal treatment?",a:"Removes the smear layer by chelating calcium ions",cat:"Endodontics"},
+  F:{q:"What is Freeway Space in prosthodontics?",a:"Difference between Rest Vertical Dimension and Occlusal VD; normally 2–4 mm",cat:"Prosthodontics"},
+  G:{q:"Main difference between Gingivitis and Periodontitis?",a:"Gingivitis: reversible, no attachment loss. Periodontitis: irreversible bone + attachment loss",cat:"Periodontics"},
+  H:{q:"How many primary (baby) teeth does a child have?",a:"20 primary teeth",cat:"Pedodontics"},
+  I:{q:"Irreversible Pulpitis vs Reversible Pulpitis — key difference?",a:"Irreversible: spontaneous or lingering pain >30s. Reversible: brief pain stopping with stimulus",cat:"Endodontics"},
+  J:{q:"Main advantage of Glass Ionomer Cement (GIC)?",a:"Fluoride release + chemical bonding to tooth structure",cat:"Dental Materials"},
+  K:{q:"What is Kennedy Class I removable partial denture?",a:"Bilateral distal extension (free-end) — missing posterior teeth both sides",cat:"Prosthodontics"},
+  L:{q:"Which nerve is at risk in lower third molar surgery?",a:"Inferior Alveolar Nerve (IAN)",cat:"Oral Surgery"},
+  M:{q:"What is MRONJ and what drugs cause it?",a:"Medication-Related Osteonecrosis of the Jaw — bisphosphonates or denosumab",cat:"Oral Surgery"},
+  N:{q:"Which cells produce dentin?",a:"Odontoblasts",cat:"Histology"},
+  O:{q:"What is Osseointegration?",a:"Direct structural and functional connection between living bone and a dental implant",cat:"Implantology"},
+  P:{q:"What causes Polymerization Shrinkage in composites?",a:"Volumetric contraction during curing — causes stress at tooth-restoration interface",cat:"Restorative"},
+  Q:{q:"What is the C-factor in composite restorations?",a:"Ratio of bonded to unbonded surfaces — high C-factor means more shrinkage stress",cat:"Restorative"},
+  R:{q:"What does Root Planing aim to achieve?",a:"Smooth root surface and remove endotoxins from cementum to promote healing",cat:"Periodontics"},
+  S:{q:"Normal healthy probing depth?",a:"1–3 mm",cat:"Periodontics"},
+  T:{q:"How many permanent teeth does an adult have?",a:"32 permanent teeth (including wisdom teeth)",cat:"General Dentistry"},
+  U:{q:"What does Ultrasonic irrigation do in RCT?",a:"Improves canal debridement via acoustic streaming",cat:"Endodontics"},
+  V:{q:"What is Vertical Dimension of Occlusion (VDO)?",a:"Facial height when upper and lower teeth are in contact",cat:"Prosthodontics"},
+  W:{q:"What is working length in root canal treatment?",a:"Distance from coronal reference to 0.5–1 mm short of radiographic apex",cat:"Endodontics"},
+  X:{q:"What does a periapical X-ray show?",a:"Full tooth length including apex and surrounding periapical bone",cat:"Radiology"},
+  Y:{q:"When do mandibular first permanent molars typically erupt?",a:"Around age 6 — often called the 'six-year molar'",cat:"Pedodontics"},
+},
+medical:{
+  A:{q:"First-line treatment for anaphylaxis?",a:"Adrenaline (Epinephrine) 0.5 mg IM into the lateral thigh",cat:"Emergency"},
+  B:{q:"Universal donor blood type for red blood cells?",a:"O negative (O−)",cat:"Hematology"},
+  C:{q:"CURB-65 — what score indicates hospital admission?",a:"Score ≥2: Confusion, Urea >7, RR ≥30, BP <90/60, Age ≥65",cat:"Respiratory"},
+  D:{q:"First biomarker to rise in myocardial infarction?",a:"Troponin — rises within 3–4 hours of MI",cat:"Cardiology"},
+  E:{q:"ECG finding pathognomonic of STEMI?",a:"ST elevation ≥1mm in ≥2 contiguous leads, or new LBBB",cat:"Cardiology"},
+  F:{q:"What is the Frank-Starling Law?",a:"Greater preload → greater stroke volume (up to physiological limit)",cat:"Physiology"},
+  G:{q:"Gold standard for pulmonary embolism diagnosis?",a:"CT Pulmonary Angiography (CTPA)",cat:"Respiratory"},
+  H:{q:"HbA1c threshold for diabetes diagnosis?",a:"≥6.5%",cat:"Endocrinology"},
+  I:{q:"What does INR measure and what is its therapeutic range for AF?",a:"Anticoagulation intensity — therapeutic range for AF: 2.0–3.0",cat:"Cardiology"},
+  J:{q:"What is jaundice and its three types?",a:"Yellow discoloration from bilirubin. Types: pre-hepatic (haemolysis), hepatic (liver disease), post-hepatic (obstruction)",cat:"Gastroenterology"},
+  K:{q:"What does hyperkalaemia cause on ECG?",a:"Peaked T waves → widened QRS → ventricular fibrillation",cat:"Cardiology"},
+  L:{q:"Most common cause of community-acquired pneumonia?",a:"Streptococcus pneumoniae",cat:"Respiratory"},
+  M:{q:"Mechanism of action of Metformin?",a:"Inhibits hepatic gluconeogenesis + improves peripheral insulin sensitivity",cat:"Pharmacology"},
+  N:{q:"Nephrotic Syndrome triad?",a:"Proteinuria >3.5g/day + hypoalbuminaemia + peripheral oedema",cat:"Nephrology"},
+  O:{q:"Normal cardiac output at rest?",a:"~5 L/min",cat:"Physiology"},
+  P:{q:"Pathology of Parkinson disease?",a:"Loss of dopaminergic neurons in substantia nigra → dopamine deficiency",cat:"Neurology"},
+  Q:{q:"What does the QRS complex represent on ECG?",a:"Ventricular depolarization",cat:"Cardiology"},
+  R:{q:"What does the RAAS system do?",a:"Raises BP via vasoconstriction (AngII) and sodium/water retention (aldosterone)",cat:"Physiology"},
+  S:{q:"Definition of Sepsis?",a:"Life-threatening organ dysfunction from dysregulated host response to infection",cat:"Emergency"},
+  T:{q:"What is a TIA?",a:"Transient Ischaemic Attack — temporary focal neurological deficit <24h, no infarction",cat:"Neurology"},
+  U:{q:"Normal blood pressure values?",a:"<120/80 mmHg. Measured in mmHg.",cat:"Cardiology"},
+  V:{q:"Which vitamin is produced via UV skin exposure?",a:"Vitamin D3 (cholecalciferol)",cat:"Biochemistry"},
+  W:{q:"What is Von Willebrand Disease?",a:"Most common inherited bleeding disorder — deficiency/dysfunction of VWF",cat:"Hematology"},
+  X:{q:"Which imaging modality uses ionizing radiation?",a:"X-ray (plain radiography) and CT scan",cat:"Radiology"},
+  Y:{q:"What causes Yellow Fever and how is it transmitted?",a:"Yellow Fever virus (Flavivirus) — transmitted by Aedes mosquito",cat:"Infectious Disease"},
+}
 };
 
-/* =========================================================
+/* ============================================================
    STATE
-   ========================================================= */
-const LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXY".split("");
-let state = {
-  track: "dental",
-  team1: "Blue Team",
-  team2: "Red Team",
-  turn: 1,           // 1 or 2
-  cells: {},         // letter -> 1 | 2 | undefined
-  current: null,     // letter currently being answered
-  code: "000000",
-  finished: false
-};
+   ============================================================ */
+let N=5, qTrack='dental';
+let T1='Red Team', T2='Green Team';
+let turn=1, s1=0, s2=0;
+let grid=[], curCell=null, done=false;
 
-/* =========================================================
-   NAVIGATION
-   ========================================================= */
-function show(id){
-  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
-  window.scrollTo({top:0,behavior:"smooth"});
+/* ============================================================
+   SETUP
+   ============================================================ */
+function selOpt(btn,type){
+  document.querySelectorAll(`.opt-btn[data-${type}]`).forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  if(type==='n') N=parseInt(btn.dataset.n);
+  else qTrack=btn.dataset.q;
 }
-function goTeams(){ show("screen-teams"); }
-function goCode(){
-  state.team1 = (document.getElementById("team1").value||"Blue Team").trim();
-  state.team2 = (document.getElementById("team2").value||"Red Team").trim();
-  state.code = String(Math.floor(100000 + Math.random()*900000));
-  document.getElementById("roomCode").textContent = state.code;
-  show("screen-code");
+
+function backSetup(){
+  document.getElementById('s-setup').classList.add('on');
+  document.getElementById('s-game').classList.remove('on');
+  document.getElementById('winov').classList.remove('on');
+  closeModal();
 }
+
 function startGame(){
-  document.getElementById("name1").textContent = state.team1;
-  document.getElementById("name2").textContent = state.team2;
-  buildHive();
-  show("screen-game");
+  T1=document.getElementById('i1').value.trim()||'Red Team';
+  T2=document.getElementById('i2').value.trim()||'Green Team';
+  turn=1; s1=0; s2=0; done=false;
+  grid=Array.from({length:N},()=>Array(N).fill(0));
+
+  document.getElementById('gn1').textContent=T1;
+  document.getElementById('gn2').textContent=T2;
+  document.getElementById('gs1').textContent='0';
+  document.getElementById('gs2').textContent='0';
+  document.getElementById('an1').textContent=T1;
+  document.getElementById('an2').textContent=T2;
+  document.getElementById('lg1').textContent=T1+': Top↕Bottom';
+  document.getElementById('lg2').textContent=T2+': Left↔Right';
+  document.getElementById('etop').textContent='▲ '+T1.toUpperCase()+' ▲';
+  document.getElementById('ebot').textContent='▼ '+T1.toUpperCase()+' ▼';
+  document.getElementById('eleft').textContent='◀ '+T2;
+  document.getElementById('eright').textContent=T2+' ▶';
+
+  buildHexGrid();
+  updateTurn();
+  document.getElementById('s-setup').classList.remove('on');
+  document.getElementById('s-game').classList.add('on');
 }
 
-/* =========================================================
-   TRACK SELECTOR
-   ========================================================= */
-document.getElementById("trackGrid").addEventListener("click", e=>{
-  const b = e.target.closest(".track"); if(!b) return;
-  document.querySelectorAll(".track").forEach(t=>t.classList.remove("active"));
-  b.classList.add("active");
-  state.track = b.dataset.track;
-});
+/* ============================================================
+   BUILD HEX GRID
+   Proper hex offset: each row shifted right by half-hex
+   ============================================================ */
+function buildHexGrid(){
+  const g=document.getElementById('hgrid');
+  g.innerHTML='';
+  const HW=isMobile()?50:60; // hex width
+  const OFFSET=HW*0.5;
 
-/* =========================================================
-   HIVE BOARD
-   ========================================================= */
-function buildHive(){
-  const hive = document.getElementById("hive");
-  hive.innerHTML = "";
-  state.cells = {};
-  state.turn = 1;
-  state.finished = false;
-  updateTurnUI();
-  updateScores();
-  LETTERS.forEach(L=>{
-    const c = document.createElement("button");
-    c.className = "cell";
-    c.textContent = L;
-    c.dataset.letter = L;
-    c.addEventListener("click", ()=>openQuestion(L));
-    hive.appendChild(c);
-  });
-}
+  for(let r=0;r<N;r++){
+    const row=document.createElement('div');
+    row.className='hrow';
+    // Shift each row to the right by half a hex × row index
+    row.style.marginLeft=(r*OFFSET*0.5)+'px';
 
-function openQuestion(L){
-  if(state.finished) return;
-  if(state.cells[L]) return;
-  state.current = L;
-  document.getElementById("qLetter").textContent = L;
-  document.getElementById("qText").textContent =
-    (QUESTIONS[state.track] && QUESTIONS[state.track][L]) || "Add a question for letter "+L;
-  document.getElementById("qModal").classList.add("active");
-}
-
-function answer(correct){
-  const L = state.current;
-  document.getElementById("qModal").classList.remove("active");
-  if(!L) return;
-  const cell = document.querySelector(`.cell[data-letter="${L}"]`);
-  if(correct){
-    state.cells[L] = state.turn;
-    cell.classList.add("taken", state.turn===1 ? "blue" : "red");
+    for(let c=0;c<N;c++){
+      const cell=document.createElement('div');
+      cell.className='hx';
+      cell.id=`h${r}_${c}`;
+      cell.dataset.r=r; cell.dataset.c=c;
+      cell.innerHTML=`<div class="hx-body">${lbl(r,c)}</div>`;
+      cell.addEventListener('click',()=>clickCell(r,c));
+      row.appendChild(cell);
+    }
+    g.appendChild(row);
   }
-  // switch turn either way
-  state.turn = state.turn===1 ? 2 : 1;
-  updateTurnUI();
-  updateScores();
-  checkWin();
 }
 
-function updateTurnUI(){
-  document.getElementById("card1").classList.toggle("turn", state.turn===1);
-  document.getElementById("card2").classList.toggle("turn", state.turn===2);
-}
-function updateScores(){
-  let s1=0,s2=0;
-  Object.values(state.cells).forEach(v=>{if(v===1)s1++;else if(v===2)s2++});
-  document.getElementById("score1").textContent = s1;
-  document.getElementById("score2").textContent = s2;
+function isMobile(){return window.innerWidth<480;}
+const LETTERS='ABCDEFGHIJKLMNOPQRSTUVWXY';
+function lbl(r,c){
+  const i=r*N+c;
+  return i<LETTERS.length ? LETTERS[i] : (i+1)+'';
 }
 
-/* =========================================================
-   WIN DETECTION — full row, column, or diagonal (5x5)
-   ========================================================= */
-function checkWin(){
-  const grid = []; // 5x5
-  for(let r=0;r<5;r++){
-    grid.push([]);
-    for(let c=0;c<5;c++){
-      const L = LETTERS[r*5+c];
-      grid[r].push(state.cells[L]||0);
+/* ============================================================
+   CELL CLICK
+   ============================================================ */
+function clickCell(r,c){
+  if(done||grid[r][c]!==0) return;
+  curCell={r,c};
+  const id=lbl(r,c);
+  const qs=QS[qTrack];
+  const q=qs[id]||{q:`Question for cell ${id} — add your own question here!`,a:'Your answer here',cat:'Custom'};
+
+  document.getElementById('mL').textContent=id;
+  document.getElementById('mC').textContent=q.cat;
+  document.getElementById('mQ').textContent=q.q;
+  // Handle image if present
+  if(q.img){
+    const img=document.createElement('img');
+    img.src=q.img;
+    document.getElementById('mQ').appendChild(img);
+  }
+  document.getElementById('ansText').textContent=q.a;
+  document.getElementById('ansBox').style.display='none';
+  document.getElementById('btnReveal').style.display='flex';
+  document.getElementById('mbg').classList.add('on');
+}
+
+function revealAns(){
+  document.getElementById('ansBox').style.display='block';
+  document.getElementById('btnReveal').style.display='none';
+}
+
+function closeModal(){
+  document.getElementById('mbg').classList.remove('on');
+  curCell=null;
+}
+
+/* ============================================================
+   AWARD
+   ============================================================ */
+function award(team){
+  closeModal();
+  if(!curCell) return;
+  const {r,c}=curCell;
+
+  if(team===1||team===2){
+    grid[r][c]=team;
+    const el=document.getElementById(`h${r}_${c}`);
+    el.classList.add('taken','t'+team);
+    if(team===1){s1++;document.getElementById('gs1').textContent=s1;}
+    else{s2++;document.getElementById('gs2').textContent=s2;}
+    if(checkWin(team)){triggerWin(team);return;}
+  }
+
+  turn=turn===1?2:1;
+  updateTurn();
+  curCell=null;
+}
+
+function updateTurn(){
+  document.getElementById('tdot').className='tdot t'+turn;
+  document.getElementById('tname').textContent=(turn===1?T1:T2)+"'s Turn";
+  document.getElementById('tdir').textContent=turn===1?'Top → Bottom':'Left → Right';
+}
+
+/* ============================================================
+   WIN CHECK — BFS
+   T1: row 0 → row N-1
+   T2: col 0 → col N-1
+   ============================================================ */
+function hexNeighbors(r,c){
+  // For parallelogram hex grid (offset rows)
+  return [
+    [r-1,c],[r-1,c+1],
+    [r,  c-1],[r,  c+1],
+    [r+1,c-1],[r+1,c]
+  ].filter(([nr,nc])=>nr>=0&&nr<N&&nc>=0&&nc<N);
+}
+
+function checkWin(team){
+  const vis=new Set(), q=[];
+  if(team===1){
+    for(let c=0;c<N;c++) if(grid[0][c]===1){q.push([0,c]);vis.add(`0,${c}`);}
+    while(q.length){
+      const[r,c]=q.shift();
+      if(r===N-1) return true;
+      for(const[nr,nc]of hexNeighbors(r,c)){
+        const k=`${nr},${nc}`;
+        if(!vis.has(k)&&grid[nr][nc]===1){vis.add(k);q.push([nr,nc]);}
+      }
+    }
+  } else {
+    for(let r=0;r<N;r++) if(grid[r][0]===2){q.push([r,0]);vis.add(`${r},0`);}
+    while(q.length){
+      const[r,c]=q.shift();
+      if(c===N-1) return true;
+      for(const[nr,nc]of hexNeighbors(r,c)){
+        const k=`${nr},${nc}`;
+        if(!vis.has(k)&&grid[nr][nc]===2){vis.add(k);q.push([nr,nc]);}
+      }
     }
   }
-  const lines = [];
-  for(let r=0;r<5;r++) lines.push(grid[r].map((_,c)=>[r,c]));            // rows
-  for(let c=0;c<5;c++) lines.push([0,1,2,3,4].map(r=>[r,c]));            // cols
-  lines.push([0,1,2,3,4].map(i=>[i,i]));                                  // diag
-  lines.push([0,1,2,3,4].map(i=>[i,4-i]));                                // anti-diag
+  return false;
+}
 
-  for(const line of lines){
-    const vals = line.map(([r,c])=>grid[r][c]);
-    if(vals.every(v=>v===1)) return declareWin(1, line);
-    if(vals.every(v=>v===2)) return declareWin(2, line);
+/* ============================================================
+   WIN ANIMATION
+   ============================================================ */
+function triggerWin(team){
+  done=true;
+  markWinPath(team);
+  setTimeout(()=>{
+    const ov=document.getElementById('winov');
+    const t=document.getElementById('wtitle');
+    t.textContent=team===1?T1:T2;
+    t.className='wtitle t'+team;
+    const d=document.getElementById('wdir');
+    d.textContent=team===1?'Top → Bottom ✅':'Left → Right ✅';
+    d.className='wdir t'+team;
+    ov.classList.add('on');
+  },700);
+}
+
+function markWinPath(team){
+  // BFS again tracking path
+  const vis=new Set(), prev=new Map(), q=[];
+  if(team===1){
+    for(let c=0;c<N;c++) if(grid[0][c]===1){q.push([0,c]);vis.add(`0,${c}`);prev.set(`0,${c}`,null);}
+    while(q.length){
+      const[r,c]=q.shift();
+      for(const[nr,nc]of hexNeighbors(r,c)){
+        const k=`${nr},${nc}`;
+        if(!vis.has(k)&&grid[nr][nc]===1){vis.add(k);prev.set(k,`${r},${c}`);q.push([nr,nc]);}
+      }
+    }
+    for(let c=0;c<N;c++){
+      const k=`${N-1},${c}`;
+      if(prev.has(k)){tracePath(prev,k);break;}
+    }
+  } else {
+    for(let r=0;r<N;r++) if(grid[r][0]===2){q.push([r,0]);vis.add(`${r},0`);prev.set(`${r},0`,null);}
+    while(q.length){
+      const[r,c]=q.shift();
+      for(const[nr,nc]of hexNeighbors(r,c)){
+        const k=`${nr},${nc}`;
+        if(!vis.has(k)&&grid[nr][nc]===2){vis.add(k);prev.set(k,`${r},${c}`);q.push([nr,nc]);}
+      }
+    }
+    for(let r=0;r<N;r++){
+      const k=`${r},${N-1}`;
+      if(prev.has(k)){tracePath(prev,k);break;}
+    }
   }
 }
 
-function declareWin(team, line){
-  state.finished = true;
-  line.forEach(([r,c])=>{
-    const L = LETTERS[r*5+c];
-    document.querySelector(`.cell[data-letter="${L}"]`).classList.add("win");
-  });
-  const name = team===1 ? state.team1 : state.team2;
-  document.getElementById("winBanner").textContent = `🏆 ${name} Wins!`;
-  setTimeout(()=>document.getElementById("winModal").classList.add("active"), 600);
+function tracePath(prev,end){
+  let cur=end;
+  while(cur){
+    const[r,c]=cur.split(',').map(Number);
+    document.getElementById(`h${r}_${c}`)?.classList.add('win');
+    cur=prev.get(cur);
+  }
 }
-function closeWin(){ document.getElementById("winModal").classList.remove("active"); }
-
-function resetGame(){ buildHive(); }
 </script>
+
 </body>
 </html>
