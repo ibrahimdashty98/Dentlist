@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dent.list — Beehive Quiz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Baloo+2:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --honey:#FFC107;
+    --honey-deep:#FF8F00;
+    --honey-light:#FFF3C4;
+    --cream:#FFFBEA;
+    --ink:#2B1B0E;
+    --ink-soft:#5A3A1B;
+    --white:#FFFFFF;
+    --blue:#3B82F6;
+    --blue-soft:#DBEAFE;
+    --red:#EF4444;
+    --red-soft:#FEE2E2;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  html,body{height:100%}
+  body{
+    font-family:'Fredoka',system-ui,sans-serif;
+    color:var(--ink);
+    background:#FFFDF5;
+    background-image:
+      radial-gradient(circle at 20% 10%, #FFF0B8 0%, transparent 40%),
+      radial-gradient(circle at 80% 90%, #FFE38A 0%, transparent 45%);
+    min-height:100vh;
+    overflow-x:hidden;
+  }
+  /* honeycomb pattern overlay */
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+    background-image:
+      linear-gradient(60deg, rgba(255,193,7,.10) 25%, transparent 25.5%, transparent 75%, rgba(255,193,7,.10) 75%),
+      linear-gradient(-60deg, rgba(255,193,7,.10) 25%, transparent 25.5%, transparent 75%, rgba(255,193,7,.10) 75%);
+    background-size:40px 70px;
+    opacity:.6;
+  }
+  .stage{position:relative;z-index:1;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+  .screen{display:none;width:100%;max-width:780px;animation:fadeIn .35s ease}
+  .screen.active{display:block}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+  /* ===== Logo ===== */
+  .logo-wrap{text-align:center;margin-bottom:28px}
+  .logo{
+    font-family:'Baloo 2',sans-serif;font-weight:800;font-size:64px;
+    color:var(--honey-deep);
+    letter-spacing:-1px;
+    display:inline-block;position:relative;
+    text-shadow:
+      0 2px 0 #B86A00,
+      0 4px 0 #8B4F00,
+      0 8px 18px rgba(255,143,0,.35);
+  }
+  .logo .dot{color:var(--ink)}
+  /* dripping honey under logo */
+  .honey-drip{position:relative;height:38px;margin-top:-6px}
+  .honey-drip svg{display:block;margin:0 auto;filter:drop-shadow(0 4px 6px rgba(255,143,0,.4))}
+  .tagline{font-family:'Fredoka';font-weight:500;color:var(--ink-soft);font-size:15px;margin-top:6px;letter-spacing:1px;text-transform:uppercase}
+
+  /* ===== Card ===== */
+  .card{
+    background:var(--white);
+    border-radius:32px;
+    padding:32px 28px;
+    box-shadow:
+      0 1px 0 rgba(255,193,7,.4) inset,
+      0 20px 50px -20px rgba(255,143,0,.35),
+      0 4px 0 rgba(43,27,14,.08);
+    border:3px solid var(--honey);
+  }
+  h2{font-family:'Baloo 2';font-weight:800;color:var(--honey-deep);font-size:30px;margin-bottom:18px;display:flex;align-items:center;gap:10px}
+  label{display:block;font-weight:600;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-soft);margin:14px 0 8px;display:flex;align-items:center;gap:8px}
+  .dot-blue,.dot-red{width:14px;height:14px;border-radius:50%;display:inline-block;box-shadow:0 2px 4px rgba(0,0,0,.15)}
+  .dot-blue{background:radial-gradient(circle at 30% 30%, #93C5FD, #2563EB)}
+  .dot-red{background:radial-gradient(circle at 30% 30%, #FCA5A5, #DC2626)}
+
+  input[type=text]{
+    width:100%;padding:18px 22px;font-size:18px;font-family:'Fredoka';font-weight:500;
+    border:2.5px solid var(--honey);background:var(--cream);
+    border-radius:18px;color:var(--ink);outline:none;transition:.2s;
+  }
+  input.blue{border-color:#93C5FD;background:#EFF6FF}
+  input.red{border-color:#FCA5A5;background:#FEF2F2}
+  input:focus{transform:translateY(-1px);box-shadow:0 6px 0 rgba(255,143,0,.18)}
+
+  /* ===== Buttons ===== */
+  .btn{
+    font-family:'Baloo 2';font-weight:800;font-size:22px;
+    padding:18px 28px;border:none;border-radius:22px;cursor:pointer;
+    background:linear-gradient(180deg,#FFD24A,var(--honey-deep));
+    color:#fff;text-shadow:0 2px 0 rgba(0,0,0,.2);
+    box-shadow:0 6px 0 #B86A00, 0 10px 20px rgba(255,143,0,.4);
+    transition:.12s;display:inline-flex;align-items:center;justify-content:center;gap:10px;
+    width:100%;
+  }
+  .btn:hover{transform:translateY(-2px);box-shadow:0 8px 0 #B86A00, 0 14px 24px rgba(255,143,0,.5)}
+  .btn:active{transform:translateY(4px);box-shadow:0 2px 0 #B86A00, 0 4px 10px rgba(255,143,0,.4)}
+  .btn.ghost{background:#fff;color:var(--ink);text-shadow:none;box-shadow:0 4px 0 #E5C77A, 0 6px 14px rgba(0,0,0,.06);border:2px solid var(--honey)}
+  .btn.sm{font-size:16px;padding:12px 20px;border-radius:16px;width:auto}
+
+  .row{display:flex;gap:12px;margin-top:24px}
+  .row .btn{flex:1}
+
+  /* ===== Track selector ===== */
+  .track-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;background:var(--cream);padding:8px;border-radius:22px;border:2px solid var(--honey)}
+  .track{
+    padding:18px 14px;border-radius:16px;font-family:'Baloo 2';font-weight:700;font-size:20px;
+    background:transparent;color:var(--ink-soft);cursor:pointer;border:none;transition:.2s;
+    display:flex;align-items:center;justify-content:center;gap:8px;
+  }
+  .track.active{background:linear-gradient(180deg,#FFD24A,var(--honey-deep));color:#fff;text-shadow:0 1px 0 rgba(0,0,0,.2);box-shadow:0 4px 0 #B86A00}
+  .hint{font-size:14px;color:var(--ink-soft);margin-top:10px;text-align:center}
+
+  /* ===== Buzzer code screen ===== */
+  .code-box{background:var(--cream);border:3px dashed var(--honey-deep);border-radius:24px;padding:30px;text-align:center;margin:18px 0}
+  .code{font-family:'Baloo 2';font-weight:800;font-size:64px;color:var(--honey-deep);letter-spacing:8px;text-shadow:0 3px 0 #B86A00}
+  .code-label{font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+
+  /* ===== Beehive grid ===== */
+  .game{display:grid;grid-template-columns:1fr;gap:18px}
+  .scoreboard{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .team-card{background:#fff;border-radius:22px;padding:14px 18px;border:3px solid;display:flex;align-items:center;justify-content:space-between;font-family:'Baloo 2';font-weight:700}
+  .team-card.blue{border-color:#3B82F6;background:#EFF6FF}
+  .team-card.red{border-color:#EF4444;background:#FEF2F2}
+  .team-card.turn{box-shadow:0 0 0 4px rgba(255,193,7,.5), 0 8px 20px rgba(255,143,0,.3)}
+  .team-name{font-size:18px}
+  .team-score{font-size:24px;color:var(--honey-deep)}
+
+  .hive{
+    display:grid;
+    grid-template-columns:repeat(5, 1fr);
+    gap:10px;
+    padding:18px;
+    background:#FFFDF0;
+    border-radius:28px;
+    border:3px solid var(--honey);
+    box-shadow:inset 0 4px 12px rgba(255,143,0,.08);
+  }
+  .cell{
+    aspect-ratio:1/1;
+    background:radial-gradient(circle at 30% 25%, #FFF8C4, #FFD24A 60%, #FFB300);
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Baloo 2';font-weight:800;font-size:28px;color:var(--ink);
+    cursor:pointer;
+    box-shadow:
+      inset 0 -6px 0 rgba(184,106,0,.4),
+      inset 0 4px 8px rgba(255,255,255,.7),
+      0 6px 0 #B86A00,
+      0 10px 18px rgba(255,143,0,.3);
+    transition:transform .12s;
+    user-select:none;
+    border:none;
+  }
+  .cell:hover:not(.taken){transform:translateY(-3px) scale(1.04)}
+  .cell:active:not(.taken){transform:translateY(2px)}
+  .cell.taken{cursor:default}
+  .cell.blue{background:radial-gradient(circle at 30% 25%, #BFDBFE, #3B82F6 60%, #1D4ED8);color:#fff;box-shadow:inset 0 -6px 0 rgba(0,0,0,.25), 0 6px 0 #1E40AF, 0 10px 18px rgba(59,130,246,.4)}
+  .cell.red{background:radial-gradient(circle at 30% 25%, #FECACA, #EF4444 60%, #B91C1C);color:#fff;box-shadow:inset 0 -6px 0 rgba(0,0,0,.25), 0 6px 0 #991B1B, 0 10px 18px rgba(239,68,68,.4)}
+  .cell.win{animation:pop .6s ease infinite alternate}
+  @keyframes pop{to{transform:scale(1.08)}}
+
+  /* ===== Modal ===== */
+  .modal{position:fixed;inset:0;background:rgba(43,27,14,.55);display:none;align-items:center;justify-content:center;z-index:50;padding:20px;backdrop-filter:blur(4px)}
+  .modal.active{display:flex;animation:fadeIn .2s ease}
+  .modal .card{max-width:560px;width:100%}
+  .q-letter{font-family:'Baloo 2';font-weight:800;font-size:42px;color:var(--honey-deep);text-align:center;margin-bottom:8px}
+  .q-text{font-size:20px;font-weight:500;text-align:center;line-height:1.4;margin:14px 0 22px;color:var(--ink)}
+  .q-actions{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .btn.correct{background:linear-gradient(180deg,#86EFAC,#16A34A);box-shadow:0 6px 0 #14532D, 0 10px 20px rgba(22,163,74,.4)}
+  .btn.wrong{background:linear-gradient(180deg,#FCA5A5,#DC2626);box-shadow:0 6px 0 #7F1D1D, 0 10px 20px rgba(220,38,38,.4)}
+
+  .winner-banner{text-align:center;padding:20px;background:linear-gradient(135deg,#FFD24A,#FF8F00);border-radius:22px;color:#fff;font-family:'Baloo 2';font-weight:800;font-size:28px;margin-bottom:14px;text-shadow:0 2px 0 rgba(0,0,0,.2)}
+
+  @media (max-width:520px){
+    .logo{font-size:48px}
+    .cell{font-size:22px}
+    h2{font-size:24px}
+    .code{font-size:48px}
+  }
+</style>
+</head>
+<body>
+
+<div class="stage">
+
+  <!-- ============ HOME ============ -->
+  <section class="screen active" id="screen-home">
+    <div class="logo-wrap">
+      <div class="logo">Dent<span class="dot">.</span>list</div>
+      <div class="honey-drip">
+        <svg width="220" height="38" viewBox="0 0 220 38" fill="none">
+          <path d="M0 0 H220 V8 C200 8 200 22 180 22 C160 22 160 6 145 6 C130 6 130 30 110 30 C90 30 90 10 75 10 C60 10 60 26 45 26 C30 26 30 8 15 8 C8 8 4 8 0 8 Z" fill="#FFB300"/>
+          <ellipse cx="110" cy="34" rx="6" ry="4" fill="#FFB300"/>
+          <ellipse cx="180" cy="28" rx="4" ry="3" fill="#FFB300"/>
+        </svg>
+      </div>
+      <div class="tagline">🐝 Beehive Quiz</div>
+    </div>
+    <div class="card">
+      <h2>📚 Choose Question Track</h2>
+      <div class="track-grid" id="trackGrid">
+        <button class="track active" data-track="dental">🦷 Dental</button>
+        <button class="track" data-track="medical">🩺 Medical</button>
+      </div>
+      <p class="hint">Specialties are fixed — questions are randomized each game</p>
+      <div style="margin-top:22px">
+        <button class="btn" onclick="goTeams()">🍯 Continue</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TEAMS ============ -->
+  <section class="screen" id="screen-teams">
+    <div class="card">
+      <h2>🏆 Team Names</h2>
+      <label><span class="dot-blue"></span> Team 1</label>
+      <input type="text" id="team1" class="blue" placeholder="Blue Team" />
+      <label><span class="dot-red"></span> Team 2</label>
+      <input type="text" id="team2" class="red" placeholder="Red Team" />
+      <div class="row">
+        <button class="btn ghost" onclick="show('screen-home')">← Back</button>
+        <button class="btn" onclick="goCode()">🍯 Start Game</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ BUZZER CODE ============ -->
+  <section class="screen" id="screen-code">
+    <div class="card">
+      <h2>📲 Buzzer Code</h2>
+      <p class="hint" style="margin:0 0 8px">Both teams enter this code in the buzzer to join</p>
+      <div class="code-box">
+        <div class="code-label">Room Code</div>
+        <div class="code" id="roomCode">000000</div>
+      </div>
+      <div class="row">
+        <button class="btn ghost" onclick="show('screen-teams')">← Back</button>
+        <button class="btn" onclick="startGame()">🐝 Enter Hive</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ GAME ============ -->
+  <section class="screen" id="screen-game">
+    <div class="logo-wrap" style="margin-bottom:14px">
+      <div class="logo" style="font-size:38px">Dent<span class="dot">.</span>list</div>
+    </div>
+    <div class="game">
+      <div class="scoreboard">
+        <div class="team-card blue turn" id="card1">
+          <span class="team-name" id="name1">Blue Team</span>
+          <span class="team-score" id="score1">0</span>
+        </div>
+        <div class="team-card red" id="card2">
+          <span class="team-name" id="name2">Red Team</span>
+          <span class="team-score" id="score2">0</span>
+        </div>
+      </div>
+      <div class="hive" id="hive"></div>
+      <div style="text-align:center">
+        <button class="btn sm ghost" onclick="resetGame()">🔄 Reset Game</button>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ============ QUESTION MODAL ============ -->
+<div class="modal" id="qModal">
+  <div class="card">
+    <div class="q-letter" id="qLetter">A</div>
+    <div class="q-text" id="qText">Question goes here...</div>
+    <div class="q-actions">
+      <button class="btn correct" onclick="answer(true)">✓ Correct</button>
+      <button class="btn wrong" onclick="answer(false)">✗ Wrong</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ WINNER MODAL ============ -->
+<div class="modal" id="winModal">
+  <div class="card" style="text-align:center">
+    <div class="winner-banner" id="winBanner">🏆 Winner!</div>
+    <p style="margin-bottom:18px;color:var(--ink-soft)">Completed a full line through the hive.</p>
+    <button class="btn" onclick="resetGame();closeWin()">🐝 Play Again</button>
+  </div>
+</div>
+
+<script>
+/* =========================================================
+   QUESTIONS — add your own here later
+   Each track has questions keyed by letter A–Y (25 cells)
+   ========================================================= */
+const QUESTIONS = {
+  dental: {
+    A: "What is the hardest substance in the human body?",
+    B: "Name the tooth surface that faces the cheek.",
+    C: "What does DMFT stand for?",
+    D: "Which nerve provides sensation to mandibular teeth?",
+    E: "What is the most common cause of dental caries?",
+    F: "Name the layer beneath enamel.",
+    G: "What is gingivitis?",
+    H: "How many primary teeth does a child have?",
+    I: "What instrument is used to detect caries?",
+    J: "What is the function of fluoride?",
+    K: "Name a common local anesthetic in dentistry.",
+    L: "What is the apex of a tooth?",
+    M: "What is malocclusion?",
+    N: "Name the cells that form dentin.",
+    O: "What is an overbite?",
+    P: "What does RCT stand for?",
+    Q: "What is a quadrant in dentistry?",
+    R: "What is recession?",
+    S: "Name a periodontal probing depth considered healthy.",
+    T: "How many permanent teeth does an adult have?",
+    U: "What is an ulcer in oral context?",
+    V: "What does the V in DMV/DDS represent? (placeholder)",
+    W: "What is a wisdom tooth?",
+    X: "What imaging is most common in dentistry?",
+    Y: "At what age do third molars usually erupt?"
+  },
+  medical: {
+    A: "What is the largest organ in the human body?",
+    B: "What blood type is the universal donor?",
+    C: "What does CPR stand for?",
+    D: "Normal adult resting heart rate range?",
+    E: "What does ECG measure?",
+    F: "What is the function of red blood cells?",
+    G: "What gland produces insulin?",
+    H: "What is hypertension?",
+    I: "What is the powerhouse of the cell?",
+    J: "Which joint connects the femur and tibia?",
+    K: "How many kidneys does a healthy person have?",
+    L: "What organ produces bile?",
+    M: "What is myocardial infarction?",
+    N: "What does NSAID stand for?",
+    O: "What gas do we inhale to live?",
+    P: "What does BP stand for?",
+    Q: "What is the QRS complex?",
+    R: "Normal respiratory rate for adults?",
+    S: "What is sepsis?",
+    T: "What does TIA stand for?",
+    U: "What is the unit of blood pressure?",
+    V: "What vitamin is produced from sunlight?",
+    W: "What is WBC?",
+    X: "What imaging uses ionizing radiation?",
+    Y: "What is the yellow pigment in bile?"
+  }
+};
+
+/* =========================================================
+   STATE
+   ========================================================= */
+const LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXY".split("");
+let state = {
+  track: "dental",
+  team1: "Blue Team",
+  team2: "Red Team",
+  turn: 1,           // 1 or 2
+  cells: {},         // letter -> 1 | 2 | undefined
+  current: null,     // letter currently being answered
+  code: "000000",
+  finished: false
+};
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+function show(id){
+  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+function goTeams(){ show("screen-teams"); }
+function goCode(){
+  state.team1 = (document.getElementById("team1").value||"Blue Team").trim();
+  state.team2 = (document.getElementById("team2").value||"Red Team").trim();
+  state.code = String(Math.floor(100000 + Math.random()*900000));
+  document.getElementById("roomCode").textContent = state.code;
+  show("screen-code");
+}
+function startGame(){
+  document.getElementById("name1").textContent = state.team1;
+  document.getElementById("name2").textContent = state.team2;
+  buildHive();
+  show("screen-game");
+}
+
+/* =========================================================
+   TRACK SELECTOR
+   ========================================================= */
+document.getElementById("trackGrid").addEventListener("click", e=>{
+  const b = e.target.closest(".track"); if(!b) return;
+  document.querySelectorAll(".track").forEach(t=>t.classList.remove("active"));
+  b.classList.add("active");
+  state.track = b.dataset.track;
+});
+
+/* =========================================================
+   HIVE BOARD
+   ========================================================= */
+function buildHive(){
+  const hive = document.getElementById("hive");
+  hive.innerHTML = "";
+  state.cells = {};
+  state.turn = 1;
+  state.finished = false;
+  updateTurnUI();
+  updateScores();
+  LETTERS.forEach(L=>{
+    const c = document.createElement("button");
+    c.className = "cell";
+    c.textContent = L;
+    c.dataset.letter = L;
+    c.addEventListener("click", ()=>openQuestion(L));
+    hive.appendChild(c);
+  });
+}
+
+function openQuestion(L){
+  if(state.finished) return;
+  if(state.cells[L]) return;
+  state.current = L;
+  document.getElementById("qLetter").textContent = L;
+  document.getElementById("qText").textContent =
+    (QUESTIONS[state.track] && QUESTIONS[state.track][L]) || "Add a question for letter "+L;
+  document.getElementById("qModal").classList.add("active");
+}
+
+function answer(correct){
+  const L = state.current;
+  document.getElementById("qModal").classList.remove("active");
+  if(!L) return;
+  const cell = document.querySelector(`.cell[data-letter="${L}"]`);
+  if(correct){
+    state.cells[L] = state.turn;
+    cell.classList.add("taken", state.turn===1 ? "blue" : "red");
+  }
+  // switch turn either way
+  state.turn = state.turn===1 ? 2 : 1;
+  updateTurnUI();
+  updateScores();
+  checkWin();
+}
+
+function updateTurnUI(){
+  document.getElementById("card1").classList.toggle("turn", state.turn===1);
+  document.getElementById("card2").classList.toggle("turn", state.turn===2);
+}
+function updateScores(){
+  let s1=0,s2=0;
+  Object.values(state.cells).forEach(v=>{if(v===1)s1++;else if(v===2)s2++});
+  document.getElementById("score1").textContent = s1;
+  document.getElementById("score2").textContent = s2;
+}
+
+/* =========================================================
+   WIN DETECTION — full row, column, or diagonal (5x5)
+   ========================================================= */
+function checkWin(){
+  const grid = []; // 5x5
+  for(let r=0;r<5;r++){
+    grid.push([]);
+    for(let c=0;c<5;c++){
+      const L = LETTERS[r*5+c];
+      grid[r].push(state.cells[L]||0);
+    }
+  }
+  const lines = [];
+  for(let r=0;r<5;r++) lines.push(grid[r].map((_,c)=>[r,c]));            // rows
+  for(let c=0;c<5;c++) lines.push([0,1,2,3,4].map(r=>[r,c]));            // cols
+  lines.push([0,1,2,3,4].map(i=>[i,i]));                                  // diag
+  lines.push([0,1,2,3,4].map(i=>[i,4-i]));                                // anti-diag
+
+  for(const line of lines){
+    const vals = line.map(([r,c])=>grid[r][c]);
+    if(vals.every(v=>v===1)) return declareWin(1, line);
+    if(vals.every(v=>v===2)) return declareWin(2, line);
+  }
+}
+
+function declareWin(team, line){
+  state.finished = true;
+  line.forEach(([r,c])=>{
+    const L = LETTERS[r*5+c];
+    document.querySelector(`.cell[data-letter="${L}"]`).classList.add("win");
+  });
+  const name = team===1 ? state.team1 : state.team2;
+  document.getElementById("winBanner").textContent = `🏆 ${name} Wins!`;
+  setTimeout(()=>document.getElementById("winModal").classList.add("active"), 600);
+}
+function closeWin(){ document.getElementById("winModal").classList.remove("active"); }
+
+function resetGame(){ buildHive(); }
+</script>
+</body>
+</html>
