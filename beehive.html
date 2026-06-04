@@ -1,688 +1,840 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 <title>Dent.list — Beehive Quiz</title>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Baloo+2:wght@600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet">
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import{getDatabase,ref,set,get,onValue,update,remove}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+const fc={apiKey:"AIzaSyAjrjkgVD2YcBnS6i0qqDVN1zpdfCBKwb8",authDomain:"dent-list-5cb38.firebaseapp.com",databaseURL:"https://dent-list-5cb38-default-rtdb.europe-west1.firebasedatabase.app",projectId:"dent-list-5cb38",storageBucket:"dent-list-5cb38.firebasestorage.app",messagingSenderId:"778763660961",appId:"1:778763660961:web:d88a83e4066272f8500ae0"};
+const app=initializeApp(fc);const db=getDatabase(app);
+window._db=db;window._ref=ref;window._set=set;window._get=get;window._onValue=onValue;window._update=update;window._remove=remove;
+window.fbReady=true;document.dispatchEvent(new Event('fbReady'));
+</script>
 <style>
+/* ============================================================
+   ROOT VARS — Dark purple matching aflzr exactly
+   ============================================================ */
 :root{
-  --honey:#FFC107; --honey-deep:#FF8F00; --honey-light:#FFF3C4; --cream:#FFFBEA;
-  --ink:#2B1B0E; --ink-soft:#5A3A1B; --white:#FFFFFF;
-  --t1:#2563EB; --t1l:#EFF6FF; --t1b:#1E3A8A;   /* blue */
-  --t2:#DC2626; --t2l:#FEF2F2; --t2b:#7F1D1D;   /* red */
+  --bg:#4a1d96;          /* medium purple background */
+  --bg2:#3b0f7a;         /* darker purple for panels */
+  --bg3:#2d0a5e;         /* darkest */
+  --hex-bg:#ffffff;      /* white cell fill */
+  --hex-border:#6d28d9;  /* purple cell border */
+  --hex-text:#5b21b6;    /* purple text inside cell */
+  --t1-fill:#22c55e;     --t1-border:#15803d;  /* green team */
+  --t2-fill:#f97316;     --t2-border:#c2410c;  /* orange team */
+  --sel-fill:#fef08a;    --sel-border:#ca8a04; /* selected yellow */
+  --gold:#fbbf24;
+  --white:#fff;
+  --gray:#c4b5fd;
+  --fh:'Baloo 2',sans-serif;
+  --fb:'Fredoka',sans-serif;
 }
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html,body{height:100%}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;font-family:var(--fb)}
+
 body{
-  font-family:'Fredoka',system-ui,sans-serif;color:var(--ink);
-  background:#FFFDF5;
+  background:var(--bg);
+  color:#fff;
+  min-height:100vh;
+  overflow-x:hidden;
+  /* subtle letter watermark like aflzr */
   background-image:
-    radial-gradient(circle at 20% 10%,#FFF0B8 0%,transparent 40%),
-    radial-gradient(circle at 80% 90%,#FFE38A 0%,transparent 45%);
-  min-height:100vh;overflow-x:hidden;
-}
-body::before{
-  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
-  background-image:
-    linear-gradient(60deg,rgba(255,193,7,.10) 25%,transparent 25.5%,transparent 75%,rgba(255,193,7,.10) 75%),
-    linear-gradient(-60deg,rgba(255,193,7,.10) 25%,transparent 25.5%,transparent 75%,rgba(255,193,7,.10) 75%);
-  background-size:40px 70px;opacity:.6;
-}
-.stage{position:relative;z-index:1;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
-.screen{display:none;width:100%;max-width:780px;animation:fadeIn .35s ease}
-.screen.active{display:block}
-@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-
-/* ── LOGO ── */
-.logo-wrap{text-align:center;margin-bottom:24px}
-.logo{
-font-family:‘Baloo 2’,sans-serif;font-weight:800;font-size:clamp(48px,10vw,64px);
-color:var(–honey-deep);letter-spacing:-1px;display:inline-block;
-text-shadow:0 2px 0 #B86A00,0 4px 0 #8B4F00,0 8px 18px rgba(255,143,0,.35);
-}
-.logo .dot{color:var(–ink)}
-.honey-drip{position:relative;height:32px;margin-top:-4px}
-.honey-drip svg{display:block;margin:0 auto;filter:drop-shadow(0 4px 6px rgba(255,143,0,.4))}
-.tagline{font-family:‘Fredoka’;font-weight:500;color:var(–ink-soft);font-size:14px;margin-top:4px;letter-spacing:1px;text-transform:uppercase}
-
-/* ── CARD ── */
-.card{
-background:var(–white);border-radius:28px;padding:28px 24px;
-box-shadow:0 1px 0 rgba(255,193,7,.4) inset,0 20px 50px -20px rgba(255,143,0,.35),0 4px 0 rgba(43,27,14,.08);
-border:3px solid var(–honey);
-}
-h2{font-family:‘Baloo 2’;font-weight:800;color:var(–honey-deep);font-size:26px;margin-bottom:16px;display:flex;align-items:center;gap:10px}
-
-/* ── TRACK SELECTOR ── */
-.track-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;background:var(–cream);padding:8px;border-radius:20px;border:2px solid var(–honey)}
-.track{
-padding:16px 12px;border-radius:14px;font-family:‘Baloo 2’;font-weight:700;font-size:18px;
-background:transparent;color:var(–ink-soft);cursor:pointer;border:none;transition:.2s;
-display:flex;align-items:center;justify-content:center;gap:8px;
-}
-.track.active{background:linear-gradient(180deg,#FFD24A,var(–honey-deep));color:#fff;text-shadow:0 1px 0 rgba(0,0,0,.2);box-shadow:0 4px 0 #B86A00}
-.hint{font-size:13px;color:var(–ink-soft);margin-top:10px;text-align:center}
-
-/* ── BUTTONS ── */
-.btn{
-font-family:‘Baloo 2’;font-weight:800;font-size:20px;
-padding:16px 24px;border:none;border-radius:20px;cursor:pointer;
-background:linear-gradient(180deg,#FFD24A,var(–honey-deep));
-color:#fff;text-shadow:0 2px 0 rgba(0,0,0,.2);
-box-shadow:0 6px 0 #B86A00,0 10px 20px rgba(255,143,0,.4);
-transition:.12s;display:inline-flex;align-items:center;justify-content:center;gap:10px;width:100%;
-}
-.btn:hover{transform:translateY(-2px);box-shadow:0 8px 0 #B86A00,0 14px 24px rgba(255,143,0,.5)}
-.btn:active{transform:translateY(4px);box-shadow:0 2px 0 #B86A00}
-.btn.ghost{background:#fff;color:var(–ink);text-shadow:none;box-shadow:0 4px 0 #E5C77A,0 6px 14px rgba(0,0,0,.06);border:2px solid var(–honey)}
-.btn.sm{font-size:14px;padding:10px 18px;border-radius:14px;width:auto}
-.row{display:flex;gap:10px;margin-top:20px}
-.row .btn{flex:1}
-
-/* ── TEAM INPUTS ── */
-label{display:flex;align-items:center;gap:8px;font-weight:600;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(–ink-soft);margin:14px 0 8px}
-.dot-blue{width:14px;height:14px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#93C5FD,#2563EB);box-shadow:0 2px 4px rgba(0,0,0,.15);display:inline-block;flex-shrink:0}
-.dot-red{width:14px;height:14px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#FCA5A5,#DC2626);box-shadow:0 2px 4px rgba(0,0,0,.15);display:inline-block;flex-shrink:0}
-input[type=text]{
-width:100%;padding:16px 20px;font-size:16px;font-family:‘Fredoka’;font-weight:500;
-border:2.5px solid var(–honey);background:var(–cream);
-border-radius:16px;color:var(–ink);outline:none;transition:.2s;
-}
-input.blue{border-color:#93C5FD;background:#EFF6FF}
-input.red{border-color:#FCA5A5;background:#FEF2F2}
-input:focus{transform:translateY(-1px);box-shadow:0 6px 0 rgba(255,143,0,.18)}
-
-/* ── SCORE BAR (game screen) ── */
-.score-bar{
-display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:12px;
-background:var(–white);border-radius:20px;padding:12px 16px;
-border:3px solid var(–honey);box-shadow:0 4px 0 #B86A00;margin-bottom:14px;
-}
-.score-team{display:flex;flex-direction:column;align-items:center;gap:2px}
-.score-team .tn{font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:130px}
-.score-team.t1 .tn{color:var(–t1)}
-.score-team.t2 .tn{color:var(–t2)}
-.score-team .tv{font-family:‘Baloo 2’;font-weight:800;font-size:32px;line-height:1}
-.score-team.t1 .tv{color:var(–t1)}
-.score-team.t2 .tv{color:var(–t2)}
-.score-vs{font-family:‘Baloo 2’;font-weight:800;font-size:14px;color:var(–ink-soft)}
-
-/* ── TURN INDICATOR ── */
-.turn-bar{
-display:flex;align-items:center;gap:10px;padding:10px 16px;
-background:var(–cream);border:2px solid var(–honey);border-radius:14px;
-font-weight:700;font-size:13px;margin-bottom:10px;
-}
-.turn-dot{width:14px;height:14px;border-radius:50%;flex-shrink:0;transition:all .3s;}
-.turn-dot.t1{background:var(–t1);box-shadow:0 0 8px rgba(37,99,235,.6)}
-.turn-dot.t2{background:var(–t2);box-shadow:0 0 8px rgba(220,38,38,.6)}
-.turn-name{flex:1}
-.turn-dir{font-size:11px;color:var(–ink-soft);font-weight:600}
-
-/* ── EDGE LABELS ── */
-.edge-wrap{display:flex;flex-direction:column;align-items:center;gap:0;width:100%}
-.edge-h{
-font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;
-padding:5px 16px;border-radius:8px;text-align:center;width:100%;
-}
-.edge-h.t2{color:var(–t2);background:rgba(220,38,38,.07);border:1.5px solid rgba(220,38,38,.2)}
-.edge-v-row{display:flex;align-items:center;gap:6px;width:100%}
-.edge-v{
-font-size:9px;font-weight:800;color:var(–t1);
-writing-mode:vertical-rl;letter-spacing:1px;
-background:rgba(37,99,235,.07);border:1.5px solid rgba(37,99,235,.2);
-border-radius:8px;padding:8px 3px;
-display:flex;align-items:center;justify-content:center;min-height:80px;flex-shrink:0;
+    radial-gradient(ellipse 60% 40% at 80% 20%, rgba(109,40,217,.4), transparent),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Ctext x='15' y='55' font-size='40' fill='rgba(255,255,255,0.05)' font-family='serif'%3EA%3C/text%3E%3C/svg%3E");
 }
 
-/* ── HEX GRID ── */
-.hgrid{display:flex;flex-direction:column;gap:0;flex:1}
-.hrow{display:flex}
+/* SCREENS */
+.sc{display:none;min-height:100vh;flex-direction:column;align-items:center}
+.sc.on{display:flex}
 
-/* HEX CELL */
+/* ── TOPBAR ── */
+.topbar{
+  width:100%;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;
+  padding:10px 16px;background:rgba(59,15,122,.85);backdrop-filter:blur(8px);
+  border-bottom:1px solid rgba(109,40,217,.5);position:sticky;top:0;z-index:100;
+}
+.logo{font-family:var(--fh);font-size:18px;font-weight:800;display:flex;align-items:center;gap:5px}
+.logo .y{color:var(--gold)}.logo .p{color:#a78bfa}
+.logo small{font-size:12px;color:var(--gray);font-family:var(--fb);font-weight:400}
+.tbtn{font-size:12px;font-weight:700;padding:6px 12px;border:1.5px solid rgba(167,139,250,.35);
+  border-radius:8px;background:rgba(255,255,255,.08);color:var(--gray);cursor:pointer;transition:all .2s}
+.tbtn:hover{border-color:#a78bfa;color:#fff;background:rgba(109,40,217,.3)}
+
+/* HOME */
+#s-home{justify-content:center;padding:28px 20px;gap:20px;text-align:center}
+.bee{font-size:80px;animation:fl 3s ease-in-out infinite;display:inline-block;filter:drop-shadow(0 0 20px rgba(167,139,250,.5))}
+@keyframes fl{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.htitle{font-family:var(--fh);font-size:42px;font-weight:800}
+.htitle .g{color:var(--gold)}.htitle .p{color:#a78bfa}
+.hsub{font-size:13px;color:var(--gray);letter-spacing:1px}
+.mode-cards{display:flex;flex-direction:column;gap:12px;width:100%;max-width:420px}
+.mcard{background:rgba(255,255,255,.08);border:2px solid rgba(167,139,250,.3);border-radius:18px;
+  padding:20px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:14px;text-align:left}
+.mcard:hover{border-color:#a78bfa;background:rgba(109,40,217,.25);transform:translateY(-2px)}
+.mico{font-size:34px;flex-shrink:0}
+.minfo h3{font-family:var(--fh);font-size:16px;font-weight:800;margin-bottom:4px}
+.minfo h3.g{color:#4ade80}.minfo h3.o{color:#fb923c}
+.minfo p{font-size:12px;color:var(--gray);line-height:1.5}
+
+/* BTNS */
+.btn{font-family:var(--fh);font-weight:800;font-size:16px;padding:12px 22px;border:none;
+  border-radius:13px;cursor:pointer;transition:all .2s;
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%}
+.btn:hover{transform:translateY(-2px)}.btn:active{transform:translateY(1px)}
+.btn-p{background:linear-gradient(135deg,#5b21b6,#7c3aed);color:#fff;box-shadow:0 4px 16px rgba(124,58,237,.4)}
+.btn-g{background:linear-gradient(135deg,#15803d,#22c55e);color:#fff;box-shadow:0 4px 14px rgba(34,197,94,.4)}
+.btn-o{background:linear-gradient(135deg,#c2410c,#f97316);color:#fff;box-shadow:0 4px 14px rgba(249,115,22,.4)}
+.btn-gh{background:rgba(255,255,255,.09);color:var(--gray);border:1.5px solid rgba(167,139,250,.3)}
+.btn-gh:hover{color:#fff;border-color:#a78bfa}
+.btn-sm{font-size:13px;padding:10px 18px;border-radius:10px;width:auto}
+.row2{display:flex;gap:10px}.row2 .btn{flex:1}
+
+/* SETUP CARD */
+.scard{background:rgba(255,255,255,.08);border:2px solid rgba(167,139,250,.25);border-radius:18px;
+  padding:22px;width:100%;max-width:440px}
+.scard h3{font-family:var(--fh);font-size:16px;color:var(--gold);margin-bottom:12px;display:flex;align-items:center;gap:7px}
+label{display:block;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--gray);margin-bottom:5px;margin-top:11px}
+.inp{width:100%;padding:10px 13px;font-size:14px;font-family:var(--fb);font-weight:600;
+  background:rgba(255,255,255,.09);border:1.5px solid rgba(167,139,250,.3);border-radius:10px;
+  color:#fff;outline:none;transition:border-color .2s}
+.inp:focus{border-color:#a78bfa}.inp::placeholder{opacity:.4}
+.opt-row{display:flex;gap:8px}
+.opt{flex:1;padding:9px 4px;font-family:var(--fb);font-weight:700;font-size:12px;
+  border:1.5px solid rgba(167,139,250,.3);border-radius:9px;background:transparent;color:var(--gray);
+  cursor:pointer;transition:all .2s;text-align:center}
+.opt.on{background:#6d28d9;color:#fff;border-color:#7c3aed}
+.hint{font-size:11px;color:var(--gray);margin-top:6px;line-height:1.5}
+
+/* LOBBY */
+.code-box{background:rgba(0,0,0,.3);border:2px dashed rgba(167,139,250,.5);border-radius:14px;
+  padding:18px;text-align:center;margin:12px 0}
+.clbl{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gray);margin-bottom:5px}
+.cval{font-family:var(--fh);font-weight:800;font-size:52px;color:var(--gold);letter-spacing:8px}
+.plist{display:flex;flex-direction:column;gap:7px;margin-bottom:12px;max-height:180px;overflow-y:auto}
+.prow{display:flex;align-items:center;gap:9px;padding:9px 12px;
+  background:rgba(255,255,255,.06);border:1.5px solid rgba(167,139,250,.2);border-radius:9px}
+.pdot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.pdot.g{background:#22c55e;box-shadow:0 0 6px #22c55e}
+.pdot.o{background:#f97316;box-shadow:0 0 6px #f97316}
+.pnm{flex:1;font-weight:700;font-size:13px}
+.ptm{font-size:11px;color:var(--gray)}
+.nop{text-align:center;padding:16px;color:var(--gray);font-size:13px}
+
+/* ═══════════════════════════════════════
+   GAME SCREEN
+═══════════════════════════════════════ */
+#s-game{padding:0;align-items:stretch}
+.gwrap{display:flex;flex-direction:column;align-items:center;padding:10px 12px 28px;gap:10px}
+
+/* Score row */
+.srow{display:flex;gap:10px;width:100%;max-width:700px}
+.sbox{flex:1;background:rgba(255,255,255,.08);border:2px solid;border-radius:12px;padding:10px;
+  display:flex;flex-direction:column;align-items:center}
+.sbox.g{border-color:rgba(34,197,94,.4)}.sbox.o{border-color:rgba(249,115,22,.4)}
+.sbox .snm{font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-bottom:1px}
+.sbox.g .snm{color:#4ade80}.sbox.o .snm{color:#fb923c}
+.sbox .sval{font-family:var(--fh);font-weight:800;font-size:28px;line-height:1}
+.sbox.g .sval{color:#4ade80}.sbox.o .sval{color:#fb923c}
+
+/* Buzz bar */
+.buzz{width:100%;max-width:700px;padding:9px 14px;border-radius:10px;border:1.5px solid rgba(167,139,250,.3);
+  background:rgba(255,255,255,.06);display:none;align-items:center;gap:9px;transition:all .3s;min-height:44px}
+.buzz.on{display:flex}.buzz.bg{border-color:#22c55e;background:rgba(34,197,94,.1)}
+.buzz.bo{border-color:#f97316;background:rgba(249,115,22,.1)}
+.buzz-nm{flex:1;font-weight:700;font-size:13px}
+.buzz-t{font-family:var(--fh);font-weight:800;font-size:14px;color:var(--gold)}
+.buzz-rb{font-size:11px;font-weight:700;padding:5px 10px;border:1.5px solid rgba(167,139,250,.4);
+  border-radius:7px;background:transparent;color:#a78bfa;cursor:pointer;display:none}
+.buzz-rb:hover{background:#6d28d9;color:#fff}
+
+/* Players */
+.pbox{width:100%;max-width:700px;background:rgba(255,255,255,.06);border:1.5px solid rgba(167,139,250,.2);
+  border-radius:12px;padding:12px}
+.pbox h4{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gray);margin-bottom:9px}
+.pbrow{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:8px;border:1.5px solid transparent;
+  margin-bottom:6px;background:rgba(255,255,255,.04);transition:all .3s}
+.pbrow:last-child{margin-bottom:0}
+.pbrow.bz{border-color:var(--gold);background:rgba(251,191,36,.1)}
+.pbd{width:10px;height:10px;border-radius:50%;flex-shrink:0;background:#4B5563;transition:all .3s}
+.pbd.on{background:#22c55e;box-shadow:0 0 6px #22c55e}
+.pbd.bz{background:var(--gold);box-shadow:0 0 10px var(--gold);animation:blk .5s infinite}
+@keyframes blk{0%,100%{opacity:1}50%{opacity:.2}}
+.pbn{flex:1;font-weight:700;font-size:13px}
+.pbt-g{font-size:10px;padding:2px 7px;border-radius:5px;font-weight:700;background:rgba(34,197,94,.15);color:#4ade80}
+.pbt-o{font-size:10px;padding:2px 7px;border-radius:5px;font-weight:700;background:rgba(249,115,22,.15);color:#fb923c}
+.pbtime{font-family:var(--fh);font-weight:800;font-size:12px;color:var(--gold)}
+
+/* Host ctrl */
+.ctrls{display:flex;gap:8px;width:100%;max-width:700px;flex-wrap:wrap}
+.cb{font-family:var(--fb);font-weight:700;font-size:12px;padding:9px 14px;border:1.5px solid transparent;
+  border-radius:10px;cursor:pointer;transition:all .2s;flex:1;min-width:110px;
+  display:flex;align-items:center;justify-content:center;gap:5px}
+.cb:hover{transform:translateY(-1px)}
+.cb-r{background:rgba(109,40,217,.2);color:#a78bfa;border-color:rgba(109,40,217,.4)}.cb-r:hover{background:rgba(109,40,217,.4)}
+.cb-10{background:rgba(245,158,11,.15);color:var(--gold);border-color:rgba(245,158,11,.3)}.cb-10:hover{background:rgba(245,158,11,.3)}
+.cb-c{background:rgba(239,68,68,.13);color:#f87171;border-color:rgba(239,68,68,.3)}.cb-c:hover{background:rgba(239,68,68,.3)}
+
+/* ═══════════════════════════════════════
+   AWARD PANEL
+═══════════════════════════════════════ */
+.apanel{width:100%;max-width:700px;background:rgba(0,0,0,.4);border:2px solid var(--gold);
+  border-radius:14px;padding:14px;display:none;flex-direction:column;gap:9px}
+.apanel.on{display:flex}
+.ap-lbl{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gray);text-align:center}
+.ap-let{font-family:var(--fh);font-weight:800;font-size:22px;color:var(--gold);text-align:center}
+.ap-q{font-size:13px;font-weight:600;color:#fff;text-align:center;background:rgba(255,255,255,.07);
+  border-radius:9px;padding:10px;line-height:1.6}
+.ap-ans{background:rgba(34,197,94,.1);border:1.5px solid rgba(34,197,94,.3);border-radius:9px;
+  padding:10px 12px;display:none}
+.ap-ans .al{font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#4ade80;opacity:.75;margin-bottom:3px}
+.ap-ans .av{font-size:13px;font-weight:700;color:#4ade80;line-height:1.5}
+.btn-ans{font-family:var(--fb);font-weight:700;font-size:13px;background:rgba(109,40,217,.25);
+  color:#a78bfa;border:1.5px solid rgba(109,40,217,.4);border-radius:9px;padding:9px;cursor:pointer;
+  transition:all .2s;display:flex;align-items:center;justify-content:center;gap:6px}
+.btn-ans:hover{background:rgba(109,40,217,.45)}
+.arow{display:flex;gap:8px}
+.abtn{flex:1;font-family:var(--fh);font-weight:800;font-size:14px;border:2px solid transparent;
+  border-radius:11px;padding:11px 5px;cursor:pointer;transition:all .2s;
+  display:flex;align-items:center;justify-content:center;gap:5px}
+.abtn.g{background:rgba(34,197,94,.15);color:#4ade80;border-color:rgba(34,197,94,.4)}.abtn.g:hover{background:#22c55e;color:#fff}
+.abtn.o{background:rgba(249,115,22,.15);color:#fb923c;border-color:rgba(249,115,22,.4)}.abtn.o:hover{background:#f97316;color:#fff}
+.abtn.clr{background:rgba(156,163,175,.1);color:var(--gray);border-color:rgba(156,163,175,.25)}.abtn.clr:hover{background:rgba(156,163,175,.3);color:#fff}
+
+/* ═══════════════════════════════════════
+   HEX GRID
+   Flat-top hexagons, rows staggered vertically
+   Matches the aflzr image exactly:
+   Row 1: 5 cells aligned left
+   Row 2: 5 cells offset right by half a cell
+   etc.
+═══════════════════════════════════════ */
+.hex-wrap{
+  position:relative;
+  width:100%;max-width:700px;
+}
+
+/* Top/Bottom edge labels — orange for T2 */
+.eh{font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;
+  text-align:center;width:100%;padding:5px 0;color:#fb923c}
+
+/* Left/Right edges — green for T1 */
+.elr{display:flex;align-items:center;gap:8px}
+.ev{font-size:9px;font-weight:800;color:#4ade80;writing-mode:vertical-rl;
+  letter-spacing:1px;padding:6px 2px;min-height:60px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+
+/* The actual grid container */
+.hive{
+  flex:1;
+  background:var(--bg2);
+  border-radius:16px;
+  padding:16px 14px;
+  border:3px solid rgba(109,40,217,.6);
+  box-shadow:inset 0 2px 20px rgba(0,0,0,.3);
+  display:flex;flex-direction:column;gap:0;
+  overflow:hidden;
+}
+
+/*
+  Each row contains N flat-top hexagons.
+  Flat-top hexagon: wider than tall.
+  We use SVG viewBox to draw it correctly.
+  Row offset: odd rows shift right by half hex width.
+  
+  The image shows:
+  - Row 0 (top): cells A B C D E — no offset, aligned to LEFT
+  - Row 1: cells F G H I J — shifted RIGHT by half
+  - Row 2: cells K L M N O — no offset
+  etc. (alternating)
+  
+  This creates the staircase look.
+*/
+.hrow{
+  display:flex;
+  /* No gap between rows — hexagons interlock */
+  margin-bottom:-6px; /* slight overlap to interlock */
+}
+
 .hx{
-position:relative;cursor:pointer;flex-shrink:0;
-transition:transform .14s cubic-bezier(.34,1.56,.64,1);
+  position:relative;
+  cursor:pointer;
+  flex-shrink:0;
+  transition:transform .15s cubic-bezier(.34,1.56,.64,1);
+  display:flex;align-items:center;justify-content:center;
 }
-.hx:hover:not(.taken){transform:scale(1.1)}
+.hx:hover:not(.taken){transform:scale(1.08);z-index:5}
 .hx:active:not(.taken){transform:scale(.95)}
-.hx-body{
-clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
-width:100%;height:100%;
-display:flex;align-items:center;justify-content:center;
-font-family:‘Baloo 2’;font-weight:800;
-/* Honey gradient — matches original */
-background:radial-gradient(circle at 38% 28%,#FFF8C4,#FFD24A 50%,#FFB300);
-box-shadow:
-inset 0 -6px 0 rgba(184,106,0,.4),
-inset 0 4px 8px rgba(255,255,255,.7),
-0 6px 0 #B86A00,
-0 8px 18px rgba(255,143,0,.3);
-transition:all .25s;user-select:none;
-}
-.hx:hover:not(.taken) .hx-body{
-background:radial-gradient(circle at 38% 28%,#FFFAAA,#FFC107 50%,#FF8F00);
-filter:drop-shadow(0 4px 10px rgba(255,143,0,.5));
+
+/* SVG hex — the key to pixel-perfect shape */
+.hx svg{display:block;width:100%;height:100%;position:absolute;inset:0}
+.hx .outer{fill:var(--hex-border)}
+.hx .inner{fill:var(--hex-fill);transition:fill .2s}
+
+/* Label on top of SVG */
+.hx .lbl{
+  position:relative;z-index:2;
+  font-family:var(--fh);font-weight:800;
+  color:var(--hex-text);pointer-events:none;user-select:none;
+  transition:color .2s;
 }
 
-/* Team 1 — Blue */
-.hx.t1 .hx-body{
-background:radial-gradient(circle at 38% 28%,#BFDBFE,#3B82F6 55%,#1D4ED8);
-color:#fff;
-box-shadow:inset 0 -6px 0 rgba(0,0,0,.25),inset 0 4px 8px rgba(255,255,255,.2),0 6px 0 #1E3A8A,0 8px 18px rgba(59,130,246,.45);
-}
-/* Team 2 — Red */
-.hx.t2 .hx-body{
-background:radial-gradient(circle at 38% 28%,#FECACA,#EF4444 55%,#B91C1C);
-color:#fff;
-box-shadow:inset 0 -6px 0 rgba(0,0,0,.25),inset 0 4px 8px rgba(255,255,255,.2),0 6px 0 #7F1D1D,0 8px 18px rgba(220,38,38,.45);
-}
+/* Hover */
+.hx:hover:not(.taken) .inner{fill:#ede9fe}
+
+/* Selected (yellow) */
+.hx.sel .outer{fill:var(--sel-border)!important}
+.hx.sel .inner{fill:var(--sel-fill)!important}
+.hx.sel .lbl{color:#854d0e!important}
+
+/* Team 1 green */
+.hx.t1 .outer{fill:var(--t1-border)!important}
+.hx.t1 .inner{fill:var(--t1-fill)!important}
+.hx.t1 .lbl{color:#fff!important}
+
+/* Team 2 orange */
+.hx.t2 .outer{fill:var(--t2-border)!important}
+.hx.t2 .inner{fill:var(--t2-fill)!important}
+.hx.t2 .lbl{color:#fff!important}
+
 /* Win glow */
-.hx.win .hx-body{animation:wglow .7s ease-in-out infinite alternate}
-@keyframes wglow{from{filter:brightness(1.1)}to{filter:brightness(1.4) drop-shadow(0 0 14px rgba(255,255,255,.9))}}
+.hx.win .inner{animation:wg .6s ease-in-out infinite alternate}
+@keyframes wg{from{filter:brightness(1)}to{filter:brightness(1.45)}}
 
-/* ── HIVE BOARD CONTAINER ── */
-.hive-box{
-background:var(–cream);border-radius:24px;padding:16px 14px;
-border:3px solid var(–honey);
-box-shadow:inset 0 4px 12px rgba(255,143,0,.08);
-overflow-x:auto;
-}
+/* WIN OVERLAY */
+.wov{position:fixed;inset:0;z-index:500;display:none;flex-direction:column;
+  align-items:center;justify-content:center;text-align:center;gap:14px;
+  background:rgba(26,5,60,.96);backdrop-filter:blur(10px)}
+.wov.on{display:flex}
+.wtrophy{font-size:72px;animation:fl 1s ease-in-out infinite}
+.wtitle{font-family:var(--fh);font-weight:800;font-size:46px}
+.wtitle.t1{color:#4ade80}.wtitle.t2{color:#fb923c}
+.wdir{font-size:14px;font-weight:700;padding:9px 20px;border-radius:12px;border:2px solid}
+.wdir.t1{background:rgba(34,197,94,.15);color:#4ade80;border-color:rgba(34,197,94,.4)}
+.wdir.t2{background:rgba(249,115,22,.15);color:#fb923c;border-color:rgba(249,115,22,.4)}
 
-/* ── MODAL ── */
-.mbg{
-position:fixed;inset:0;background:rgba(43,27,14,.52);z-index:200;
-display:none;align-items:flex-end;justify-content:center;
-backdrop-filter:blur(5px);padding:12px;
-}
-.mbg.on{display:flex;animation:fadeIn .2s ease}
-.modal{
-background:var(–white);border:3px solid var(–honey);
-border-radius:26px 26px 22px 22px;padding:24px;
-width:100%;max-width:500px;
-box-shadow:0 -8px 40px rgba(255,143,0,.2);
-animation:sup .3s cubic-bezier(.34,1.56,.64,1);
-}
-@keyframes sup{from{transform:translateY(60px);opacity:0}to{transform:translateY(0);opacity:1}}
-
-.mhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-.mletter{font-family:‘Baloo 2’;font-weight:800;font-size:36px;color:var(–honey-deep)}
-.mcat{
-font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;
-background:var(–cream);border:1.5px solid var(–honey);border-radius:20px;padding:3px 12px;color:var(–ink-soft);
-}
-.mq{
-font-size:16px;font-weight:600;line-height:1.65;color:var(–ink);
-background:var(–cream);border:2px solid var(–honey);border-radius:14px;
-padding:14px;margin-bottom:12px;text-align:center;min-height:64px;
-}
-.mq img{max-width:100%;border-radius:10px;margin-top:8px;max-height:160px;object-fit:contain}
-
-/* Show answer */
-.btn-reveal{
-width:100%;font-family:‘Fredoka’;font-weight:700;font-size:15px;
-background:#F5F3FF;color:#7C3AED;border:2.5px solid #C4B5FD;border-radius:14px;
-padding:12px;cursor:pointer;margin-bottom:10px;
-display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s;
-}
-.btn-reveal:hover{background:#EDE9FE}
-.ans-box{
-background:#F0FDF4;border:2.5px solid #86EFAC;border-radius:14px;
-padding:12px 14px;margin-bottom:12px;display:none;
-}
-.ans-lbl{font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#16A34A;opacity:.75;margin-bottom:4px}
-.ans-txt{font-size:15px;font-weight:700;color:#15803D;line-height:1.55}
-
-/* Award */
-.award-lbl{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(–ink-soft);text-align:center;margin-bottom:9px}
-.award-row{display:flex;gap:10px;margin-bottom:10px}
-.abtn{
-flex:1;font-family:‘Baloo 2’;font-weight:800;font-size:15px;
-border:2.5px solid transparent;border-radius:14px;padding:12px 6px;cursor:pointer;
-transition:all .2s;display:flex;align-items:center;justify-content:center;gap:6px;
-}
-.abtn.t1{background:#EFF6FF;color:var(–t1);border-color:rgba(37,99,235,.35)}
-.abtn.t1:hover{background:var(–t1);color:#fff}
-.abtn.t2{background:#FEF2F2;color:var(–t2);border-color:rgba(220,38,38,.35)}
-.abtn.t2:hover{background:var(–t2);color:#fff}
-.abtn.none{background:#F9FAFB;color:#6B7280;border-color:#E5E7EB}
-.abtn.none:hover{background:#F3F4F6}
-.btn-cancel{
-width:100%;font-family:‘Fredoka’;font-weight:600;font-size:13px;
-background:transparent;color:var(–ink-soft);border:2px solid var(–honey);
-border-radius:12px;padding:9px;cursor:pointer;
-}
-
-/* ── WIN OVERLAY ── */
-.winov{
-position:fixed;inset:0;z-index:500;display:none;
-flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:14px;
-background:#FFFDF5;
-background-image:radial-gradient(circle at 20% 10%,#FFF0B8 0%,transparent 40%),radial-gradient(circle at 80% 90%,#FFE38A 0%,transparent 45%);
-}
-.winov.on{display:flex}
-.wbee{font-size:72px;animation:wbounce 1s ease-in-out infinite}
-@keyframes wbounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
-.wtitle{font-family:‘Baloo 2’;font-weight:800;font-size:48px}
-.wtitle.t1{color:var(–t1)}
-.wtitle.t2{color:var(–t2)}
-.wsub{font-size:15px;font-weight:600;color:var(–ink-soft)}
-.wdir{
-font-size:14px;font-weight:700;padding:10px 22px;border-radius:12px;
-border:2px solid;
-}
-.wdir.t1{background:#EFF6FF;color:var(–t1);border-color:rgba(37,99,235,.3)}
-.wdir.t2{background:#FEF2F2;color:var(–t2);border-color:rgba(220,38,38,.3)}
-.winner-banner{
-background:linear-gradient(135deg,#FFD24A,#FF8F00);
-border-radius:20px;padding:16px 28px;color:#fff;
-font-family:‘Baloo 2’;font-weight:800;font-size:24px;
-text-shadow:0 2px 0 rgba(0,0,0,.2);margin-bottom:4px;
-}
-
-@media(max-width:520px){
-.logo{font-size:44px}
-h2{font-size:20px}
-.score-team .tv{font-size:26px}
-}
+@media(max-width:500px){.ctrls{gap:6px}.cb{min-width:90px;font-size:11px}}
 </style>
-
 </head>
 <body>
-<!-- MODAL -->
-<div class="mbg" id="mbg">
-  <div class="modal">
-    <div class="mhead">
-      <div class="mletter" id="mL">A</div>
-      <div class="mcat" id="mC">Dental</div>
-    </div>
-    <div class="mq" id="mQ"></div>
-    <button class="btn-reveal" id="btnRev" onclick="revealAns()">👁 Show Answer</button>
-    <div class="ans-box" id="ansBox">
-      <div class="ans-lbl">✅ Correct Answer</div>
-      <div class="ans-txt" id="ansText"></div>
-    </div>
-    <div class="award-lbl">Who answered correctly?</div>
-    <div class="award-row">
-      <button class="abtn t1" onclick="award(1)">🔵 <span id="an1">Team 1</span></button>
-      <button class="abtn none" onclick="award(0)">❌ No one</button>
-      <button class="abtn t2" onclick="award(2)">🔴 <span id="an2">Team 2</span></button>
-    </div>
-    <button class="btn-cancel" onclick="closeModal()">✕ Cancel — keep cell empty</button>
-  </div>
-</div>
 
 <!-- WIN -->
-
-<div class="winov" id="winov">
-  <div class="wbee">🏆</div>
-  <div class="winner-banner" id="wbanner">Team Wins!</div>
-  <div class="wtitle" id="wtitle">Team</div>
-  <div class="wsub">Connected the path!</div>
-  <div class="wdir" id="wdir">Top → Bottom ✅</div>
-  <button class="btn" style="width:auto;margin-top:8px;padding:14px 40px" onclick="location.reload()">🍯 Play Again</button>
+<div class="wov" id="wov">
+  <div class="wtrophy">🏆</div>
+  <div class="wtitle" id="wt">Team</div>
+  <div style="font-size:14px;color:var(--gray)">Connected the path!</div>
+  <div class="wdir" id="wd">✅</div>
+  <button class="btn btn-p btn-sm" style="margin-top:6px" onclick="location.reload()">🔄 New Game</button>
 </div>
 
-<div class="stage">
-<div style="width:100%;max-width:680px">
-
-<!-- ══════════════════════════
-     SCREEN 1: TRACK
-══════════════════════════ -->
-
-<div class="screen active" id="screen-track">
-  <div class="logo-wrap">
-    <div class="logo">Dent<span class="dot">.</span>list</div>
-    <div class="honey-drip">
-      <svg width="200" height="32" viewBox="0 0 200 32" fill="none">
-        <path d="M0 0 H200 V8 C185 8 185 20 170 20 C155 20 155 6 140 6 C125 6 125 28 100 28 C75 28 75 8 60 8 C45 8 45 22 30 22 C15 22 15 8 0 8 Z" fill="#FFB300"/>
-        <ellipse cx="100" cy="30" rx="6" ry="3" fill="#FFB300"/>
-        <ellipse cx="170" cy="24" rx="4" ry="3" fill="#FFB300"/>
-      </svg>
-    </div>
-    <div class="tagline">🐝 Beehive Quiz</div>
+<!-- ══════════ HOME ══════════ -->
+<div id="s-home" class="sc on">
+  <div class="topbar">
+    <div class="logo"><span class="y">Dent</span>.<span class="p">list</span>&nbsp;<small>🐝 Beehive</small></div>
+    <a href="index.html" class="tbtn">← Back</a>
   </div>
-  <div class="card">
-    <h2>📚 Choose Question Track</h2>
-    <div class="track-grid">
-      <button class="track active" data-q="dental" onclick="selTrack(this)">🦷 Dental</button>
-      <button class="track" data-q="medical" onclick="selTrack(this)">🩺 Medical</button>
-    </div>
-    <p class="hint">Specialties are fixed — questions are randomized each game</p>
-    <div style="margin-top:20px">
-      <button class="btn" onclick="show('screen-teams')">🍯 Continue</button>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════════════════════
-     SCREEN 2: TEAMS
-══════════════════════════ -->
-
-<div class="screen" id="screen-teams">
-  <div class="card">
-    <h2>🏆 Team Names</h2>
-    <label><span class="dot-blue"></span> TEAM 1 <span style="font-size:10px;color:#93C5FD">(Left ↔ Right)</span></label>
-    <input type="text" id="t1inp" class="blue" placeholder="Blue Team" maxlength="18">
-    <label><span class="dot-red"></span> TEAM 2 <span style="font-size:10px;color:#FCA5A5">(Top ↕ Bottom)</span></label>
-    <input type="text" id="t2inp" class="red" placeholder="Red Team" maxlength="18">
-    <div style="font-size:12px;color:var(--ink-soft);margin-top:8px;padding:10px;background:var(--cream);border-radius:10px;border:1.5px solid var(--honey)">
-      🔵 Blue connects <b>Left → Right</b> &nbsp;·&nbsp; 🔴 Red connects <b>Top → Bottom</b>
-    </div>
-    <div class="row">
-      <button class="btn ghost" onclick="show('screen-track')">← Back</button>
-      <button class="btn" onclick="startGame()">🍯 Start Game</button>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════════════════════
-     SCREEN 3: GAME
-══════════════════════════ -->
-
-<div class="screen" id="screen-game">
-  <!-- Score bar -->
-  <div class="score-bar">
-    <div class="score-team t1">
-      <span class="tn" id="sn1">Blue Team</span>
-      <span class="tv" id="sv1">0</span>
-    </div>
-    <div class="score-vs">VS</div>
-    <div class="score-team t2">
-      <span class="tn" id="sn2">Red Team</span>
-      <span class="tv" id="sv2">0</span>
-    </div>
-  </div>
-
-  <!-- Turn indicator -->
-
-  <div class="turn-bar">
-    <div class="turn-dot t1" id="tdot"></div>
-    <span class="turn-name" id="tname">Blue Team's Turn</span>
-    <span class="turn-dir" id="tdir">Left → Right</span>
-  </div>
-
-  <!-- Hex grid with edge labels -->
-
-  <div class="edge-wrap">
-    <div class="edge-h t2" id="etop">▲ RED TEAM — Top ▲</div>
-    <div class="edge-v-row">
-      <div class="edge-v" id="eleft">◀ BLUE</div>
-      <div class="hive-box" style="flex:1">
-        <div class="hgrid" id="hgrid"></div>
+  <div style="display:flex;flex-direction:column;align-items:center;padding:36px 20px;gap:20px;width:100%;max-width:460px">
+    <div class="bee">🐝</div>
+    <div class="htitle"><span class="g">Bee</span><span class="p">hive</span></div>
+    <div class="hsub">⬡ Hexagonal Quiz Battle · Dent.list</div>
+    <div class="mode-cards">
+      <div class="mcard" onclick="show('s-solo')">
+        <div class="mico">🎮</div>
+        <div class="minfo"><h3 class="g">Host Only</h3><p>One device controls everything. Tap a cell to get the question, then assign to a team.</p></div>
+        <div style="font-size:20px;color:#a78bfa;margin-left:auto">›</div>
       </div>
-      <div class="edge-v" id="eright">BLUE ▶</div>
+      <div class="mcard" onclick="show('s-multi')">
+        <div class="mico">📱</div>
+        <div class="minfo"><h3 class="o">Host + Players</h3><p>Players join on their phones via code. First to buzz wins the right to answer.</p></div>
+        <div style="font-size:20px;color:#a78bfa;margin-left:auto">›</div>
+      </div>
     </div>
-    <div class="edge-h t2" id="ebot">▼ RED TEAM — Bottom ▼</div>
-  </div>
-
-  <div style="text-align:center;margin-top:12px">
-    <button class="btn sm ghost" onclick="location.reload()">🔄 Reset Game</button>
   </div>
 </div>
 
+<!-- ══════════ SETUP SOLO ══════════ -->
+<div id="s-solo" class="sc">
+  <div class="topbar">
+    <div class="logo"><span class="y">Dent</span>.<span class="p">list</span>&nbsp;<small>🐝 Beehive</small></div>
+    <button class="tbtn" onclick="show('s-home')">← Back</button>
+  </div>
+  <div style="display:flex;flex-direction:column;align-items:center;padding:22px 20px;gap:14px;width:100%;max-width:460px">
+    <div class="scard">
+      <h3>🏆 Team Names</h3>
+      <label>🟢 Team 1 — Left ↔ Right</label>
+      <input class="inp" id="s1t1" type="text" placeholder="Green Team" maxlength="18">
+      <label>🟠 Team 2 — Top ↕ Bottom</label>
+      <input class="inp" id="s1t2" type="text" placeholder="Orange Team" maxlength="18">
+      <h3 style="margin-top:14px">📐 Grid</h3>
+      <div class="opt-row" style="margin-bottom:14px">
+        <button class="opt" data-v="4" onclick="pick(this,'ns')">4×4</button>
+        <button class="opt on" data-v="5" onclick="pick(this,'ns')">5×5</button>
+        <button class="opt" data-v="6" onclick="pick(this,'ns')">6×6</button>
+      </div>
+      <h3>📚 Questions</h3>
+      <div class="opt-row">
+        <button class="opt on" data-v="dental" onclick="pick(this,'qs')">🦷 Dental</button>
+        <button class="opt" data-v="medical" onclick="pick(this,'qs')">🩺 Medical</button>
+      </div>
+      <div class="hint">Tap any cell → see the question → award the cell to a team</div>
+    </div>
+    <button class="btn btn-g" onclick="startSolo()">🎮 Start Game</button>
+    <button class="btn btn-gh btn-sm" onclick="show('s-home')">← Back</button>
+  </div>
 </div>
+
+<!-- ══════════ SETUP MULTI ══════════ -->
+<div id="s-multi" class="sc">
+  <div class="topbar">
+    <div class="logo"><span class="y">Dent</span>.<span class="p">list</span>&nbsp;<small>🐝 Beehive</small></div>
+    <button class="tbtn" onclick="show('s-home')">← Back</button>
+  </div>
+  <div style="display:flex;flex-direction:column;align-items:center;padding:22px 20px;gap:14px;width:100%;max-width:460px">
+    <div class="scard">
+      <h3>🏆 Team Names</h3>
+      <label>🟢 Team 1 — Left ↔ Right</label>
+      <input class="inp" id="s2t1" type="text" placeholder="Green Team" maxlength="18">
+      <label>🟠 Team 2 — Top ↕ Bottom</label>
+      <input class="inp" id="s2t2" type="text" placeholder="Orange Team" maxlength="18">
+      <h3 style="margin-top:14px">📐 Grid</h3>
+      <div class="opt-row" style="margin-bottom:14px">
+        <button class="opt" data-v="4" onclick="pick(this,'nm')">4×4</button>
+        <button class="opt on" data-v="5" onclick="pick(this,'nm')">5×5</button>
+        <button class="opt" data-v="6" onclick="pick(this,'nm')">6×6</button>
+      </div>
+      <h3>📚 Questions</h3>
+      <div class="opt-row">
+        <button class="opt on" data-v="dental" onclick="pick(this,'qm')">🦷 Dental</button>
+        <button class="opt" data-v="medical" onclick="pick(this,'qm')">🩺 Medical</button>
+      </div>
+    </div>
+    <button class="btn btn-o" onclick="goLobby()">📱 Create Room</button>
+    <button class="btn btn-gh btn-sm" onclick="show('s-home')">← Back</button>
+  </div>
+</div>
+
+<!-- ══════════ LOBBY ══════════ -->
+<div id="s-lobby" class="sc">
+  <div class="topbar">
+    <div class="logo"><span class="y">Dent</span>.<span class="p">list</span>&nbsp;<small>🐝 Beehive</small></div>
+    <button class="tbtn" onclick="show('s-multi')">← Back</button>
+  </div>
+  <div style="display:flex;flex-direction:column;align-items:center;padding:22px 20px;gap:12px;width:100%;max-width:460px">
+    <div class="scard">
+      <h3>📲 Room Code</h3>
+      <div class="code-box">
+        <div class="clbl">Open beehive-buzzer.html on each player's phone</div>
+        <div class="cval" id="lCode">----</div>
+      </div>
+      <div class="plist" id="lPlayers"><div class="nop">Waiting for players to join...</div></div>
+      <button class="btn btn-o" onclick="startMulti()">▶️ Start Game!</button>
+    </div>
+    <div style="font-size:11px;color:var(--gray);text-align:center">Players can join after the game starts</div>
+  </div>
+</div>
+
+<!-- ══════════ GAME ══════════ -->
+<div id="s-game" class="sc">
+  <div class="topbar">
+    <div class="logo"><span class="y">Dent</span>.<span class="p">list</span>&nbsp;<small>🐝 Beehive</small></div>
+    <button class="tbtn" onclick="if(confirm('Reset?'))location.reload()">🔄 Reset</button>
+  </div>
+
+  <div class="gwrap">
+
+    <!-- Scores -->
+    <div class="srow">
+      <div class="sbox g"><span class="snm" id="gn1">Green</span><span class="sval" id="gs1">0</span></div>
+      <div style="display:flex;align-items:center;font-family:var(--fh);font-weight:800;font-size:13px;color:var(--gray)">VS</div>
+      <div class="sbox o"><span class="snm" id="gn2">Orange</span><span class="sval" id="gs2">0</span></div>
+    </div>
+
+    <!-- Buzz bar (multi only) -->
+    <div class="buzz" id="buzz">
+      <span style="font-size:17px">🔔</span>
+      <span class="buzz-nm" id="bzTxt">Waiting for buzz...</span>
+      <span class="buzz-t" id="bzTime"></span>
+      <button class="buzz-rb" id="bzRb" onclick="resetBuzz()">Reset</button>
+    </div>
+
+    <!-- Controls -->
+    <div class="ctrls">
+      <button class="cb cb-r" onclick="resetBuzz()">🔄 Reset Buzzers</button>
+      <button class="cb cb-10" onclick="reset10()">⏱ +10s</button>
+      <button class="cb cb-c" onclick="clearGrid()">🗑 Clear Grid</button>
+    </div>
+
+    <!-- Award panel -->
+    <div class="apanel" id="ap">
+      <div class="ap-lbl">Selected — Question whose answer starts with:</div>
+      <div class="ap-let" id="apL">A</div>
+      <div class="ap-q" id="apQ"></div>
+      <button class="btn-ans" onclick="document.getElementById('apA').style.display='block';this.style.display='none'">👁 Show Answer</button>
+      <div class="ap-ans" id="apA">
+        <div class="al">✅ Answer starts with this letter:</div>
+        <div class="av" id="apAv"></div>
+      </div>
+      <div class="arow">
+        <button class="abtn g" onclick="assign(1)">🟢 <span id="at1">Team 1</span></button>
+        <button class="abtn clr" onclick="assign(0)">✕ Clear</button>
+        <button class="abtn o" onclick="assign(2)">🟠 <span id="at2">Team 2</span></button>
+      </div>
+    </div>
+
+    <!-- Players panel -->
+    <div class="pbox" id="pbox" style="display:none">
+      <h4>🔔 Players</h4>
+      <div id="pboxList"></div>
+    </div>
+
+    <!-- HEX GRID with edge labels -->
+    <div class="hex-wrap">
+      <div class="eh" id="eTop">▲ ORANGE TEAM — Top ▲</div>
+      <div class="elr">
+        <div class="ev" id="eL">◀ GREEN</div>
+        <div class="hive" id="hive"></div>
+        <div class="ev" id="eR">GREEN ▶</div>
+      </div>
+      <div class="eh" id="eBot">▼ ORANGE TEAM — Bottom ▼</div>
+    </div>
+
+  </div>
 </div>
 
 <script>
 /* ============================================================
-   QUESTIONS
+   QUESTIONS — answer STARTS with the letter
    ============================================================ */
-const QS={
+const QDB = {
 dental:{
-  A:{q:"What acid produced by S. mutans dissolves enamel?",a:"Lactic acid",cat:"Microbiology"},
-  B:{q:"What does BOP mean in periodontal charting?",a:"Bleeding on Probing — indicates active gingival inflammation",cat:"Periodontics"},
-  C:{q:"Critical pH at which enamel dissolves?",a:"pH 5.5",cat:"General Dentistry"},
-  D:{q:"Clinical name for Dry Socket?",a:"Alveolar Osteitis — loss of blood clot after extraction",cat:"Oral Surgery"},
-  E:{q:"What does EDTA do in root canal treatment?",a:"Removes smear layer by chelating calcium",cat:"Endodontics"},
-  F:{q:"What is Freeway Space?",a:"Difference between RVD and OVD; normally 2–4 mm",cat:"Prosthodontics"},
-  G:{q:"Main difference: Gingivitis vs Periodontitis?",a:"Gingivitis: reversible, no attachment loss. Periodontitis: irreversible bone + attachment loss",cat:"Periodontics"},
-  H:{q:"How many primary (baby) teeth does a child have?",a:"20 primary teeth",cat:"Pedodontics"},
-  I:{q:"Key feature of Irreversible vs Reversible Pulpitis?",a:"Irreversible: spontaneous or lingering pain >30s after stimulus removal",cat:"Endodontics"},
-  J:{q:"Main advantage of Glass Ionomer Cement?",a:"Fluoride release + chemical bonding to tooth structure",cat:"Dental Materials"},
-  K:{q:"What is Kennedy Class I partial denture?",a:"Bilateral distal extension (free-end saddle) — missing posterior teeth both sides",cat:"Prosthodontics"},
-  L:{q:"Which nerve is at risk in lower 3rd molar extraction?",a:"Inferior Alveolar Nerve (IAN)",cat:"Oral Surgery"},
-  M:{q:"What is MRONJ and which drugs cause it?",a:"Medication-Related Osteonecrosis of Jaw — bisphosphonates or denosumab",cat:"Oral Surgery"},
-  N:{q:"Which cells produce dentin?",a:"Odontoblasts",cat:"Histology"},
-  O:{q:"What is Osseointegration?",a:"Direct structural connection between living bone and a dental implant",cat:"Implantology"},
-  P:{q:"What causes Polymerization Shrinkage in composites?",a:"Volumetric contraction during curing — creates stress at tooth-restoration interface",cat:"Restorative"},
-  Q:{q:"What is the C-factor in composite restorations?",a:"Ratio of bonded to unbonded surfaces — high C-factor = greater shrinkage stress",cat:"Restorative"},
-  R:{q:"Goal of Root Planing in periodontics?",a:"Smooth root surface and remove cementum endotoxins to promote healing",cat:"Periodontics"},
-  S:{q:"Normal healthy periodontal probing depth?",a:"1–3 mm",cat:"Periodontics"},
-  T:{q:"How many permanent teeth does an adult have?",a:"32 permanent teeth (including wisdom teeth)",cat:"General Dentistry"},
-  U:{q:"Role of ultrasonic irrigation in RCT?",a:"Improves canal debridement via acoustic streaming",cat:"Endodontics"},
-  V:{q:"What is Vertical Dimension of Occlusion (VDO)?",a:"Facial height when upper and lower teeth are in occlusal contact",cat:"Prosthodontics"},
-  W:{q:"What is working length in RCT?",a:"Distance from reference to 0.5–1 mm short of radiographic apex",cat:"Endodontics"},
-  X:{q:"What does a periapical X-ray show?",a:"Full tooth including apex and surrounding periapical bone",cat:"Radiology"},
-  Y:{q:"When do mandibular first permanent molars erupt?",a:"Around age 6 — the six-year molar",cat:"Pedodontics"},
+  A:{q:"Name a dental impression material that sets by an irreversible chemical reaction.",a:"Alginate"},
+  B:{q:"What clinical sign indicates active gingival inflammation when a probe is inserted?",a:"Bleeding on Probing (BOP)"},
+  C:{q:"What is the pH threshold below which enamel begins to dissolve called?",a:"Critical pH — 5.5"},
+  D:{q:"What painful condition follows loss of the blood clot after a tooth extraction?",a:"Dry Socket (Alveolar Osteitis)"},
+  E:{q:"What chelating solution in root canal treatment removes the smear layer?",a:"EDTA"},
+  F:{q:"What is the space between Rest Vertical Dimension and Occlusal Vertical Dimension called?",a:"Freeway Space"},
+  G:{q:"What tissue surrounds and protects the alveolar bone, forms the visible pink gum?",a:"Gingiva"},
+  H:{q:"What orthodontic functional appliance is used to correct Class II malocclusion?",a:"Herbst Appliance"},
+  I:{q:"Which type of pulpitis is characterised by spontaneous, lingering pain lasting more than 30 seconds?",a:"Irreversible Pulpitis"},
+  J:{q:"What is the movement of the mandible when it shifts to one side during chewing called?",a:"Jaw Lateral Excursion (working side movement)"},
+  K:{q:"In Kennedy classification, what does Class I describe?",a:"Kennedy Class I — bilateral distal extension edentulous area"},
+  L:{q:"Which nerve runs close to the root tips of lower molars and risks damage during extractions?",a:"Lingual Nerve (also Inferior Alveolar Nerve)"},
+  M:{q:"What is the free edge of the gingiva that lines the tooth surface without being attached?",a:"Marginal Gingiva"},
+  N:{q:"What flexible file material revolutionised rotary root canal instrumentation?",a:"Nickel-Titanium (NiTi) files"},
+  O:{q:"What term describes the direct structural bond between a dental implant and living bone?",a:"Osseointegration"},
+  P:{q:"What is the volumetric shrinkage of composite resin during light curing called?",a:"Polymerization Shrinkage"},
+  Q:{q:"What is one quarter of the mouth called when dividing dentition into four sections?",a:"Quadrant"},
+  R:{q:"What periodontal procedure removes contaminated cementum and smooths the root surface?",a:"Root Planing"},
+  S:{q:"What is the depth of the crevice between the tooth and healthy unattached gingiva called?",a:"Sulcus (healthy depth: 1–3 mm)"},
+  T:{q:"What is the hardest substance in the human body, forming the outer layer of the crown?",a:"Tooth Enamel"},
+  U:{q:"What type of irrigation uses sound waves to improve root canal debridement?",a:"Ultrasonic Irrigation"},
+  V:{q:"What measurement describes the face height when teeth are in maximum intercuspation?",a:"Vertical Dimension of Occlusion (VDO)"},
+  W:{q:"What is the measured distance from the coronal reference point to the root apex called in RCT?",a:"Working Length"},
+  X:{q:"What radiograph shows the full tooth length including the apex and periapical bone?",a:"X-ray — Periapical Radiograph"},
+  Y:{q:"At approximately what age do the first permanent molars erupt in the mandible?",a:"Year Six — age 6 (six-year molars)"},
 },
 medical:{
-  A:{q:"First-line treatment for anaphylaxis?",a:"Adrenaline (Epinephrine) 0.5 mg IM into the lateral thigh",cat:"Emergency"},
-  B:{q:"Universal red blood cell donor blood type?",a:"O negative (O−)",cat:"Hematology"},
-  C:{q:"CURB-65 — score indicating hospital admission?",a:"Score ≥2: Confusion, Urea >7, RR ≥30, BP <90/60, Age ≥65",cat:"Respiratory"},
-  D:{q:"First biomarker to rise in myocardial infarction?",a:"Troponin — rises within 3–4 hours",cat:"Cardiology"},
-  E:{q:"ECG finding pathognomonic of STEMI?",a:"ST elevation ≥1mm in ≥2 contiguous leads, or new LBBB",cat:"Cardiology"},
-  F:{q:"Frank-Starling Law?",a:"Greater preload → greater stroke volume",cat:"Physiology"},
-  G:{q:"Gold standard for pulmonary embolism diagnosis?",a:"CT Pulmonary Angiography (CTPA)",cat:"Respiratory"},
-  H:{q:"HbA1c threshold for diagnosing diabetes?",a:"≥6.5%",cat:"Endocrinology"},
-  I:{q:"INR therapeutic range for atrial fibrillation?",a:"2.0–3.0",cat:"Cardiology"},
-  J:{q:"Three types of jaundice?",a:"Pre-hepatic (haemolysis), Hepatic (liver disease), Post-hepatic (obstruction)",cat:"Gastroenterology"},
-  K:{q:"Hyperkalaemia ECG finding?",a:"Peaked T waves → widened QRS → ventricular fibrillation",cat:"Cardiology"},
-  L:{q:"Most common cause of community-acquired pneumonia?",a:"Streptococcus pneumoniae",cat:"Respiratory"},
-  M:{q:"Mechanism of Metformin?",a:"Reduces hepatic gluconeogenesis + improves insulin sensitivity",cat:"Pharmacology"},
-  N:{q:"Nephrotic Syndrome triad?",a:"Proteinuria >3.5g/day + hypoalbuminaemia + oedema",cat:"Nephrology"},
-  O:{q:"Normal cardiac output?",a:"~5 L/min at rest",cat:"Physiology"},
-  P:{q:"Pathology of Parkinson disease?",a:"Loss of dopaminergic neurons in substantia nigra",cat:"Neurology"},
-  Q:{q:"QRS complex on ECG represents?",a:"Ventricular depolarization",cat:"Cardiology"},
-  R:{q:"What does RAAS system do?",a:"Raises BP via vasoconstriction (AngII) and sodium retention (aldosterone)",cat:"Physiology"},
-  S:{q:"Definition of Sepsis?",a:"Life-threatening organ dysfunction from dysregulated host response to infection",cat:"Emergency"},
-  T:{q:"What is a TIA?",a:"Transient Ischaemic Attack — focal neurological deficit <24h, no infarction",cat:"Neurology"},
-  U:{q:"Normal blood pressure?",a:"<120/80 mmHg",cat:"Cardiology"},
-  V:{q:"Vitamin produced by UV skin exposure?",a:"Vitamin D3 (cholecalciferol)",cat:"Biochemistry"},
-  W:{q:"What is Von Willebrand Disease?",a:"Most common inherited bleeding disorder — deficiency of VWF",cat:"Hematology"},
-  X:{q:"Imaging using ionizing radiation?",a:"X-ray (plain radiography) and CT scan",cat:"Radiology"},
-  Y:{q:"Cause and transmission of Yellow Fever?",a:"Yellow Fever virus (Flavivirus) — Aedes mosquito bite",cat:"Infectious Disease"},
+  A:{q:"What drug is the first-line emergency treatment for anaphylaxis, given intramuscularly?",a:"Adrenaline (Epinephrine)"},
+  B:{q:"What blood test measures average blood glucose over the past 3 months?",a:"Blood HbA1c (Glycated Haemoglobin)"},
+  C:{q:"What scoring system uses Confusion, Urea, Respiratory rate, Blood pressure and Age to assess pneumonia?",a:"CURB-65"},
+  D:{q:"What blood marker is elevated in venous thromboembolism and used to rule it out?",a:"D-dimer"},
+  E:{q:"What ECG change is the hallmark finding in ST-elevation myocardial infarction?",a:"Elevated ST segments"},
+  F:{q:"What physiological law states that stroke volume increases with greater venous return?",a:"Frank-Starling Law"},
+  G:{q:"What is the gold standard imaging investigation for pulmonary embolism?",a:"CTPA — Gold standard (CT Pulmonary Angiography)"},
+  H:{q:"What blood test reflects average blood sugar over 3 months and diagnoses diabetes at ≥6.5%?",a:"HbA1c"},
+  I:{q:"What test measures the clotting time ratio and is monitored in patients on warfarin?",a:"INR — International Normalized Ratio"},
+  J:{q:"What yellow discolouration of skin and sclera results from elevated bilirubin?",a:"Jaundice"},
+  K:{q:"What electrolyte excess causes peaked T-waves and widened QRS complex on ECG?",a:"Hyperkalaemia (excess Potassium)"},
+  L:{q:"What bacteria is the most common cause of community-acquired pneumonia worldwide?",a:"Lancefield — Streptococcus pneumoniae"},
+  M:{q:"What is the mechanism of the biguanide drug used as first-line therapy in Type 2 DM?",a:"Metformin — inhibits hepatic gluconeogenesis"},
+  N:{q:"What renal syndrome is defined by proteinuria >3.5g/day, hypoalbuminaemia and oedema?",a:"Nephrotic Syndrome"},
+  O:{q:"What is the normal resting cardiac output in a healthy adult?",a:"Output: ~5 litres per minute"},
+  P:{q:"What neurodegenerative condition results from loss of dopaminergic neurons in the substantia nigra?",a:"Parkinson's Disease"},
+  Q:{q:"What does the QRS complex on the ECG represent?",a:"Ventricular depolarization"},
+  R:{q:"What hormonal system raises blood pressure via angiotensin II and aldosterone?",a:"RAAS — Renin-Angiotensin-Aldosterone System"},
+  S:{q:"What life-threatening condition is defined as organ dysfunction from dysregulated response to infection?",a:"Sepsis"},
+  T:{q:"What neurological event causes temporary focal deficit lasting less than 24 hours with no infarction?",a:"TIA — Transient Ischaemic Attack"},
+  U:{q:"What bedside test detects protein, blood and glucose in renal disease screening?",a:"Urinalysis (Urine dipstick)"},
+  V:{q:"What fat-soluble vitamin is synthesised in the skin by ultraviolet radiation?",a:"Vitamin D3 (Cholecalciferol)"},
+  W:{q:"What inherited coagulation disorder results from deficiency of von Willebrand Factor?",a:"Von Willebrand Disease"},
+  X:{q:"What imaging modality uses ionising radiation and is most common in emergency medicine?",a:"X-ray (Plain radiography)"},
+  Y:{q:"What viral haemorrhagic fever is transmitted by Aedes mosquitoes and causes jaundice?",a:"Yellow Fever"},
 }};
 
 /* ============================================================
    STATE
    ============================================================ */
-const N=5; // 5×5 grid
-let qTrack='dental';
-let T1='Blue Team', T2='Red Team';
-let turn=1; // 1=T1(blue,left-right), 2=T2(red,top-bottom)
-let s1=0, s2=0;
-let grid=[], curCell=null, done=false;
+let ns=5,nm=5,qs='dental',qm='dental';
+let mode='solo',N=5,qTrack='dental',T1='Green Team',T2='Orange Team';
+let s1=0,s2=0,grid=[],sel=null,done=false;
+let gc='',buzLocked=false,qStart=0,r10=null,players={};
 
-/* ============================================================
-   NAVIGATION
-   ============================================================ */
+/* ── Option picker ── */
+function pick(btn,grp){
+  btn.closest('.opt-row').querySelectorAll('.opt').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  const v=btn.dataset.v;
+  if(grp==='ns')ns=+v; else if(grp==='nm')nm=+v;
+  else if(grp==='qs')qs=v; else qm=v;
+}
+
+/* ── Navigation ── */
 function show(id){
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.sc').forEach(s=>s.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
-function selTrack(btn){
-  document.querySelectorAll('.track').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  qTrack=btn.dataset.q;
+/* ── START SOLO ── */
+function startSolo(){
+  mode='solo';N=ns;qTrack=qs;
+  T1=document.getElementById('s1t1').value.trim()||'Green Team';
+  T2=document.getElementById('s1t2').value.trim()||'Orange Team';
+  initGame();
 }
 
-/* ============================================================
-   START GAME
-   ============================================================ */
-function startGame(){
-  T1=document.getElementById('t1inp').value.trim()||'Blue Team';
-  T2=document.getElementById('t2inp').value.trim()||'Red Team';
-  turn=1; s1=0; s2=0; done=false;
+/* ── LOBBY ── */
+function goLobby(){
+  mode='multi';N=nm;qTrack=qm;
+  T1=document.getElementById('s2t1').value.trim()||'Green Team';
+  T2=document.getElementById('s2t2').value.trim()||'Orange Team';
+  gc=Math.floor(1000+Math.random()*9000).toString();
+  document.getElementById('lCode').textContent=gc;
+  show('s-lobby');
+  if(window.fbReady)setupFB(); else document.addEventListener('fbReady',setupFB);
+}
+function setupFB(){
+  window._set(window._ref(window._db,`beehive/${gc}`),{T1,T2,N,qTrack,status:'lobby',
+    buzzerPress:null,buzzerLocked:null,buzzerReset:0,players:{},created:Date.now()});
+  window._onValue(window._ref(window._db,`beehive/${gc}/players`),s=>{
+    players=s.val()||{};renderLP();
+    if(document.getElementById('s-game').classList.contains('on'))renderGP();
+  });
+  window._onValue(window._ref(window._db,`beehive/${gc}/buzzerPress`),s=>{
+    const d=s.val();if(!d||!d.uid||buzLocked)return;onBuzz(d.uid,d.pressedAt);
+  });
+}
+function renderLP(){
+  const el=document.getElementById('lPlayers');const list=Object.values(players);
+  if(!list.length){el.innerHTML='<div class="nop">Waiting for players...</div>';return;}
+  el.innerHTML=list.map(p=>`<div class="prow"><div class="pdot ${p.team}"></div><span class="pnm">${p.name}</span><span class="ptm">${p.team==='g'?T1:T2}</span></div>`).join('');
+}
+function startMulti(){
+  if(window._db&&gc)window._update(window._ref(window._db,`beehive/${gc}`),{status:'playing'});
+  initGame();
+}
+
+/* ── INIT GAME ── */
+function initGame(){
+  s1=0;s2=0;done=false;buzLocked=false;sel=null;
   grid=Array.from({length:N},()=>Array(N).fill(0));
-
-  document.getElementById('sn1').textContent=T1;
-  document.getElementById('sn2').textContent=T2;
-  document.getElementById('sv1').textContent='0';
-  document.getElementById('sv2').textContent='0';
-  document.getElementById('an1').textContent=T1;
-  document.getElementById('an2').textContent=T2;
-
-  // Edge labels: T1=blue=left-right, T2=red=top-bottom
-  document.getElementById('etop').textContent='▲ '+T2.toUpperCase()+' — Top ▲';
-  document.getElementById('ebot').textContent='▼ '+T2.toUpperCase()+' — Bottom ▼';
-  document.getElementById('eleft').textContent='◀ '+T1;
-  document.getElementById('eright').textContent=T1+' ▶';
-
+  document.getElementById('gn1').textContent=T1;
+  document.getElementById('gn2').textContent=T2;
+  document.getElementById('gs1').textContent='0';
+  document.getElementById('gs2').textContent='0';
+  document.getElementById('at1').textContent=T1;
+  document.getElementById('at2').textContent=T2;
+  document.getElementById('eTop').textContent='▲ '+T2.toUpperCase()+' ▲';
+  document.getElementById('eBot').textContent='▼ '+T2.toUpperCase()+' ▼';
+  document.getElementById('eL').textContent='◀ '+T1;
+  document.getElementById('eR').textContent=T1+' ▶';
+  document.getElementById('ap').classList.remove('on');
+  if(mode==='multi'){
+    document.getElementById('buzz').classList.add('on');
+    document.getElementById('pbox').style.display='block';
+    renderGP();
+  }
   buildGrid();
-  updateTurn();
-  show('screen-game');
+  show('s-game');
 }
 
-/* ============================================================
+/* ═══════════════════════════════════════
    BUILD HEX GRID
-   True hexagonal layout — each row offset right
-   Uses clip-path hexagon same visual as original round but hex
-   ============================================================ */
+   
+   Flat-top hexagon SVG:
+   viewBox="0 0 120 104"
+   Points of a flat-top hex centred at 60,52:
+   (30,0),(90,0),(120,52),(90,104),(30,104),(0,52)
+   
+   Rows stagger: even rows normal, odd rows shift RIGHT by half hex width.
+   This gives the exact pattern in the image.
+═══════════════════════════════════════ */
 function buildGrid(){
-  const g=document.getElementById('hgrid');
-  g.innerHTML='';
+  const hive=document.getElementById('hive');hive.innerHTML='';
 
-  // Responsive size
-  const W=window.innerWidth<400?54:window.innerWidth<560?64:76;
-  const H=Math.round(W*0.88);
-  const OFFSET=W*0.26; // row offset for hex grid
+  // Calculate hex size based on screen
+  const avail=Math.min(window.innerWidth-80, 680);
+  // For N cells per row, each cell width = avail/N with small gap
+  const gap=4;
+  const HW=Math.floor((avail - gap*(N-1)) / N); // hex width
+  const HH=Math.round(HW*0.88); // flat-top hex height ≈ 0.866*W but we use 0.88
 
   for(let r=0;r<N;r++){
     const row=document.createElement('div');
     row.className='hrow';
-    row.style.marginLeft=(r*OFFSET)+'px';
+    // Odd rows shift right by half hex width — matches the image
+    if(r%2===1) row.style.paddingLeft=(HW/2+gap/2)+'px';
+    row.style.gap=gap+'px';
+    row.style.marginBottom=(-HH*0.14)+'px'; // vertical overlap for interlocking
 
     for(let c=0;c<N;c++){
       const cell=document.createElement('div');
-      cell.className='hx';
-      cell.id=`h${r}_${c}`;
-      cell.style.width=W+'px';
-      cell.style.height=H+'px';
-      cell.style.margin='3px';
-      const fs=Math.round(W*0.26);
-      cell.innerHTML=`<div class="hx-body" style="font-size:${fs}px">${lbl(r,c)}</div>`;
-      cell.addEventListener('click',()=>onClick(r,c));
+      cell.className='hx';cell.id=`hx${r}_${c}`;
+      cell.style.width=HW+'px';cell.style.height=HH+'px';
+      const fs=Math.round(HW*0.28);
+
+      // Flat-top hexagon SVG
+      // Border polygon (outer), fill polygon (inner, slightly smaller)
+      const bw=HW*0.075; // border width in SVG units scaled
+      cell.innerHTML=`
+        <svg viewBox="0 0 120 104" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+          <polygon class="outer" points="30,2 90,2 118,52 90,102 30,102 2,52"/>
+          <polygon class="inner" points="${30+bw*0.7},${2+bw*1.2} ${90-bw*0.7},${2+bw*1.2} ${118-bw*0.8},52 ${90-bw*0.7},${102-bw*1.2} ${30+bw*0.7},${102-bw*1.2} ${2+bw*0.8},52"/>
+        </svg>
+        <span class="lbl" style="font-size:${fs}px">${lbl(r,c)}</span>`;
+
+      cell.addEventListener('click',()=>clickCell(r,c));
       row.appendChild(cell);
     }
-    g.appendChild(row);
+    hive.appendChild(row);
   }
 }
 
 const ALPHA='ABCDEFGHIJKLMNOPQRSTUVWXY';
 function lbl(r,c){const i=r*N+c;return i<ALPHA.length?ALPHA[i]:(i+1)+'';}
 
-/* ============================================================
-   CLICK → MODAL
-   ============================================================ */
-function onClick(r,c){
-  if(done||grid[r][c]!==0)return;
-  curCell={r,c};
-  const id=lbl(r,c);
-  const qs=QS[qTrack];
-  const q=qs[id]||{q:`Question for "${id}" — add your own!`,a:'Answer here',cat:'Custom'};
+/* ── CELL CLICK ── */
+function clickCell(r,c){
+  if(done)return;
+  const L=lbl(r,c);
+  // Deselect previous
+  if(sel){document.getElementById(`hx${sel.r}_${sel.c}`)?.classList.remove('sel');}
+  if(sel&&sel.r===r&&sel.c===c){sel=null;document.getElementById('ap').classList.remove('on');return;}
+  sel={r,c};
+  document.getElementById(`hx${r}_${c}`).classList.add('sel');
 
-  document.getElementById('mL').textContent=id;
-  document.getElementById('mC').textContent=q.cat;
-  document.getElementById('mQ').innerHTML='';
-  document.getElementById('mQ').textContent=q.q;
-  if(q.img){const img=document.createElement('img');img.src=q.img;document.getElementById('mQ').appendChild(img);}
-  document.getElementById('ansText').textContent=q.a;
-  document.getElementById('ansBox').style.display='none';
-  document.getElementById('btnRev').style.display='flex';
-  document.getElementById('mbg').classList.add('on');
-}
+  const q=QDB[qTrack][L]||{q:`Question whose answer starts with "${L}". Add your own!`,a:`Answer starting with ${L}`};
+  document.getElementById('apL').textContent=L;
+  document.getElementById('apQ').textContent=q.q;
+  document.getElementById('apAv').textContent=q.a;
+  document.getElementById('apA').style.display='none';
+  document.querySelector('.btn-ans').style.display='flex';
+  document.getElementById('ap').classList.add('on');
 
-function revealAns(){
-  document.getElementById('ansBox').style.display='block';
-  document.getElementById('btnRev').style.display='none';
-}
-function closeModal(){document.getElementById('mbg').classList.remove('on');curCell=null;}
-
-/* ============================================================
-   AWARD
-   ============================================================ */
-function award(team){
-  closeModal();
-  if(!curCell)return;
-  const{r,c}=curCell;
-
-  if(team===1||team===2){
-    grid[r][c]=team;
-    const el=document.getElementById(`h${r}_${c}`);
-    el.classList.add('taken','t'+team);
-    if(team===1){s1++;document.getElementById('sv1').textContent=s1;}
-    else{s2++;document.getElementById('sv2').textContent=s2;}
-    if(checkWin(team)){doWin(team);return;}
+  if(mode==='multi'){
+    qStart=Date.now();resetBuzz();
+    if(window._db&&gc)window._update(window._ref(window._db,`beehive/${gc}`),{questionActive:true,buzzerPress:null,buzzerLocked:null});
   }
-
-  turn=turn===1?2:1;
-  updateTurn();
-  curCell=null;
 }
 
-function updateTurn(){
-  const dot=document.getElementById('tdot');
-  dot.className='turn-dot t'+turn;
-  document.getElementById('tname').textContent=(turn===1?T1:T2)+"'s Turn";
-  document.getElementById('tdir').textContent=turn===1?'Left → Right':'Top → Bottom';
+/* ── ASSIGN ── */
+function assign(team){
+  if(!sel)return;
+  const{r,c}=sel;
+  const el=document.getElementById(`hx${r}_${c}`);
+  el.classList.remove('sel','t1','t2');
+  if(team===1){grid[r][c]=1;el.classList.add('t1');s1++;document.getElementById('gs1').textContent=s1;if(checkWin(1)){doWin(1);return;}}
+  else if(team===2){grid[r][c]=2;el.classList.add('t2');s2++;document.getElementById('gs2').textContent=s2;if(checkWin(2)){doWin(2);return;}}
+  else grid[r][c]=0;
+  sel=null;document.getElementById('ap').classList.remove('on');
+  if(mode==='multi')resetBuzz();
 }
 
-/* ============================================================
-   HEX NEIGHBORS (parallelogram grid)
-   (r,c) connects: (r-1,c),(r-1,c+1),(r,c-1),(r,c+1),(r+1,c-1),(r+1,c)
-   ============================================================ */
+/* ── PLAYERS ── */
+function renderGP(){
+  const el=document.getElementById('pboxList');const list=Object.entries(players);
+  if(!list.length){el.innerHTML='<div style="color:var(--gray);font-size:12px;text-align:center;padding:8px">No players</div>';return;}
+  el.innerHTML=list.map(([uid,p])=>`
+    <div class="pbrow" id="pb${uid}">
+      <div class="pbd on" id="pbd${uid}"></div>
+      <span class="pbn">${p.name}</span>
+      <span class="${p.team==='g'?'pbt-g':'pbt-o'}">${p.team==='g'?T1:T2}</span>
+      <span class="pbtime" id="pbt${uid}"></span>
+    </div>`).join('');
+}
+
+/* ── BUZZER ── */
+function onBuzz(uid,pressedAt){
+  if(buzLocked)return;buzLocked=true;
+  const p=players[uid];if(!p)return;
+  const elapsed=pressedAt?((pressedAt-qStart)/1000).toFixed(1):'?';
+  const isG=p.team==='g';
+  const bar=document.getElementById('buzz');
+  bar.className='buzz on '+(isG?'bg':'bo');
+  document.getElementById('bzTxt').textContent='🔔 '+p.name+' buzzed first!';
+  document.getElementById('bzTime').textContent=elapsed+'s';
+  document.getElementById('bzRb').style.display='block';
+  const row=document.getElementById('pb'+uid);
+  if(row){row.classList.add('bz');const d=document.getElementById('pbd'+uid);d?.classList.replace('on','bz');const t=document.getElementById('pbt'+uid);if(t)t.textContent=elapsed+'s';}
+  if(window._db&&gc)window._update(window._ref(window._db,`beehive/${gc}`),{buzzerLocked:uid});
+  if(navigator.vibrate)navigator.vibrate([80,40,80]);
+}
+function resetBuzz(){
+  buzLocked=false;if(r10){clearInterval(r10);r10=null;}
+  const bar=document.getElementById('buzz');
+  bar.className=mode==='multi'?'buzz on':'buzz';
+  document.getElementById('bzTxt').textContent='Waiting for buzz...';
+  document.getElementById('bzTime').textContent='';
+  document.getElementById('bzRb').style.display='none';
+  Object.keys(players).forEach(uid=>{
+    document.getElementById('pb'+uid)?.classList.remove('bz');
+    const d=document.getElementById('pbd'+uid);if(d){d.classList.remove('bz');d.classList.add('on');}
+    const t=document.getElementById('pbt'+uid);if(t)t.textContent='';
+  });
+  if(window._db&&gc)window._update(window._ref(window._db,`beehive/${gc}`),{buzzerPress:null,buzzerLocked:null,buzzerReset:Date.now(),questionActive:false});
+}
+function reset10(){
+  resetBuzz();let t=10;
+  document.getElementById('bzTxt').textContent='⏱ Other team — 10 seconds!';
+  document.getElementById('bzTime').textContent='10s';
+  if(window._db&&gc)window._update(window._ref(window._db,`beehive/${gc}`),{buzzerReset10:Date.now()});
+  r10=setInterval(()=>{t--;document.getElementById('bzTime').textContent=t+'s';
+    if(t<=0){clearInterval(r10);r10=null;document.getElementById('bzTxt').textContent='⏱ Time\'s up!';document.getElementById('bzTime').textContent='';}},1000);
+}
+function clearGrid(){
+  if(!confirm('Clear all cells and reset scores?'))return;
+  grid=Array.from({length:N},()=>Array(N).fill(0));
+  s1=0;s2=0;done=false;sel=null;
+  document.getElementById('gs1').textContent='0';document.getElementById('gs2').textContent='0';
+  document.getElementById('ap').classList.remove('on');
+  document.querySelectorAll('.hx').forEach(el=>el.classList.remove('t1','t2','sel','win'));
+  resetBuzz();
+}
+
+/* ── WIN CHECK BFS ── */
+/* T1 green: left(col0)→right(colN-1), T2 orange: top(row0)→bottom(rowN-1) */
+/* Hex neighbours for offset grid (odd rows shifted right) */
 function nbrs(r,c){
-  return[[r-1,c],[r-1,c+1],[r,c-1],[r,c+1],[r+1,c-1],[r+1,c]]
-    .filter(([nr,nc])=>nr>=0&&nr<N&&nc>=0&&nc<N);
+  const odd=r%2===1;
+  return(odd
+    ?[[r-1,c],[r-1,c+1],[r,c-1],[r,c+1],[r+1,c],[r+1,c+1]]
+    :[[r-1,c-1],[r-1,c],[r,c-1],[r,c+1],[r+1,c-1],[r+1,c]]
+  ).filter(([nr,nc])=>nr>=0&&nr<N&&nc>=0&&nc<N);
 }
-
-/* ============================================================
-   WIN CHECK — BFS
-   T1 (Blue): Left(col 0) → Right(col N-1)
-   T2 (Red):  Top(row 0) → Bottom(row N-1)
-   ============================================================ */
 function checkWin(team){
   const vis=new Set(),q=[];
-  if(team===1){ // left → right
+  if(team===1){
     for(let r=0;r<N;r++)if(grid[r][0]===1){q.push([r,0]);vis.add(r+',0');}
-    while(q.length){
-      const[r,c]=q.shift();
-      if(c===N-1)return true;
-      for(const[nr,nc]of nbrs(r,c)){const k=nr+','+nc;if(!vis.has(k)&&grid[nr][nc]===1){vis.add(k);q.push([nr,nc]);}}
-    }
-  }else{ // top → bottom
+    while(q.length){const[r,c]=q.shift();if(c===N-1)return true;for(const[nr,nc]of nbrs(r,c)){const k=nr+','+nc;if(!vis.has(k)&&grid[nr][nc]===1){vis.add(k);q.push([nr,nc]);}}}
+  }else{
     for(let c=0;c<N;c++)if(grid[0][c]===2){q.push([0,c]);vis.add('0,'+c);}
-    while(q.length){
-      const[r,c]=q.shift();
-      if(r===N-1)return true;
-      for(const[nr,nc]of nbrs(r,c)){const k=nr+','+nc;if(!vis.has(k)&&grid[nr][nc]===2){vis.add(k);q.push([nr,nc]);}}
-    }
+    while(q.length){const[r,c]=q.shift();if(r===N-1)return true;for(const[nr,nc]of nbrs(r,c)){const k=nr+','+nc;if(!vis.has(k)&&grid[nr][nc]===2){vis.add(k);q.push([nr,nc]);}}}
   }
   return false;
 }
-
-/* ============================================================
-   WIN — highlight path + show overlay
-   ============================================================ */
 function doWin(team){
-  done=true;
-  markPath(team);
+  done=true;markPath(team);
   setTimeout(()=>{
-    const name=team===1?T1:T2;
-    document.getElementById('wbanner').textContent='🏆 '+name+' Wins!';
-    document.getElementById('wtitle').textContent=name;
-    document.getElementById('wtitle').className='wtitle t'+team;
-    document.getElementById('wdir').textContent=team===1?'Left → Right ✅':'Top → Bottom ✅';
-    document.getElementById('wdir').className='wdir t'+team;
-    document.getElementById('winov').classList.add('on');
-  },800);
+    document.getElementById('wt').textContent=team===1?T1:T2;
+    document.getElementById('wt').className='wtitle t'+team;
+    document.getElementById('wd').textContent=team===1?'🟢 Left → Right ✅':'🟠 Top → Bottom ✅';
+    document.getElementById('wd').className='wdir t'+team;
+    document.getElementById('wov').classList.add('on');
+  },700);
 }
-
 function markPath(team){
   const vis=new Set(),prev=new Map(),q=[];
   if(team===1){
@@ -695,16 +847,7 @@ function markPath(team){
     for(let c=0;c<N;c++){const k=(N-1)+','+c;if(prev.has(k)){trace(prev,k);break;}}
   }
 }
-
-function trace(prev,end){
-  let cur=end;
-  while(cur){
-    const[r,c]=cur.split(',').map(Number);
-    document.getElementById(`h${r}_${c}`)?.classList.add('win');
-    cur=prev.get(cur);
-  }
-}
+function trace(prev,end){let cur=end;while(cur){const[r,c]=cur.split(',').map(Number);document.getElementById(`hx${r}_${c}`)?.classList.add('win');cur=prev.get(cur);}}
 </script>
-
 </body>
 </html>
